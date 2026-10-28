@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793205312">
+<meta name="fs-build" content="1793205686">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1075,6 +1075,14 @@ main{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
 .ban-dur button.def{background:#d4142c;border-color:#d4142c;color:#fff}
 .rp-done .pk-name{margin-top:4px}
 .ban-tag{display:inline-block;vertical-align:2px;margin-left:8px;padding:2px 8px;border-radius:999px;background:#d4142c;color:#fff;font-size:11px;font-weight:700}
+/* v14 : onglets profil */
+.ptabs{position:relative;display:grid;grid-template-columns:1fr 1fr;margin:18px 0 10px;border-bottom:1px solid #ECEBE7}
+.ptabs button{display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 0;font-size:13.5px;font-weight:600;color:#a3a29d;transition:color .25s}
+.ptabs button[aria-selected="true"]{color:var(--ink)}
+.ptabs button svg{transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.ptabs button[aria-selected="true"] svg{transform:scale(1.06)}
+.ptab-ind{position:absolute;left:0;bottom:-1px;width:50%;height:1.5px;background:var(--ink);border-radius:2px;transition:transform .45s cubic-bezier(.3,1.2,.4,1)}
+#pgrid.swap{animation:viewIn .35s cubic-bezier(.22,.9,.25,1) both}
 
 </style>
 </head>
@@ -1390,36 +1398,55 @@ async function compressImage(file){
 }
 function videoDuration(file){return new Promise(res=>{const v=document.createElement('video');v.preload='metadata';v.muted=true;v.onloadedmetadata=()=>{res(v.duration||0);URL.revokeObjectURL(v.src)};v.onerror=()=>res(0);v.src=URL.createObjectURL(file)})}
 function pickMime(){const c=['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'];return c.find(m=>window.MediaRecorder&&MediaRecorder.isTypeSupported(m))||''}
+let primed=null;
+const getAC=()=>window.__fsAC||(window.__fsAC=new (window.AudioContext||window.webkitAudioContext)());
+// À appeler directement dans le clic « Partager » : débloque le son et la lecture sur iPhone / Android
+function primeVideo(file){
+ try{
+  const ac=getAC();if(ac.state==='suspended')ac.resume().catch(()=>{});
+  const v=document.createElement('video');v.playsInline=true;v.setAttribute('playsinline','');v.preload='auto';v.src=URL.createObjectURL(file);
+  let src=null;try{src=ac.createMediaElementSource(v)}catch(e){v.muted=true}
+  const p=v.play();if(p&&p.then)p.then(()=>v.pause()).catch(()=>{});
+  primed={file,v,ac,src};
+ }catch(e){primed=null}
+}
 async function compressVideo(file,maxSec,onProgress){
- const mime=pickMime();if(!mime||!HTMLCanvasElement.prototype.captureStream)return {file,trimmed:false,ok:false};
- const v=document.createElement('video');v.playsInline=true;v.src=URL.createObjectURL(file);v.crossOrigin='anonymous';
- await new Promise((res,rej)=>{v.onloadedmetadata=res;v.onerror=rej});
+ const pr=primed&&primed.file===file?primed:null;primed=null;
+ const mime=pickMime();if(!mime||!HTMLCanvasElement.prototype.captureStream){if(pr)pr.v.pause();return {file,trimmed:false,ok:false}}
+ const v=pr?pr.v:document.createElement('video');if(!pr){v.playsInline=true;v.setAttribute('playsinline','');v.src=URL.createObjectURL(file)}
+ if(v.readyState<1)await new Promise((res,rej)=>{v.addEventListener('loadedmetadata',res,{once:true});v.addEventListener('error',rej,{once:true})});
+ v.pause();if(v.currentTime>0){v.currentTime=0;await new Promise(r=>{v.addEventListener('seeked',r,{once:true});setTimeout(r,800)})}
  const dur=Math.min(v.duration||maxSec,maxSec);
  const sc=Math.min(1,VIDEO.maxSide/Math.max(v.videoWidth,v.videoHeight));
  const c=document.createElement('canvas');c.width=Math.round(v.videoWidth*sc/2)*2;c.height=Math.round(v.videoHeight*sc/2)*2;
  const ctx=c.getContext('2d');const stream=c.captureStream(VIDEO.fps);
- let ac=null;
- try{ac=new (window.AudioContext||window.webkitAudioContext)();const src=ac.createMediaElementSource(v);const dest=ac.createMediaStreamDestination();src.connect(dest);dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t))}catch(e){v.muted=true}
+ // audio : la piste son de la vidéo est copiée dans l'enregistrement (rien ne sort des haut-parleurs)
+ let ac=pr?pr.ac:null,src=pr?pr.src:null,dest=null;
+ try{if(!ac)ac=getAC();if(!src)src=ac.createMediaElementSource(v);dest=ac.createMediaStreamDestination();src.connect(dest);dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t))}catch(e){dest=null}
+ const bail=()=>{try{v.pause();src&&src.disconnect()}catch(e){}URL.revokeObjectURL(v.src);return {file,trimmed:false,ok:false}};
+ if(!dest)return bail();
+ if(ac.state!=='running')try{await ac.resume()}catch(e){}
+ try{await v.play()}catch(e){return bail()}
+ if(ac.state!=='running')return bail(); // son impossible à capter : on garde l'original pour ne pas perdre la musique
  const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:VIDEO.vbps,audioBitsPerSecond:VIDEO.abps});
  const chunks=[];rec.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
  const done=new Promise(r=>rec.onstop=r);
  let raf;const draw=()=>{ctx.drawImage(v,0,0,c.width,c.height);onProgress&&onProgress(Math.min(v.currentTime,dur),dur);if(v.currentTime>=dur||v.ended){stop();return}raf=requestAnimationFrame(draw)};
  let stopped=false;const stop=()=>{if(stopped)return;stopped=true;cancelAnimationFrame(raf);v.pause();try{rec.stop()}catch(e){}};
- try{await v.play()}catch(e){v.muted=true;try{await v.play()}catch(e2){URL.revokeObjectURL(v.src);return {file,trimmed:false,ok:false}}}
- if(ac&&ac.state==='suspended')try{await ac.resume()}catch(e){}
  rec.start(1000);draw();
  const guardT=setTimeout(stop,(dur+5)*1000);
- await done;clearTimeout(guardT);URL.revokeObjectURL(v.src);if(ac)ac.close().catch(()=>{});
+ await done;clearTimeout(guardT);try{src.disconnect()}catch(e){}URL.revokeObjectURL(v.src);
  const type=mime.split(';')[0],blob=new Blob(chunks,{type});
  const trimmed=(v.duration||0)>maxSec+0.5;
- if(!blob.size||(blob.size>=file.size&&!trimmed))return {file,trimmed:false,ok:true};
+ if(!blob.size)return {file,trimmed:false,ok:false};
+ if(blob.size>=file.size&&!trimmed&&/mp4/.test(file.type))return {file,trimmed:false,ok:true};
  return {file:new File([blob],'clip.'+(type.includes('mp4')?'mp4':'webm'),{type}),trimmed,ok:true};
 }
 async function prepareFile(x,kind,onStatus){
  if(x.type==='img'){onStatus('Compression de la photo…');return await compressImage(x.file)}
  const max=LIMITS[kind==='story'?'story':'clip'];
  const r=await compressVideo(x.file,max,(t,d)=>onStatus(`Compression ${Math.floor(t)}/${Math.ceil(d)} s…`));
- if(!r.ok){const d=await videoDuration(x.file);if(d>max+0.5)throw new Error(`Vidéo trop longue : ${max} s maximum`);}
+ if(!r.ok){const d=await videoDuration(x.file);if(d>max+0.5)throw new Error(`Vidéo trop longue : ${max} s maximum. Coupe-la avant de la publier.`);if(x.file.size>50*1024*1024)throw new Error('Vidéo trop lourde : 50 Mo maximum.');return x.file}
  if(r.trimmed)toast(`Vidéo coupée aux ${max} premières secondes`);
  return r.file;
 }
@@ -1580,7 +1607,7 @@ function wireReveal(root){root.querySelectorAll('.card:not([data-rv]),.grid>butt
 function wireVideos(root){wireReveal(root);root.querySelectorAll('video:not([data-w])').forEach(v=>{v.dataset.w='1';v.muted=!soundOn;v.loop=true;v.playsInline=true;v.removeAttribute('autoplay');if(vObs)vObs.observe(v);else v.play().catch(()=>{})})}
 new MutationObserver(()=>wireVideos(main)).observe(main,{childList:true,subtree:true});
 new MutationObserver(()=>wireVideos(layer)).observe(layer,{childList:true,subtree:true});
-function setSound(on){soundOn=on;document.querySelectorAll('video').forEach(v=>{v.muted=!on});document.querySelectorAll('.snd').forEach(b=>b.innerHTML=on?I.soundOn:I.soundOff)}
+function setSound(on){soundOn=on;document.querySelectorAll('video').forEach(v=>{v.muted=!on});document.querySelectorAll('.snd,.rail-snd').forEach(b=>b.innerHTML=on?I.soundOn:I.soundOff);if(on)document.querySelectorAll('video').forEach(v=>{if(!v.paused)v.play().catch(()=>{})})}
 // ================= MINI MENU =================
 function miniMenu(btn,items,align,style){
  if(document.getElementById('mini-menu')&&miniMenu.btn===btn){closeMini();return}miniMenu.btn=btn;
@@ -1639,7 +1666,7 @@ function renderCreate(){
   if(k==='photo'&&fl.length+f.length>5)toast('5 photos maximum');renderCreate()});
  $('cf').addEventListener('input',keep);
  $('cf').addEventListener('submit',async e=>{
-  e.preventDefault();keep();
+  e.preventDefault();keep();{const vf=draft.files.find(x=>x.type==='video');if(vf)primeVideo(vf.file)}
   const sport=draft.sport,cap=draft.cap.trim();
   if(k==='clip'&&!draft.files.length){toast('Ajoute une vidéo pour publier un clip');return}
   if(k==='photo'&&!draft.files.length){toast('Ajoute au moins une photo');return}
@@ -1761,7 +1788,7 @@ async function seCompose(){
  return new File([blob],'story.jpg',{type:'image/jpeg'});
 }
 async function seShare(){
- const btn=$('se-share');if(!btn||btn.disabled)return;
+ const btn=$('se-share');if(!btn||btn.disabled)return;if(se.video)primeVideo(se.file);
  const texts=se.items.filter(x=>x.type==='text').map(x=>x.t).join(' \n ');
  if(texts&&!(await guard(texts,{noLinks:true})))return;
  btn.disabled=true;const st=t=>{btn.textContent=t};
@@ -1977,7 +2004,8 @@ async function renderSearch(q){
  run(sQuery);
 }
 // ================= PROFIL =================
-let profilePosts=[];
+let profilePosts=[],profTab='all',profTabUid=null;
+const pgridHTML=(mine)=>{const l=profTab==='clips'?profilePosts.filter(p=>p.kind==='clip'):profilePosts;return l.length?`<div class="grid">${l.map(p=>`<button data-act="open-item" data-id="${p.id}" aria-label="Ouvrir">${mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}${p.kind==='clip'?`<span class="kind">${I.playsm}</span>`:''}</button>`).join('')}</div>`:`<div class="empty">${profTab==='clips'?(mine?'Aucun clip pour l’instant. Publie ton premier clip avec le +.':'Aucun clip.'):(mine?'Rien publié pour l’instant. Montre ta première séance.':'Aucune publication.')}</div>`};
 const prsOf=p=>(p.prs||[]).filter(x=>x&&x.t&&x.t.trim());
 async function renderProfile(){
  const uid=arg||me.id,mine=uid===me.id;
@@ -1989,7 +2017,7 @@ async function renderProfile(){
  if(blocked.has(uid)){main.innerHTML=`<div class="gutter"><div class="blk-card"><span class="pav-sm">${av(uid,64)}</span><b>${esc(u.name)}</b><p>Tu as bloqué ce compte. Il ne peut plus voir ton profil, tes publications ni t’écrire.</p><button class="pbtn primary" data-act="unblock" data-u="${uid}">Débloquer</button></div></div>`;return}
  const [{data:st},{data:posts}]=await Promise.all([sb.from('profile_stats').select('*').eq('id',uid).maybeSingle(),sb.from('feed').select('*').eq('user_id',uid).order('created_at',{ascending:false}).limit(60)]);
  if(view!=='profile'||(arg||me.id)!==uid)return;
- profilePosts=posts||[];
+ profilePosts=posts||[];if(profTabUid!==uid){profTab='all';profTabUid=uid}
  const c=SPORTS[u.sport]||SPORTS.Autre,s=st||{followers:0,following:0,posts:0};
  main.innerHTML=`<div class="gutter"><div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>
  <section class="phead">
@@ -1998,7 +2026,8 @@ async function renderProfile(){
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pbtns">${mine?`<button class="pbtn" data-act="edit-profile">Modifier le profil</button><button class="pbtn" data-act="go-messages">Messages${unreadCount?'<span class="pb-dot"></span>':''}</button>`:`<button class="pbtn ${following.has(uid)?'':'primary'}" data-act="follow-prof" data-u="${uid}">${following.has(uid)?'Abonné':'Suivre'}</button><button class="pbtn" data-act="chat" data-u="${uid}">Message</button>`}</div>
  </section>
- ${profilePosts.length?`<div class="grid">${profilePosts.map(p=>`<button data-act="open-item" data-id="${p.id}" aria-label="Ouvrir">${mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}${p.kind==='clip'?`<span class="kind">${I.playsm}</span>`:''}</button>`).join('')}</div>`:`<div class="empty">${mine?'Rien publié pour l’instant. Montre ta première séance.':'Aucune publication.'}</div>`}</div>`;
+ <div class="ptabs" role="tablist"><button role="tab" data-act="ptab" data-k="all" aria-selected="${profTab==='all'}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M9.2 3.5v17M14.8 3.5v17M3.5 9.2h17M3.5 14.8h17"/></svg><span>Publications</span></button><button role="tab" data-act="ptab" data-k="clips" aria-selected="${profTab==='clips'}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="5" y="2.75" width="14" height="18.5" rx="4"/><path d="M10.5 9v6l4.5-3z"/></svg><span>Clips</span></button><i class="ptab-ind" style="transform:translateX(${profTab==='clips'?'100%':'0'})"></i></div>
+ <div id="pgrid">${pgridHTML(mine)}</div></div>`;
  main.querySelectorAll('.grid video').forEach(v=>{v.dataset.w='1';v.muted=true;v.removeAttribute('autoplay');v.pause()});
 }
 async function openUserList(uid,k){
@@ -2139,7 +2168,7 @@ document.addEventListener('scroll',e=>{const t=e.target;if(!(t===main||t.id==='c
 // ================= ÉVÉNEMENTS =================
 document.addEventListener('click',async e=>{
  const n=e.target.closest('[data-nav]');
- if(n&&me){hist=[];if(n.dataset.nav==='create'){createKind='photo'}if(n.dataset.nav==='home'){await refreshHome()}if(n.dataset.nav==='clips'){await loadClips()}if(n.dataset.nav==='profile'){loadNotifs().then(paintBadge)}if(n.dataset.nav==='messages'){loadConvs().then(()=>{if(view==='messages')renderMessages(curQuery)})}return nav(n.dataset.nav,n.dataset.nav==='profile'?me.id:null)}
+ if(n&&me){hist=[];if(n.dataset.nav==='create'){createKind='photo'}if(n.dataset.nav==='home'){await refreshHome()}if(n.dataset.nav==='clips'){setSound(true);await loadClips()}if(n.dataset.nav==='profile'){loadNotifs().then(paintBadge)}if(n.dataset.nav==='messages'){loadConvs().then(()=>{if(view==='messages')renderMessages(curQuery)})}return nav(n.dataset.nav,n.dataset.nav==='profile'?me.id:null)}
  const a=e.target.closest('[data-act]');if(!a)return;
  const act=a.dataset.act,u=a.dataset.u,id=a.dataset.id;
  switch(act){
@@ -2166,6 +2195,7 @@ document.addEventListener('click',async e=>{
   case 'post-menu':{const pp=findPost(id);if(!pp)break;const own=pp.user_id===me.id,h=prof(pp.user_id).handle;const items=own?[{label:'Modifier la description',run:()=>openEditCaption(id)},{label:'Supprimer',danger:true,run:()=>deletePost(id)}]:[{label:'Copier le lien',run:()=>copyLink(BASE_URL+'?p='+id)},{label:'Signaler',danger:true,run:()=>openReport('post',id,pp.user_id)},{label:'Bloquer @'+h,danger:true,run:()=>confirmBlock(pp.user_id)},...(isAdmin()?[{head:true,label:'Administrateur'},...(bansMap[pp.user_id]?[]:[{label:'Bannir @'+h,danger:true,run:()=>openBan(pp.user_id)}]),{label:'Modifier la description',run:()=>openEditCaption(id)},{label:'Supprimer la publication',danger:true,run:()=>deletePost(id)}]:[])];miniMenu(a,items,'right','light');break}
   case 'user-menu':{const h=prof(u).handle,b=blocked.has(u);miniMenu(a,[{label:'Copier le lien du profil',run:()=>copyLink(BASE_URL+'?u='+encodeURIComponent(h))},{label:'Signaler',danger:true,run:()=>openReport('user',u,u)},{label:b?'Débloquer':'Bloquer',danger:!b,run:()=>b?doUnblock(u):confirmBlock(u)},...(isAdmin()?[{head:true,label:'Administrateur'},bansMap[u]?{label:'Lever le bannissement',run:()=>unban(u)}:{label:'Bannir',danger:true,run:()=>openBan(u)},{label:'Supprimer le compte',danger:true,run:()=>adminDeleteUser(u)}]:[])],'right','light');break}
   case 'unban':unban(u);break;
+  case 'ptab':{if(profTab===a.dataset.k)break;profTab=a.dataset.k;const tabs=a.parentElement;tabs.querySelectorAll('[role=tab]').forEach(b=>b.setAttribute('aria-selected',b===a));tabs.querySelector('.ptab-ind').style.transform=`translateX(${profTab==='clips'?'100%':'0'})`;const g=$('pgrid');if(g){g.innerHTML=pgridHTML((arg||me.id)===me.id);g.classList.remove('swap');void g.offsetWidth;g.classList.add('swap');g.querySelectorAll('video').forEach(v=>{v.dataset.w='1';v.muted=true;v.removeAttribute('autoplay');v.pause()})}break}
   case 'report':openReport(a.dataset.t,id,u);break;
   case 'block':confirmBlock(u);break;
   case 'unblock':doUnblock(u);break;
