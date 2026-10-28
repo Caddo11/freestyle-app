@@ -41,7 +41,10 @@ html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45;overflow:hidden}
 *{box-sizing:border-box}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,label:focus-within{outline:2px solid var(--chalk);outline-offset:2px}
+button:focus-visible{outline:1.5px solid rgba(242,241,236,.55);outline-offset:2px}
+input:focus,select:focus,textarea:focus{outline:none}
+input,select,textarea{-webkit-tap-highlight-color:transparent}
+*{-webkit-tap-highlight-color:transparent}
 svg{display:block}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:94;background:radial-gradient(130% 100% at 50% 40%,transparent 60%,rgba(0,0,0,.55) 100%)}
 .ps-panel{background:var(--bevel);border:1px solid #2f323a;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 0 1px #050506}
@@ -453,6 +456,62 @@ nav.tabs .plus svg{width:18px;height:18px}
 @keyframes popl{40%{transform:scale(1.35)}}
 .sv-reply .send{background:none;color:#fff}
 
+/* ===== Connexion minimaliste ===== */
+.auth{min-height:100%;display:flex;flex-direction:column;justify-content:center;gap:10px;max-width:360px;margin:0 auto;padding-block:40px}
+.auth-logo{width:96px;align-self:center;margin-bottom:26px}
+.auth-title{margin:0 0 6px;text-align:center;font-size:18px;font-weight:800}
+.ain{width:100%;height:48px;padding:0 14px;border-radius:12px;border:1px solid #232323;background:#161616;color:var(--fg);font:inherit;font-size:15px;transition:border-color .15s}
+.ain::placeholder{color:#6f6f6b}
+.ain:focus{border-color:#4a4a4a;background:#191919}
+.ain-wrap{position:relative}
+.ain-wrap .ain{padding-right:48px}
+.ain-eye{position:absolute;right:4px;top:4px;width:40px;height:40px;display:grid;place-items:center;color:#6f6f6b}
+.auth .err{min-height:0;margin:2px 2px 0;font-family:var(--body);font-size:13px}
+.auth .err:empty{display:none}
+.auth-info{margin:0;font-size:13px;color:var(--muted)}
+.auth-btn{height:48px;margin-top:4px;border-radius:12px;background:#F2F1EC;color:#0F0F0F;font-weight:800;font-size:15px}
+.auth-btn:disabled{opacity:.6}
+.auth-link{align-self:center;margin-top:4px;font-size:13px;color:var(--muted)}
+.auth-or{display:flex;align-items:center;gap:12px;margin:12px 0 2px;color:#5a5a57;font-size:12px}
+.auth-or::before,.auth-or::after{content:"";flex:1;height:1px;background:#222}
+.auth-google{height:48px;border-radius:12px;border:1px solid #232323;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-size:14.5px}
+.auth-switch{margin:22px 0 0;text-align:center;font-size:13.5px;color:var(--muted)}
+.auth-switch button{color:var(--fg);font-weight:800}
+.auth .btn{height:46px;border-radius:12px}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:#4a4a4a}
+
+/* ===== Profil façon Instagram ===== */
+.top .ptitle{flex:1;text-align:center;font-family:var(--body);font-size:18px;font-weight:800;letter-spacing:0;text-transform:none;text-shadow:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.top-r{display:flex;align-items:center;gap:2px}
+.top-r .icon-btn{font-weight:900;letter-spacing:1px;position:relative}
+.top .bell-dot{top:8px;right:8px}
+.pbanner{position:relative;height:150px;max-width:100%;border-radius:16px;margin-top:4px}
+.pav{position:absolute;left:14px;bottom:-40px;padding:3px;border-radius:30%;background:#0F0F0F;line-height:0}
+.pav .av{border:0}
+.phead{display:flex;flex-direction:column;padding:0 0 18px}
+.pinfo{margin-left:116px;min-height:52px;padding-top:10px}
+.pname{display:block;font-size:15px;font-weight:800;margin-bottom:8px}
+.pnums{display:flex;gap:18px}
+.pnums>*{display:flex;flex-direction:column;align-items:flex-start;color:inherit;text-align:left}
+.pnums b{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.2}
+.pnums span{font-size:12.5px;color:#bdbdb9}
+.pbio{margin:16px 0 0;font-size:14px;line-height:1.5;white-space:pre-line;color:#e6e6e2}
+.phead .prs{margin-top:12px}
+.pbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.pbtns .pbtn{width:100%;height:36px;border-radius:10px;background:#1e1e1e;font-weight:700;font-size:13.5px}
+.pbtns .pbtn.primary{background:#F2F1EC;color:#0F0F0F}
+@media (max-width:360px){.pnums{gap:12px}.pinfo{margin-left:108px}}
+
+/* ===== Chargement : logo plus grand, brillance gauche → droite ===== */
+.boot .logo-wrap{width:190px}
+.boot img{width:190px}
+.boot .shine{background:linear-gradient(100deg,transparent 0%,transparent 38%,rgba(255,255,255,0) 40%,rgba(200,200,200,.95) 50%,rgba(255,255,255,0) 60%,transparent 62%,transparent 100%);background-size:300% 100%;background-position:100% 0;animation:sweepLR 1.3s ease-in-out .4s infinite;mix-blend-mode:normal}
+.boot .shine{background-image:linear-gradient(100deg,rgba(255,255,255,0) 40%,rgba(160,160,160,.9) 48%,rgba(255,255,255,1) 50%,rgba(160,160,160,.9) 52%,rgba(255,255,255,0) 60%)}
+@keyframes sweepLR{from{background-position:100% 0}to{background-position:0% 0}}
+.boot-in{gap:34px}
+
+.boot img{filter:brightness(.62)}
+
 </style>
 </head>
 <body>
@@ -587,52 +646,57 @@ function render(){
  const bare=['chat','global','onboard','auth','checkmail','newpw'].includes(view);
  $('tabs').hidden=bare;main.classList.toggle('no-nav',bare);
  main.classList.toggle('clips-mode',view==='clips');
- topEl.hidden=['home','onboard','auth','checkmail','newpw','profile'].includes(view);
+ topEl.hidden=['home','onboard','auth','checkmail','newpw'].includes(view);
  ({home:renderHome,clips:renderClips,create:renderCreate,messages:()=>renderMessages(''),chat:renderChat,global:renderGlobal,profile:renderProfile,editprofile:renderEditProfile,onboard:renderOnboard,auth:renderAuth,checkmail:renderCheckMail,newpw:renderNewPw})[view]();
 }
 function paintBadge(){const np=document.querySelector('nav.tabs [data-nav="profile"]');np.querySelector('.dot')?.remove();if(unreadNotifs)np.insertAdjacentHTML('beforeend','<span class="dot" style="min-width:8px;width:8px;height:8px;padding:0;left:calc(50% + 8px)"></span>');np.style.position='relative';const nm=$('nav-msg');nm.querySelector('.dot')?.remove();if(unreadCount)nm.insertAdjacentHTML('beforeend',`<span class="dot">${unreadCount>9?'9+':unreadCount}</span>`)}
 
 // ================= CONNEXION =================
-let authMode='signup',authErr='',authInfo='';
+let authMode='login',authErr='',authInfo='';
 const EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-function renderAuth(keepEmail){
- const su=authMode==='signup';topEl.innerHTML='';
- main.innerHTML=`<form class="onb gutter" id="af" novalidate>
-  <img class="onb-logo" src="${LOGO}" alt="Freestyle">
-  <h2>${su?'Rejoins Freestyle':'Content de te revoir'}</h2>
-  <p class="sub">${su?'Crée ton compte pour publier et parler aux sportifs':'Connecte-toi pour retrouver ton profil'}</p>
-  <div class="seg" role="group" aria-label="Choix" style="grid-template-columns:1fr 1fr"><button type="button" data-act="auth-mode" data-m="signup" aria-pressed="${su}">Créer un compte</button><button type="button" data-act="auth-mode" data-m="login" aria-pressed="${!su}">Se connecter</button></div>
-  <button type="button" class="g-btn" data-act="google"><span class="g-ic">G</span>Continuer avec Google</button>
-  <div class="or"><span>ou avec ton e-mail</span></div>
-  <label class="field"><span>Adresse e-mail</span><input id="aem" type="email" autocomplete="email" inputmode="email" placeholder="toi@exemple.fr" value="${esc(keepEmail||'')}"></label>
-  <label class="field"><span>Mot de passe</span><span class="handle-in" style="padding-left:0;padding-right:6px"><input id="apw" type="password" autocomplete="${su?'new-password':'current-password'}" placeholder="${su?'8 caractères minimum':'Ton mot de passe'}"><button type="button" class="icon-btn" data-act="pw-toggle" aria-label="Afficher le mot de passe">${I.eye}</button></span></label>
-  ${su?`<label class="field"><span>Confirme le mot de passe</span><input id="apw2" type="password" autocomplete="new-password" placeholder="Retape-le"></label>`:`<button type="button" class="linkish" data-act="forgot" style="align-self:flex-end;margin-top:-6px">Mot de passe oublié ?</button>`}
-  <p class="err" id="aerr">${esc(authErr)}</p>${authInfo?`<p class="opt" style="margin:-10px 0 0">${esc(authInfo)}</p>`:''}
-  <button class="publish" type="submit" id="asub"><span class="ps-x">✕</span><span class="ps-t"><b>${su?'CRÉER MON COMPTE':'SE CONNECTER'}</b><small>${su?'Ensuite, tu crées ton profil':'Accès à ton profil sur tous tes appareils'}</small></span><span class="ps-arrow">▶</span></button>
+function renderAuth(keep){
+ const su=authMode==='signup';topEl.innerHTML='';keep=keep||{};
+ main.innerHTML=`<form class="auth gutter" id="af" novalidate autocomplete="on">
+  <img class="auth-logo" src="${LOGO}" alt="Freestyle">
+  ${su?`<input class="ain" id="ahd" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="20" placeholder="Identifiant" value="${esc(keep.h||'')}" aria-label="Identifiant">`:''}
+  <input class="ain" id="aem" type="${su?'email':'text'}" autocomplete="${su?'email':'username'}" autocapitalize="none" spellcheck="false" placeholder="${su?'Adresse e-mail':'E-mail ou identifiant'}" value="${esc(keep.e||'')}" aria-label="${su?'Adresse e-mail':'E-mail ou identifiant'}">
+  <div class="ain-wrap"><input class="ain" id="apw" type="password" autocomplete="${su?'new-password':'current-password'}" placeholder="Mot de passe" aria-label="Mot de passe"><button type="button" class="ain-eye" data-act="pw-toggle" aria-label="Afficher le mot de passe">${I.eye}</button></div>
+  <p class="err" id="aerr">${esc(authErr)}</p>${authInfo?`<p class="auth-info">${esc(authInfo)}</p>`:''}
+  <button class="auth-btn" type="submit" id="asub">${su?'Créer mon compte':'Se connecter'}</button>
+  ${su?'':`<button type="button" class="auth-link" data-act="forgot">Mot de passe oublié ?</button>`}
+  <div class="auth-or"><span>ou</span></div>
+  <button type="button" class="auth-google" data-act="google"><span class="g-ic">G</span>Continuer avec Google</button>
+  <p class="auth-switch">${su?'Déjà un compte ?':'Pas encore de compte ?'} <button type="button" data-act="auth-mode" data-m="${su?'login':'signup'}">${su?'Se connecter':'Créer un compte'}</button></p>
  </form>`;
  authInfo='';
+ if(su)$('ahd').addEventListener('input',()=>{const i=$('ahd'),v=i.value.toLowerCase().replace(/[^a-z0-9._]/g,'');if(v!==i.value)i.value=v});
  $('af').addEventListener('submit',async e=>{
-  e.preventDefault();const em=$('aem').value.trim().toLowerCase(),pw=$('apw').value;
-  const fail=m=>{authErr=m;$('aerr').textContent=m;$('asub').disabled=false};
-  if(!EMAIL_RE.test(em))return fail('Adresse e-mail invalide');
-  if(pw.length<8)return fail('Le mot de passe doit faire au moins 8 caractères');
-  $('asub').disabled=true;
+  e.preventDefault();const id=$('aem').value.trim(),pw=$('apw').value;
+  const fail=m=>{authErr=m;$('aerr').textContent=m;$('asub').disabled=false;$('asub').textContent=su?'Créer mon compte':'Se connecter'};
+  $('asub').disabled=true;$('asub').textContent='…';
   if(su){
-   if(pw!==$('apw2').value)return fail('Les deux mots de passe ne sont pas identiques');
-   const {data,error}=await sb.auth.signUp({email:em,password:pw,options:{emailRedirectTo:BASE_URL}});
-   if(error)return fail(/registered|already/i.test(error.message)?'Un compte existe déjà avec cet e-mail. Connecte-toi.':/rate|limit/i.test(error.message)?'Trop de tentatives, réessaie dans quelques minutes.':'Inscription impossible : '+error.message);
-   if(data.user&&data.user.identities&&data.user.identities.length===0)return fail('Un compte existe déjà avec cet e-mail. Connecte-toi.');
+   const h=$('ahd').value.trim().toLowerCase(),em=id.toLowerCase();
+   const he=handleLocalError(h);if(he)return fail(he);
+   if(!EMAIL_RE.test(em))return fail('Adresse e-mail invalide');
+   if(pw.length<8)return fail('Mot de passe : 8 caractères minimum');
+   const {data:free}=await sb.rpc('handle_available',{h});if(free===false)return fail('Cet identifiant est déjà pris');
+   const {data,error}=await sb.auth.signUp({email:em,password:pw,options:{emailRedirectTo:BASE_URL,data:{handle:h}}});
+   if(error)return fail(/registered|already/i.test(error.message)?'Un compte existe déjà avec cet e-mail':/rate|limit/i.test(error.message)?'Trop de tentatives, réessaie dans quelques minutes':/database/i.test(error.message)?'Cet identifiant n’est pas disponible':'Inscription impossible : '+error.message);
+   if(data.user&&data.user.identities&&data.user.identities.length===0)return fail('Un compte existe déjà avec cet e-mail');
    if(!data.session){pendingEmail=em;nav('checkmail');return}
   }else{
-   const {error}=await sb.auth.signInWithPassword({email:em,password:pw});
-   if(error)return fail(/confirm/i.test(error.message)?'Confirme d’abord ton e-mail avec le lien reçu.':'E-mail ou mot de passe incorrect');
+   if(!id||!pw)return fail('Remplis les deux champs');
+   let email=id.toLowerCase();
+   if(!email.includes('@')){const {data}=await sb.rpc('email_for_login',{ident:email,pw});if(!data)return fail('Identifiant ou mot de passe incorrect');email=data}
+   const {error}=await sb.auth.signInWithPassword({email,password:pw});
+   if(error)return fail(/confirm/i.test(error.message)?'Confirme d’abord ton e-mail avec le lien reçu':'Identifiant ou mot de passe incorrect');
   }
   authErr='';
  });
 }
 let pendingEmail='';
 function renderCheckMail(){
- main.innerHTML=`<div class="onb gutter"><img class="onb-logo" src="${LOGO}" alt="Freestyle"><h2>Vérifie tes e-mails</h2><p class="sub">On a envoyé un lien de confirmation à</p><p style="text-align:center;font-weight:800;margin:-6px 0 0">${esc(pendingEmail)}</p><p class="hint" style="text-align:center">Clique sur le lien dans le mail pour activer ton compte, puis reviens ici. Pense à regarder dans les spams.</p><button class="btn" data-act="resend">Renvoyer l’e-mail</button><button class="btn primary" data-act="to-login">J’ai confirmé, me connecter</button></div>`;
+ main.innerHTML=`<div class="auth gutter"><img class="auth-logo" src="${LOGO}" alt="Freestyle"><h2 class="auth-title">Vérifie tes e-mails</h2><p class="sub">On a envoyé un lien de confirmation à</p><p style="text-align:center;font-weight:800;margin:-6px 0 0">${esc(pendingEmail)}</p><p class="hint" style="text-align:center">Clique sur le lien dans le mail pour activer ton compte, puis reviens ici. Pense à regarder dans les spams.</p><button class="btn" data-act="resend">Renvoyer l’e-mail</button><button class="btn primary" data-act="to-login">J’ai confirmé, me connecter</button></div>`;
 }
 function renderNewPw(){
  main.innerHTML=`<form class="onb gutter" id="npf"><img class="onb-logo" src="${LOGO}" alt="Freestyle"><h2>Nouveau mot de passe</h2><label class="field"><span>Nouveau mot de passe</span><input id="np1" type="password" autocomplete="new-password" placeholder="8 caractères minimum"></label><label class="field"><span>Confirme</span><input id="np2" type="password" autocomplete="new-password"></label><p class="err" id="nperr"></p><button class="publish" type="submit"><span class="ps-x">✕</span><span class="ps-t"><b>ENREGISTRER</b><small>Ton mot de passe est changé</small></span><span class="ps-arrow">▶</span></button></form>`;
@@ -640,7 +704,7 @@ function renderNewPw(){
 }
 
 // ================= CRÉATION DU PROFIL =================
-let ob={handle:'',name:'',sport:'Calisthenics',bio:'',file:null,preview:null};
+let ob={handle:'',name:'',sport:'Calisthenics',bio:'',file:null,preview:null},obExisting=null;
 function handleLocalError(h){if(!h)return 'Choisis un nom d’utilisateur';if(h.length<3)return '3 caractères minimum';if(!/^[a-z0-9][a-z0-9._]{1,18}[a-z0-9]$/.test(h))return 'Lettres, chiffres, point ou tiret bas (pas au début ni à la fin)';if(moderate(h))return 'Ce nom d’utilisateur n’est pas autorisé';return null}
 let handleTimer;
 function renderOnboard(){
@@ -648,7 +712,7 @@ function renderOnboard(){
   <img class="onb-logo" src="${LOGO}" alt="Freestyle">
   <h2>Crée ton profil</h2><p class="sub">30 secondes et tu es dans le game</p>
   <div class="field"><span>Photo de profil<em class="opt">facultatif</em></span><div class="av-edit">${ob.preview?`<span class="av" style="width:72px;height:72px;background:#000 url('${ob.preview}') center/cover"></span>`:`<span class="av" style="width:72px;height:72px;background:#2a2a2a;color:#888;font-size:30px">${esc((ob.name||'?')[0])}</span>`}<label class="c-add" style="cursor:pointer">Choisir une photo<input type="file" id="oa" accept="image/*" hidden></label></div></div>
-  <label class="field"><span>Nom d’utilisateur</span><span class="handle-in"><span>@</span><input id="oh" maxlength="20" autocomplete="off" autocapitalize="none" placeholder="ton.pseudo" value="${esc(ob.handle)}"></span></label>
+  ${obExisting?`<p class="sub" style="margin:0">Ton identifiant : <b style="color:var(--fg)">${esc(obExisting.handle)}</b></p><input type="hidden" id="oh" value="${esc(obExisting.handle)}">`:`<label class="field"><span>Identifiant</span><input id="oh" maxlength="20" autocomplete="off" autocapitalize="none" placeholder="ton.identifiant" value="${esc(ob.handle)}"></label>`}
   <p class="err" id="oherr"></p>
   <label class="field"><span>Nom affiché</span><input id="on" maxlength="30" placeholder="Ex. : Baptiste C." value="${esc(ob.name)}"></label>
   <label class="field"><span>Ton sport principal</span><select id="os">${SPORT_LIST.map(x=>`<option ${x===ob.sport?'selected':''}>${x}</option>`).join('')}</select></label>
@@ -658,18 +722,18 @@ function renderOnboard(){
  </form>`;
  const keepO=()=>{ob.handle=$('oh').value;ob.name=$('on').value;ob.sport=$('os').value;ob.bio=$('obb').value};
  $('oa').addEventListener('change',async e=>{const f0=e.target.files[0];if(!f0)return;keepO();const f=await openCropper(f0,1,640,640,'Photo de profil');if(!f)return;ob.file=f;ob.preview=URL.createObjectURL(f);renderOnboard()});
- $('oh').addEventListener('input',()=>{const v=$('oh').value.toLowerCase().replace(/[^a-z0-9._]/g,'');$('oh').value=v;const le=handleLocalError(v);$('oherr').textContent=le||'';clearTimeout(handleTimer);if(!le)handleTimer=setTimeout(async()=>{const {data}=await sb.from('profiles').select('id').eq('handle',v).maybeSingle();if($('oh')&&$('oh').value===v)$('oherr').textContent=data?'Ce nom d’utilisateur est déjà pris':''},400)});
+ if(!obExisting)$('oh').addEventListener('input',()=>{const v=$('oh').value.toLowerCase().replace(/[^a-z0-9._]/g,'');$('oh').value=v;const le=handleLocalError(v);$('oherr').textContent=le||'';clearTimeout(handleTimer);if(!le)handleTimer=setTimeout(async()=>{const {data}=await sb.from('profiles').select('id').eq('handle',v).maybeSingle();if($('oh')&&$('oh').value===v)$('oherr').textContent=data?'Ce nom d’utilisateur est déjà pris':''},400)});
  $('ob').addEventListener('submit',async e=>{e.preventDefault();keepO();
-  const le=handleLocalError(ob.handle);if(le){$('oherr').textContent=le;return}
+  const le=obExisting?null:handleLocalError(ob.handle);if(le){$('oherr').textContent=le;return}
   if(!ob.name.trim()){toast('Indique ton nom affiché');return}
   if(!(await guard([ob.handle,ob.name,ob.bio].join(' \n '))))return;
   $('obs').disabled=true;
   let avatar_url=null;
   if(ob.file){avatar_url=await upload(ob.file,'avatar');}
-  const row={id:session.user.id,handle:ob.handle,name:ob.name.trim(),sport:ob.sport,bio:ob.bio.trim(),avatar_url,prs:[{t:'',c:'white'},{t:'',c:'black'},{t:'',c:'yellow'},{t:'',c:'grey'}]};
-  const {error}=await sb.from('profiles').insert(row);
+  const row={name:ob.name.trim(),sport:ob.sport,bio:ob.bio.trim(),avatar_url,onboarded:true,prs:[{t:'',c:'white'},{t:'',c:'black'},{t:'',c:'yellow'},{t:'',c:'grey'}]};
+  const {error}=obExisting?await sb.from('profiles').update(row).eq('id',session.user.id):await sb.from('profiles').insert({...row,id:session.user.id,handle:ob.handle});
   if(error){$('obs').disabled=false;return dbError(error,'Impossible de créer le profil')}
-  toast('Bienvenue sur Freestyle, @'+ob.handle);boot();
+  toast('Bienvenue sur Freestyle !');boot();
  });
 }
 
@@ -858,12 +922,12 @@ new MutationObserver(()=>wireVideos(main)).observe(main,{childList:true,subtree:
 new MutationObserver(()=>wireVideos(layer)).observe(layer,{childList:true,subtree:true});
 function setSound(on){soundOn=on;document.querySelectorAll('video').forEach(v=>{v.muted=!on});document.querySelectorAll('.snd').forEach(b=>b.innerHTML=on?I.soundOn:I.soundOff)}
 // ================= MINI MENU =================
-function miniMenu(btn,items){
+function miniMenu(btn,items,align){
  closeMini();const r=btn.getBoundingClientRect();
  const m=document.createElement('div');m.className='mini-menu';m.id='mini-menu';
  m.innerHTML=items.map((it,i)=>`<button type="button" data-i="${i}" class="${it.danger?'danger':''}">${esc(it.label)}</button>`).join('');
  document.body.appendChild(m);
- const w=m.offsetWidth;m.style.top=Math.min(innerHeight-60,r.bottom+6)+'px';m.style.left=Math.max(8,Math.min(innerWidth-w-8,r.right-w))+'px';
+ const w=m.offsetWidth;m.style.top=Math.min(innerHeight-60,r.bottom+6)+'px';m.style.left=Math.max(8,Math.min(innerWidth-w-8,align==='left'?r.left:r.right-w))+'px';
  m.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;e.stopPropagation();const it=items[+b.dataset.i];closeMini();it.run()});
  setTimeout(()=>document.addEventListener('click',closeMini,{once:true}),0);
 }
@@ -1012,22 +1076,22 @@ async function renderProfile(){
  const uid=arg||me.id,mine=uid===me.id;
  await loadProfiles([uid]);
  const u=prof(uid);
- topEl.innerHTML='';
+ topEl.innerHTML=mine?`<button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><h1 class="ptitle">${esc(u.handle)}</h1><span class="top-r"><button class="icon-btn" data-act="notifs" aria-label="Notifications">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" data-act="settings" aria-label="Menu">•••</button></span>`:`<button class="icon-btn" data-act="back" aria-label="Retour">${I.back}</button><h1 class="ptitle">${esc(u.handle)}</h1><span class="top-r"><span class="icon-btn"></span></span>`;
  main.innerHTML=loadingHTML();
  const [{data:st},{data:posts}]=await Promise.all([sb.from('profile_stats').select('*').eq('id',uid).maybeSingle(),sb.from('feed').select('*').eq('user_id',uid).order('created_at',{ascending:false}).limit(60)]);
  if(view!=='profile'||(arg||me.id)!==uid)return;
  profilePosts=posts||[];
  const c=SPORTS[u.sport]||SPORTS.Autre,s=st||{followers:0,following:0,posts:0};
- main.innerHTML=`<div class="banner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}">${mine?'':`<button class="banner-back" data-act="back" aria-label="Retour">${I.back}</button>`}</div>
- <section class="prof gutter">
-  <span class="prof-av">${av(uid,84)}</span>
-  <div class="prof-id"><h2>${esc(u.name)}</h2><span class="prof-handle">@${esc(u.handle)} · ${esc(u.sport)}</span></div>
-  ${u.bio?`<p class="prof-bio">${esc(u.bio)}</p>`:''}
-  <div class="pstats"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>abonnés</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>abonnements</span></button></div>
+ main.innerHTML=`<div class="gutter"><div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,88)}</span></div>
+ <section class="phead">
+  <div class="pinfo"><b class="pname">${esc(u.name)}</b>
+   <div class="pnums"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
+  </div>
+  ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   ${prsOf(u).length?`<div class="prs">${prsOf(u).map((p,i)=>`<span class="stk ${esc(p.c)}" style="--r:${[-3,2,-2,3][i%4]}deg">${esc(p.t)}</span>`).join('')}</div>`:''}
-  <div class="prof-actions">${mine?`<button class="pbtn" data-act="edit-profile">Modifier le profil</button><button class="pbtn icon" data-act="notifs" aria-label="Notifications">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="pbtn icon" data-act="settings" aria-label="Menu">${I.menu}</button>`:`<button class="pbtn ${following.has(uid)?'':'primary'}" data-act="follow-prof" data-u="${uid}">${following.has(uid)?'Abonné':'Suivre'}</button><button class="pbtn" data-act="chat" data-u="${uid}">Message</button>`}</div>
+  <div class="pbtns">${mine?`<button class="pbtn" data-act="edit-profile">Modifier le profil</button><button class="pbtn" data-act="share-profile" data-u="${uid}">Partager le profil</button>`:`<button class="pbtn ${following.has(uid)?'':'primary'}" data-act="follow-prof" data-u="${uid}">${following.has(uid)?'Abonné':'Suivre'}</button><button class="pbtn" data-act="chat" data-u="${uid}">Message</button>`}</div>
  </section>
- <div class="gutter">${profilePosts.length?`<div class="grid">${profilePosts.map(p=>`<button data-act="open-item" data-id="${p.id}" aria-label="Ouvrir">${mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}${p.kind==='clip'?`<span class="kind">${I.playsm}</span>`:''}</button>`).join('')}</div>`:`<div class="empty">${mine?'Rien publié pour l’instant. Montre ta première séance.':'Aucune publication.'}</div>`}</div>`;
+ ${profilePosts.length?`<div class="grid">${profilePosts.map(p=>`<button data-act="open-item" data-id="${p.id}" aria-label="Ouvrir">${mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}${p.kind==='clip'?`<span class="kind">${I.playsm}</span>`:''}</button>`).join('')}</div>`:`<div class="empty">${mine?'Rien publié pour l’instant. Montre ta première séance.':'Aucune publication.'}</div>`}</div>`;
  main.querySelectorAll('.grid video').forEach(v=>{v.dataset.w='1';v.muted=true;v.removeAttribute('autoplay');v.pause()});
 }
 async function openUserList(uid,k){
@@ -1154,14 +1218,14 @@ document.addEventListener('click',async e=>{
  const act=a.dataset.act,u=a.dataset.u,id=a.dataset.id;
  switch(act){
   case 'auth-mode':authMode=a.dataset.m;authErr='';renderAuth();break;
-  case 'pw-toggle':{const i=$('apw');i.type=i.type==='password'?'text':'password';break}
-  case 'forgot':{const em=$('aem').value.trim().toLowerCase();if(!EMAIL_RE.test(em)){authErr='Écris ton e-mail ci-dessus, puis touche « Mot de passe oublié ? »';renderAuth(em);break}
-   const {error}=await sb.auth.resetPasswordForEmail(em,{redirectTo:BASE_URL});authErr='';authInfo=error?'Envoi impossible pour le moment, réessaie plus tard.':'Si un compte existe pour '+em+', un lien pour changer ton mot de passe a été envoyé.';renderAuth(em);break}
+  case 'pw-toggle':{const i=$('apw');i.type=i.type==='password'?'text':'password';i.focus();break}
+  case 'forgot':{const em=$('aem').value.trim().toLowerCase();if(!EMAIL_RE.test(em)){authErr='Écris ton adresse e-mail dans le premier champ, puis touche « Mot de passe oublié ? »';renderAuth({e:em});break}
+   const {error}=await sb.auth.resetPasswordForEmail(em,{redirectTo:BASE_URL});authErr='';authInfo=error?'Envoi impossible pour le moment, réessaie plus tard.':'Si un compte existe pour '+em+', un lien pour changer ton mot de passe a été envoyé.';renderAuth({e:em});break}
   case 'google':{const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:BASE_URL}});if(error)warnBox('Google pas encore activé','La connexion avec Google sera disponible très bientôt. En attendant, crée ton compte avec ton e-mail.',false);break}
   case 'resend':{const {error}=await sb.auth.resend({type:'signup',email:pendingEmail,options:{emailRedirectTo:BASE_URL}});toast(error?'Patiente quelques minutes avant de renvoyer':'E-mail renvoyé');break}
   case 'to-login':authMode='login';nav('auth');break;
   case 'logout':await sb.auth.signOut();break;
-  case 'settings':miniMenu(a,[{label:'Se déconnecter',danger:true,run:()=>sb.auth.signOut()}]);break;
+  case 'settings':miniMenu(a,[{label:'Modifier le profil',run:()=>{pDraft=null;nav('editprofile')}},{label:'Partager le profil',run:()=>document.querySelector('[data-act="share-profile"]')?.click()},{label:'Se déconnecter',danger:true,run:()=>sb.auth.signOut()}]);break;
   case 'settings-old':layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Paramètres"><div class="sheet-head">Paramètres</div><div class="sheet-list gutter"><p class="opt" style="margin:6px 0 4px">Connecté avec ${esc(session.user.email||'')}</p><button class="sheet-act" data-act="edit-profile">Modifier le profil</button><button class="sheet-act" data-act="add-story">Ajouter une story</button><button class="sheet-act danger" data-act="logout">Se déconnecter</button><button class="sheet-act" data-act="close-sheet-btn">Annuler</button></div></div></div>`;break;
   case 'close-sheet':if(e.target===a)layer.innerHTML='';break;
   case 'close-sheet-btn':layer.innerHTML='';break;
@@ -1176,6 +1240,8 @@ document.addEventListener('click',async e=>{
   case 'story-menu':{clearTimeout(svT);layer.querySelectorAll('video').forEach(v=>v.pause());miniMenu(a,[{label:'Supprimer',danger:true,run:()=>deleteStory(id)}]);setTimeout(()=>{document.addEventListener('click',function resume(ev){if(!document.getElementById('mini-menu')&&sv&&layer.querySelector('.sv')){svT=setTimeout(nextStory,4000);layer.querySelectorAll('video').forEach(v=>v.play().catch(()=>{}))}},{once:true})},0);break}
   case 'story-like':{const was=likedStories.has(id);was?likedStories.delete(id):likedStories.add(id);a.classList.toggle('on',!was);if(!was){a.classList.remove('pop-l');void a.offsetWidth;a.classList.add('pop-l')}const {error}=was?await sb.from('story_likes').delete().eq('story_id',id).eq('user_id',me.id):await sb.from('story_likes').insert({story_id:id,user_id:me.id});if(error&&!/duplicate/.test(error.message||'')){was?likedStories.add(id):likedStories.delete(id);a.classList.toggle('on',was)}break}
   case 'notifs':openNotifs();break;
+  case 'plus-menu':miniMenu(a,[{label:'Publication',run:()=>{createKind='photo';newDraft();nav('create')}},{label:'Clip',run:()=>{createKind='clip';newDraft();nav('create')}},{label:'Story',run:()=>{createKind='story';newDraft();nav('create')}}],'left');break;
+  case 'share-profile':{const link=BASE_URL+'?u='+encodeURIComponent(prof(u).handle);try{if(navigator.share){await navigator.share({title:'Freestyle',text:'Mon profil Freestyle',url:link});break}}catch(err){if(err&&err.name==='AbortError')break}try{await navigator.clipboard.writeText(link);toast('Lien du profil copié')}catch(err){warnBox('Lien de ton profil',link,false)}break}
   case 'sound':{e.stopPropagation();setSound(!soundOn);break}
   case 'del-ask':a.outerHTML=`<p style="margin:10px 0;color:var(--muted)">Supprimer définitivement cette publication ?</p><button class="sheet-act danger" data-act="del-yes" data-id="${id}">Oui, supprimer</button>`;break;
   case 'del-yes':{const post=findPost(id);const {error}=await sb.from('posts').delete().eq('id',id).eq('user_id',me.id);if(!error&&post)removeFiles((post.media||[]).map(m=>m.url));layer.innerHTML='';if(error)return dbError(error,'Suppression impossible');feed=feed.filter(p=>p.id!==id);profilePosts=profilePosts.filter(p=>p.id!==id);toast('Publication supprimée');render();break}
@@ -1222,11 +1288,12 @@ async function boot(){
  if(!session){me=null;view='auth';render();return}
  const {data:p,error}=await sb.from('profiles').select('*').eq('id',session.user.id).maybeSingle();
  if(error){console.error(error);toast('Connexion au serveur impossible');}
- if(!p){me=null;view='onboard';render();return}
+ if(!p||!p.onboarded){me=null;obExisting=p||null;if(p&&!ob.name)ob.name='';view='onboard';render();return}
  me=p;P[me.id]=p;
  main.innerHTML=loadingHTML('Chargement du fil…');
  await Promise.all([refreshHome(),loadConvs(),loadGlobal(),loadNotifs()]);
  subscribeRealtime();
+ const qu=new URLSearchParams(location.search).get('u');if(qu){history.replaceState(null,'',BASE_URL);const {data:tp}=await sb.from('profiles').select('id,handle,name,sport,bio,avatar_url,banner_url,prs').eq('handle',qu.toLowerCase()).maybeSingle();if(tp){P[tp.id]=tp;view='profile';arg=tp.id}}
  cleanExpiredStories();
  if(!['home','clips','messages','profile','create'].includes(view))view='home';
  render();
