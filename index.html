@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<meta name="fs-build" content="1793190657">
+<meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
 <meta name="description" content="Freestyle, le réseau social des sportifs : photos, clips, stories, stickers et discussions.">
@@ -1449,6 +1451,8 @@ sb.auth.onAuthStateChange((evt,s)=>{
  if(evt==='SIGNED_OUT'){session=null;me=null;if(rtChannel)sb.removeChannel(rtChannel);layer.innerHTML='';authMode='login';view='auth';render();toast('Tu es déconnecté')}
 });
 
+// Mise à jour automatique : recharge si une version plus récente est en ligne
+(async function autoUpdate(){try{const cur=document.querySelector('meta[name="fs-build"]')?.content;if(!cur)return;const t=await fetch(BASE_URL+'?nc='+Date.now(),{cache:'no-store'}).then(r=>r.text());const m=t.match(/name="fs-build" content="(\d+)"/);if(m&&m[1]!==cur&&sessionStorage.getItem('fs-upd')!==m[1]){sessionStorage.setItem('fs-upd',m[1]);location.replace(BASE_URL+'?v='+m[1]+location.hash)}}catch(e){}})();
 (function splash(){
  const b=document.createElement('div');b.className='boot';b.setAttribute('role','presentation');
  b.innerHTML=`<div class="boot-in"><div class="logo-wrap" style="--m:url('${LOGO}')"><img src="${LOGO}" alt="Freestyle"><span class="shine"></span></div><div class="load"><i></i></div></div>`;
