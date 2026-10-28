@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793204932">
+<meta name="fs-build" content="1793205312">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1060,6 +1060,21 @@ main{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
 .rp-h time{color:#a3a29d;font-size:12px}
 .rp-item p{margin:4px 0 8px;color:#6f6e69}
 .rp-act{display:flex;gap:6px;flex-wrap:wrap}
+/* v13 : bannissement */
+.ban-wrap{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding-block:40px}
+.ban-logo{width:72px;height:auto;opacity:.9}
+.ban-card{width:100%;max-width:380px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:26px 20px;border-radius:22px;background:var(--paper);border:1px solid var(--paper-line);animation:popIn .4s cubic-bezier(.3,1.3,.5,1) both}
+.ban-card h2{margin:4px 0 0;font-size:20px;font-weight:800}
+.ban-card p{margin:0;font-size:14px;line-height:1.5;color:#4a4a47}
+.ban-card .ban-why{font-size:13px;color:#6f6e69;font-style:italic}
+.ban-card .ep-save{width:100%;margin-top:10px}
+.ban-ic{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#d4142c;color:#fff;font-size:26px;font-weight:900}
+.ban-dur{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin:6px 0 4px}
+.ban-dur button{padding:13px 10px;border-radius:12px;font-weight:700;font-size:14px;background:var(--paper);border:1px solid var(--paper-line);color:var(--ink);transition:transform .2s}
+.ban-dur button:active{transform:scale(.96)}
+.ban-dur button.def{background:#d4142c;border-color:#d4142c;color:#fff}
+.rp-done .pk-name{margin-top:4px}
+.ban-tag{display:inline-block;vertical-align:2px;margin-left:8px;padding:2px 8px;border-radius:999px;background:#d4142c;color:#fff;font-size:11px;font-weight:700}
 
 </style>
 </head>
@@ -1163,6 +1178,7 @@ async function punish(kind){
 }
 async function dbError(error,fallback){
  const m=(error&&error.message)||'';
+ if((m.includes('COMPTE_BANNI')||/row-level security/i.test(m))&&await checkMyBan())return;
  if(m.includes('CONTENU_INTERDIT')){await punish('hate');return}
  if(m.includes('LIEN_INTERDIT')){await punish('link');return}
  if(m.includes('COMPTE_SUSPENDU')){await punish('muted');return}
@@ -1197,6 +1213,30 @@ async function loadGroups(){try{
 }catch(e){}}
 const gUnread=gid=>(gMsgs[gid]||[]).some(m=>m.sender_id!==me.id&&new Date(m.created_at)>new Date(gRead[gid]||0));
 function recountUnread(){unreadCount=Object.values(convs).filter(c=>c.some(m=>m.recipient_id===me.id&&!m.read_at)).length+Object.keys(groups).filter(gUnread).length;paintBadge()}
+let myBan=null,bansMap={};
+const banActive=b=>!!b&&(!b.until||new Date(b.until)>new Date());
+async function checkMyBan(){if(!session)return false;const {data}=await sb.from('bans').select('*').eq('user_id',session.user.id).maybeSingle();if(banActive(data)){myBan=data;layer.innerHTML='';view='banned';render();return true}return false}
+async function loadBans(){if(!isAdmin())return;const {data}=await sb.from('bans').select('*');bansMap={};(data||[]).filter(banActive).forEach(b=>bansMap[b.user_id]=b)}
+function renderBanned(){
+ const b=myBan||{},def=!b.until;
+ main.innerHTML=`<div class="ban-wrap gutter"><img class="ban-logo" src="${LOGO}" alt="Freestyle"><div class="ban-card"><span class="ban-ic">!</span><h2>Compte suspendu</h2><p>${def?'Ton compte a été banni définitivement de Freestyle':'Ton compte est suspendu jusqu’au '+new Date(b.until).toLocaleString('fr-FR',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})} suite au non-respect des règles de la communauté.</p>${b.reason?`<p class="ban-why">Motif : ${esc(b.reason)}</p>`:''}<button class="ep-save" data-act="logout">Se déconnecter</button></div></div>`;
+}
+function openBan(uid){
+ const h=prof(uid).handle;
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Bannir"><div class="sheet-list gutter rp-done"><span class="pav-sm">${av(uid,56)}</span><b>Bannir @${esc(h)}</b><p>Il ne pourra plus rien publier, commenter, écrire ni réagir, et son contenu sera caché pendant toute la durée du bannissement.</p><input id="ban-why" class="pk-name" maxlength="200" placeholder="Motif (facultatif)"><div class="ban-dur">${[['24 h',1],['7 jours',7],['30 jours',30],['Définitif',0]].map(([l,d])=>`<button type="button" class="${d?'':'def'}" data-bd="${d}">${l}</button>`).join('')}</div><button class="sheet-act" data-act="close-sheet-btn">Annuler</button></div></div></div>`;
+ layer.querySelectorAll('[data-bd]').forEach(btn=>btn.addEventListener('click',async()=>{
+  const d=+btn.dataset.bd,until=d?new Date(Date.now()+d*864e5).toISOString():null,reason=$('ban-why').value.trim();
+  const row={user_id:uid,until,reason,banned_by:me.id,created_at:new Date().toISOString()};
+  const {error}=await sb.from('bans').upsert(row,{onConflict:'user_id'});if(error)return dbError(error,'Bannissement impossible');
+  bansMap[uid]=row;feed=feed.filter(p=>p.user_id!==uid);clipsList=clipsList.filter(p=>p.user_id!==uid);delete storiesBy[uid];
+  layer.innerHTML='';toast('@'+h+(d?' banni '+btn.textContent:' banni définitivement'));render();
+ }));
+}
+async function unban(uid){const {error}=await sb.from('bans').delete().eq('user_id',uid);if(error)return dbError(error,'Action impossible');delete bansMap[uid];toast('Bannissement levé pour @'+prof(uid).handle);if(layer.querySelector('.ban-sheet'))openBanList();else{layer.innerHTML='';render()}}
+async function openBanList(){
+ await loadBans();await loadProfiles(Object.keys(bansMap));const ids=Object.keys(bansMap);
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet ban-sheet" role="dialog" aria-label="Comptes bannis"><div class="sheet-head">Comptes bannis</div><div class="sheet-list gutter">${ids.length?ids.map(x=>{const b=bansMap[x];return `<div class="conv">${av(x,42)}<span class="meta"><b>${esc(prof(x).handle)}</b><span>${b.until?'Jusqu’au '+new Date(b.until).toLocaleDateString('fr-FR',{day:'numeric',month:'short'}):'Définitif'}${b.reason?' · '+esc(b.reason):''}</span></span><button class="mini" data-act="unban" data-u="${x}">Lever</button></div>`}).join(''):'<div class="empty">Aucun compte banni.</div>'}</div></div></div>`;
+}
 let ADMINS=new Set();const isAdmin=()=>!!(me&&ADMINS.has(me.id));const vb=uid=>ADMINS.has(uid)?I.verified:'';
 async function loadAdmins(){try{const {data}=await sb.from('admins').select('user_id');ADMINS=new Set((data||[]).map(r=>r.user_id))}catch(e){}}
 let notifs=[],unreadNotifs=0,likedStories=new Set(),myStoryLikes={},soundOn=false;
@@ -1227,11 +1267,11 @@ function render(){
  const map={home:'home',clips:'clips',create:'',messages:'home',chat:'home',gchat:'home',global:'home',profile:'profile',editprofile:'profile',search:'search'};
  document.querySelectorAll('nav.tabs button').forEach(b=>{b.removeAttribute('aria-current');if(map[view]===b.dataset.nav&&!(view==='profile'&&arg&&arg!==me?.id))b.setAttribute('aria-current','page')});
  paintBadge();$('tabs').classList.remove('mini');lastSY=0;requestAnimationFrame(moveInd);
- const bare=['chat','gchat','global','onboard','auth','checkmail','newpw'].includes(view);
+ const bare=['banned','chat','gchat','global','onboard','auth','checkmail','newpw'].includes(view);
  $('tabs').hidden=bare;main.classList.toggle('no-nav',bare);
  main.classList.toggle('clips-mode',view==='clips');
- topEl.hidden=['onboard','auth','checkmail','newpw','clips'].includes(view);
- ({home:renderHome,clips:renderClips,create:renderCreate,messages:()=>renderMessages(''),chat:renderChat,gchat:renderGChat,global:renderGlobal,profile:renderProfile,editprofile:renderEditProfile,search:()=>renderSearch(''),onboard:renderOnboard,auth:renderAuth,checkmail:renderCheckMail,newpw:renderNewPw})[view]();
+ topEl.hidden=['banned','onboard','auth','checkmail','newpw','clips'].includes(view);
+ ({home:renderHome,clips:renderClips,create:renderCreate,messages:()=>renderMessages(''),chat:renderChat,gchat:renderGChat,global:renderGlobal,profile:renderProfile,editprofile:renderEditProfile,search:()=>renderSearch(''),onboard:renderOnboard,banned:renderBanned,auth:renderAuth,checkmail:renderCheckMail,newpw:renderNewPw})[view]();
 }
 function moveInd(){const ind=document.querySelector('nav.tabs .nav-ind');if(!ind)return;const a=document.querySelector('nav.tabs button[aria-current="page"]');if(!a){ind.style.opacity='0';return}ind.style.opacity='1';ind.style.width=a.offsetWidth+'px';ind.style.transform=`translateX(${a.offsetLeft}px)`}
 window.addEventListener('resize',()=>moveInd());
@@ -1909,7 +1949,8 @@ async function openReports(){
  await loadProfiles(list.flatMap(r=>[r.reporter_id,r.target_user]).filter(Boolean));
  const T={user:'Compte',post:'Publication',comment:'Commentaire',story:'Story',message:'Message',group:'Groupe'};
  const box=layer.querySelector('.sheet-list');if(!box)return;
- box.innerHTML=list.length?list.map(r=>`<div class="rp-item ${r.status==='traite'?'done':''}" data-rid="${r.id}"><div class="rp-h"><b>${T[r.target_type]||r.target_type}</b><span>${esc(r.reason)}</span><time>${ago(r.created_at)}</time></div><p>${r.target_user?`Visé : <button class="linkish" data-act="open-user" data-u="${r.target_user}">@${esc(prof(r.target_user).handle)}</button> · `:''}par @${esc(prof(r.reporter_id).handle)}</p><div class="rp-act">${r.target_type==='post'?`<button class="mini" data-rx="post" data-tid="${r.target_id}">Supprimer la publication</button>`:''}${r.target_type==='comment'?`<button class="mini" data-rx="comment" data-tid="${r.target_id}">Supprimer le commentaire</button>`:''}${r.status!=='traite'?`<button class="mini on" data-rx="done">Marquer traité</button>`:'<span class="opt">Traité</span>'}</div></div>`).join(''):'<div class="empty">Aucun signalement. Tout est calme.</div>';
+ box.innerHTML=list.length?list.map(r=>`<div class="rp-item ${r.status==='traite'?'done':''}" data-rid="${r.id}"><div class="rp-h"><b>${T[r.target_type]||r.target_type}</b><span>${esc(r.reason)}</span><time>${ago(r.created_at)}</time></div><p>${r.target_user?`Visé : <button class="linkish" data-act="open-user" data-u="${r.target_user}">@${esc(prof(r.target_user).handle)}</button> · `:''}par @${esc(prof(r.reporter_id).handle)}</p><div class="rp-act">${r.target_type==='post'?`<button class="mini" data-rx="post" data-tid="${r.target_id}">Supprimer la publication</button>`:''}${r.target_type==='comment'?`<button class="mini" data-rx="comment" data-tid="${r.target_id}">Supprimer le commentaire</button>`:''}${r.target_user&&!bansMap[r.target_user]?`<button class="mini" data-ban="${r.target_user}">Bannir</button>`:''}${r.status!=='traite'?`<button class="mini on" data-rx="done">Marquer traité</button>`:'<span class="opt">Traité</span>'}</div></div>`).join(''):'<div class="empty">Aucun signalement. Tout est calme.</div>';
+ box.querySelectorAll('[data-ban]').forEach(b=>b.addEventListener('click',()=>openBan(b.dataset.ban)));
  box.querySelectorAll('[data-rx]').forEach(b=>b.addEventListener('click',async()=>{const rid=b.closest('[data-rid]').dataset.rid,k=b.dataset.rx,t=b.dataset.tid;let error;
   if(k==='post'){const {data:pp}=await sb.from('posts').select('media').eq('id',t).maybeSingle();({error}=await sb.from('posts').delete().eq('id',t));if(!error&&pp)removeFiles((pp.media||[]).map(m=>m.url));feed=feed.filter(p=>p.id!==t)}
   if(k==='comment')({error}=await sb.from('comments').delete().eq('id',t));
@@ -1953,7 +1994,7 @@ async function renderProfile(){
  main.innerHTML=`<div class="gutter"><div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>
  <section class="phead">
   <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
-  <b class="pname">${esc(u.name)}${vb(uid)}</b>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
+  <b class="pname">${esc(u.name)}${vb(uid)}${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pbtns">${mine?`<button class="pbtn" data-act="edit-profile">Modifier le profil</button><button class="pbtn" data-act="go-messages">Messages${unreadCount?'<span class="pb-dot"></span>':''}</button>`:`<button class="pbtn ${following.has(uid)?'':'primary'}" data-act="follow-prof" data-u="${uid}">${following.has(uid)?'Abonné':'Suivre'}</button><button class="pbtn" data-act="chat" data-u="${uid}">Message</button>`}</div>
  </section>
@@ -2110,7 +2151,7 @@ document.addEventListener('click',async e=>{
   case 'resend':{const {error}=await sb.auth.resend({type:'signup',email:pendingEmail,options:{emailRedirectTo:BASE_URL}});toast(error?'Patiente quelques minutes avant de renvoyer':'E-mail renvoyé');break}
   case 'to-login':authMode='login';nav('auth');break;
   case 'logout':await sb.auth.signOut({scope:'local'});break;
-  case 'settings':miniMenu(a,[{label:'Modifier le profil',run:()=>{pDraft=null;nav('editprofile')}},{label:'Partager le profil',run:()=>document.querySelector('[data-act="share-profile"]')?.click()},{label:'Comptes bloqués',run:openBlockedList},...(isAdmin()?[{label:'Signalements',run:openReports}]:[]),{label:'Se déconnecter',danger:true,run:()=>sb.auth.signOut({scope:'local'})}]);break;
+  case 'settings':miniMenu(a,[{label:'Modifier le profil',run:()=>{pDraft=null;nav('editprofile')}},{label:'Partager le profil',run:()=>document.querySelector('[data-act="share-profile"]')?.click()},{label:'Comptes bloqués',run:openBlockedList},...(isAdmin()?[{label:'Signalements',run:openReports},{label:'Comptes bannis',run:openBanList}]:[]),{label:'Se déconnecter',danger:true,run:()=>sb.auth.signOut({scope:'local'})}]);break;
   case 'settings-old':layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Paramètres"><div class="sheet-head">Paramètres</div><div class="sheet-list gutter"><p class="opt" style="margin:6px 0 4px">Connecté avec ${esc(session.user.email||'')}</p><button class="sheet-act" data-act="edit-profile">Modifier le profil</button><button class="sheet-act" data-act="add-story">Ajouter une story</button><button class="sheet-act danger" data-act="logout">Se déconnecter</button><button class="sheet-act" data-act="close-sheet-btn">Annuler</button></div></div></div>`;break;
   case 'close-sheet':if(e.target===a)layer.innerHTML='';break;
   case 'close-sheet-btn':layer.innerHTML='';break;
@@ -2122,8 +2163,9 @@ document.addEventListener('click',async e=>{
   case 'follow-list':{await toggleFollow(u);const on=following.has(u);a.textContent=on?'Abonné':'Suivre';a.classList.toggle('on',on);break}
   case 'ulist':openUserList(u,a.dataset.k);break;
   case 'open-user':layer.innerHTML='';hist.push([view,arg]);nav('profile',u);break;
-  case 'post-menu':{const pp=findPost(id);if(!pp)break;const own=pp.user_id===me.id,h=prof(pp.user_id).handle;const items=own?[{label:'Modifier la description',run:()=>openEditCaption(id)},{label:'Supprimer',danger:true,run:()=>deletePost(id)}]:[{label:'Copier le lien',run:()=>copyLink(BASE_URL+'?p='+id)},{label:'Signaler',danger:true,run:()=>openReport('post',id,pp.user_id)},{label:'Bloquer @'+h,danger:true,run:()=>confirmBlock(pp.user_id)},...(isAdmin()?[{head:true,label:'Administrateur'},{label:'Modifier la description',run:()=>openEditCaption(id)},{label:'Supprimer la publication',danger:true,run:()=>deletePost(id)}]:[])];miniMenu(a,items,'right','light');break}
-  case 'user-menu':{const h=prof(u).handle,b=blocked.has(u);miniMenu(a,[{label:'Copier le lien du profil',run:()=>copyLink(BASE_URL+'?u='+encodeURIComponent(h))},{label:'Signaler',danger:true,run:()=>openReport('user',u,u)},{label:b?'Débloquer':'Bloquer',danger:!b,run:()=>b?doUnblock(u):confirmBlock(u)},...(isAdmin()?[{head:true,label:'Administrateur'},{label:'Supprimer le compte',danger:true,run:()=>adminDeleteUser(u)}]:[])],'right','light');break}
+  case 'post-menu':{const pp=findPost(id);if(!pp)break;const own=pp.user_id===me.id,h=prof(pp.user_id).handle;const items=own?[{label:'Modifier la description',run:()=>openEditCaption(id)},{label:'Supprimer',danger:true,run:()=>deletePost(id)}]:[{label:'Copier le lien',run:()=>copyLink(BASE_URL+'?p='+id)},{label:'Signaler',danger:true,run:()=>openReport('post',id,pp.user_id)},{label:'Bloquer @'+h,danger:true,run:()=>confirmBlock(pp.user_id)},...(isAdmin()?[{head:true,label:'Administrateur'},...(bansMap[pp.user_id]?[]:[{label:'Bannir @'+h,danger:true,run:()=>openBan(pp.user_id)}]),{label:'Modifier la description',run:()=>openEditCaption(id)},{label:'Supprimer la publication',danger:true,run:()=>deletePost(id)}]:[])];miniMenu(a,items,'right','light');break}
+  case 'user-menu':{const h=prof(u).handle,b=blocked.has(u);miniMenu(a,[{label:'Copier le lien du profil',run:()=>copyLink(BASE_URL+'?u='+encodeURIComponent(h))},{label:'Signaler',danger:true,run:()=>openReport('user',u,u)},{label:b?'Débloquer':'Bloquer',danger:!b,run:()=>b?doUnblock(u):confirmBlock(u)},...(isAdmin()?[{head:true,label:'Administrateur'},bansMap[u]?{label:'Lever le bannissement',run:()=>unban(u)}:{label:'Bannir',danger:true,run:()=>openBan(u)},{label:'Supprimer le compte',danger:true,run:()=>adminDeleteUser(u)}]:[])],'right','light');break}
+  case 'unban':unban(u);break;
   case 'report':openReport(a.dataset.t,id,u);break;
   case 'block':confirmBlock(u);break;
   case 'unblock':doUnblock(u);break;
@@ -2185,12 +2227,13 @@ let booted=false;
 async function boot(){
  const {data:{session:s}}=await sb.auth.getSession();session=s;
  if(!session){me=null;view='auth';render();return}
+ if(await checkMyBan())return;
  const {data:p,error}=await sb.from('profiles').select('*').eq('id',session.user.id).maybeSingle();
  if(error){console.error(error);toast('Connexion au serveur impossible');}
  if(!p||!p.onboarded){me=null;obExisting=p||null;if(p&&!ob.name)ob.name='';view='onboard';render();return}
  me=p;P[me.id]=p;paintNavAv();
  main.innerHTML=loadingHTML('Chargement du fil…');
- await Promise.all([refreshHome(),loadConvs(),loadNotifs(),loadClips(),loadAdmins(),loadBlocks(),loadGroups()]);recountUnread();
+ await Promise.all([refreshHome(),loadConvs(),loadNotifs(),loadClips(),loadAdmins(),loadBlocks(),loadGroups()]);recountUnread();loadBans();
  subscribeRealtime();
  const qpost=new URLSearchParams(location.search).get('p');if(qpost){history.replaceState(null,'',BASE_URL);const {data:pp}=await sb.from('feed').select('*').eq('id',qpost).maybeSingle();if(pp){await loadProfiles([pp.user_id]);if(pp.kind==='clip'){clipsList=[pp,...clipsList.filter(x=>x.id!==pp.id)];view='clips';arg=pp.id}else{feed=[pp,...feed.filter(x=>x.id!==pp.id)];await loadComments(feed.map(x=>x.id));view='home';setTimeout(()=>document.querySelector(`.card[data-id="${pp.id}"]`)?.scrollIntoView({block:'start'}),80)}}else toast('Cette publication n’existe plus')}
  const qu=new URLSearchParams(location.search).get('u');if(qu){history.replaceState(null,'',BASE_URL);const {data:tp}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').eq('handle',qu.toLowerCase()).maybeSingle();if(tp){P[tp.id]=tp;view='profile';arg=tp.id}}
