@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
 <meta name="description" content="Freestyle, le réseau social des sportifs : photos, clips, stories, stickers et discussions.">
-<meta name="theme-color" content="#0F0F0F">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Freestyle">
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="icon-512.png">
@@ -25,9 +25,9 @@ img{max-width:100%}
 
 /* Layout: one dark phone column, PS2-era console menu: CRT scanlines, cold blue glow, bevelled glossy panels. Colour pops only in stickers. */
 :root{
-  color-scheme:dark;
-  --bg:#0F0F0F; --card:#181818; --raise:#222222; --line:#2A2A2A;
-  --fg:#F4F4F2; --muted:#8F8F8B; --chalk:#FFFFFF;
+  color-scheme:light;
+  --bg:#FFFFFF; --card:#F5F5F5; --raise:#EFEFEF; --line:#E6E6E6;
+  --fg:#0F0F0F; --muted:#737373; --chalk:#0F0F0F;
   --st-yellow:#FFD23F; --st-blue:#C9CDD6; --st-pink:#FF5FA2; --st-mint:#5BE3B5; --hot:#FF4D5E;
   --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
   --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -35,7 +35,7 @@ img{max-width:100%}
   --ui:"Orbitron","Eurostile","Arial Narrow",sans-serif;
   --pixel:"VT323",ui-monospace,monospace;
   --glow:#FFFFFF; --glow-soft:rgba(255,255,255,.16);
-  --bevel:linear-gradient(180deg,#2a2c33 0%,#17181c 55%,#101114 100%);
+  --bevel:linear-gradient(180deg,#fdfdfd 0%,#f4f4f4 55%,#efefef 100%);
 }
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45;overflow:hidden}
@@ -512,6 +512,112 @@ nav.tabs .plus svg{width:18px;height:18px}
 
 .boot img{filter:brightness(.62)}
 
+/* ================= THÈME BLANC ================= */
+body::before{display:none}
+.top{background:#fff;border-bottom:0}
+.top h1{text-shadow:none}
+.feed-pick{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;font-weight:800;font-size:20px;letter-spacing:-.01em}
+nav.tabs{background:linear-gradient(rgba(255,255,255,0),#fff 35%)}
+nav.tabs .pill{background:#fff;border:1px solid #E6E6E6;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+nav.tabs button{color:#8e8e8e}
+nav.tabs button[aria-current="page"]{color:#0F0F0F;text-shadow:none}
+nav.tabs button[aria-current="page"] svg{filter:none}
+nav.tabs button[aria-current="page"]::after{background:#0F0F0F}
+nav.tabs .plus{background:#0F0F0F;color:#fff;box-shadow:none}
+nav.tabs .dot{box-shadow:0 0 0 1.5px #fff}
+.tile{background:linear-gradient(#fff,#fff) padding-box,linear-gradient(45deg,#FEDA75 0%,#FA7E1E 25%,#D62976 50%,#962FBF 75%,#4F5BD5 100%) border-box;box-shadow:none}
+.tile.seen{background:linear-gradient(#fff,#fff) padding-box,linear-gradient(#dbdbdb,#dbdbdb) border-box}
+.tile.mine{border:1.5px dashed #cfcfcf;background:#fafafa;color:#737373}
+.tile.mine .plus-big{background:#0F0F0F;color:#fff}
+.tile.mine small{color:#0F0F0F}
+.caption{color:#262626}
+.caption b{color:#0F0F0F}
+.respect.on{color:var(--hot)}
+.inline-cmt input{color:#0F0F0F;border-bottom-color:#E6E6E6}
+.inline-cmt input:focus{border-bottom-color:#a8a8a8}
+.inline-cmt button{color:#0F0F0F}
+.sheet{background:#fff;box-shadow:0 -10px 40px rgba(0,0,0,.12)}
+.sheet .composer,.composer{background:#fff;border-top:1px solid #EFEFEF;-webkit-backdrop-filter:none;backdrop-filter:none}
+.composer input{background:#F2F2F2;border-color:#F2F2F2;color:#0F0F0F}
+.send{background:#0F0F0F;color:#fff}
+.sv-reply .send{background:none;color:#fff}
+.msg{background:#EFEFEF;color:#0F0F0F}
+.msg.me{background:#0F0F0F;color:#fff}
+.search{background:#EFEFEF;color:#737373}
+.room{background:#FAFAFA;border:1px solid #EFEFEF;box-shadow:none}
+.room-ic{background:#0F0F0F;color:#fff;box-shadow:none}
+.rules{background:#FAFAFA;border-bottom-color:#EFEFEF}
+.live{color:#0F0F0F}
+.seg{background:#EFEFEF;border:0;box-shadow:none}
+.seg button[aria-pressed="true"]{background:#fff;color:#0F0F0F;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.custom{background:#FAFAFA;border:1px solid #EFEFEF;box-shadow:none}
+.c-prev{background:#EFEFEF;box-shadow:none}
+.c-opt{background:#EFEFEF;border:1px solid #E6E6E6;color:#0F0F0F}
+.c-opt[aria-pressed="true"]{background:#0F0F0F;color:#fff;border-color:#0F0F0F}
+.c-add{background:#0F0F0F;color:#fff;box-shadow:none}
+.field>span{color:#737373}
+.field input,.field select,.field textarea{background:#FAFAFA;border-color:#E6E6E6;color:#0F0F0F}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:#a8a8a8}
+.publish{background:#0F0F0F;color:#fff;border:0;box-shadow:none}
+.publish:active{background:#262626}
+.publish .ps-x{background:#fff;color:#0F0F0F;box-shadow:none}
+.publish .ps-t small,.publish .ps-arrow{color:#bdbdbd}
+.btn,.pbtn,.pbtns .pbtn{background:#EFEFEF;border:0;box-shadow:none;color:#0F0F0F}
+.btn.primary,.pbtn.primary,.pbtns .pbtn.primary{background:#0F0F0F;color:#fff;box-shadow:none}
+.mini-menu{background:#fff;border:1px solid #EFEFEF;box-shadow:0 12px 30px rgba(0,0,0,.14)}
+.mini-menu button{color:#0F0F0F}
+.mini-menu button:hover{background:#F5F5F5}
+.mini-menu button.danger{color:#ED4956}
+.warn-wrap{background:rgba(0,0,0,.4)}
+.warn{background:#fff;border:0;box-shadow:0 20px 50px rgba(0,0,0,.2)}
+.warn p{color:#262626}
+.warn-ic{background:#0F0F0F;color:#fff}
+.pr-row{background:#FAFAFA;border:1px solid #EFEFEF;box-shadow:none}
+.pr-row input{background:#fff;border-color:#E6E6E6;color:#0F0F0F}
+.ulist .mini{background:#0F0F0F;color:#fff}
+.ulist .mini.on{background:#EFEFEF;color:#0F0F0F}
+.quick button{background:#EFEFEF}
+.icon-btn:hover{background:#F2F2F2}
+.toast{background:#0F0F0F;border:0;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.label{color:#737373}
+.sw{box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.sw[aria-pressed="true"]{border-color:#0F0F0F}
+/* stickers blancs / contour visibles hors des photos */
+.prs .stk.white,.stk-tray .stk.white,.pr-row .stk.white,.c-prev .stk.white{box-shadow:0 0 0 1px #dbdbdb,0 3px 0 rgba(0,0,0,.12)}
+.stk-tray .stk.outline,.pr-row .stk.outline,.prs .stk.outline{background:#fff;color:#0F0F0F;border-color:#0F0F0F}
+.stk-tray .stk[aria-pressed="true"]{outline-color:#0F0F0F}
+/* profil */
+.pav{background:#fff}
+.pbio{color:#262626}
+.pnums span{color:#737373}
+.pname{color:#0F0F0F}
+/* infos à droite de la photo : nom + compteurs occupent toute la largeur */
+.pinfo{margin-left:112px;min-height:58px;padding-top:12px;display:flex;flex-direction:column;justify-content:center}
+.pname{margin-bottom:6px}
+.pnums{display:grid;grid-template-columns:repeat(3,1fr);gap:0;width:100%}
+.pnums>*{align-items:flex-start}
+/* connexion */
+.ain{background:#FAFAFA;border-color:#DBDBDB;color:#0F0F0F}
+.ain::placeholder{color:#8e8e8e}
+.ain:focus{border-color:#a8a8a8;background:#fff}
+.ain-eye{color:#8e8e8e}
+.auth-btn{background:#0F0F0F;color:#fff}
+.auth-google{border-color:#DBDBDB}
+.auth-or{color:#8e8e8e}
+.auth-or::before,.auth-or::after{background:#E6E6E6}
+.auth-switch button{color:#0F0F0F}
+.auth-logo,.onb-logo{filter:invert(1)}
+/* chargement en blanc */
+.boot{background:#fff}
+.boot img{filter:invert(1)}
+.boot .load{background:#ECECEC;box-shadow:none}
+.boot .load i{background:#0F0F0F}
+.boot .shine{background-image:linear-gradient(100deg,rgba(255,255,255,0) 40%,rgba(200,200,200,.85) 48%,rgba(255,255,255,1) 50%,rgba(200,200,200,.85) 52%,rgba(255,255,255,0) 60%)}
+/* zones médias restent sombres */
+.clips,.clipv,.sv{background:#000}
+main.clips-mode{background:#000}
+.empty{color:#8e8e8e}
+
 </style>
 </head>
 <body>
@@ -612,7 +718,7 @@ function warnBox(title,msg,danger){
 let session=null,me=null;          // me = ligne profiles
 const P={};                        // cache des profils par id
 let following=new Set();
-let view='home',arg=null,hist=[];
+let view='home',arg=null,hist=[],sportFilter=null;
 let feed=[],commentsBy={},storiesBy={},seenStories=new Set();
 let convs={},globalMsgs=[],unreadCount=0;
 let notifs=[],unreadNotifs=0,likedStories=new Set(),myStoryLikes={},soundOn=false;
@@ -646,7 +752,7 @@ function render(){
  const bare=['chat','global','onboard','auth','checkmail','newpw'].includes(view);
  $('tabs').hidden=bare;main.classList.toggle('no-nav',bare);
  main.classList.toggle('clips-mode',view==='clips');
- topEl.hidden=['home','onboard','auth','checkmail','newpw'].includes(view);
+ topEl.hidden=['onboard','auth','checkmail','newpw'].includes(view);
  ({home:renderHome,clips:renderClips,create:renderCreate,messages:()=>renderMessages(''),chat:renderChat,global:renderGlobal,profile:renderProfile,editprofile:renderEditProfile,onboard:renderOnboard,auth:renderAuth,checkmail:renderCheckMail,newpw:renderNewPw})[view]();
 }
 function paintBadge(){const np=document.querySelector('nav.tabs [data-nav="profile"]');np.querySelector('.dot')?.remove();if(unreadNotifs)np.insertAdjacentHTML('beforeend','<span class="dot" style="min-width:8px;width:8px;height:8px;padding:0;left:calc(50% + 8px)"></span>');np.style.position='relative';const nm=$('nav-msg');nm.querySelector('.dot')?.remove();if(unreadCount)nm.insertAdjacentHTML('beforeend',`<span class="dot">${unreadCount>9?'9+':unreadCount}</span>`)}
@@ -803,7 +909,7 @@ async function cleanExpiredStories(){try{const {data}=await sb.from('stories').s
 // ================= DONNÉES =================
 async function loadFollowing(){const {data}=await sb.from('follows').select('following_id').eq('follower_id',me.id);following=new Set((data||[]).map(r=>r.following_id))}
 async function loadFeed(){
- const {data,error}=await sb.from('feed').select('*').order('created_at',{ascending:false}).limit(60);
+ let q=sb.from('feed').select('*').order('created_at',{ascending:false}).limit(60);if(sportFilter)q=q.eq('sport',sportFilter);const {data,error}=await q;
  if(error){console.error(error);feed=[];return}
  const mine=(data||[]).filter(p=>p.user_id===me.id&&Date.now()-new Date(p.created_at)<36e5),rest=(data||[]).filter(p=>!mine.includes(p));
  feed=[...mine,...shuffle(rest)];
@@ -858,14 +964,14 @@ function subscribeRealtime(){
 
 // ================= FIL =================
 async function renderHome(){
- topEl.innerHTML='';
+ topEl.innerHTML=`<button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><button class="feed-pick" data-act="feed-pick" aria-haspopup="true">${esc(sportFilter||'Pour vous')}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><button class="icon-btn" data-act="notifs" aria-label="Notifications">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button>`;
  const order=Object.keys(storiesBy).filter(k=>k!==me.id).sort((a,b)=>(following.has(b)?1:0)-(following.has(a)?1:0));
  const mine=storiesBy[me.id]||[];
  const seenAll=uid=>(storiesBy[uid]||[]).every(s=>seenStories.has(s.id));
  const tiles=`<button class="tile ${mine.length?'':'mine'}" data-act="${mine.length?'story':'add-story'}" data-u="${me.id}">${mine.length?`${mediaHTML(mine[0].media?[mine[0].media]:[],mine[0].sport)}<span class="t-av">${av(me.id,24)}</span><span class="t-n">Ta story</span>`:`<span><span class="plus-big">+</span><small>Ta story</small></span>`}</button>`+
   order.map(uid=>{const it=storiesBy[uid][0];return `<button class="tile ${seenAll(uid)?'seen':''}" data-act="story" data-u="${uid}">${mediaHTML(it.media?[it.media]:[],it.sport)}<span class="t-av">${av(uid,24)}</span><span class="t-n">${esc(prof(uid).handle)}</span></button>`}).join('');
- main.innerHTML=`<div class="gutter"><div class="stories" style="padding-top:14px">${tiles}</div>
-  ${feed.length?feed.map(cardHTML).join(''):`<div class="empty">Le fil est encore vide.<br>Publie ta première séance avec le bouton + en bas, ou invite des potes sportifs.</div>`}</div>`;
+ main.innerHTML=`<div class="gutter"><div class="stories" style="padding-top:4px">${tiles}</div>
+  ${feed.length?feed.map(cardHTML).join(''):sportFilter?`<div class="empty">Aucune publication en ${esc(sportFilter)} pour l’instant.</div>`:`<div class="empty">Le fil est encore vide.<br>Publie ta première séance avec le bouton + en bas, ou invite des potes sportifs.</div>`}</div>`;
 }
 const hasVideo=p=>(p.media||[]).some(m=>m.type==='video');
 function cardHTML(p){
@@ -884,8 +990,8 @@ function cardHTML(p){
  </article>`;
 }
 const cbHTML=(c,fresh)=>`<div class="cb ${fresh?'new':''}" style="--rot:${((c.id||'').charCodeAt(0)%10-5)||-2}deg"><span class="stk ${esc(c.color||'white')}">${esc(c.text)}</span><span class="cb-by">@${esc(prof(c.user_id).handle)}</span></div>`;
-function pushSticker(box,c,fresh){box.insertAdjacentHTML('beforeend',cbHTML(c,fresh));const live=[...box.querySelectorAll('.cb:not(.out)')];if(live.length>2){const o=live[0];o.classList.add('out');setTimeout(()=>o.remove(),500)}}
-function playLast2(box){const list=(commentsBy[box.dataset.cid]||[]).slice(-2);box.innerHTML='';list.forEach((c,i)=>setTimeout(()=>{if(box.isConnected)pushSticker(box,c,false)},i*350))}
+function pushSticker(box,c,fresh){box.insertAdjacentHTML('beforeend',cbHTML(c,fresh));const live=[...box.querySelectorAll('.cb:not(.out)')];if(live.length>3){const o=live[0];o.classList.add('out');setTimeout(()=>o.remove(),500)}}
+function playLast2(box){const list=(commentsBy[box.dataset.cid]||[]).slice(-3);box.innerHTML='';list.forEach((c,i)=>setTimeout(()=>{if(box.isConnected)pushSticker(box,c,false)},i*350))}
 setInterval(()=>{document.querySelectorAll('.cbub').forEach(box=>{const r=box.closest('.card-media').getBoundingClientRect();const vis=r.top<innerHeight*.75&&r.bottom>innerHeight*.25;if(vis&&box.dataset.on!=='1'){box.dataset.on='1';playLast2(box)}else if(!vis&&box.dataset.on==='1')box.dataset.on='0'})},300);
 const findPost=id=>feed.find(p=>p.id===id)||profilePosts.find(p=>p.id===id);
 async function addComment(id,t){
@@ -895,7 +1001,7 @@ async function addComment(id,t){
  const {data,error}=await sb.from('comments').insert({post_id:id,user_id:me.id,text:t,color}).select().single();
  if(error){await dbError(error,'Commentaire impossible');return null}
  (commentsBy[id]=commentsBy[id]||[]).push(data);p.comment_count=(p.comment_count||0)+1;
- document.querySelectorAll(`.card[data-id="${id}"] .card-media, .clipv[data-id="${id}"] .card-media`).forEach(m=>{let box=m.querySelector('.cbub');if(!box){m.querySelector('.stamp').insertAdjacentHTML('beforebegin',`<div class="cbub" data-cid="${id}"></div>`);box=m.querySelector('.cbub')}box.dataset.on='1';pushSticker(box,data,true)});
+ document.querySelectorAll(`.card[data-id="${id}"] .card-media`).forEach(m=>{let box=m.querySelector('.cbub');if(!box){m.querySelector('.stamp').insertAdjacentHTML('beforebegin',`<div class="cbub" data-cid="${id}"></div>`);box=m.querySelector('.cbub')}box.dataset.on='1';pushSticker(box,data,true)});
  const n=commentsBy[id].length;document.querySelectorAll(`.card[data-id="${id}"] .linkish`).forEach(l=>l.textContent=n+' commentaire'+(n>1?'s':''));
  document.querySelectorAll(`.clipv[data-id="${id}"] [data-act="comments"] span:last-child`).forEach(b=>b.textContent=n);
  return data;
@@ -927,7 +1033,7 @@ function miniMenu(btn,items,align){
  const m=document.createElement('div');m.className='mini-menu';m.id='mini-menu';
  m.innerHTML=items.map((it,i)=>`<button type="button" data-i="${i}" class="${it.danger?'danger':''}">${esc(it.label)}</button>`).join('');
  document.body.appendChild(m);
- const w=m.offsetWidth;m.style.top=Math.min(innerHeight-60,r.bottom+6)+'px';m.style.left=Math.max(8,Math.min(innerWidth-w-8,align==='left'?r.left:r.right-w))+'px';
+ const w=m.offsetWidth;m.style.top=Math.min(innerHeight-60,r.bottom+6)+'px';m.style.left=Math.max(8,Math.min(innerWidth-w-8,align==='left'?r.left:align==='center'?r.left+r.width/2-w/2:r.right-w))+'px';if(items.length>6){m.style.maxHeight='60vh';m.style.overflowY='auto'}
  m.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;e.stopPropagation();const it=items[+b.dataset.i];closeMini();it.run()});
  setTimeout(()=>document.addEventListener('click',closeMini,{once:true}),0);
 }
@@ -938,7 +1044,7 @@ function renderClips(){
  topEl.innerHTML=`<h1>Clips</h1><button class="icon-btn" data-act="new-clip" aria-label="Publier un clip">${I.plus}</button>`;
  const clips=feed.filter(p=>p.kind==='clip');
  main.innerHTML=`<div class="clips" id="clips">${clips.map(r=>{const u=prof(r.user_id),nc=(commentsBy[r.id]||[]).length;return `<section class="clipv" data-id="${r.id}">
-  <div class="card-media" data-dbl="${r.id}">${mediaHTML(r.media,r.sport,'<div class="scan"></div>')}${hasVideo(r)?`<button class="snd" data-act="sound" aria-label="Activer le son">${soundOn?I.soundOn:I.soundOff}</button>`:''}${(r.stickers||[]).map(s=>stkHTML(s)).join('')}${nc?`<div class="cbub" data-cid="${r.id}"></div>`:''}<span class="stamp">${I.bigheart}</span></div>
+  <div class="card-media" data-dbl="${r.id}">${mediaHTML(r.media,r.sport,'<div class="scan"></div>')}${hasVideo(r)?`<button class="snd" data-act="sound" aria-label="Activer le son">${soundOn?I.soundOn:I.soundOff}</button>`:''}${(r.stickers||[]).map(s=>stkHTML(s)).join('')}<span class="stamp">${I.bigheart}</span></div>
   <div class="shade"></div>
   <div class="clip-info"><div class="row">${av(r.user_id,36)}<button data-act="profile" data-u="${r.user_id}"><b>${esc(u.handle)}</b></button>${r.user_id!==me.id&&!following.has(r.user_id)?`<button class="ghost" data-act="follow" data-u="${r.user_id}">Suivre</button>`:''}</div>${r.perf?`<span class="stk perf yellow" style="position:static;transform:rotate(-2deg);align-self:flex-start">${esc(r.perf)}</span>`:''}<div><span class="tag" style="color:#fff">${esc(r.sport)}</span>${esc(r.caption)}</div></div>
   <div class="rail"><button class="${r.liked?'on':''}" data-act="like" data-id="${r.id}"><span class="sq">${I.heart}</span><span>${fmt(r.like_count)}</span></button><button data-act="comments" data-id="${r.id}"><span class="sq">${I.comment}</span><span>${nc}</span></button>${r.user_id!==me.id?`<button data-act="dm" data-u="${r.user_id}"><span class="sq">${I.send}</span>Écrire</button>`:''}</div>
@@ -1210,6 +1316,7 @@ function openComments(id){
 
 async function deletePost(id){const post=findPost(id);const {error}=await sb.from('posts').delete().eq('id',id).eq('user_id',me.id);if(error)return dbError(error,'Suppression impossible');if(post)removeFiles((post.media||[]).map(m=>m.url));feed=feed.filter(p=>p.id!==id);profilePosts=profilePosts.filter(p=>p.id!==id);toast('Publication supprimée');render()}
 async function deleteStory(id){clearTimeout(svT);const sto=(storiesBy[me.id]||[]).find(x=>x.id===id);const {error}=await sb.from('stories').delete().eq('id',id).eq('user_id',me.id);if(error)return dbError(error,'Suppression impossible');if(sto&&sto.media)removeFiles([sto.media.url]);toast('Story supprimée');await loadStories();closeStory()}
+async function pickSport(sp){sportFilter=sp;main.innerHTML=loadingHTML();await loadFeed();if(view==='home')renderHome();main.scrollTop=0}
 // ================= ÉVÉNEMENTS =================
 document.addEventListener('click',async e=>{
  const n=e.target.closest('[data-nav]');
@@ -1240,6 +1347,7 @@ document.addEventListener('click',async e=>{
   case 'story-menu':{clearTimeout(svT);layer.querySelectorAll('video').forEach(v=>v.pause());miniMenu(a,[{label:'Supprimer',danger:true,run:()=>deleteStory(id)}]);setTimeout(()=>{document.addEventListener('click',function resume(ev){if(!document.getElementById('mini-menu')&&sv&&layer.querySelector('.sv')){svT=setTimeout(nextStory,4000);layer.querySelectorAll('video').forEach(v=>v.play().catch(()=>{}))}},{once:true})},0);break}
   case 'story-like':{const was=likedStories.has(id);was?likedStories.delete(id):likedStories.add(id);a.classList.toggle('on',!was);if(!was){a.classList.remove('pop-l');void a.offsetWidth;a.classList.add('pop-l')}const {error}=was?await sb.from('story_likes').delete().eq('story_id',id).eq('user_id',me.id):await sb.from('story_likes').insert({story_id:id,user_id:me.id});if(error&&!/duplicate/.test(error.message||'')){was?likedStories.add(id):likedStories.delete(id);a.classList.toggle('on',was)}break}
   case 'notifs':openNotifs();break;
+  case 'feed-pick':miniMenu(a,[{label:'Pour vous',run:()=>pickSport(null)},...SPORT_LIST.map(sp=>({label:sp,run:()=>pickSport(sp)}))],'center');break;
   case 'plus-menu':miniMenu(a,[{label:'Publication',run:()=>{createKind='photo';newDraft();nav('create')}},{label:'Clip',run:()=>{createKind='clip';newDraft();nav('create')}},{label:'Story',run:()=>{createKind='story';newDraft();nav('create')}}],'left');break;
   case 'share-profile':{const link=BASE_URL+'?u='+encodeURIComponent(prof(u).handle);try{if(navigator.share){await navigator.share({title:'Freestyle',text:'Mon profil Freestyle',url:link});break}}catch(err){if(err&&err.name==='AbortError')break}try{await navigator.clipboard.writeText(link);toast('Lien du profil copié')}catch(err){warnBox('Lien de ton profil',link,false)}break}
   case 'sound':{e.stopPropagation();setSound(!soundOn);break}
