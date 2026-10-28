@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793200425">
+<meta name="fs-build" content="1793201575">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -723,6 +723,65 @@ nav.tabs .pill{background:rgba(255,255,255,.94)}
 /* Chargement : nouveau logo noir, sans filtre */
 .boot img{filter:none!important}
 
+/* ================= v7 ================= */
+/* Page de confirmation */
+.cm{min-height:100%;display:flex;align-items:center;justify-content:center;padding-block:40px}
+.cm-card{width:100%;max-width:340px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.cm-ic{width:56px;height:56px;border-radius:18px;background:var(--paper);border:1px solid var(--paper-line);display:grid;place-items:center;color:var(--ink);margin-bottom:20px}
+.cm-title{margin:0;font-size:21px;font-weight:800;letter-spacing:-.01em;color:#0F0F0F}
+.cm-text{margin:10px 0 0;font-size:14px;color:#737373}
+.cm-mail{margin:4px 0 0;font-size:15px;font-weight:700;color:#0F0F0F;word-break:break-all}
+.cm-note{margin:16px 0 0;font-size:13px;line-height:1.5;color:#8e8e8a;max-width:290px}
+.cm-primary{margin-top:26px;width:100%;height:44px;border-radius:12px;background:var(--ink);color:var(--paper);font-weight:700;font-size:14.5px}
+.cm-link{margin-top:12px;font-size:13.5px;font-weight:600;color:var(--ink);padding:6px 10px}
+/* Recadrage façon capture d'écran */
+.crop-wrap{background:rgba(12,12,12,.94)}
+.crop{max-width:none;width:auto;align-items:center}
+.crop-head{width:100%;max-width:460px;color:#fff}
+.crop-head b{font-size:15px;font-weight:700}
+.crop-txt{color:#cfcfcf;font-size:15px;font-weight:500;padding:6px 2px}
+.crop-txt.strong{color:#fff;font-weight:700}
+.crop-stage{position:relative;overflow:hidden;border-radius:6px;touch-action:none;user-select:none}
+.crop-stage img{width:100%;height:100%;display:block;pointer-events:none;-webkit-user-drag:none}
+.crop-box{position:absolute;box-shadow:0 0 0 9999px rgba(0,0,0,.58);outline:1.5px solid rgba(255,255,255,.95);cursor:move;touch-action:none}
+.crop-box.sq{border-radius:22%}
+.cg{position:absolute;background:rgba(255,255,255,.35);opacity:0;transition:opacity .15s}
+.crop-box.drag .cg{opacity:1}
+.cg1,.cg2{top:0;bottom:0;width:1px}.cg1{left:33.33%}.cg2{left:66.66%}
+.cg3,.cg4{left:0;right:0;height:1px}.cg3{top:33.33%}.cg4{top:66.66%}
+.ch{position:absolute;width:26px;height:26px;touch-action:none}
+.ch::before{content:"";position:absolute;width:18px;height:18px;border:3px solid #fff}
+.ch.tl{left:-6px;top:-6px;cursor:nwse-resize}.ch.tl::before{left:3px;top:3px;border-right:0;border-bottom:0;border-radius:4px 0 0 0}
+.ch.tr{right:-6px;top:-6px;cursor:nesw-resize}.ch.tr::before{right:3px;top:3px;border-left:0;border-bottom:0;border-radius:0 4px 0 0}
+.ch.bl{left:-6px;bottom:-6px;cursor:nesw-resize}.ch.bl::before{left:3px;bottom:3px;border-right:0;border-top:0;border-radius:0 0 0 4px}
+.ch.br{right:-6px;bottom:-6px;cursor:nwse-resize}.ch.br::before{right:3px;bottom:3px;border-left:0;border-top:0;border-radius:0 0 4px 0}
+.crop-hint{color:#a8a8a8;font-size:13px;margin:0;text-align:center}
+.crop-zoom{display:none}
+/* Clips plein écran */
+.clips-wrap{position:relative;height:100%;background:#000}
+.clips-top{position:absolute;left:0;right:0;top:0;z-index:8;display:flex;align-items:center;justify-content:space-between;padding:12px max(14px,env(safe-area-inset-right,0px)) 30px max(16px,env(safe-area-inset-left,0px));background:linear-gradient(rgba(0,0,0,.45),transparent);pointer-events:none}
+.clips-top span{font-family:var(--body);font-weight:800;font-size:20px;color:#fff;letter-spacing:-.01em;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.clips-plus{pointer-events:auto;width:42px;height:42px;display:grid;place-items:center;filter:drop-shadow(0 1px 6px rgba(0,0,0,.4))}
+.clip-info{font-family:var(--body);gap:6px}
+.clip-info .row b{font-family:var(--body);font-size:15px;font-weight:700;color:#fff}
+.clip-cap{margin:0;font-size:14px;line-height:1.4;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+.clip-meta{font-size:12.5px;color:rgba(255,255,255,.75);font-weight:500}
+.clip-info .ghost{font-family:var(--body);font-size:12.5px;font-weight:700}
+.ps-rail{gap:18px}
+.ps-rail button{font-family:var(--body);font-size:12px;font-weight:700;color:#fff;gap:3px;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.ps-rail .ps-ic{width:34px;height:34px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.45))}
+.ps-rail .on .ps-f{fill:url(#chrRed)}
+.ps-rail .rail-snd{width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center}
+.clipv .shade{height:42%}
+/* Modifier la description */
+.ec{display:flex;flex-direction:column;gap:12px;padding-block:6px 18px}
+.ec textarea{width:100%;border:1px solid var(--paper-line);background:var(--paper);border-radius:12px;padding:12px;font:inherit;font-size:14.5px;color:#0F0F0F;resize:none}
+.ec textarea:focus{outline:none;border-color:#c9c7c0;background:#fff}
+.ec-row{display:flex;align-items:center;gap:8px}
+.ec-count{flex:1;font-size:12px;color:#a3a29d}
+.ec-cancel{height:38px;padding:0 14px;border-radius:10px;font-weight:600;font-size:13.5px;color:var(--ink)}
+.ec-save{height:38px;padding:0 16px;border-radius:10px;background:var(--ink);color:var(--paper);font-weight:700;font-size:13.5px}
+
 </style>
 </head>
 <body>
@@ -820,6 +879,7 @@ async function dbError(error,fallback){
  if(m.includes('CONTENU_INTERDIT')){await punish('hate');return}
  if(m.includes('LIEN_INTERDIT')){await punish('link');return}
  if(m.includes('COMPTE_SUSPENDU')){await punish('muted');return}
+ if(m.includes('NOM_14_JOURS')){warnBox('Nom bloqué 14 jours','Tu as déjà changé ton nom récemment. Tu pourras le modifier à nouveau 14 jours après le dernier changement.',false);return}
  if(m.includes('duplicate key')&&m.includes('handle')){toast('Ce nom d’utilisateur est déjà pris');return}
  console.error('[Freestyle]',error);toast(fallback||'Une erreur est survenue, réessaie.');
 }
@@ -836,7 +896,7 @@ let following=new Set();
 let view='home',arg=null,hist=[],sportFilter=null;
 let feed=[],commentsBy={},storiesBy={},seenStories=new Set();
 let convs={},globalMsgs=[],unreadCount=0;
-let reactBy={};
+let reactBy={},clipsList=[],clipsLoading=false;
 const REACT_WORDS=['WAOUH','INCROYABLE','DINGUE','SUPER','TROP BEAU','JOLI','PROPRE','EN FEU','MONSTRE','LÉGENDAIRE','MALADE','RESPECT','CLEAN','STYLÉ'];
 let notifs=[],unreadNotifs=0,likedStories=new Set(),myStoryLikes={},soundOn=false;
 
@@ -869,7 +929,7 @@ function render(){
  const bare=['chat','global','onboard','auth','checkmail','newpw'].includes(view);
  $('tabs').hidden=bare;main.classList.toggle('no-nav',bare);
  main.classList.toggle('clips-mode',view==='clips');
- topEl.hidden=['onboard','auth','checkmail','newpw'].includes(view);
+ topEl.hidden=['onboard','auth','checkmail','newpw','clips'].includes(view);
  ({home:renderHome,clips:renderClips,create:renderCreate,messages:()=>renderMessages(''),chat:renderChat,global:renderGlobal,profile:renderProfile,editprofile:renderEditProfile,search:()=>renderSearch(''),onboard:renderOnboard,auth:renderAuth,checkmail:renderCheckMail,newpw:renderNewPw})[view]();
 }
 function paintNavAv(){const n=document.querySelector('#nav-me .nav-av');if(!n||!me)return;n.innerHTML=me.avatar_url?`<img src="${esc(me.avatar_url)}" alt="">`:`<span>${esc((me.name||me.handle||'?')[0])}</span>`}
@@ -920,7 +980,16 @@ function renderAuth(keep){
 }
 let pendingEmail='';
 function renderCheckMail(){
- main.innerHTML=`<div class="auth gutter"><img class="auth-logo" src="${LOGO}" alt="Freestyle"><h2 class="auth-title">Vérifie tes e-mails</h2><p class="sub">On a envoyé un lien de confirmation à</p><p style="text-align:center;font-weight:800;margin:-6px 0 0">${esc(pendingEmail)}</p><p class="hint" style="text-align:center">Clique sur le lien dans le mail pour activer ton compte, puis reviens ici. Pense à regarder dans les spams.</p><button class="btn" data-act="resend">Renvoyer l’e-mail</button><button class="btn primary" data-act="to-login">J’ai confirmé, me connecter</button></div>`;
+ topEl.innerHTML='';
+ main.innerHTML=`<div class="cm gutter"><div class="cm-card">
+  <span class="cm-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></span>
+  <h2 class="cm-title">Vérifie tes e-mails</h2>
+  <p class="cm-text">Nous avons envoyé un lien de confirmation à</p>
+  <p class="cm-mail">${esc(pendingEmail)}</p>
+  <p class="cm-note">Ouvre ce lien pour activer ton compte, puis reviens ici. Pense à regarder dans tes spams.</p>
+  <button class="cm-primary" data-act="to-login">J’ai confirmé, me connecter</button>
+  <button class="cm-link" data-act="resend">Renvoyer l’e-mail</button>
+ </div></div>`;
 }
 function renderNewPw(){
  main.innerHTML=`<form class="onb gutter" id="npf"><img class="onb-logo" src="${LOGO}" alt="Freestyle"><h2>Nouveau mot de passe</h2><label class="field"><span>Nouveau mot de passe</span><input id="np1" type="password" autocomplete="new-password" placeholder="8 caractères minimum"></label><label class="field"><span>Confirme</span><input id="np2" type="password" autocomplete="new-password"></label><p class="err" id="nperr"></p><button class="publish" type="submit"><span class="ps-x">✕</span><span class="ps-t"><b>ENREGISTRER</b><small>Ton mot de passe est changé</small></span><span class="ps-arrow">▶</span></button></form>`;
@@ -1109,7 +1178,7 @@ const cbHTML=(c,fresh)=>`<div class="cb ${fresh?'new':''}" data-u="${c.user_id}"
 function pushSticker(box,c,fresh){box.insertAdjacentHTML('beforeend',cbHTML(c,fresh));const live=[...box.querySelectorAll('.cb:not(.out)')];if(live.length>3){const o=live[0];o.classList.add('out');setTimeout(()=>o.remove(),500)}}
 function playLast2(box){const list=(reactBy[box.dataset.cid]||[]).slice(-3);box.innerHTML='';list.forEach((c,i)=>setTimeout(()=>{if(box.isConnected)pushSticker(box,c,false)},i*350))}
 setInterval(()=>{document.querySelectorAll('.cbub').forEach(box=>{const r=box.closest('.card-media').getBoundingClientRect();const vis=r.top<innerHeight*.75&&r.bottom>innerHeight*.25;if(vis&&box.dataset.on!=='1'){box.dataset.on='1';playLast2(box)}else if(!vis&&box.dataset.on==='1')box.dataset.on='0'})},300);
-const findPost=id=>feed.find(p=>p.id===id)||profilePosts.find(p=>p.id===id);
+const findPost=id=>feed.find(p=>p.id===id)||profilePosts.find(p=>p.id===id)||clipsList.find(p=>p.id===id);
 async function addReaction(id,btn){
  const p=findPost(id);if(!p)return;
  const list=reactBy[id]=reactBy[id]||[];const prev=list.find(r=>r.user_id===me.id);
@@ -1169,18 +1238,20 @@ let miniCloser=null;
 function closeMini(){document.getElementById('mini-menu')?.remove();if(miniCloser){document.removeEventListener('click',miniCloser);miniCloser=null}}
 // ================= CLIPS =================
 let obs;
-function renderClips(){
- topEl.innerHTML=`<h1>Clips</h1><button class="icon-btn" data-act="new-clip" aria-label="Publier un clip">${I.plus}</button>`;
- const clips=feed.filter(p=>p.kind==='clip');
- main.innerHTML=`<div class="clips" id="clips">${clips.map(r=>{const u=prof(r.user_id),nc=(commentsBy[r.id]||[]).length;return `<section class="clipv" data-id="${r.id}">
-  <div class="card-media" data-dbl="${r.id}">${mediaHTML(r.media,r.sport,'<div class="scan"></div>')}${hasVideo(r)?`<button class="snd" data-act="sound" aria-label="Activer le son">${soundOn?I.soundOn:I.soundOff}</button>`:''}${(r.stickers||[]).map(s=>stkHTML(s)).join('')}<span class="stamp">${I.bigheart}</span></div>
+async function fetchClips(){const {data}=await sb.from('feed').select('*').eq('kind','clip').order('created_at',{ascending:false}).limit(40);const l=shuffle(data||[]);await loadProfiles(l.map(r=>r.user_id));return l}
+async function loadClips(){clipsList=await fetchClips()}
+function clipHTML(r){const u=prof(r.user_id);return `<section class="clipv" data-id="${r.id}">
+  <div class="card-media" data-dbl="${r.id}">${mediaHTML(r.media,r.sport)}${(r.stickers||[]).map(s=>stkHTML(s)).join('')}<span class="stamp">${I.bigheart}</span></div>
   <div class="shade"></div>
-  <div class="clip-info"><div class="row">${av(r.user_id,36)}<button data-act="profile" data-u="${r.user_id}"><b>${esc(u.handle)}</b></button>${r.user_id!==me.id&&!following.has(r.user_id)?`<button class="ghost" data-act="follow" data-u="${r.user_id}">Suivre</button>`:''}</div>${r.perf?`<span class="stk perf yellow" style="position:static;transform:rotate(-2deg);align-self:flex-start">${esc(r.perf)}</span>`:''}<div><span class="tag" style="color:#fff">${esc(r.sport)}</span>${esc(r.caption)}</div></div>
-  <div class="rail"><button class="${r.liked?'on':''}" data-act="like" data-id="${r.id}"><span class="sq">${I.heart}</span><span>${fmt(r.like_count)}</span></button><button data-act="comments" data-id="${r.id}"><span class="sq">${I.comment}</span><span>${nc}</span></button>${r.user_id!==me.id?`<button data-act="dm" data-u="${r.user_id}"><span class="sq">${I.send}</span>Écrire</button>`:''}</div>
-  <div class="progress"></div></section>`}).join('')||'<div class="empty" style="color:#aaa">Aucun clip pour l’instant. Publie le premier avec le bouton + !</div>'}</div>`;
- obs?.disconnect();
- if('IntersectionObserver' in window){obs=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target.querySelector('video');if(v)e.isIntersecting?v.play().catch(()=>{}):v.pause()}),{threshold:.6});document.querySelectorAll('.clipv').forEach(r=>obs.observe(r))}
- if(arg){const el=document.querySelector(`.clipv[data-id="${arg}"]`);if(el)el.scrollIntoView()}
+  <div class="clip-info"><div class="row">${av(r.user_id,34)}<button data-act="profile" data-u="${r.user_id}"><b>${esc(u.handle)}</b></button>${r.user_id!==me.id&&!following.has(r.user_id)?`<button class="ghost" data-act="follow" data-u="${r.user_id}">Suivre</button>`:''}</div>${r.caption?`<p class="clip-cap">${esc(r.caption)}</p>`:''}<span class="clip-meta">${esc(r.sport)}${r.perf?' · '+esc(r.perf):''}</span></div>
+  <div class="rail ps-rail"><button class="${r.liked?'on':''}" data-act="like" data-id="${r.id}" aria-label="J’aime">${I.psHeart}<span>${fmt(r.like_count)}</span></button><button data-act="comments" data-id="${r.id}" aria-label="Commentaires">${I.psComment}<span>${fmt(r.comment_count||0)}</span></button>${r.user_id!==me.id?`<button data-act="dm" data-u="${r.user_id}" aria-label="Partager en message">${I.psSend}<span>Écrire</span></button>`:''}${hasVideo(r)?`<button data-act="sound" class="rail-snd" aria-label="Son">${soundOn?I.soundOn:I.soundOff}</button>`:''}</div>
+ </section>`}
+function renderClips(){
+ topEl.innerHTML='';
+ main.innerHTML=`<div class="clips-wrap"><div class="clips-top"><span>Clips</span><button class="clips-plus" data-act="new-clip" aria-label="Publier un clip"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M12 8v8M8 12h8"/></svg></button></div><div class="clips" id="clips">${clipsList.map(clipHTML).join('')||'<div class="empty" style="color:#aaa;padding-top:40vh">Aucun clip pour l’instant. Publie le premier avec le +</div>'}</div></div>`;
+ const box=$('clips');
+ box.addEventListener('scroll',async()=>{if(clipsLoading||!clipsList.length)return;if(box.scrollTop+box.clientHeight*2.5<box.scrollHeight)return;clipsLoading=true;try{const more=await fetchClips();if(more.length){more.forEach(m=>{if(!clipsList.some(x=>x.id===m.id))clipsList.push(m)});if(view==='clips'&&$('clips')===box)box.insertAdjacentHTML('beforeend',more.map(clipHTML).join(''))}}finally{clipsLoading=false}},{passive:true});
+ if(arg){const el=box.querySelector(`.clipv[data-id="${arg}"]`);if(el)el.scrollIntoView()}
 }
 
 // ================= PUBLIER =================
@@ -1337,7 +1408,6 @@ async function renderProfile(){
   <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
   <b class="pname">${esc(u.name)}</b>
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
-  ${prsOf(u).length?`<div class="prs">${prsOf(u).map((p,i)=>`<span class="stk ${esc(p.c)}" style="--r:${[-3,2,-2,3][i%4]}deg">${esc(p.t)}</span>`).join('')}</div>`:''}
   <div class="pbtns">${mine?`<button class="pbtn" data-act="edit-profile">Modifier le profil</button><button class="pbtn" data-act="share-profile" data-u="${uid}">Partager le profil</button>`:`<button class="pbtn ${following.has(uid)?'':'primary'}" data-act="follow-prof" data-u="${uid}">${following.has(uid)?'Abonné':'Suivre'}</button><button class="pbtn" data-act="chat" data-u="${uid}">Message</button>`}</div>
  </section>
  ${profilePosts.length?`<div class="grid">${profilePosts.map(p=>`<button data-act="open-item" data-id="${p.id}" aria-label="Ouvrir">${mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}${p.kind==='clip'?`<span class="kind">${I.playsm}</span>`:''}</button>`).join('')}</div>`:`<div class="empty">${mine?'Rien publié pour l’instant. Montre ta première séance.':'Aucune publication.'}</div>`}</div>`;
@@ -1358,29 +1428,34 @@ function openCropper(file,aspect,outW,outH,title){
   const url=URL.createObjectURL(file);const img=new Image();
   img.onload=()=>{
    const d=document.createElement('div');d.className='layer crop-wrap';
-   d.innerHTML=`<div class="crop"><div class="crop-head"><button type="button" class="c-opt" data-c="cancel">Annuler</button><b>${esc(title)}</b><button type="button" class="c-add" data-c="ok">Valider</button></div><div class="crop-frame ${aspect===1?'round':''}" style="aspect-ratio:${aspect}"><img alt="" draggable="false"></div><input type="range" class="crop-zoom" min="1" max="4" step="0.01" value="1" aria-label="Zoom"><p class="hint" style="text-align:center">Glisse pour placer · curseur pour zoomer</p></div>`;
+   d.innerHTML=`<div class="crop"><div class="crop-head"><button type="button" class="crop-txt" data-c="cancel">Annuler</button><b>${esc(title)}</b><button type="button" class="crop-txt strong" data-c="ok">Valider</button></div>
+    <div class="crop-stage"><img alt="" draggable="false"><div class="crop-box ${aspect===1?'sq':''}"><i class="cg cg1"></i><i class="cg cg2"></i><i class="cg cg3"></i><i class="cg cg4"></i><span class="ch tl" data-h="tl"></span><span class="ch tr" data-h="tr"></span><span class="ch bl" data-h="bl"></span><span class="ch br" data-h="br"></span></div></div>
+    <p class="crop-hint">Déplace le cadre et tire sur un coin pour l’agrandir</p></div>`;
    document.body.appendChild(d);
-   const fr=d.querySelector('.crop-frame'),im=d.querySelector('img'),zr=d.querySelector('.crop-zoom');im.src=url;
-   const iw=img.naturalWidth,ih=img.naturalHeight;let fw,fh,base,z=1,tx=0,ty=0;
-   const layout=()=>{fw=fr.clientWidth;fh=fr.clientHeight;base=Math.max(fw/iw,fh/ih)};
-   const clamp=()=>{const s=base*z;tx=Math.min(0,Math.max(fw-iw*s,tx));ty=Math.min(0,Math.max(fh-ih*s,ty))};
-   const paint=()=>{clamp();const s=base*z;im.style.width=iw*s+'px';im.style.height=ih*s+'px';im.style.transform=`translate(${tx}px,${ty}px)`};
-   layout();const s0=base;tx=(fw-iw*s0)/2;ty=(fh-ih*s0)/2;paint();
-   const setZoom=(nz,cx=fw/2,cy=fh/2)=>{nz=Math.min(4,Math.max(1,nz));const s1=base*z,s2=base*nz;tx=cx-(cx-tx)*s2/s1;ty=cy-(cy-ty)*s2/s1;z=nz;zr.value=z;paint()};
-   zr.addEventListener('input',()=>setZoom(+zr.value));
-   const pts=new Map();let lastDist=0,last=null;
-   fr.addEventListener('pointerdown',e=>{fr.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});last={x:e.clientX,y:e.clientY};if(pts.size===2){const [a,b]=[...pts.values()];lastDist=Math.hypot(a.x-b.x,a.y-b.y)}});
-   fr.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
-    if(pts.size===2){const [a,b]=[...pts.values()];const dd=Math.hypot(a.x-b.x,a.y-b.y);if(lastDist){const r=fr.getBoundingClientRect();setZoom(z*dd/lastDist,(a.x+b.x)/2-r.left,(a.y+b.y)/2-r.top)}lastDist=dd}
-    else if(last){tx+=e.clientX-last.x;ty+=e.clientY-last.y;last={x:e.clientX,y:e.clientY};paint()}});
-   const up=e=>{pts.delete(e.pointerId);lastDist=0;last=pts.size?[...pts.values()][0]:null};
-   fr.addEventListener('pointerup',up);fr.addEventListener('pointercancel',up);
-   fr.addEventListener('wheel',e=>{e.preventDefault();const r=fr.getBoundingClientRect();setZoom(z*(e.deltaY<0?1.08:.92),e.clientX-r.left,e.clientY-r.top)},{passive:false});
+   const st=d.querySelector('.crop-stage'),im=st.querySelector('img'),bx=st.querySelector('.crop-box');im.src=url;
+   const iw=img.naturalWidth,ih=img.naturalHeight;
+   const maxW=Math.min(innerWidth-32,460),maxH=Math.min(innerHeight*0.64,600);
+   const k=Math.min(maxW/iw,maxH/ih);const dw=Math.round(iw*k),dh=Math.round(ih*k);
+   st.style.width=dw+'px';st.style.height=dh+'px';
+   const MIN=Math.min(56,dw,dh/ (1/aspect));
+   let w=Math.min(dw,dh*aspect)*0.88,h=w/aspect,x=(dw-w)/2,y=(dh-h)/2;
+   const cl=(v,a,b)=>Math.min(b,Math.max(a,v));
+   const paint=()=>{bx.style.left=x+'px';bx.style.top=y+'px';bx.style.width=w+'px';bx.style.height=h+'px'};paint();
+   let mode=null,sx=0,sy=0,o=null;
+   bx.addEventListener('pointerdown',e=>{e.preventDefault();bx.setPointerCapture(e.pointerId);mode=e.target.dataset.h||'move';sx=e.clientX;sy=e.clientY;o={x,y,w,h};bx.classList.add('drag')});
+   bx.addEventListener('pointermove',e=>{if(!mode)return;const dx=e.clientX-sx,dy=e.clientY-sy;
+    if(mode==='move'){x=cl(o.x+dx,0,dw-o.w);y=cl(o.y+dy,0,dh-o.h)}
+    else{const L=mode.includes('l'),T=mode.includes('t');const ax=L?o.x+o.w:o.x,ay=T?o.y+o.h:o.y;
+     let nw=Math.max(L?o.w-dx:o.w+dx,(T?o.h-dy:o.h+dy)*aspect);
+     const lim=Math.min(L?ax:dw-ax,(T?ay:dh-ay)*aspect);nw=cl(nw,Math.min(MIN,lim),lim);
+     w=nw;h=nw/aspect;x=L?ax-w:ax;y=T?ay-h:ay}
+    paint()});
+   const end=()=>{mode=null;bx.classList.remove('drag')};bx.addEventListener('pointerup',end);bx.addEventListener('pointercancel',end);
    d.addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;
     if(b.dataset.c==='cancel'){d.remove();URL.revokeObjectURL(url);resolve(null);return}
-    const s=base*z,cv=document.createElement('canvas');cv.width=outW;cv.height=outH;
-    cv.getContext('2d').drawImage(img,-tx/s,-ty/s,fw/s,fh/s,0,0,outW,outH);
-    cv.toBlob(bl=>{d.remove();URL.revokeObjectURL(url);resolve(bl?new File([bl],'crop.jpg',{type:'image/jpeg'}):null)},'image/jpeg',.88);
+    const s=iw/dw,cv=document.createElement('canvas');cv.width=outW;cv.height=outH;
+    const cx=cv.getContext('2d');cx.imageSmoothingQuality='high';cx.drawImage(img,x*s,y*s,w*s,h*s,0,0,outW,outH);
+    cv.toBlob(bl=>{d.remove();URL.revokeObjectURL(url);resolve(bl?new File([bl],'crop.jpg',{type:'image/jpeg'}):null)},'image/jpeg',.9);
    });
   };
   img.onerror=()=>{URL.revokeObjectURL(url);toast('Image illisible');resolve(null)};
@@ -1389,17 +1464,16 @@ function openCropper(file,aspect,outW,outH,title){
 }
 let pDraft=null;
 function renderEditProfile(){
- if(!pDraft)pDraft={name:me.name,bio:me.bio,avatar_url:me.avatar_url,banner_url:me.banner_url,prs:[0,1,2,3].map(i=>({t:(me.prs||[])[i]?.t||'',c:(me.prs||[])[i]?.c||['white','black','yellow','grey'][i]})),avatarFile:null,bannerFile:null,avatarPrev:null,bannerPrev:null};
+ if(!pDraft)pDraft={name:me.name,bio:me.bio,sport:me.sport||'Calisthenics',avatar_url:me.avatar_url,banner_url:me.banner_url,prs:[0,1,2,3].map(i=>({t:(me.prs||[])[i]?.t||'',c:(me.prs||[])[i]?.c||['white','black','yellow','grey'][i]})),avatarFile:null,bannerFile:null,avatarPrev:null,bannerPrev:null};
  const d=pDraft,c=SPORTS[me.sport]||SPORTS.Autre,ban=d.bannerPrev||d.banner_url,avs=d.avatarPrev||d.avatar_url;
  topEl.innerHTML=`<button class="icon-btn" data-act="cancel-edit" aria-label="Annuler">${I.back}</button><h1 class="ptitle">Modifier le profil</h1><span class="icon-btn"></span>`;
  main.innerHTML=`<form class="ep gutter" id="pf">
   <div class="ep-cover" style="${ban?`background:#000 url('${esc(ban)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="ep-av">${avs?`<span class="av" style="width:64px;height:64px;background:#000 url('${esc(avs)}') center/cover"></span>`:av(me.id,64)}</span></div>
   <div class="ep-duo"><label class="ep-btn" for="pa">Changer la photo</label><label class="ep-btn" for="pb">Changer la bannière</label></div>
   <input type="file" id="pa" accept="image/*" hidden><input type="file" id="pb" accept="image/*" hidden>
-  <label class="ep-f"><span>Nom</span><input id="pn" maxlength="30" value="${esc(d.name)}" placeholder="Ton pseudo"></label>
+  ${(()=>{const nx=me.name_changed_at?new Date(new Date(me.name_changed_at).getTime()+14*864e5):null,locked=nx&&nx>new Date();return `<label class="ep-f"><span>Nom <em>${locked?'modifiable à nouveau le '+nx.toLocaleDateString('fr-FR',{day:'numeric',month:'long'}):'modifiable une fois tous les 14 jours'}</em></span><input id="pn" maxlength="30" value="${esc(d.name)}" placeholder="Ton pseudo" ${locked?'disabled':''}></label>`})()}
+  <label class="ep-f"><span>Sport principal</span><select id="psp">${SPORT_LIST.map(x=>`<option ${x===d.sport?'selected':''}>${x}</option>`).join('')}</select></label>
   <label class="ep-f"><span>Bio</span><textarea id="pd" maxlength="160" rows="3" placeholder="Ton sport, ta ville, tes objectifs…">${esc(d.bio)}</textarea></label>
-  <div class="ep-f"><span>Records <em>facultatif · touche la pastille pour la couleur</em></span>
-   <div class="ep-prs">${d.prs.map((p,i)=>`<div class="ep-pr"><button type="button" class="ep-dot" data-act="pr-cycle" data-i="${i}" aria-label="Changer la couleur" style="${swatch(p.c)}"></button><input id="pr${i}" maxlength="22" placeholder="Record ${i+1}" value="${esc(p.t)}" aria-label="Record ${i+1}"></div>`).join('')}</div></div>
   <button class="ep-save" type="submit" id="pfs">Enregistrer</button>
  </form>`;
  const pick=(id,key)=>$(id).addEventListener('change',async e=>{const f0=e.target.files[0];if(!f0)return;keepP();const f=key==='avatar'?await openCropper(f0,1,640,640,'Photo de profil'):await openCropper(f0,3,1500,500,'Bannière');if(!f)return;d[key+'File']=f;d[key+'Prev']=URL.createObjectURL(f);renderEditProfile()});
@@ -1407,19 +1481,19 @@ function renderEditProfile(){
  $('pf').addEventListener('input',keepP);
  $('pf').addEventListener('submit',async e=>{e.preventDefault();keepP();
   if(!d.name.trim()){toast('Indique ton nom');return}
-  if(!(await guard([d.name,d.bio,...d.prs.map(x=>x.t)].join(' \n '))))return;
+  if(!(await guard([d.name,d.bio].join(' \n '))))return;
   $('pfs').disabled=true;$('pfs').textContent='Enregistrement…';
   try{
    if(d.avatarFile)d.avatar_url=await upload(d.avatarFile,'avatar');
    if(d.bannerFile)d.banner_url=await upload(d.bannerFile,'banner');
-   const upd={name:d.name.trim(),bio:d.bio.trim(),avatar_url:d.avatar_url||null,banner_url:d.banner_url||null,prs:d.prs.map(p=>({t:p.t.trim(),c:p.c}))};
+   const upd={bio:d.bio.trim(),sport:d.sport,avatar_url:d.avatar_url||null,banner_url:d.banner_url||null};if(d.name.trim()!==me.name)upd.name=d.name.trim();
    const {data,error}=await sb.from('profiles').update(upd).eq('id',me.id).select().single();
    if(error){$('pfs').disabled=false;$('pfs').textContent='Enregistrer';return dbError(error,'Enregistrement impossible')}
    me=data;P[me.id]=data;paintNavAv();pDraft=null;toast('Profil enregistré');nav('profile',me.id);
   }catch(err){$('pfs').disabled=false;$('pfs').textContent='Enregistrer'}
  });
 }
-function keepP(){if(!pDraft||!$('pn'))return;pDraft.name=$('pn').value;pDraft.bio=$('pd').value;pDraft.prs.forEach((p,i)=>p.t=$('pr'+i).value)}
+function keepP(){if(!pDraft||!$('pn'))return;pDraft.name=$('pn').value;pDraft.bio=$('pd').value;if($('psp'))pDraft.sport=$('psp').value}
 
 // ================= STORIES =================
 let sv=null,svT;
@@ -1458,13 +1532,23 @@ function openComments(id){
  $('cf2').addEventListener('submit',async e=>{e.preventDefault();const t=$('ci').value.trim();if(!t)return;if(await addComment(id,t))openComments(id)});
 }
 
+function openEditCaption(id){
+ const p=findPost(id);if(!p)return;
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Modifier la description"><div class="sheet-head">Modifier la description</div><form class="ec gutter" id="ecf"><textarea id="ect" maxlength="300" rows="5" placeholder="Raconte ta séance…">${esc(p.caption||'')}</textarea><div class="ec-row"><span class="ec-count" id="ecc">${(p.caption||'').length}/300</span><button type="button" class="ec-cancel" data-act="close-sheet-btn">Annuler</button><button class="ec-save" type="submit">Enregistrer</button></div></form></div></div>`;
+ const t=$('ect');t.focus();t.setSelectionRange(t.value.length,t.value.length);t.addEventListener('input',()=>{$('ecc').textContent=t.value.length+'/300'});
+ $('ecf').addEventListener('submit',async e=>{e.preventDefault();const cap=t.value.trim();if(!(await guard(cap)))return;
+  const {error}=await sb.from('posts').update({caption:cap}).eq('id',id).eq('user_id',me.id);if(error)return dbError(error,'Modification impossible');
+  [feed,profilePosts,clipsList].forEach(l=>l.forEach(x=>{if(x.id===id)x.caption=cap}));layer.innerHTML='';toast('Description modifiée');
+  document.querySelectorAll(`.card[data-id="${id}"]`).forEach(card=>{const old=card.querySelector('.caption');const html=cap?`<div class="caption"><b>${esc(prof(p.user_id).handle)}</b>${esc(cap)}</div>`:'';if(old)old.outerHTML=html;else if(html)card.querySelector('.bar-actions').insertAdjacentHTML('afterend',html)});
+ });
+}
 async function deletePost(id){const post=findPost(id);const {error}=await sb.from('posts').delete().eq('id',id).eq('user_id',me.id);if(error)return dbError(error,'Suppression impossible');if(post)removeFiles((post.media||[]).map(m=>m.url));feed=feed.filter(p=>p.id!==id);profilePosts=profilePosts.filter(p=>p.id!==id);toast('Publication supprimée');render()}
 async function deleteStory(id){clearTimeout(svT);const sto=(storiesBy[me.id]||[]).find(x=>x.id===id);const {error}=await sb.from('stories').delete().eq('id',id).eq('user_id',me.id);if(error)return dbError(error,'Suppression impossible');if(sto&&sto.media)removeFiles([sto.media.url]);toast('Story supprimée');await loadStories();closeStory()}
 async function pickSport(sp){sportFilter=sp;main.innerHTML=loadingHTML();await loadFeed();if(view==='home')renderHome();main.scrollTop=0}
 // ================= ÉVÉNEMENTS =================
 document.addEventListener('click',async e=>{
  const n=e.target.closest('[data-nav]');
- if(n&&me){hist=[];if(n.dataset.nav==='create'){createKind='photo'}if(n.dataset.nav==='home'){await refreshHome()}if(n.dataset.nav==='profile'){loadNotifs().then(paintBadge)}if(n.dataset.nav==='messages'){loadConvs().then(()=>{if(view==='messages')renderMessages(curQuery)})}return nav(n.dataset.nav,n.dataset.nav==='profile'?me.id:null)}
+ if(n&&me){hist=[];if(n.dataset.nav==='create'){createKind='photo'}if(n.dataset.nav==='home'){await refreshHome()}if(n.dataset.nav==='clips'){await loadClips()}if(n.dataset.nav==='profile'){loadNotifs().then(paintBadge)}if(n.dataset.nav==='messages'){loadConvs().then(()=>{if(view==='messages')renderMessages(curQuery)})}return nav(n.dataset.nav,n.dataset.nav==='profile'?me.id:null)}
  const a=e.target.closest('[data-act]');if(!a)return;
  const act=a.dataset.act,u=a.dataset.u,id=a.dataset.id;
  switch(act){
@@ -1488,7 +1572,7 @@ document.addEventListener('click',async e=>{
   case 'follow-list':{await toggleFollow(u);const on=following.has(u);a.textContent=on?'Abonné':'Suivre';a.classList.toggle('on',on);break}
   case 'ulist':openUserList(u,a.dataset.k);break;
   case 'open-user':layer.innerHTML='';hist.push([view,arg]);nav('profile',u);break;
-  case 'post-menu':miniMenu(a,[{label:'Supprimer',danger:true,run:()=>deletePost(id)}]);break;
+  case 'post-menu':miniMenu(a,[{label:'Modifier la description',run:()=>openEditCaption(id)},{label:'Supprimer',danger:true,run:()=>deletePost(id)}],'right','light');break;
   case 'story-menu':{clearTimeout(svT);layer.querySelectorAll('video').forEach(v=>v.pause());miniMenu(a,[{label:'Supprimer',danger:true,run:()=>deleteStory(id)}]);setTimeout(()=>{document.addEventListener('click',function resume(ev){if(!document.getElementById('mini-menu')&&sv&&layer.querySelector('.sv')){svT=setTimeout(nextStory,4000);layer.querySelectorAll('video').forEach(v=>v.play().catch(()=>{}))}},{once:true})},0);break}
   case 'story-like':{const was=likedStories.has(id);was?likedStories.delete(id):likedStories.add(id);a.classList.toggle('on',!was);if(!was){a.classList.remove('pop-l');void a.offsetWidth;a.classList.add('pop-l')}const {error}=was?await sb.from('story_likes').delete().eq('story_id',id).eq('user_id',me.id):await sb.from('story_likes').insert({story_id:id,user_id:me.id});if(error&&!/duplicate/.test(error.message||'')){was?likedStories.add(id):likedStories.delete(id);a.classList.toggle('on',was)}break}
   case 'notifs':openNotifs();break;
@@ -1524,8 +1608,8 @@ document.addEventListener('click',async e=>{
   case 'sv-next':nextStory();break;
   case 'sv-prev':prevStory();break;
   case 'quick':{const ok=await sendMsg(arg,a.dataset.t);if(ok)document.querySelector('.quick')?.remove();break}
-  case 'open-clip':hist.push([view,arg]);nav('clips',id);break;
-  case 'open-item':{const p=findPost(id);if(p&&p.kind==='clip'){if(!feed.some(x=>x.id===id))feed.unshift(p);hist.push([view,arg]);nav('clips',id)}else if(p){if(!feed.some(x=>x.id===id))feed.unshift(p);hist.push([view,arg]);nav('home');setTimeout(()=>document.querySelector(`.card[data-id="${id}"]`)?.scrollIntoView(),50)}break}
+  case 'open-clip':{const p=findPost(id);if(p&&!clipsList.some(x=>x.id===id))clipsList.unshift(p);hist.push([view,arg]);nav('clips',id);break}
+  case 'open-item':{const p=findPost(id);if(p&&p.kind==='clip'){clipsList=clipsList.filter(x=>x.id!==id);clipsList.unshift(p);hist.push([view,arg]);nav('clips',id)}else if(p){if(!feed.some(x=>x.id===id))feed.unshift(p);hist.push([view,arg]);nav('home');setTimeout(()=>document.querySelector(`.card[data-id="${id}"]`)?.scrollIntoView(),50)}break}
  }
 });
 document.addEventListener('submit',async e=>{const f=e.target.closest('.inline-cmt');if(!f)return;e.preventDefault();const i=f.querySelector('input'),t=i.value;i.value='';const c=await addComment(f.dataset.id,t);if(!c)i.value=t;else{if(!f.previousElementSibling||!f.previousElementSibling.classList.contains('linkish'))f.insertAdjacentHTML('beforebegin',`<button class="linkish" data-act="comments" data-id="${f.dataset.id}">${(commentsBy[f.dataset.id]||[]).length} commentaire(s)</button>`);toast('Commentaire envoyé')}});
@@ -1545,7 +1629,7 @@ async function boot(){
  if(!p||!p.onboarded){me=null;obExisting=p||null;if(p&&!ob.name)ob.name='';view='onboard';render();return}
  me=p;P[me.id]=p;paintNavAv();
  main.innerHTML=loadingHTML('Chargement du fil…');
- await Promise.all([refreshHome(),loadConvs(),loadNotifs()]);
+ await Promise.all([refreshHome(),loadConvs(),loadNotifs(),loadClips()]);
  subscribeRealtime();
  const qu=new URLSearchParams(location.search).get('u');if(qu){history.replaceState(null,'',BASE_URL);const {data:tp}=await sb.from('profiles').select('id,handle,name,sport,bio,avatar_url,banner_url,prs').eq('handle',qu.toLowerCase()).maybeSingle();if(tp){P[tp.id]=tp;view='profile';arg=tp.id}}
  cleanExpiredStories();
