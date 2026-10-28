@@ -518,7 +518,7 @@ function renderAuth(keepEmail){
   <button type="button" class="g-btn" data-act="google"><span class="g-ic">G</span>Continuer avec Google</button>
   <div class="or"><span>ou avec ton e-mail</span></div>
   <label class="field"><span>Adresse e-mail</span><input id="aem" type="email" autocomplete="email" inputmode="email" placeholder="toi@exemple.fr" value="${esc(keepEmail||'')}"></label>
-  <label class="field"><span>Mot de passe</span><span class="handle-in" style="padding-left:8px;padding-right:6px"><input id="apw" type="password" autocomplete="${su?'new-password':'current-password'}" placeholder="${su?'8 caractères minimum':'Ton mot de passe'}"><button type="button" class="icon-btn" data-act="pw-toggle" aria-label="Afficher le mot de passe">${I.eye}</button></span></label>
+  <label class="field"><span>Mot de passe</span><span class="handle-in" style="padding-left:0;padding-right:6px"><input id="apw" type="password" autocomplete="${su?'new-password':'current-password'}" placeholder="${su?'8 caractères minimum':'Ton mot de passe'}"><button type="button" class="icon-btn" data-act="pw-toggle" aria-label="Afficher le mot de passe">${I.eye}</button></span></label>
   ${su?`<label class="field"><span>Confirme le mot de passe</span><input id="apw2" type="password" autocomplete="new-password" placeholder="Retape-le"></label>`:`<button type="button" class="linkish" data-act="forgot" style="align-self:flex-end;margin-top:-6px">Mot de passe oublié ?</button>`}
   <p class="err" id="aerr">${esc(authErr)}</p>${authInfo?`<p class="opt" style="margin:-10px 0 0">${esc(authInfo)}</p>`:''}
   <button class="publish" type="submit" id="asub"><span class="ps-x">✕</span><span class="ps-t"><b>${su?'CRÉER MON COMPTE':'SE CONNECTER'}</b><small>${su?'Ensuite, tu crées ton profil':'Accès à ton profil sur tous tes appareils'}</small></span><span class="ps-arrow">▶</span></button>
@@ -578,7 +578,7 @@ function renderOnboard(){
   if(!(await guard([ob.handle,ob.name,ob.bio].join(' \n '))))return;
   $('obs').disabled=true;
   let avatar_url=null;
-  if(ob.file){avatar_url=await upload(ob.file,'avatar');}
+  if(ob.file){avatar_url=await upload(await compressImage(ob.file),'avatar');}
   const row={id:session.user.id,handle:ob.handle,name:ob.name.trim(),sport:ob.sport,bio:ob.bio.trim(),avatar_url,prs:[{t:'',c:'white'},{t:'',c:'black'},{t:'',c:'yellow'},{t:'',c:'grey'}]};
   const {error}=await sb.from('profiles').insert(row);
   if(error){$('obs').disabled=false;return dbError(error,'Impossible de créer le profil')}
@@ -587,6 +587,56 @@ function renderOnboard(){
 }
 
 // ================= STOCKAGE =================
+// ================= COMPRESSION AUTOMATIQUE =================
+const LIMITS={clip:30,story:15};               // durée max en secondes
+const VIDEO={maxSide:1920,fps:30,vbps:3500000,abps:128000}; // qualité Instagram : 1080x1920, H.264 ~3,5 Mbit/s, AAC 128 kbit/s
+const PHOTO={maxSide:1440,quality:.85}; // photos type Instagram : 1080 px de large (1440 px côté long), JPEG qualité élevée
+async function compressImage(file){
+ try{
+  const bmp=await createImageBitmap(file,{imageOrientation:'from-image'});
+  const sc=Math.min(1,PHOTO.maxSide/Math.max(bmp.width,bmp.height));
+  const c=document.createElement('canvas');c.width=Math.round(bmp.width*sc);c.height=Math.round(bmp.height*sc);
+  c.getContext('2d').drawImage(bmp,0,0,c.width,c.height);
+  const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',PHOTO.quality));
+  if(!blob||blob.size>=file.size)return file;
+  return new File([blob],'photo.jpg',{type:'image/jpeg'});
+ }catch(e){return file}
+}
+function videoDuration(file){return new Promise(res=>{const v=document.createElement('video');v.preload='metadata';v.muted=true;v.onloadedmetadata=()=>{res(v.duration||0);URL.revokeObjectURL(v.src)};v.onerror=()=>res(0);v.src=URL.createObjectURL(file)})}
+function pickMime(){const c=['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'];return c.find(m=>window.MediaRecorder&&MediaRecorder.isTypeSupported(m))||''}
+async function compressVideo(file,maxSec,onProgress){
+ const mime=pickMime();if(!mime||!HTMLCanvasElement.prototype.captureStream)return {file,trimmed:false,ok:false};
+ const v=document.createElement('video');v.playsInline=true;v.src=URL.createObjectURL(file);v.crossOrigin='anonymous';
+ await new Promise((res,rej)=>{v.onloadedmetadata=res;v.onerror=rej});
+ const dur=Math.min(v.duration||maxSec,maxSec);
+ const sc=Math.min(1,VIDEO.maxSide/Math.max(v.videoWidth,v.videoHeight));
+ const c=document.createElement('canvas');c.width=Math.round(v.videoWidth*sc/2)*2;c.height=Math.round(v.videoHeight*sc/2)*2;
+ const ctx=c.getContext('2d');const stream=c.captureStream(VIDEO.fps);
+ let ac=null;
+ try{ac=new (window.AudioContext||window.webkitAudioContext)();const src=ac.createMediaElementSource(v);const dest=ac.createMediaStreamDestination();src.connect(dest);dest.stream.getAudioTracks().forEach(t=>stream.addTrack(t))}catch(e){v.muted=true}
+ const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:VIDEO.vbps,audioBitsPerSecond:VIDEO.abps});
+ const chunks=[];rec.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+ const done=new Promise(r=>rec.onstop=r);
+ let raf;const draw=()=>{ctx.drawImage(v,0,0,c.width,c.height);onProgress&&onProgress(Math.min(v.currentTime,dur),dur);if(v.currentTime>=dur||v.ended){stop();return}raf=requestAnimationFrame(draw)};
+ let stopped=false;const stop=()=>{if(stopped)return;stopped=true;cancelAnimationFrame(raf);v.pause();try{rec.stop()}catch(e){}};
+ try{await v.play()}catch(e){v.muted=true;try{await v.play()}catch(e2){URL.revokeObjectURL(v.src);return {file,trimmed:false,ok:false}}}
+ if(ac&&ac.state==='suspended')try{await ac.resume()}catch(e){}
+ rec.start(1000);draw();
+ const guardT=setTimeout(stop,(dur+5)*1000);
+ await done;clearTimeout(guardT);URL.revokeObjectURL(v.src);if(ac)ac.close().catch(()=>{});
+ const type=mime.split(';')[0],blob=new Blob(chunks,{type});
+ const trimmed=(v.duration||0)>maxSec+0.5;
+ if(!blob.size||(blob.size>=file.size&&!trimmed))return {file,trimmed:false,ok:true};
+ return {file:new File([blob],'clip.'+(type.includes('mp4')?'mp4':'webm'),{type}),trimmed,ok:true};
+}
+async function prepareFile(x,kind,onStatus){
+ if(x.type==='img'){onStatus('Compression de la photo…');return await compressImage(x.file)}
+ const max=LIMITS[kind==='story'?'story':'clip'];
+ const r=await compressVideo(x.file,max,(t,d)=>onStatus(`Compression ${Math.floor(t)}/${Math.ceil(d)} s…`));
+ if(!r.ok){const d=await videoDuration(x.file);if(d>max+0.5)throw new Error(`Vidéo trop longue : ${max} s maximum`);}
+ if(r.trimmed)toast(`Vidéo coupée aux ${max} premières secondes`);
+ return r.file;
+}
 async function upload(file,kind){
  const ext=(file.name.split('.').pop()||'bin').toLowerCase().replace(/[^a-z0-9]/g,'');
  const path=`${session.user.id}/${kind}-${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
@@ -596,6 +646,9 @@ async function upload(file,kind){
  return sb.storage.from('media').getPublicUrl(path).data.publicUrl;
 }
 
+function removeFiles(urls){const mark='/object/public/media/';const paths=urls.filter(u=>u&&u.includes(mark)).map(u=>decodeURIComponent(u.split(mark)[1]));if(paths.length)sb.storage.from('media').remove(paths).then(()=>{})}
+// Nettoyage : supprime les fichiers de mes stories expirées
+async function cleanExpiredStories(){try{const {data}=await sb.from('stories').select('id,media').eq('user_id',me.id).lte('expires_at',new Date().toISOString());if(!data||!data.length)return;removeFiles(data.map(s=>s.media&&s.media.url).filter(Boolean));await sb.from('stories').delete().in('id',data.map(s=>s.id)).eq('user_id',me.id)}catch(e){}}
 // ================= DONNÉES =================
 async function loadFollowing(){const {data}=await sb.from('follows').select('following_id').eq('follower_id',me.id);following=new Set((data||[]).map(r=>r.following_id))}
 async function loadFeed(){
@@ -729,11 +782,11 @@ function renderCreate(){
  const pick=k==='photo'?(f.length?'Changer les photos':'Choisir des photos'):k==='clip'?(f.length?'Changer la vidéo':'Choisir une vidéo'):(f.length?'Changer':'Photo ou vidéo');
  const prev=!f.length?mediaHTML([],draft.sport,'',k==='story'?draft.cap:''):mediaHTML(f.map(x=>({type:x.type,url:x.url})),draft.sport);
  main.innerHTML=`<form class="form gutter" id="cf">
-  <div class="seg" role="group" aria-label="Format">${[['photo','Photo','1 à 10 photos'],['clip','Clip','vidéo'],['story','Story','24 h']].map(([v,l,d])=>`<button type="button" data-act="kind" data-k="${v}" aria-pressed="${k===v}">${l}<small>${d}</small></button>`).join('')}</div>
+  <div class="seg" role="group" aria-label="Format">${[['photo','Photo','1 à 10 photos'],['clip','Clip','30 s max'],['story','Story','24 h · 15 s']].map(([v,l,d])=>`<button type="button" data-act="kind" data-k="${v}" aria-pressed="${k===v}">${l}<small>${d}</small></button>`).join('')}</div>
   <div class="preview ${k==='clip'?'clip':''}" id="pv">${prev}
    ${draft.stickers.map((s,i)=>stkHTML(s,i)).join('')}
    ${f.length>1?`<span class="count-badge">${f.length} photos</span>`:''}
-   <label class="pick-file">${pick}<input type="file" id="file" accept="${accept}" ${k==='photo'?'multiple':''}></label>
+   ${k!=='photo'?`<span class="count-badge" style="bottom:auto;top:12px">${k==='clip'?'30 s max':'15 s max'} · compressé auto</span>`:''}<label class="pick-file">${pick}<input type="file" id="file" accept="${accept}" ${k==='photo'?'multiple':''}></label>
   </div>
   <div class="field"><span>Stickers<em class="opt">facultatif · touche pour ajouter, glisse pour placer</em></span>
    <div class="stk-tray">${STICKERS.map(([t,c],i)=>`<button type="button" class="stk ${c}" style="--r:${(i%2?3:-3)}deg" data-act="stk" data-i="${i}" aria-pressed="${draft.stickers.some(s=>s.t===t)}">${esc(t)}</button>`).join('')}</div></div>
@@ -754,7 +807,7 @@ function renderCreate(){
  $('sp').addEventListener('change',()=>{keep();if(!draft.files.length)renderCreate()});
  $('file').addEventListener('change',e=>{let fl=[...e.target.files].slice(0,10);if(!fl.length)return;keep();
   if(k==='photo')fl=fl.filter(x=>x.type.startsWith('image'));if(k==='clip')fl=fl.filter(x=>x.type.startsWith('video')).slice(0,1);if(k==='story')fl=fl.slice(0,1);
-  const big=fl.find(x=>x.size>50*1024*1024);if(big){toast('Fichier trop lourd (50 Mo maximum)');return}
+  const big=fl.find(x=>x.size>300*1024*1024);if(big){toast('Fichier trop lourd (300 Mo maximum avant compression)');return}
   draft.files=fl.map(file=>({file,type:file.type.startsWith('video')?'video':'img',url:URL.createObjectURL(file)}));renderCreate()});
  $('cf').addEventListener('input',e=>{keep();if(e.target.id==='ct'||e.target.id==='csz'){cu.t=$('ct').value;cu.sz=+$('csz').value;$('cprev').innerHTML=cu.t?`<span class="stk ${cu.c}" style="${stkStyle(cu)}">${esc(cu.t)}</span>`:'<span class="opt">Ton texte apparaîtra ici</span>'}});
  const pv=$('pv');
@@ -771,7 +824,7 @@ function renderCreate(){
   const btn=$('pub');btn.disabled=true;
   try{
    const media=[];
-   for(let i=0;i<draft.files.length;i++){$('pubsub').textContent=`Envoi ${i+1}/${draft.files.length}…`;const x=draft.files[i];media.push({type:x.type,url:await upload(x.file,k)})}
+   for(let i=0;i<draft.files.length;i++){const x=draft.files[i],n=draft.files.length>1?` (${i+1}/${draft.files.length})`:'';const st=t=>{const el=$('pubsub');if(el)el.textContent=t+n};const f=await prepareFile(x,k,st);st('Envoi…');media.push({type:x.type,url:await upload(f,k)})}
    const stickers=draft.stickers.map(({t,c,x,y,r,sz,f,w})=>({t,c,x,y,r,sz,f,w}));
    if(k==='story'){
     const {error}=await sb.from('stories').insert({user_id:me.id,sport,text:cap,media:media[0]||null,stickers});
@@ -781,7 +834,7 @@ function renderCreate(){
    const {error}=await sb.from('posts').insert({user_id:me.id,kind:k,sport,caption:cap,perf,media,stickers});
    if(error){btn.disabled=false;return dbError(error,'Publication impossible')}
    toast(k==='clip'?'Clip publié':'Publication en ligne');newDraft();await loadFeed();nav(k==='clip'?'clips':'home');
-  }catch(err){btn.disabled=false;$('pubsub').textContent='Échec de l’envoi, réessaie'}
+  }catch(err){btn.disabled=false;$('pubsub').textContent=(err&&err.message&&err.message.startsWith('Vidéo'))?err.message:'Échec de l’envoi, réessaie'}
  });
 }
 
@@ -893,8 +946,8 @@ function renderEditProfile(){
   if(!(await guard([d.name,d.bio,...d.prs.map(x=>x.t)].join(' \n '))))return;
   $('pfs').disabled=true;
   try{
-   if(d.avatarFile)d.avatar_url=await upload(d.avatarFile,'avatar');
-   if(d.bannerFile)d.banner_url=await upload(d.bannerFile,'banner');
+   if(d.avatarFile)d.avatar_url=await upload(await compressImage(d.avatarFile),'avatar');
+   if(d.bannerFile)d.banner_url=await upload(await compressImage(d.bannerFile),'banner');
    const upd={name:d.name.trim(),bio:d.bio.trim(),avatar_url:d.avatar_url||null,banner_url:d.banner_url||null,prs:d.prs.map(p=>({t:p.t.trim(),c:p.c}))};
    const {data,error}=await sb.from('profiles').update(upd).eq('id',me.id).select().single();
    if(error){$('pfs').disabled=false;return dbError(error,'Enregistrement impossible')}
@@ -968,9 +1021,9 @@ document.addEventListener('click',async e=>{
   case 'open-user':layer.innerHTML='';hist.push([view,arg]);nav('profile',u);break;
   case 'post-menu':openPostMenu(id);break;
   case 'del-ask':a.outerHTML=`<p style="margin:10px 0;color:var(--muted)">Supprimer définitivement cette publication ?</p><button class="sheet-act danger" data-act="del-yes" data-id="${id}">Oui, supprimer</button>`;break;
-  case 'del-yes':{const {error}=await sb.from('posts').delete().eq('id',id).eq('user_id',me.id);layer.innerHTML='';if(error)return dbError(error,'Suppression impossible');feed=feed.filter(p=>p.id!==id);profilePosts=profilePosts.filter(p=>p.id!==id);toast('Publication supprimée');render();break}
+  case 'del-yes':{const post=findPost(id);const {error}=await sb.from('posts').delete().eq('id',id).eq('user_id',me.id);if(!error&&post)removeFiles((post.media||[]).map(m=>m.url));layer.innerHTML='';if(error)return dbError(error,'Suppression impossible');feed=feed.filter(p=>p.id!==id);profilePosts=profilePosts.filter(p=>p.id!==id);toast('Publication supprimée');render();break}
   case 'del-cmt':{const {error}=await sb.from('comments').delete().eq('id',id);if(error)return dbError(error,'Suppression impossible');commentsBy[a.dataset.p]=(commentsBy[a.dataset.p]||[]).filter(c=>c.id!==id);openComments(a.dataset.p);break}
-  case 'del-story':{clearTimeout(svT);const {error}=await sb.from('stories').delete().eq('id',id).eq('user_id',me.id);if(error)return dbError(error,'Suppression impossible');toast('Story supprimée');await loadStories();closeStory();break}
+  case 'del-story':{clearTimeout(svT);const sto=(storiesBy[me.id]||[]).find(x=>x.id===id);const {error}=await sb.from('stories').delete().eq('id',id).eq('user_id',me.id);if(!error&&sto&&sto.media)removeFiles([sto.media.url]);if(error)return dbError(error,'Suppression impossible');toast('Story supprimée');await loadStories();closeStory();break}
   case 'dm':case 'chat':layer.innerHTML='';hist.push([view,arg]);nav('chat',u);break;
   case 'profile':hist.push([view,arg]);nav('profile',u);break;
   case 'back':back();break;
@@ -1016,6 +1069,7 @@ async function boot(){
  main.innerHTML=loadingHTML('Chargement du fil…');
  await Promise.all([refreshHome(),loadConvs(),loadGlobal()]);
  subscribeRealtime();
+ cleanExpiredStories();
  if(!['home','clips','messages','profile','create'].includes(view))view='home';
  render();
 }
