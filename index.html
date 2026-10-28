@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793201804">
+<meta name="fs-build" content="1793202281">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -785,6 +785,67 @@ nav.tabs .pill{background:rgba(255,255,255,.94)}
 .app:has(main.clips-mode) nav.tabs{background:none}
 .app:has(main.clips-mode) nav.tabs .pill{background:rgba(255,255,255,.9)}
 
+/* ================= v8 : Publier, barre, fluidité ================= */
+.top h1,.top .ptitle{flex:1;text-align:center;font-family:var(--body);font-size:18px;font-weight:800;letter-spacing:-.01em;text-transform:none;text-shadow:none}
+.top-side{display:flex;align-items:center;gap:2px;width:84px}
+.top-side.r{justify-content:flex-end}
+.top-side .icon-btn{position:relative}
+/* Publier */
+.pub{display:flex;flex-direction:column;gap:18px;padding-block:8px 30px}
+.pub-seg{background:var(--paper);border:1px solid var(--paper-line)}
+.pub-seg button{font-family:var(--body);text-transform:none;letter-spacing:0;font-size:14px;font-weight:700;color:#8e8e8a;padding:9px 0}
+.pub-seg button small{font-family:var(--body);font-size:11.5px;font-weight:500;color:#a3a29d;opacity:1}
+.pub-seg button[aria-pressed="true"]{color:var(--ink)}
+.pub-seg button[aria-pressed="true"] small{color:#737373}
+.pub-media{display:flex;gap:10px;flex-wrap:wrap}
+.pub-th{position:relative;width:88px;height:116px;border-radius:14px;overflow:hidden;background:#111;animation:popIn .35s cubic-bezier(.22,.9,.25,1) both}
+.pub-th img,.pub-th video{width:100%;height:100%;object-fit:cover;display:block}
+.pub-rm{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:rgba(20,20,20,.6);color:#fff;font-size:11px;display:grid;place-items:center;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.pub-add{width:88px;height:116px;border-radius:14px;border:1.5px dashed #cfcdc6;background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--ink);cursor:pointer;transition:background .2s,transform .2s}
+.pub-add:active{transform:scale(.96)}
+.pub-add b{font-size:30px;font-weight:300;line-height:1}
+.pub-add small{font-size:11.5px;color:#8e8e8a}
+.pub-hint{font-size:12px;color:#a3a29d;margin:-10px 0 0}
+/* Barre : 5 onglets, se réduit au scroll */
+nav.tabs .pill{grid-template-columns:repeat(4,1fr) 1.1fr;transform-origin:50% 100%;transition:transform .45s cubic-bezier(.22,.9,.25,1),box-shadow .45s ease}
+nav.tabs.mini .pill{transform:scale(.86);box-shadow:0 6px 18px rgba(0,0,0,.08)}
+nav.tabs button svg{transition:transform .25s cubic-bezier(.22,.9,.25,1)}
+nav.tabs button:active svg{transform:scale(.88)}
+nav.tabs button[aria-current="page"]{transition:background .3s ease}
+/* Actions sous les posts un peu décalées vers la droite */
+.ps-bar{margin-left:2px}
+.react-btn{margin-right:2px}
+/* ===== Fluidité / transitions premium ===== */
+@keyframes viewIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+@keyframes menuIn{from{opacity:0;transform:translateY(-4px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+main>*{animation:viewIn .42s cubic-bezier(.22,.9,.25,1) both}
+.card{animation:cardIn .55s cubic-bezier(.22,.9,.25,1) both}
+.card:nth-of-type(2){animation-delay:.06s}.card:nth-of-type(3){animation-delay:.12s}.card:nth-of-type(4){animation-delay:.18s}
+.tile{animation:popIn .45s cubic-bezier(.22,.9,.25,1) both}
+.tile:nth-child(2){animation-delay:.04s}.tile:nth-child(3){animation-delay:.08s}.tile:nth-child(4){animation-delay:.12s}.tile:nth-child(5){animation-delay:.16s}
+.card-media img,.card-media video,.grid img{animation:fadeIn .6s ease both}
+.grid button{animation:popIn .4s cubic-bezier(.22,.9,.25,1) both}
+.sheet-wrap{animation:fadeIn .25s ease both}
+.sheet{animation:sheetUp .42s cubic-bezier(.22,.9,.25,1) both}
+.mini-menu{animation:menuIn .2s cubic-bezier(.22,.9,.25,1) both;transform-origin:top center}
+.toast{animation:toastIn .32s cubic-bezier(.22,.9,.25,1) both}
+.sv{animation:popIn .3s cubic-bezier(.22,.9,.25,1) both}
+.warn{animation:popIn .3s cubic-bezier(.22,.9,.25,1) both}
+.conv{transition:background .2s ease}
+.conv:active{background:var(--paper)}
+button,.pbtn,.ep-btn,.ep-save,.auth-btn,.cm-primary{transition:transform .18s cubic-bezier(.22,.9,.25,1),background .2s ease,opacity .2s ease}
+.pbtn:active,.ep-btn:active,.ep-save:active,.auth-btn:active,.cm-primary:active,.ghost:active,.tile:active,.feed-pick:active,.icon-btn:active,.ps-bar button:active,.ps-rail button:active{transform:scale(.95)}
+.sv-tap button:active{transform:none}
+.respect .ps-ic,.react-btn .ps-ic{transition:transform .25s cubic-bezier(.22,.9,.25,1)}
+.ps-bar .respect.on .ps-ic{animation:popl .4s ease}
+html{scroll-behavior:smooth}
+main{scroll-behavior:auto;overscroll-behavior-y:contain}
+
 </style>
 </head>
 <body>
@@ -794,16 +855,16 @@ nav.tabs .pill{background:rgba(255,255,255,.94)}
   <header class="top gutter" id="top"></header>
   <main id="main"></main>
   <nav class="tabs" id="tabs" aria-label="Navigation"><div class="pill">
-    <button data-nav="home" aria-label="Fil"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"><path d="M3.5 10.5 12 3.5l8.5 7V20.5h-5.5v-6h-6v6H3.5z"/></svg></button>
-    <button data-nav="clips" aria-label="Clips"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"><rect x="5" y="2.75" width="14" height="18.5" rx="4"/><path d="M10.5 9v6l4.5-3z"/></svg></button>
-    <button data-act="plus-menu" class="nav-plus" aria-label="Publier"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M12 8v8M8 12h8"/></svg></button>
-    <button data-nav="messages" id="nav-msg" aria-label="Messages"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg></button>
     <button data-nav="search" aria-label="Rechercher"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg></button>
+    <button data-nav="home" aria-label="Fil"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"><path d="M3.5 10.5 12 3.5l8.5 7V20.5h-5.5v-6h-6v6H3.5z"/></svg></button>
+    <button data-act="plus-menu" class="nav-plus" aria-label="Publier"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M12 8v8M8 12h8"/></svg></button>
+    <button data-nav="clips" aria-label="Clips"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"><rect x="5" y="2.75" width="14" height="18.5" rx="4"/><path d="M10.5 9v6l4.5-3z"/></svg></button>
     <button data-nav="profile" id="nav-me" aria-label="Profil"><span class="nav-av"></span></button>
   </div></nav>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
  <linearGradient id="chr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".46" stop-color="#e2e3e7"/><stop offset=".5" stop-color="#b3b6be"/><stop offset="1" stop-color="#e9eaee"/></linearGradient>
  <linearGradient id="chrRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff98a2"/><stop offset=".46" stop-color="#ff4458"/><stop offset=".5" stop-color="#d4142c"/><stop offset="1" stop-color="#ff5a6c"/></linearGradient>
+ <linearGradient id="chrFold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d7d9de"/><stop offset="1" stop-color="#8d919a"/></linearGradient>
  <linearGradient id="chrGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6c8"/><stop offset=".46" stop-color="#ffd84a"/><stop offset=".5" stop-color="#e0a800"/><stop offset="1" stop-color="#ffe27a"/></linearGradient>
 </defs></svg>
 </div>
@@ -848,7 +909,8 @@ const I={
  psHeart:'<svg class="ps-ic" width="27" height="27" viewBox="0 0 24 24"><path class="ps-f" d="M12 20.5s-7.8-4.7-9.6-9.6C1.2 7.6 3.5 4.3 7 4.3c2.1 0 3.8 1.2 5 3 1.2-1.8 2.9-3 5-3 3.5 0 5.8 3.3 4.6 6.6-1.8 4.9-9.6 9.6-9.6 9.6z" fill="url(#chr)" stroke="#2b2b2b" stroke-width="1.3" stroke-linejoin="round"/><path d="M6.2 6.6c-1.3.3-2.1 1.5-2 2.8" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" opacity=".9"/></svg>',
  psComment:'<svg class="ps-ic" width="27" height="27" viewBox="0 0 24 24"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.2 7.5L3.5 20.4l1.2-4.4A8.4 8.4 0 1 1 20.5 11.6z" fill="url(#chr)" stroke="#2b2b2b" stroke-width="1.3" stroke-linejoin="round"/><path d="M7.3 6.8a6 6 0 0 1 4-1.6" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" opacity=".9"/></svg>',
  psSend:'<svg class="ps-ic" width="27" height="27" viewBox="0 0 24 24"><path d="M21 3 3 10.2l7.2 2.6L13 21z" fill="url(#chr)" stroke="#2b2b2b" stroke-width="1.3" stroke-linejoin="round"/><path d="M21 3 10.2 12.8" fill="none" stroke="#2b2b2b" stroke-width="1.3"/><path d="M6.5 9.6l9-3.6" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".9"/></svg>',
- psReact:'<svg class="ps-ic" width="28" height="28" viewBox="0 0 24 24"><path d="M12 2.5l2.3 6.2 6.2 2.3-6.2 2.3L12 19.5l-2.3-6.2L3.5 11l6.2-2.3z" fill="url(#chr)" stroke="#2b2b2b" stroke-width="1.3" stroke-linejoin="round"/><path d="M18.5 15.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z" fill="url(#chr)" stroke="#2b2b2b" stroke-width="1" stroke-linejoin="round"/><path d="M10.6 7.4l.9-2.4" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".9"/></svg>',
+ psReact:'<svg class="ps-ic" width="28" height="28" viewBox="0 0 24 24"><path d="M5.5 3.5h13a2 2 0 0 1 2 2v8.8l-6.2 6.2H5.5a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2z" fill="url(#chr)" stroke="#2b2b2b" stroke-width="1.3" stroke-linejoin="round"/><path d="M20.5 14.3h-4.2a2 2 0 0 0-2 2v4.2z" fill="url(#chrFold)" stroke="#2b2b2b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="9.3" cy="9.6" r="1.1" fill="#2b2b2b"/><circle cx="14.7" cy="9.6" r="1.1" fill="#2b2b2b"/><path d="M8.6 12.9c1.7 1.8 5.1 1.8 6.8 0" fill="none" stroke="#2b2b2b" stroke-width="1.3" stroke-linecap="round"/><path d="M6.3 6.3h4.4" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".95"/></svg>',
+ dm:'<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M21 3 3 10.2l7.2 2.6L13 21z"/><path d="M21 3 10.2 12.8"/></svg>',
  plus:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>'
 };
 
@@ -926,9 +988,9 @@ function swatch(c){return {holo:'background:linear-gradient(115deg,#c8f1ff,#f3d2
 function nav(v,a=null){view=v;arg=a;render();main.scrollTop=0}
 function back(){const h=hist.pop();h?nav(h[0],h[1]):nav('home')}
 function render(){
- const map={home:'home',clips:'clips',create:'',messages:'messages',chat:'messages',global:'messages',profile:'profile',editprofile:'profile',search:'search'};
+ const map={home:'home',clips:'clips',create:'',messages:'home',chat:'home',global:'home',profile:'profile',editprofile:'profile',search:'search'};
  document.querySelectorAll('nav.tabs button').forEach(b=>{b.removeAttribute('aria-current');if(map[view]===b.dataset.nav&&!(view==='profile'&&arg&&arg!==me?.id))b.setAttribute('aria-current','page')});
- paintBadge();
+ paintBadge();$('tabs').classList.remove('mini');lastSY=0;
  const bare=['chat','global','onboard','auth','checkmail','newpw'].includes(view);
  $('tabs').hidden=bare;main.classList.toggle('no-nav',bare);
  main.classList.toggle('clips-mode',view==='clips');
@@ -936,7 +998,7 @@ function render(){
  ({home:renderHome,clips:renderClips,create:renderCreate,messages:()=>renderMessages(''),chat:renderChat,global:renderGlobal,profile:renderProfile,editprofile:renderEditProfile,search:()=>renderSearch(''),onboard:renderOnboard,auth:renderAuth,checkmail:renderCheckMail,newpw:renderNewPw})[view]();
 }
 function paintNavAv(){const n=document.querySelector('#nav-me .nav-av');if(!n||!me)return;n.innerHTML=me.avatar_url?`<img src="${esc(me.avatar_url)}" alt="">`:`<span>${esc((me.name||me.handle||'?')[0])}</span>`}
-function paintBadge(){paintNavAv();const np=document.querySelector('nav.tabs [data-nav="profile"]');np.querySelector('.dot')?.remove();if(unreadNotifs)np.insertAdjacentHTML('beforeend','<span class="dot"></span>');const nm=$('nav-msg');nm.querySelector('.dot')?.remove();if(unreadCount)nm.insertAdjacentHTML('beforeend',`<span class="dot"></span>`)}
+function paintBadge(){paintNavAv();const np=document.querySelector('nav.tabs [data-nav="profile"]');np.querySelector('.dot')?.remove();if(unreadNotifs)np.insertAdjacentHTML('beforeend','<span class="dot"></span>');const nm=$('top-msg');if(nm){nm.querySelector('.bell-dot')?.remove();if(unreadCount)nm.insertAdjacentHTML('beforeend','<span class="bell-dot"></span>')}}
 
 // ================= CONNEXION =================
 let authMode='login',authErr='',authInfo='';
@@ -1152,7 +1214,7 @@ function subscribeRealtime(){
 
 // ================= FIL =================
 async function renderHome(){
- topEl.innerHTML=`<button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><button class="feed-pick" data-act="feed-pick" aria-haspopup="true">${esc(sportFilter||'Publication')}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><button class="icon-btn" data-act="notifs" aria-label="Notifications">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button>`;
+ topEl.innerHTML=`<span class="top-side"><button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button></span><button class="feed-pick" data-act="feed-pick" aria-haspopup="true">${esc(sportFilter||'Publication')}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><span class="top-side r"><button class="icon-btn" data-act="notifs" aria-label="Notifications">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount?'<span class="bell-dot"></span>':''}</button></span>`;
  const order=Object.keys(storiesBy).filter(k=>k!==me.id).sort((a,b)=>(following.has(b)?1:0)-(following.has(a)?1:0));
  const mine=storiesBy[me.id]||[];
  const seenAll=uid=>(storiesBy[uid]||[]).every(s=>seenStories.has(s.id));
@@ -1262,72 +1324,51 @@ let createKind='photo',draft=null;
 function newDraft(){draft={files:[],stickers:[],custom:{t:'',c:'holo',sz:1,f:'display',w:900},showCustom:false,sport:me?.sport||'Calisthenics',perf:'',cap:''}}
 function renderCreate(){
  if(!draft)newDraft();
- const k=createKind,f=draft.files,cu=draft.custom;
- topEl.innerHTML=`<h1>Publier</h1>`;
+ const k=createKind,f=draft.files,max=k==='photo'?5:1;
+ topEl.innerHTML=`<button class="icon-btn" data-act="back" aria-label="Fermer">${I.close}</button><h1 class="ptitle">Publier</h1><span class="icon-btn"></span>`;
  const accept=k==='photo'?'image/*':k==='clip'?'video/*':'image/*,video/*';
- const pick=k==='photo'?(f.length?'Changer les photos':'Choisir des photos'):k==='clip'?(f.length?'Changer la vidéo':'Choisir une vidéo'):(f.length?'Changer':'Photo ou vidéo');
- const prev=!f.length?mediaHTML([],draft.sport,'',k==='story'?draft.cap:''):mediaHTML(f.map(x=>({type:x.type,url:x.url})),draft.sport);
- main.innerHTML=`<form class="form gutter" id="cf">
-  <div class="seg" role="group" aria-label="Format">${[['photo','Photo','1 à 10 photos'],['clip','Clip','30 s max'],['story','Story','24 h · 15 s']].map(([v,l,d])=>`<button type="button" data-act="kind" data-k="${v}" aria-pressed="${k===v}">${l}<small>${d}</small></button>`).join('')}</div>
-  <div class="preview ${k==='clip'?'clip':''}" id="pv">${prev}
-   ${draft.stickers.map((s,i)=>stkHTML(s,i)).join('')}
-   ${f.length>1?`<span class="count-badge">${f.length} photos</span>`:''}
-   ${k!=='photo'?`<span class="count-badge" style="bottom:auto;top:12px">${k==='clip'?'30 s max':'15 s max'} · compressé auto</span>`:''}<label class="pick-file">${pick}<input type="file" id="file" accept="${accept}" ${k==='photo'?'multiple':''}></label>
-  </div>
-  <div class="field"><span>Stickers<em class="opt">facultatif · touche pour ajouter, glisse pour placer</em></span>
-   <div class="stk-tray">${STICKERS.map(([t,c],i)=>`<button type="button" class="stk ${c}" style="--r:${(i%2?3:-3)}deg" data-act="stk" data-i="${i}" aria-pressed="${draft.stickers.some(s=>s.t===t)}">${esc(t)}</button>`).join('')}</div></div>
-  <div class="custom"><div class="custom-head"><b>Personnalise ton sticker</b><button type="button" class="c-opt" data-act="toggle-custom" aria-expanded="${draft.showCustom}">${draft.showCustom?'Fermer':'Ouvrir'}</button></div>
-   ${draft.showCustom?`<div class="c-prev" id="cprev">${cu.t?`<span class="stk ${cu.c}" style="${stkStyle(cu)}">${esc(cu.t)}</span>`:'<span class="opt">Ton texte apparaîtra ici</span>'}</div>
-   <label class="field"><span>Texte</span><input id="ct" maxlength="22" placeholder="Ex. : 100 POMPES" value="${esc(cu.t)}"></label>
-   <div class="c-row"><span>Couleur</span>${S_COLORS.map(([c,l])=>`<button type="button" class="sw" data-act="c-color" data-v="${c}" aria-pressed="${cu.c===c}" aria-label="${l}" style="${swatch(c)}"></button>`).join('')}</div>
-   <div class="c-row"><span>Police</span>${S_FONTS.map(([v,l,ff])=>`<button type="button" class="c-opt" data-act="c-font" data-v="${v}" aria-pressed="${cu.f===v}" style="font-family:${ff}">${l}</button>`).join('')}</div>
-   <div class="c-row"><span>Épaisseur</span>${[[400,'Fine'],[700,'Moyenne'],[900,'Grasse']].map(([v,l])=>`<button type="button" class="c-opt" data-act="c-weight" data-v="${v}" aria-pressed="${cu.w===v}">${l}</button>`).join('')}</div>
-   <div class="c-row"><span>Taille</span><input type="range" id="csz" min="0.7" max="1.8" step="0.1" value="${cu.sz}" aria-label="Taille du sticker"></div>
-   <button type="button" class="c-add" data-act="c-add">Coller sur ${k==='clip'?'la vidéo':k==='story'?'la story':'la photo'}</button>`:''}</div>
-  <label class="field"><span>Sport</span><select id="sp">${SPORT_LIST.map(s=>`<option ${s===draft.sport?'selected':''}>${s}</option>`).join('')}</select></label>
-  ${k==='story'?'':`<label class="field"><span>Performance<em class="opt">facultatif</em></span><input id="perf" placeholder="Ex. : Muscle-up ×10 · 5 km en 21:30" maxlength="32" value="${esc(draft.perf)}"></label>`}
-  <label class="field"><span>${k==='story'?'Texte':'Légende'}</span><textarea id="cap" maxlength="300" placeholder="${k==='story'?'Ex. : Séance au parc à 18 h':'Raconte ta séance…'}">${esc(draft.cap)}</textarea></label>
-  <button class="publish" type="submit" id="pub"><span class="ps-x">✕</span><span class="ps-t"><b>${k==='story'?'PARTAGER':'PUBLIER'}</b><small id="pubsub">${k==='story'?'Visible 24 h puis effacée':k==='clip'?'Ton clip part dans le fil':f.length>1?f.length+' photos dans le fil':'Ta photo part dans le fil'}</small></span><span class="ps-arrow">▶</span></button>
+ main.innerHTML=`<form class="pub gutter" id="cf" novalidate>
+  <div class="seg pub-seg" role="group" aria-label="Format">${[['photo','Photo','1 à 5 photos'],['clip','Clip','30 s max'],['story','Story','24 h']].map(([v,l,d])=>`<button type="button" data-act="kind" data-k="${v}" aria-pressed="${k===v}">${l}<small>${d}</small></button>`).join('')}</div>
+  <div class="pub-media">${f.map((x,i)=>`<div class="pub-th">${x.type==='video'?`<video src="${x.url}" muted playsinline preload="metadata"></video>`:`<img src="${x.url}" alt="">`}<button type="button" class="pub-rm" data-act="rm-file" data-i="${i}" aria-label="Retirer">✕</button></div>`).join('')}${f.length<max?`<label class="pub-add" for="file"><b>+</b><small>${k==='photo'?(f.length?'Ajouter':'Photos'):k==='clip'?'Vidéo':'Photo ou vidéo'}</small></label>`:''}<input type="file" id="file" accept="${accept}" ${k==='photo'?'multiple':''} hidden></div>
+  ${k==='photo'&&f.length?`<p class="pub-hint">${f.length}/5 photos</p>`:''}
+  <label class="ep-f"><span>Catégorie</span><select id="sp">${SPORT_LIST.map(s=>`<option ${s===draft.sport?'selected':''}>${s}</option>`).join('')}</select></label>
+  <label class="ep-f"><span>Description</span><textarea id="cap" maxlength="300" rows="4" placeholder="${k==='story'?'Écris quelque chose…':'Raconte ta séance…'}">${esc(draft.cap)}</textarea></label>
+  <button class="ep-save" type="submit" id="pub">Partager</button>
  </form>`;
- const keep=()=>{draft.sport=$('sp').value;draft.perf=$('perf')?.value||'';draft.cap=$('cap').value};
- $('sp').addEventListener('change',()=>{keep();if(!draft.files.length)renderCreate()});
- $('file').addEventListener('change',e=>{let fl=[...e.target.files].slice(0,10);if(!fl.length)return;keep();
-  if(k==='photo')fl=fl.filter(x=>x.type.startsWith('image'));if(k==='clip')fl=fl.filter(x=>x.type.startsWith('video')).slice(0,1);if(k==='story')fl=fl.slice(0,1);
+ const keep=()=>{draft.sport=$('sp').value;draft.cap=$('cap').value};
+ $('file').addEventListener('change',e=>{let fl=[...e.target.files];if(!fl.length)return;keep();
+  if(k==='photo')fl=fl.filter(x=>x.type.startsWith('image'));if(k==='clip')fl=fl.filter(x=>x.type.startsWith('video'));
   const big=fl.find(x=>x.size>300*1024*1024);if(big){toast('Fichier trop lourd (300 Mo maximum avant compression)');return}
-  draft.files=fl.map(file=>({file,type:file.type.startsWith('video')?'video':'img',url:URL.createObjectURL(file)}));renderCreate()});
- $('cf').addEventListener('input',e=>{keep();if(e.target.id==='ct'||e.target.id==='csz'){cu.t=$('ct').value;cu.sz=+$('csz').value;$('cprev').innerHTML=cu.t?`<span class="stk ${cu.c}" style="${stkStyle(cu)}">${esc(cu.t)}</span>`:'<span class="opt">Ton texte apparaîtra ici</span>'}});
- const pv=$('pv');
- pv.querySelectorAll('.stk[data-si]').forEach(el=>{el.addEventListener('pointerdown',ev=>{ev.preventDefault();el.setPointerCapture(ev.pointerId);const i=+el.dataset.si;let moved=false;
-  const mv=e=>{moved=true;const r=pv.getBoundingClientRect();const x=Math.min(.95,Math.max(.05,(e.clientX-r.left)/r.width)),y=Math.min(.95,Math.max(.05,(e.clientY-r.top)/r.height));draft.stickers[i].x=x;draft.stickers[i].y=y;el.style.left=x*100+'%';el.style.top=y*100+'%'};
-  const up=()=>{el.removeEventListener('pointermove',mv);el.removeEventListener('pointerup',up);if(!moved){draft.stickers.splice(i,1);keep();renderCreate()}};
-  el.addEventListener('pointermove',mv);el.addEventListener('pointerup',up)})});
+  const add=fl.map(file=>({file,type:file.type.startsWith('video')?'video':'img',url:URL.createObjectURL(file)}));
+  draft.files=k==='photo'?[...draft.files,...add].slice(0,5):add.slice(0,1);
+  if(k==='photo'&&fl.length+f.length>5)toast('5 photos maximum');renderCreate()});
+ $('cf').addEventListener('input',keep);
  $('cf').addEventListener('submit',async e=>{
   e.preventDefault();keep();
-  const sport=draft.sport,perf=draft.perf.trim(),cap=draft.cap.trim();
-  if(k==='clip'&&!draft.files.length){toast('Choisis une vidéo pour publier un clip');return}
-  if(k==='photo'&&!draft.files.length&&!cap){toast('Ajoute au moins une photo ou une légende');return}
-  if(!(await guard([cap,perf,...draft.stickers.map(x=>x.t)].join(' \n '))))return;
-  const btn=$('pub');btn.disabled=true;
+  const sport=draft.sport,cap=draft.cap.trim();
+  if(k==='clip'&&!draft.files.length){toast('Ajoute une vidéo pour publier un clip');return}
+  if(k==='photo'&&!draft.files.length){toast('Ajoute au moins une photo');return}
+  if(!(await guard(cap)))return;
+  const btn=$('pub');btn.disabled=true;const st=t=>{btn.textContent=t};
   try{
    const media=[];
-   for(let i=0;i<draft.files.length;i++){const x=draft.files[i],n=draft.files.length>1?` (${i+1}/${draft.files.length})`:'';const st=t=>{const el=$('pubsub');if(el)el.textContent=t+n};const f=await prepareFile(x,k,st);st('Envoi…');media.push({type:x.type,url:await upload(f,k)})}
-   const stickers=draft.stickers.map(({t,c,x,y,r,sz,f,w})=>({t,c,x,y,r,sz,f,w}));
+   for(let i=0;i<draft.files.length;i++){const x=draft.files[i],n=draft.files.length>1?` ${i+1}/${draft.files.length}`:'';const fx=await prepareFile(x,k,t=>st(t+n));st('Envoi'+n+'…');media.push({type:x.type,url:await upload(fx,k)})}
    if(k==='story'){
-    const {error}=await sb.from('stories').insert({user_id:me.id,sport,text:cap,media:media[0]||null,stickers});
-    if(error){btn.disabled=false;return dbError(error,'Story impossible')}
+    const {error}=await sb.from('stories').insert({user_id:me.id,sport,text:cap,media:media[0]||null,stickers:[]});
+    if(error){btn.disabled=false;st('Partager');return dbError(error,'Story impossible')}
     toast('Story en ligne pour 24 h');newDraft();await loadStories();nav('home');return;
    }
-   const {error}=await sb.from('posts').insert({user_id:me.id,kind:k,sport,caption:cap,perf,media,stickers});
-   if(error){btn.disabled=false;return dbError(error,'Publication impossible')}
-   toast(k==='clip'?'Clip publié':'Publication en ligne');newDraft();await loadFeed();nav(k==='clip'?'clips':'home');
-  }catch(err){btn.disabled=false;$('pubsub').textContent=(err&&err.message&&err.message.startsWith('Vidéo'))?err.message:'Échec de l’envoi, réessaie'}
+   const {error}=await sb.from('posts').insert({user_id:me.id,kind:k,sport,caption:cap,perf:'',media,stickers:[]});
+   if(error){btn.disabled=false;st('Partager');return dbError(error,'Publication impossible')}
+   toast(k==='clip'?'Clip publié':'Publication en ligne');newDraft();if(k==='clip'){await loadClips();nav('clips')}else{await loadFeed();nav('home')}
+  }catch(err){btn.disabled=false;st('Partager');toast((err&&err.message&&err.message.startsWith('Vidéo'))?err.message:'Échec de l’envoi, réessaie')}
  });
 }
 
 // ================= MESSAGES =================
 let curQuery='',searchTimer,searchResults=null;
 function renderMessages(q){
- curQuery=q||'';topEl.innerHTML=`<h1>Messages</h1>`;
+ curQuery=q||'';topEl.innerHTML=`<button class="icon-btn" data-act="back" aria-label="Retour">${I.back}</button><h1 class="ptitle">Messages</h1><span class="icon-btn"></span>`;
  const last=uid=>{const c=convs[uid]||[];return c[c.length-1]};
  const convIds=Object.keys(convs).sort((a,b)=>new Date(last(b).created_at)-new Date(last(a).created_at));
  const list=curQuery?(searchResults||[]):convIds;
@@ -1548,6 +1589,8 @@ function openEditCaption(id){
 async function deletePost(id){const post=findPost(id);const {error}=await sb.from('posts').delete().eq('id',id).eq('user_id',me.id);if(error)return dbError(error,'Suppression impossible');if(post)removeFiles((post.media||[]).map(m=>m.url));feed=feed.filter(p=>p.id!==id);profilePosts=profilePosts.filter(p=>p.id!==id);toast('Publication supprimée');render()}
 async function deleteStory(id){clearTimeout(svT);const sto=(storiesBy[me.id]||[]).find(x=>x.id===id);const {error}=await sb.from('stories').delete().eq('id',id).eq('user_id',me.id);if(error)return dbError(error,'Suppression impossible');if(sto&&sto.media)removeFiles([sto.media.url]);toast('Story supprimée');await loadStories();closeStory()}
 async function pickSport(sp){sportFilter=sp;main.innerHTML=loadingHTML();await loadFeed();if(view==='home')renderHome();main.scrollTop=0}
+let lastSY=0;
+document.addEventListener('scroll',e=>{const t=e.target;if(!(t===main||t.id==='clips'))return;const y=t.scrollTop,nt=$('tabs');if(y>lastSY+4&&y>60)nt.classList.add('mini');else if(y<lastSY-4||y<60)nt.classList.remove('mini');lastSY=y},true);
 // ================= ÉVÉNEMENTS =================
 document.addEventListener('click',async e=>{
  const n=e.target.closest('[data-nav]');
@@ -1579,6 +1622,7 @@ document.addEventListener('click',async e=>{
   case 'story-menu':{clearTimeout(svT);layer.querySelectorAll('video').forEach(v=>v.pause());miniMenu(a,[{label:'Supprimer',danger:true,run:()=>deleteStory(id)}]);setTimeout(()=>{document.addEventListener('click',function resume(ev){if(!document.getElementById('mini-menu')&&sv&&layer.querySelector('.sv')){svT=setTimeout(nextStory,4000);layer.querySelectorAll('video').forEach(v=>v.play().catch(()=>{}))}},{once:true})},0);break}
   case 'story-like':{const was=likedStories.has(id);was?likedStories.delete(id):likedStories.add(id);a.classList.toggle('on',!was);if(!was){a.classList.remove('pop-l');void a.offsetWidth;a.classList.add('pop-l')}const {error}=was?await sb.from('story_likes').delete().eq('story_id',id).eq('user_id',me.id):await sb.from('story_likes').insert({story_id:id,user_id:me.id});if(error&&!/duplicate/.test(error.message||'')){was?likedStories.add(id):likedStories.delete(id);a.classList.toggle('on',was)}break}
   case 'notifs':openNotifs();break;
+  case 'go-messages':hist.push([view,arg]);loadConvs().then(()=>{if(view==='messages')renderMessages(curQuery)});nav('messages');break;
   case 'feed-pick':miniMenu(a,[{label:'Toutes les publications',active:!sportFilter,run:()=>pickSport(null)},...SPORT_LIST.map(sp=>({label:sp,active:sportFilter===sp,run:()=>pickSport(sp)}))],'center','light');break;
   case 'plus-menu':miniMenu(a,[{head:true,label:'Publier'},{label:'Une story',run:()=>{hist=[];createKind='story';newDraft();nav('create')}},{label:'Une publication',run:()=>{hist=[];createKind='photo';newDraft();nav('create')}},{label:'Un clip',run:()=>{hist=[];createKind='clip';newDraft();nav('create')}}],a.closest('nav')?'center':'left','light');break;
   case 'share-profile':{const link=BASE_URL+'?u='+encodeURIComponent(prof(u).handle);try{if(navigator.share){await navigator.share({title:'Freestyle',text:'Mon profil Freestyle',url:link});break}}catch(err){if(err&&err.name==='AbortError')break}try{await navigator.clipboard.writeText(link);toast('Lien du profil copié')}catch(err){warnBox('Lien de ton profil',link,false)}break}
@@ -1595,7 +1639,8 @@ document.addEventListener('click',async e=>{
   case 'story':openStory(u);break;
   case 'add-story':layer.innerHTML='';createKind='story';newDraft();nav('create');break;
   case 'new-clip':createKind='clip';newDraft();nav('create');break;
-  case 'kind':createKind=a.dataset.k;if(createKind==='clip')draft.files=draft.files.filter(x=>x.type==='video').slice(0,1);if(createKind==='photo')draft.files=draft.files.filter(x=>x.type==='img');if(createKind==='story')draft.files=draft.files.slice(0,1);renderCreate();break;
+  case 'rm-file':draft.files.splice(+a.dataset.i,1);renderCreate();break;
+  case 'kind':createKind=a.dataset.k;if(createKind==='clip')draft.files=draft.files.filter(x=>x.type==='video').slice(0,1);if(createKind==='photo')draft.files=draft.files.filter(x=>x.type==='img').slice(0,5);if(createKind==='story')draft.files=draft.files.slice(0,1);renderCreate();break;
   case 'stk':{const [t,c]=STICKERS[+a.dataset.i];const j=draft.stickers.findIndex(s=>s.t===t);if(j>=0)draft.stickers.splice(j,1);else if(draft.stickers.length<5)draft.stickers.push({t,c,x:+(.25+Math.random()*.5).toFixed(3),y:+(.18+Math.random()*.5).toFixed(3),r:Math.round(Math.random()*16-8)});else toast('5 stickers maximum');renderCreate();break}
   case 'toggle-custom':draft.showCustom=!draft.showCustom;renderCreate();break;
   case 'c-color':draft.custom.c=a.dataset.v;renderCreate();break;
