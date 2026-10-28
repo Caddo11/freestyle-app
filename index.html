@@ -360,6 +360,8 @@ nav.tabs .plus svg{width:18px;height:18px}
 .onb .sub{margin:-8px 0 0;text-align:center;color:var(--muted);font-family:var(--pixel);font-size:17px}
 .handle-in{display:flex;align-items:center;border:1px solid var(--line);background:var(--card);border-radius:13px;padding-left:12px}
 .handle-in span{color:var(--muted)}
+.field>span.handle-in{font-family:var(--body);font-size:15px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--fg)}
+.field>span.handle-in>span{font-family:var(--body);font-size:15px}
 .handle-in input{border:0!important;background:transparent!important;padding-left:4px!important}
 .err{font-family:var(--pixel);font-size:16px;color:var(--hot);margin:0;min-height:18px}
 .g-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:13px;border-radius:10px;background:#F2F1EC;color:#0F0F0F;font-weight:800;font-size:15px;box-shadow:inset 0 1px 0 #fff,inset 0 -2px 0 rgba(0,0,0,.15)}
@@ -516,7 +518,7 @@ function renderAuth(keepEmail){
   <button type="button" class="g-btn" data-act="google"><span class="g-ic">G</span>Continuer avec Google</button>
   <div class="or"><span>ou avec ton e-mail</span></div>
   <label class="field"><span>Adresse e-mail</span><input id="aem" type="email" autocomplete="email" inputmode="email" placeholder="toi@exemple.fr" value="${esc(keepEmail||'')}"></label>
-  <label class="field"><span>Mot de passe</span><span class="handle-in" style="padding-left:0;padding-right:6px"><input id="apw" type="password" autocomplete="${su?'new-password':'current-password'}" placeholder="${su?'8 caractères minimum':'Ton mot de passe'}"><button type="button" class="icon-btn" data-act="pw-toggle" aria-label="Afficher le mot de passe">${I.eye}</button></span></label>
+  <label class="field"><span>Mot de passe</span><span class="handle-in" style="padding-left:8px;padding-right:6px"><input id="apw" type="password" autocomplete="${su?'new-password':'current-password'}" placeholder="${su?'8 caractères minimum':'Ton mot de passe'}"><button type="button" class="icon-btn" data-act="pw-toggle" aria-label="Afficher le mot de passe">${I.eye}</button></span></label>
   ${su?`<label class="field"><span>Confirme le mot de passe</span><input id="apw2" type="password" autocomplete="new-password" placeholder="Retape-le"></label>`:`<button type="button" class="linkish" data-act="forgot" style="align-self:flex-end;margin-top:-6px">Mot de passe oublié ?</button>`}
   <p class="err" id="aerr">${esc(authErr)}</p>${authInfo?`<p class="opt" style="margin:-10px 0 0">${esc(authInfo)}</p>`:''}
   <button class="publish" type="submit" id="asub"><span class="ps-x">✕</span><span class="ps-t"><b>${su?'CRÉER MON COMPTE':'SE CONNECTER'}</b><small>${su?'Ensuite, tu crées ton profil':'Accès à ton profil sur tous tes appareils'}</small></span><span class="ps-arrow">▶</span></button>
