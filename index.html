@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793203212">
+<meta name="fs-build" content="1793204097">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -924,6 +924,72 @@ main{scroll-behavior:auto;overscroll-behavior-y:contain}
 .se-txt textarea.st-dark{background:rgba(17,17,17,.86);color:#fff}
 .se-txt textarea.st-yellow{background:#FFD23F;color:#111}
 .se-txt textarea.st-plain{color:#fff}
+/* v11 : barre plus fine, harmonisation, animations */
+nav.tabs{background:linear-gradient(rgba(255,255,255,0),rgba(255,255,255,.5) 70%)}
+nav.tabs .pill{box-shadow:0 6px 20px rgba(0,0,0,.07),inset 0 1px 0 #fff}
+nav.tabs.mini .pill{box-shadow:0 4px 14px rgba(0,0,0,.06)}
+nav.tabs button svg,nav.tabs button[aria-current="page"] svg{stroke-width:1.35;width:24px;height:24px}
+nav.tabs button[aria-current="page"]{background:none}
+nav.tabs .nav-ind{position:absolute;left:0;top:4px;bottom:4px;width:0;border-radius:23px;background:#EFEEEA;z-index:0;opacity:0;transition:transform .5s cubic-bezier(.3,1.25,.4,1),width .5s cubic-bezier(.3,1.25,.4,1),opacity .25s ease;pointer-events:none}
+nav.tabs button[aria-current="page"] svg{animation:navPop .45s cubic-bezier(.3,1.4,.5,1)}
+@keyframes navPop{0%{transform:scale(.82)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+.nav-av{box-shadow:0 0 0 1.35px #0F0F0F}
+nav.tabs button:not([aria-current="page"]) .nav-av{box-shadow:0 0 0 1.35px #D5D4CF}
+.icon-btn svg{transition:transform .3s cubic-bezier(.3,1.4,.5,1)}
+.icon-btn:active svg{transform:scale(.86)}
+/* polices : tout en Manrope */
+:root{--ui:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--pixel:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif}
+body,button,input,textarea,select{font-family:var(--body)}
+.tile .t-n{font-size:11px;font-weight:600}
+.cb-by{font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:5px}
+.opt{font-size:12px;font-weight:500}
+.conv time{font-size:12px;font-weight:500}
+.err{font-size:13px;font-weight:600}
+.or{font-size:13px}
+.count,.dur,.count-badge{font-size:12px;font-weight:600}
+.ps-bar .respect span{font-size:13px;font-weight:700;letter-spacing:0}
+.toast{font-size:14px;font-weight:600;letter-spacing:0;border-radius:999px;padding:11px 18px;background:rgba(20,20,20,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 10px 30px rgba(0,0,0,.18)}
+/* profil : nom, ville en italique, bio */
+.phead .pname{margin:14px 0 0}
+.pcity{display:block;margin-top:2px;font-style:italic;font-size:13.5px;font-weight:500;color:#737373}
+.pbio{margin-top:6px;font-family:var(--body);font-weight:400}
+.ep-f em{font-style:normal;font-weight:500;color:#a3a29d;margin-left:4px}
+/* sticker sélectionnable */
+.react-btn.on .ps-ic path:first-child,.react-btn.on .ps-ic path:nth-child(2){fill:url(#chrGold)}
+.react-btn.pop-l .ps-ic{animation:stkOn .5s cubic-bezier(.3,1.4,.5,1)}
+.react-btn.pop-off .ps-ic{animation:stkOff .35s ease}
+@keyframes stkOn{0%{transform:scale(1) rotate(0)}35%{transform:scale(1.3) rotate(-10deg)}70%{transform:scale(.95) rotate(4deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes stkOff{40%{transform:scale(.8) rotate(6deg)}100%{transform:none}}
+/* like : éclat + compteur */
+.ps-bar .respect,.ps-rail button{position:relative}
+.ps-bar .respect.burst::after,.ps-rail button.burst::after{content:"";position:absolute;left:19px;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:2px solid #ff4458;opacity:0;animation:burst .55s cubic-bezier(.2,.8,.3,1);pointer-events:none}
+.ps-rail button.burst::after{left:50%;top:22px}
+@keyframes burst{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(1.6);border-width:.5px}}
+.tick{display:inline-block;animation:tick .35s cubic-bezier(.3,1.3,.5,1)}
+@keyframes tick{0%{transform:translateY(60%);opacity:0}100%{transform:none;opacity:1}}
+/* apparition fluide au défilement */
+.card{animation:none}
+.rv{opacity:0;transform:translateY(22px) scale(.985);transition:opacity .6s cubic-bezier(.22,.9,.25,1) var(--d,0ms),transform .7s cubic-bezier(.22,.9,.25,1) var(--d,0ms)}
+.rv.in{opacity:1;transform:none}
+.card-media img,.card-media video{transition:transform .8s cubic-bezier(.22,.9,.25,1)}
+.card.rv:not(.in) .card-media img{transform:scale(1.04)}
+.tile{transition:transform .3s cubic-bezier(.3,1.4,.5,1)}
+.mini-menu{animation:menuIn .28s cubic-bezier(.3,1.25,.4,1) both;transform-origin:top left}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}nav.tabs .nav-ind{transition:none}*{animation-duration:.01ms!important}}
+/* en-tête catégorie */
+.feed-pick{font-size:15px;gap:4px}
+/* clips : ••• en haut à droite */
+.clips-top .sp{flex:1}
+.clips-more{pointer-events:auto;width:40px;height:42px;display:grid;place-items:center;color:#fff;font-weight:900;letter-spacing:1px;font-size:15px;filter:drop-shadow(0 1px 6px rgba(0,0,0,.4))}
+.clips-more[hidden]{display:none}
+.clips-plus svg{stroke-width:1.35}
+.feed-pick{font-size:14.5px;letter-spacing:-.01em}
+.top-side.r .icon-btn{width:34px}
+.top-side.r .icon-btn svg{width:23px;height:23px}
+.top:has(.feed-pick){gap:4px}
+.feed-pick{font-size:14px;gap:3px}
+.feed-pick .fp-l{font-size:13.5px}
+.feed-pick svg{width:14px;height:14px}
 
 </style>
 </head>
@@ -933,11 +999,12 @@ main{scroll-behavior:auto;overscroll-behavior-y:contain}
 <div class="app">
   <header class="top gutter" id="top"></header>
   <main id="main"></main>
-  <nav class="tabs" id="tabs" aria-label="Navigation"><div class="pill">
-    <button data-nav="search" aria-label="Rechercher"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg></button>
-    <button data-nav="home" aria-label="Fil"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"><path d="M3.5 10.5 12 3.5l8.5 7V20.5h-5.5v-6h-6v6H3.5z"/></svg></button>
-    <button data-act="plus-menu" class="nav-plus" aria-label="Publier"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M12 8v8M8 12h8"/></svg></button>
-    <button data-nav="clips" aria-label="Clips"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linejoin="round"><rect x="5" y="2.75" width="14" height="18.5" rx="4"/><path d="M10.5 9v6l4.5-3z"/></svg></button>
+  <nav class="tabs" id="tabs" aria-label="Navigation"><div class="pill"><span class="nav-ind" aria-hidden="true"></span>
+    
+    <button data-nav="home" aria-label="Fil"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M3.5 10.5 12 3.5l8.5 7V20.5h-5.5v-6h-6v6H3.5z"/></svg></button>
+    <button data-nav="search" aria-label="Rechercher"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg></button>
+    <button data-act="plus-menu" class="nav-plus" aria-label="Publier"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M12 8v8M8 12h8"/></svg></button>
+    <button data-nav="clips" aria-label="Clips"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><rect x="5" y="2.75" width="14" height="18.5" rx="4"/><path d="M10.5 9v6l4.5-3z"/></svg></button>
     <button data-nav="profile" id="nav-me" aria-label="Profil"><span class="nav-av"></span></button>
   </div></nav>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -977,23 +1044,23 @@ const I={
  image:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="4"/><circle cx="9" cy="10" r="1.7"/><path d="m4.5 17.5 5-4.5 3.5 3 2.5-2 4 3.5"/></svg>',
  verified:'<svg class="vbadge" width="15" height="15" viewBox="0 0 24 24" aria-label="Compte vérifié" role="img"><path d="M12 1.6l2.7 2 3.3-.3 1 3.2 2.8 1.9-1.1 3.2 1.1 3.2-2.8 1.9-1 3.2-3.3-.3-2.7 2-2.7-2-3.3.3-1-3.2-2.8-1.9 1.1-3.2-1.1-3.2 2.8-1.9 1-3.2 3.3.3z" fill="#1FBF5B"/><path d="M7.8 12.3l2.8 2.8 5.6-5.8" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
  psLink:'<svg class="ps-ic" width="27" height="27" viewBox="0 0 24 24"><g transform="rotate(-45 12 12)" fill="none" stroke-linecap="round"><rect x="1.6" y="8.3" width="11.6" height="7.4" rx="3.7" stroke="#2b2b2b" stroke-width="4.3"/><rect x="10.8" y="8.3" width="11.6" height="7.4" rx="3.7" stroke="#2b2b2b" stroke-width="4.3"/><rect x="1.6" y="8.3" width="11.6" height="7.4" rx="3.7" stroke="url(#chr)" stroke-width="2"/><rect x="10.8" y="8.3" width="11.6" height="7.4" rx="3.7" stroke="url(#chr)" stroke-width="2"/><path d="M3.6 9.6h4" stroke="#fff" stroke-width="1" opacity=".95"/><path d="M12.8 9.6h4" stroke="#fff" stroke-width="1" opacity=".95"/></g></svg>',
- back:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
- close:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+ back:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
+ close:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
  search:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
  play:'<svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>',
  playsm:'<svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>',
  globe:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/></svg>',
  menu:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
  eye:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
- bell:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20.5s-7.8-4.7-9.6-9.6C1.2 7.6 3.5 4.3 7 4.3c2.1 0 3.8 1.2 5 3 1.2-1.8 2.9-3 5-3 3.5 0 5.8 3.3 4.6 6.6-1.8 4.9-9.6 9.6-9.6 9.6z"/></svg>',
+ bell:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 16.8V11a5.8 5.8 0 0 1 11.6 0v5.8l1.7 1.7H4.5z"/><path d="M10 20.6a2.1 2.1 0 0 0 4 0"/><path d="M12 3.4v1.8"/></svg>',
  soundOff:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#fff"/><path d="M17 9l5 6M22 9l-5 6"/></svg>',
  soundOn:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#fff"/><path d="M17 8.5a5 5 0 0 1 0 7M19.5 6a8.5 8.5 0 0 1 0 12"/></svg>',
  psHeart:'<svg class="ps-ic" width="27" height="27" viewBox="0 0 24 24"><path class="ps-f" d="M12 20.5s-7.8-4.7-9.6-9.6C1.2 7.6 3.5 4.3 7 4.3c2.1 0 3.8 1.2 5 3 1.2-1.8 2.9-3 5-3 3.5 0 5.8 3.3 4.6 6.6-1.8 4.9-9.6 9.6-9.6 9.6z" fill="url(#chr)" stroke="#2b2b2b" stroke-width="1.3" stroke-linejoin="round"/><path d="M6.2 6.6c-1.3.3-2.1 1.5-2 2.8" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" opacity=".9"/></svg>',
  psComment:'<svg class="ps-ic" width="27" height="27" viewBox="0 0 24 24"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.2 7.5L3.5 20.4l1.2-4.4A8.4 8.4 0 1 1 20.5 11.6z" fill="url(#chr)" stroke="#2b2b2b" stroke-width="1.3" stroke-linejoin="round"/><path d="M7.3 6.8a6 6 0 0 1 4-1.6" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" opacity=".9"/></svg>',
  psSend:'<svg class="ps-ic" width="27" height="27" viewBox="0 0 24 24"><path d="M21 3 3 10.2l7.2 2.6L13 21z" fill="url(#chr)" stroke="#2b2b2b" stroke-width="1.3" stroke-linejoin="round"/><path d="M21 3 10.2 12.8" fill="none" stroke="#2b2b2b" stroke-width="1.3"/><path d="M6.5 9.6l9-3.6" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".9"/></svg>',
  psReact:'<svg class="ps-ic" width="28" height="28" viewBox="0 0 24 24"><path d="M5.5 3.5h13a2 2 0 0 1 2 2v8.8l-6.2 6.2H5.5a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2z" fill="url(#chr)" stroke="#2b2b2b" stroke-width="1.3" stroke-linejoin="round"/><path d="M20.5 14.3h-4.2a2 2 0 0 0-2 2v4.2z" fill="url(#chrFold)" stroke="#2b2b2b" stroke-width="1.3" stroke-linejoin="round"/><circle cx="9.3" cy="9.6" r="1.1" fill="#2b2b2b"/><circle cx="14.7" cy="9.6" r="1.1" fill="#2b2b2b"/><path d="M8.6 12.9c1.7 1.8 5.1 1.8 6.8 0" fill="none" stroke="#2b2b2b" stroke-width="1.3" stroke-linecap="round"/><path d="M6.3 6.3h4.4" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".95"/></svg>',
- dm:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3.4c4.9 0 8.6 3.5 8.6 7.9s-3.7 7.9-8.6 7.9c-1.1 0-2.2-.2-3.2-.5L4.4 20.3l1.3-3.8c-1.4-1.4-2.3-3.2-2.3-5.2 0-4.4 3.7-7.9 8.6-7.9z"/><path d="M8 12.7l2.8-2.6 2.3 1.8 2.9-2.6"/></svg>',
- plus:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>'
+ dm:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3.4c4.9 0 8.6 3.5 8.6 7.9s-3.7 7.9-8.6 7.9c-1.1 0-2.2-.2-3.2-.5L4.4 20.3l1.3-3.8c-1.4-1.4-2.3-3.2-2.3-5.2 0-4.4 3.7-7.9 8.6-7.9z"/><path d="M8 12.7l2.8-2.6 2.3 1.8 2.9-2.6"/></svg>',
+ plus:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M12 8v8M8 12h8"/></svg>'
 };
 
 // ================= OUTILS =================
@@ -1051,7 +1118,7 @@ let notifs=[],unreadNotifs=0,likedStories=new Set(),myStoryLikes={},soundOn=fals
 
 async function loadProfiles(ids){
  const need=[...new Set(ids)].filter(id=>id&&!P[id]);if(!need.length)return;
- const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,avatar_url,banner_url,prs').in('id',need);
+ const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').in('id',need);
  (data||[]).forEach(p=>P[p.id]=p);
 }
 const prof=id=>P[id]||{id,handle:'…',name:'…',sport:'Autre',bio:'',prs:[]};
@@ -1074,13 +1141,15 @@ function back(){const h=hist.pop();h?nav(h[0],h[1]):nav('home')}
 function render(){
  const map={home:'home',clips:'clips',create:'',messages:'home',chat:'home',global:'home',profile:'profile',editprofile:'profile',search:'search'};
  document.querySelectorAll('nav.tabs button').forEach(b=>{b.removeAttribute('aria-current');if(map[view]===b.dataset.nav&&!(view==='profile'&&arg&&arg!==me?.id))b.setAttribute('aria-current','page')});
- paintBadge();$('tabs').classList.remove('mini');lastSY=0;
+ paintBadge();$('tabs').classList.remove('mini');lastSY=0;requestAnimationFrame(moveInd);
  const bare=['chat','global','onboard','auth','checkmail','newpw'].includes(view);
  $('tabs').hidden=bare;main.classList.toggle('no-nav',bare);
  main.classList.toggle('clips-mode',view==='clips');
  topEl.hidden=['onboard','auth','checkmail','newpw','clips'].includes(view);
  ({home:renderHome,clips:renderClips,create:renderCreate,messages:()=>renderMessages(''),chat:renderChat,global:renderGlobal,profile:renderProfile,editprofile:renderEditProfile,search:()=>renderSearch(''),onboard:renderOnboard,auth:renderAuth,checkmail:renderCheckMail,newpw:renderNewPw})[view]();
 }
+function moveInd(){const ind=document.querySelector('nav.tabs .nav-ind');if(!ind)return;const a=document.querySelector('nav.tabs button[aria-current="page"]');if(!a){ind.style.opacity='0';return}ind.style.opacity='1';ind.style.width=a.offsetWidth+'px';ind.style.transform=`translateX(${a.offsetLeft}px)`}
+window.addEventListener('resize',()=>moveInd());
 function paintNavAv(){const n=document.querySelector('#nav-me .nav-av');if(!n||!me)return;n.innerHTML=me.avatar_url?`<img src="${esc(me.avatar_url)}" alt="">`:`<span>${esc((me.name||me.handle||'?')[0])}</span>`}
 function paintBadge(){paintNavAv();const np=document.querySelector('nav.tabs [data-nav="profile"]');np.querySelector('.dot')?.remove();if(unreadNotifs)np.insertAdjacentHTML('beforeend','<span class="dot"></span>');const nm=$('top-msg');if(nm){nm.querySelector('.bell-dot')?.remove();if(unreadCount)nm.insertAdjacentHTML('beforeend','<span class="bell-dot"></span>')}}
 
@@ -1298,7 +1367,7 @@ function subscribeRealtime(){
 
 // ================= FIL =================
 async function renderHome(){
- topEl.innerHTML=`<button class="feed-pick" data-act="feed-pick" aria-haspopup="true"><span class="fp-l">Catégorie :</span><b class="fp-v">${esc(sportFilter||'Général')}</b><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><span class="top-side r"><button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><button class="icon-btn" data-act="notifs" aria-label="Notifications">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount?'<span class="bell-dot"></span>':''}</button></span>`;
+ topEl.innerHTML=`<button class="feed-pick" data-act="feed-pick" aria-haspopup="true"><span class="fp-l">Catégorie :</span><b class="fp-v">${esc(sportFilter||'Toutes les publications')}</b><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><span class="top-side r"><button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><button class="icon-btn" data-act="notifs" aria-label="Notifications">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount?'<span class="bell-dot"></span>':''}</button></span>`;
  const order=Object.keys(storiesBy).filter(k=>k!==me.id).sort((a,b)=>(following.has(b)?1:0)-(following.has(a)?1:0));
  const mine=storiesBy[me.id]||[];
  const seenAll=uid=>(storiesBy[uid]||[]).every(s=>seenStories.has(s.id));
@@ -1331,14 +1400,23 @@ const findPost=id=>feed.find(p=>p.id===id)||profilePosts.find(p=>p.id===id)||cli
 async function addReaction(id,btn){
  const p=findPost(id);if(!p)return;
  const list=reactBy[id]=reactBy[id]||[];const prev=list.find(r=>r.user_id===me.id);
- let word;do{word=REACT_WORDS[Math.floor(Math.random()*REACT_WORDS.length)]}while(prev&&word===prev.word);
+ const boxes=()=>document.querySelectorAll(`.card[data-id="${id}"] .card-media`);
+ if(prev){
+  if(btn){btn.classList.remove('on','pop-l');void btn.offsetWidth;btn.classList.add('pop-off')}
+  reactBy[id]=list.filter(r=>r.user_id!==me.id);
+  boxes().forEach(m=>m.querySelectorAll(`.cb[data-u="${me.id}"]`).forEach(el=>{el.classList.add('out');setTimeout(()=>el.remove(),500)}));
+  const {error}=await sb.from('post_reactions').delete().eq('post_id',id).eq('user_id',me.id);
+  if(error){reactBy[id]=list;if(btn)btn.classList.add('on');return dbError(error,'Action impossible')}
+  return;
+ }
+ const word=REACT_WORDS[Math.floor(Math.random()*REACT_WORDS.length)];
  const color=CB_COLORS[Math.floor(Math.random()*CB_COLORS.length)];
  const row={post_id:id,user_id:me.id,word,color,created_at:new Date().toISOString()};
- if(btn){btn.classList.add('on');btn.classList.remove('pop-l');void btn.offsetWidth;btn.classList.add('pop-l')}
+ if(btn){btn.classList.remove('pop-off');btn.classList.add('on');btn.classList.remove('pop-l');void btn.offsetWidth;btn.classList.add('pop-l')}
  const {error}=await sb.from('post_reactions').upsert(row,{onConflict:'post_id,user_id'});
- if(error)return dbError(error,'Réaction impossible');
+ if(error){if(btn)btn.classList.remove('on');return dbError(error,'Réaction impossible')}
  reactBy[id]=list.filter(r=>r.user_id!==me.id);reactBy[id].push(row);
- document.querySelectorAll(`.card[data-id="${id}"] .card-media`).forEach(m=>{let box=m.querySelector('.cbub');if(!box){m.querySelector('.stamp').insertAdjacentHTML('beforebegin',`<div class="cbub" data-cid="${id}"></div>`);box=m.querySelector('.cbub')}box.dataset.on='1';box.querySelectorAll(`.cb[data-u="${me.id}"]`).forEach(el=>el.remove());pushSticker(box,row,true)});
+ boxes().forEach(m=>{let box=m.querySelector('.cbub');if(!box){m.querySelector('.stamp').insertAdjacentHTML('beforebegin',`<div class="cbub" data-cid="${id}"></div>`);box=m.querySelector('.cbub')}box.dataset.on='1';box.querySelectorAll(`.cb[data-u="${me.id}"]`).forEach(el=>el.remove());pushSticker(box,row,true)});
 }
 async function addComment(id,t){
  const p=findPost(id);t=(t||'').trim();if(!p||!t)return null;
@@ -1357,7 +1435,7 @@ async function toggleLike(id,onlyLike){
  const {error}=was?await sb.from('likes').delete().eq('post_id',id).eq('user_id',me.id):await sb.from('likes').insert({post_id:id,user_id:me.id});
  if(error&&!/duplicate/.test(error.message||'')){p.liked=was;p.like_count+=was?1:-1;paintLike(p);dbError(error,'Like impossible')}
 }
-function paintLike(p){document.querySelectorAll(`.card[data-id="${p.id}"] [data-act="like"], .clipv[data-id="${p.id}"] [data-act="like"]`).forEach(b=>{b.classList.toggle('on',p.liked);const s=b.querySelector('span:last-child');if(s)s.textContent=fmt(p.like_count)})}
+function paintLike(p){document.querySelectorAll(`.card[data-id="${p.id}"] [data-act="like"], .clipv[data-id="${p.id}"] [data-act="like"]`).forEach(b=>{const was=b.classList.contains('on');b.classList.toggle('on',p.liked);if(p.liked&&!was){b.classList.remove('burst');void b.offsetWidth;b.classList.add('burst')}const s=b.querySelector('span:last-child');if(s&&s.textContent!==fmt(p.like_count)){s.textContent=fmt(p.like_count);s.classList.remove('tick');void s.offsetWidth;s.classList.add('tick')}})}
 async function toggleFollow(uid){
  if(uid===me.id)return;
  const was=following.has(uid);was?following.delete(uid):following.add(uid);
@@ -1368,7 +1446,9 @@ async function toggleFollow(uid){
 
 // ================= LECTURE AUTOMATIQUE =================
 const vObs='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting&&e.intersectionRatio>=.6){v.muted=!soundOn;v.play().catch(()=>{v.muted=true;v.play().catch(()=>{})})}else v.pause()}),{threshold:[0,.6]}):null;
-function wireVideos(root){root.querySelectorAll('video:not([data-w])').forEach(v=>{v.dataset.w='1';v.muted=!soundOn;v.loop=true;v.playsInline=true;v.removeAttribute('autoplay');if(vObs)vObs.observe(v);else v.play().catch(()=>{})})}
+const rvObs='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rvObs.unobserve(e.target)}}),{rootMargin:'0px 0px -6% 0px',threshold:.06}):null;
+function wireReveal(root){root.querySelectorAll('.card:not([data-rv]),.grid>button:not([data-rv]),.conv:not([data-rv])').forEach((el,i)=>{el.dataset.rv='1';if(!rvObs){el.classList.add('in');return}el.classList.add('rv');el.style.setProperty('--d',Math.min(i,6)*45+'ms');rvObs.observe(el)})}
+function wireVideos(root){wireReveal(root);root.querySelectorAll('video:not([data-w])').forEach(v=>{v.dataset.w='1';v.muted=!soundOn;v.loop=true;v.playsInline=true;v.removeAttribute('autoplay');if(vObs)vObs.observe(v);else v.play().catch(()=>{})})}
 new MutationObserver(()=>wireVideos(main)).observe(main,{childList:true,subtree:true});
 new MutationObserver(()=>wireVideos(layer)).observe(layer,{childList:true,subtree:true});
 function setSound(on){soundOn=on;document.querySelectorAll('video').forEach(v=>{v.muted=!on});document.querySelectorAll('.snd').forEach(b=>b.innerHTML=on?I.soundOn:I.soundOff)}
@@ -1392,13 +1472,15 @@ async function loadClips(){clipsList=await fetchClips()}
 function clipHTML(r){const u=prof(r.user_id);return `<section class="clipv" data-id="${r.id}">
   <div class="card-media" data-dbl="${r.id}">${mediaHTML(r.media,r.sport)}${(r.stickers||[]).map(s=>stkHTML(s)).join('')}<span class="stamp">${I.bigheart}</span></div>
   <div class="shade"></div>
-  <div class="clip-info"><div class="row">${av(r.user_id,34)}<button data-act="profile" data-u="${r.user_id}"><b>${esc(u.handle)}${vb(r.user_id)}</b></button>${r.user_id!==me.id&&!following.has(r.user_id)?`<button class="ghost" data-act="follow" data-u="${r.user_id}">Suivre</button>`:''}${r.user_id===me.id||isAdmin()?`<button class="menu-btn" data-act="post-menu" data-id="${r.id}" aria-label="Options">•••</button>`:''}</div>${r.caption?`<p class="clip-cap">${esc(r.caption)}</p>`:''}<span class="clip-meta">${esc(r.sport)}${r.perf?' · '+esc(r.perf):''}</span></div>
+  <div class="clip-info"><div class="row">${av(r.user_id,34)}<button data-act="profile" data-u="${r.user_id}"><b>${esc(u.handle)}${vb(r.user_id)}</b></button>${r.user_id!==me.id&&!following.has(r.user_id)?`<button class="ghost" data-act="follow" data-u="${r.user_id}">Suivre</button>`:''}</div>${r.caption?`<p class="clip-cap">${esc(r.caption)}</p>`:''}<span class="clip-meta">${esc(r.sport)}${r.perf?' · '+esc(r.perf):''}</span></div>
   <div class="rail ps-rail"><button class="${r.liked?'on':''}" data-act="like" data-id="${r.id}" aria-label="J’aime">${I.psHeart}<span>${fmt(r.like_count)}</span></button><button data-act="comments" data-id="${r.id}" aria-label="Commentaires">${I.psComment}<span>${fmt(r.comment_count||0)}</span></button><button data-act="share-post" data-id="${r.id}" aria-label="Partager">${I.psLink}<span>Partager</span></button>${hasVideo(r)?`<button data-act="sound" class="rail-snd" aria-label="Son">${soundOn?I.soundOn:I.soundOff}</button>`:''}</div>
  </section>`}
 function renderClips(){
  topEl.innerHTML='';
- main.innerHTML=`<div class="clips-wrap"><div class="clips-top"><span>Clips</span><button class="clips-plus" data-act="new-clip" aria-label="Publier un clip"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M12 8v8M8 12h8"/></svg></button></div><div class="clips" id="clips">${clipsList.map(clipHTML).join('')||'<div class="empty" style="color:#aaa;padding-top:40vh">Aucun clip pour l’instant. Publie le premier avec le +</div>'}</div></div>`;
+ main.innerHTML=`<div class="clips-wrap"><div class="clips-top"><span>Clips</span><span class="sp"></span><button class="clips-more" id="clips-more" data-act="post-menu" aria-label="Options du clip" hidden>•••</button><button class="clips-plus" data-act="new-clip" aria-label="Publier un clip"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M12 8v8M8 12h8"/></svg></button></div><div class="clips" id="clips">${clipsList.map(clipHTML).join('')||'<div class="empty" style="color:#aaa;padding-top:40vh">Aucun clip pour l’instant. Publie le premier avec le +</div>'}</div></div>`;
  const box=$('clips');
+ const updMore=()=>{const b=$('clips-more');if(!b)return;const els=box.querySelectorAll('.clipv');const el=els[Math.round(box.scrollTop/Math.max(1,box.clientHeight))];const r=el&&clipsList.find(x=>x.id===el.dataset.id);const ok=!!r&&(r.user_id===me.id||isAdmin());b.hidden=!ok;if(ok)b.dataset.id=r.id};
+ box.addEventListener('scroll',updMore,{passive:true});setTimeout(updMore,60);
  box.addEventListener('scroll',async()=>{if(clipsLoading||!clipsList.length)return;if(box.scrollTop+box.clientHeight*2.5<box.scrollHeight)return;clipsLoading=true;try{const more=await fetchClips();if(more.length){more.forEach(m=>{if(!clipsList.some(x=>x.id===m.id))clipsList.push(m)});if(view==='clips'&&$('clips')===box)box.insertAdjacentHTML('beforeend',more.map(clipHTML).join(''))}}finally{clipsLoading=false}},{passive:true});
  if(arg){const el=box.querySelector(`.clipv[data-id="${arg}"]`);if(el)el.scrollIntoView()}
 }
@@ -1591,7 +1673,7 @@ function renderMessages(q){
   ${list.map(uid=>{const p=prof(uid),l=last(uid),un=l&&convs[uid].some(m=>m.recipient_id===me.id&&!m.read_at);return `<button class="conv ${un?'unread':''}" data-act="chat" data-u="${uid}">${av(uid,48)}<span class="meta"><b>${esc(p.name)}</b><span>${l?(l.sender_id===me.id?'Toi : ':'')+esc(l.text):'@'+esc(p.handle)+' · '+esc(p.sport)}</span></span>${l?`<time>${hhmm(l.created_at)}</time>`:''}</button>`}).join('')||`<div class="empty">${curQuery?(searchResults?'Aucun sportif trouvé.':'Recherche…'):'Aucune discussion pour l’instant.<br>Cherche un sportif ci-dessus pour lui écrire.'}</div>`}
  </div>`;
  const s=$('ms');s.addEventListener('input',()=>{const v=s.value.trim(),pos=s.selectionStart;clearTimeout(searchTimer);searchResults=null;
-  searchTimer=setTimeout(async()=>{if(v){const safe=v.replace(/[%,()]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,avatar_url,banner_url,prs').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(20);(data||[]).forEach(p=>P[p.id]=p);searchResults=(data||[]).map(p=>p.id)}
+  searchTimer=setTimeout(async()=>{if(v){const safe=v.replace(/[%,()]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(20);(data||[]).forEach(p=>P[p.id]=p);searchResults=(data||[]).map(p=>p.id)}
    if(view!=='messages')return;renderMessages(v);const n=$('ms');n.focus();n.setSelectionRange(pos,pos)},300)});
 }
 async function markRead(uid){const c=convs[uid]||[];const ids=c.filter(m=>m.recipient_id===me.id&&!m.read_at).map(m=>m.id);if(!ids.length)return;const now=new Date().toISOString();c.forEach(m=>{if(ids.includes(m.id))m.read_at=now});await sb.from('messages').update({read_at:now}).in('id',ids);unreadCount=Object.values(convs).filter(cc=>cc.some(m=>m.recipient_id===me.id&&!m.read_at)).length;paintBadge()}
@@ -1637,7 +1719,7 @@ async function renderSearch(q){
  topEl.innerHTML=`<label class="search search-top">${I.search}<input id="sq" placeholder="Rechercher un profil" value="${esc(sQuery)}" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Rechercher un profil"></label>`;
  main.innerHTML=`<div class="gutter" id="sres">${loadingHTML()}</div>`;
  const run=async v=>{
-  let qb=sb.from('profiles').select('id,handle,name,sport,bio,avatar_url,banner_url,prs').neq('id',me.id).limit(30);
+  let qb=sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').neq('id',me.id).limit(30);
   if(v){const safe=v.replace(/[%,()*]/g,'');qb=qb.or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`)}else qb=qb.order('created_at',{ascending:false});
   const {data}=await qb;(data||[]).forEach(p=>P[p.id]=p);
   if(view!=='search'||sQuery!==v)return;
@@ -1664,7 +1746,7 @@ async function renderProfile(){
  main.innerHTML=`<div class="gutter"><div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>
  <section class="phead">
   <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
-  <b class="pname">${esc(u.name)}${vb(uid)}</b>
+  <b class="pname">${esc(u.name)}${vb(uid)}</b>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pbtns">${mine?`<button class="pbtn" data-act="edit-profile">Modifier le profil</button><button class="pbtn" data-act="share-profile" data-u="${uid}">Partager le profil</button>`:`<button class="pbtn ${following.has(uid)?'':'primary'}" data-act="follow-prof" data-u="${uid}">${following.has(uid)?'Abonné':'Suivre'}</button><button class="pbtn" data-act="chat" data-u="${uid}">Message</button>`}</div>
  </section>
@@ -1722,7 +1804,7 @@ function openCropper(file,aspect,outW,outH,title){
 }
 let pDraft=null;
 function renderEditProfile(){
- if(!pDraft)pDraft={name:me.name,bio:me.bio,sport:me.sport||'Calisthenics',avatar_url:me.avatar_url,banner_url:me.banner_url,prs:[0,1,2,3].map(i=>({t:(me.prs||[])[i]?.t||'',c:(me.prs||[])[i]?.c||['white','black','yellow','grey'][i]})),avatarFile:null,bannerFile:null,avatarPrev:null,bannerPrev:null};
+ if(!pDraft)pDraft={name:me.name,bio:me.bio,city:me.city||'',sport:me.sport||'Calisthenics',avatar_url:me.avatar_url,banner_url:me.banner_url,prs:[0,1,2,3].map(i=>({t:(me.prs||[])[i]?.t||'',c:(me.prs||[])[i]?.c||['white','black','yellow','grey'][i]})),avatarFile:null,bannerFile:null,avatarPrev:null,bannerPrev:null};
  const d=pDraft,c=SPORTS[me.sport]||SPORTS.Autre,ban=d.bannerPrev||d.banner_url,avs=d.avatarPrev||d.avatar_url;
  topEl.innerHTML=`<button class="icon-btn" data-act="cancel-edit" aria-label="Annuler">${I.back}</button><h1 class="ptitle">Modifier le profil</h1><span class="icon-btn"></span>`;
  main.innerHTML=`<form class="ep gutter" id="pf">
@@ -1731,6 +1813,7 @@ function renderEditProfile(){
   <input type="file" id="pa" accept="image/*" hidden><input type="file" id="pb" accept="image/*" hidden>
   ${(()=>{const nx=me.name_changed_at?new Date(new Date(me.name_changed_at).getTime()+14*864e5):null,locked=nx&&nx>new Date();return `<label class="ep-f"><span>Nom <em>${locked?'modifiable à nouveau le '+nx.toLocaleDateString('fr-FR',{day:'numeric',month:'long'}):'modifiable une fois tous les 14 jours'}</em></span><input id="pn" maxlength="30" value="${esc(d.name)}" placeholder="Ton pseudo" ${locked?'disabled':''}></label>`})()}
   <label class="ep-f"><span>Sport principal</span><select id="psp">${SPORT_LIST.map(x=>`<option ${x===d.sport?'selected':''}>${x}</option>`).join('')}</select></label>
+  <label class="ep-f"><span>Ville <em>facultatif</em></span><input id="pcy" maxlength="40" value="${esc(d.city||'')}" placeholder="Ex. Toulouse" autocomplete="address-level2"></label>
   <label class="ep-f"><span>Bio</span><textarea id="pd" maxlength="160" rows="3" placeholder="Ton sport, ta ville, tes objectifs…">${esc(d.bio)}</textarea></label>
   <button class="ep-save" type="submit" id="pfs">Enregistrer</button>
  </form>`;
@@ -1739,19 +1822,19 @@ function renderEditProfile(){
  $('pf').addEventListener('input',keepP);
  $('pf').addEventListener('submit',async e=>{e.preventDefault();keepP();
   if(!d.name.trim()){toast('Indique ton nom');return}
-  if(!(await guard([d.name,d.bio].join(' \n '))))return;
+  if(!(await guard([d.name,d.city,d.bio].join(' \n '),{noLinks:false})))return;if(d.city&&LINK_RE.test(d.city)){toast('Pas de lien dans la ville');return}
   $('pfs').disabled=true;$('pfs').textContent='Enregistrement…';
   try{
    if(d.avatarFile)d.avatar_url=await upload(d.avatarFile,'avatar');
    if(d.bannerFile)d.banner_url=await upload(d.bannerFile,'banner');
-   const upd={bio:d.bio.trim(),sport:d.sport,avatar_url:d.avatar_url||null,banner_url:d.banner_url||null};if(d.name.trim()!==me.name)upd.name=d.name.trim();
+   const upd={bio:d.bio.trim(),city:(d.city||'').trim(),sport:d.sport,avatar_url:d.avatar_url||null,banner_url:d.banner_url||null};if(d.name.trim()!==me.name)upd.name=d.name.trim();
    const {data,error}=await sb.from('profiles').update(upd).eq('id',me.id).select().single();
    if(error){$('pfs').disabled=false;$('pfs').textContent='Enregistrer';return dbError(error,'Enregistrement impossible')}
    me=data;P[me.id]=data;paintNavAv();pDraft=null;toast('Profil enregistré');nav('profile',me.id);
   }catch(err){$('pfs').disabled=false;$('pfs').textContent='Enregistrer'}
  });
 }
-function keepP(){if(!pDraft||!$('pn'))return;pDraft.name=$('pn').value;pDraft.bio=$('pd').value;if($('psp'))pDraft.sport=$('psp').value}
+function keepP(){if(!pDraft||!$('pn'))return;pDraft.name=$('pn').value;pDraft.bio=$('pd').value;if($('pcy'))pDraft.city=$('pcy').value;if($('psp'))pDraft.sport=$('psp').value}
 
 // ================= STORIES =================
 let sv=null,svT;
@@ -1766,7 +1849,7 @@ function showStory(){
   <div class="card-media">${mediaHTML(it.media?[it.media]:[],it.sport,'',it.media?'':it.text)}${(it.stickers||[]).map(s=>stkHTML(s)).join('')}</div>
   ${it.media&&it.text?`<div class="grad-cap" style="z-index:4">${esc(it.text)}</div>`:''}
   <div class="sv-bars">${items.map((_,i)=>`<span class="${i<sv.si?'done':i===sv.si?'run':''}"><i></i></span>`).join('')}</div>
-  <div class="sv-head">${av(uid,32)}<b>${esc(prof(uid).handle)}${vb(uid)}<small style="display:block;font-family:var(--pixel);font-size:15px;font-weight:400;opacity:.8">${ago(it.created_at)} · expire dans ${left} h</small></b>${uid===me.id?`<span class="sv-likes">${I.heart}${myStoryLikes[it.id]||0}</span>`:''}${uid===me.id||isAdmin()?`<button class="icon-btn" data-act="story-menu" data-id="${it.id}" aria-label="Options" style="color:#fff;font-weight:900">•••</button>`:''}<button class="icon-btn" data-act="close-story" aria-label="Fermer" style="color:#fff">${I.close}</button></div>
+  <div class="sv-head">${av(uid,32)}<b>${esc(prof(uid).handle)}${vb(uid)}<small style="display:block;font-size:12px;font-weight:500;opacity:.8">${ago(it.created_at)} · expire dans ${left} h</small></b>${uid===me.id?`<span class="sv-likes">${I.heart}${myStoryLikes[it.id]||0}</span>`:''}${uid===me.id||isAdmin()?`<button class="icon-btn" data-act="story-menu" data-id="${it.id}" aria-label="Options" style="color:#fff;font-weight:900">•••</button>`:''}<button class="icon-btn" data-act="close-story" aria-label="Fermer" style="color:#fff">${I.close}</button></div>
   <div class="sv-tap"><button data-act="sv-prev" aria-label="Précédent"></button><button data-act="sv-next" aria-label="Suivant"></button></div>
   ${uid===me.id?'':`<form class="sv-reply" id="svr"><input id="svi" placeholder="Commenter la story…" aria-label="Commenter la story" maxlength="300"><button type="button" class="sv-like ${likedStories.has(it.id)?'on':''}" data-act="story-like" data-id="${it.id}" aria-label="J’aime la story">${I.heart}</button><button class="send" type="submit" aria-label="Envoyer">${I.send}</button></form>`}
  </div></div>`;
@@ -1839,7 +1922,7 @@ document.addEventListener('click',async e=>{
   case 'story-like':{const was=likedStories.has(id);was?likedStories.delete(id):likedStories.add(id);a.classList.toggle('on',!was);if(!was){a.classList.remove('pop-l');void a.offsetWidth;a.classList.add('pop-l')}const {error}=was?await sb.from('story_likes').delete().eq('story_id',id).eq('user_id',me.id):await sb.from('story_likes').insert({story_id:id,user_id:me.id});if(error&&!/duplicate/.test(error.message||'')){was?likedStories.add(id):likedStories.delete(id);a.classList.toggle('on',was)}break}
   case 'notifs':openNotifs();break;
   case 'go-messages':hist.push([view,arg]);loadConvs().then(()=>{if(view==='messages')renderMessages(curQuery)});nav('messages');break;
-  case 'feed-pick':miniMenu(a,[{head:true,label:'Catégorie'},{label:'Général',active:!sportFilter,run:()=>pickSport(null)},...SPORT_LIST.map(sp=>({label:sp,active:sportFilter===sp,run:()=>pickSport(sp)}))],'left','light');break;
+  case 'feed-pick':miniMenu(a,[{head:true,label:'Catégorie'},{label:'Toutes les publications',active:!sportFilter,run:()=>pickSport(null)},...SPORT_LIST.map(sp=>({label:sp,active:sportFilter===sp,run:()=>pickSport(sp)}))],'left','light');break;
   case 'plus-menu':miniMenu(a,[{head:true,label:'Publier'},{label:'Une story',run:()=>pickStory()},{label:'Une publication',run:()=>{hist=[];createKind='photo';newDraft();nav('create')}},{label:'Un clip',run:()=>{hist=[];createKind='clip';newDraft();nav('create')}}],a.closest('nav')?'center':'right','light');break;
   case 'share-profile':{const link=BASE_URL+'?u='+encodeURIComponent(prof(u).handle);try{if(navigator.share){await navigator.share({title:'Freestyle',text:'Mon profil Freestyle',url:link});break}}catch(err){if(err&&err.name==='AbortError')break}try{await navigator.clipboard.writeText(link);toast('Lien du profil copié')}catch(err){warnBox('Lien de ton profil',link,false)}break}
   case 'sound':{e.stopPropagation();setSound(!soundOn);break}
@@ -1896,7 +1979,7 @@ async function boot(){
  await Promise.all([refreshHome(),loadConvs(),loadNotifs(),loadClips(),loadAdmins()]);
  subscribeRealtime();
  const qpost=new URLSearchParams(location.search).get('p');if(qpost){history.replaceState(null,'',BASE_URL);const {data:pp}=await sb.from('feed').select('*').eq('id',qpost).maybeSingle();if(pp){await loadProfiles([pp.user_id]);if(pp.kind==='clip'){clipsList=[pp,...clipsList.filter(x=>x.id!==pp.id)];view='clips';arg=pp.id}else{feed=[pp,...feed.filter(x=>x.id!==pp.id)];await loadComments(feed.map(x=>x.id));view='home';setTimeout(()=>document.querySelector(`.card[data-id="${pp.id}"]`)?.scrollIntoView({block:'start'}),80)}}else toast('Cette publication n’existe plus')}
- const qu=new URLSearchParams(location.search).get('u');if(qu){history.replaceState(null,'',BASE_URL);const {data:tp}=await sb.from('profiles').select('id,handle,name,sport,bio,avatar_url,banner_url,prs').eq('handle',qu.toLowerCase()).maybeSingle();if(tp){P[tp.id]=tp;view='profile';arg=tp.id}}
+ const qu=new URLSearchParams(location.search).get('u');if(qu){history.replaceState(null,'',BASE_URL);const {data:tp}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').eq('handle',qu.toLowerCase()).maybeSingle();if(tp){P[tp.id]=tp;view='profile';arg=tp.id}}
  cleanExpiredStories();
  if(!['home','clips','messages','profile','create'].includes(view))view='home';
  render();
