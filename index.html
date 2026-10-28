@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793201575">
+<meta name="fs-build" content="1793201804">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -782,6 +782,9 @@ nav.tabs .pill{background:rgba(255,255,255,.94)}
 .ec-cancel{height:38px;padding:0 14px;border-radius:10px;font-weight:600;font-size:13.5px;color:var(--ink)}
 .ec-save{height:38px;padding:0 16px;border-radius:10px;background:var(--ink);color:var(--paper);font-weight:700;font-size:13.5px}
 
+.app:has(main.clips-mode) nav.tabs{background:none}
+.app:has(main.clips-mode) nav.tabs .pill{background:rgba(255,255,255,.9)}
+
 </style>
 </head>
 <body>
@@ -1559,8 +1562,8 @@ document.addEventListener('click',async e=>{
   case 'google':{const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:BASE_URL}});if(error)warnBox('Google pas encore activé','La connexion avec Google sera disponible très bientôt. En attendant, crée ton compte avec ton e-mail.',false);break}
   case 'resend':{const {error}=await sb.auth.resend({type:'signup',email:pendingEmail,options:{emailRedirectTo:BASE_URL}});toast(error?'Patiente quelques minutes avant de renvoyer':'E-mail renvoyé');break}
   case 'to-login':authMode='login';nav('auth');break;
-  case 'logout':await sb.auth.signOut();break;
-  case 'settings':miniMenu(a,[{label:'Modifier le profil',run:()=>{pDraft=null;nav('editprofile')}},{label:'Partager le profil',run:()=>document.querySelector('[data-act="share-profile"]')?.click()},{label:'Se déconnecter',danger:true,run:()=>sb.auth.signOut()}]);break;
+  case 'logout':await sb.auth.signOut({scope:'local'});break;
+  case 'settings':miniMenu(a,[{label:'Modifier le profil',run:()=>{pDraft=null;nav('editprofile')}},{label:'Partager le profil',run:()=>document.querySelector('[data-act="share-profile"]')?.click()},{label:'Se déconnecter',danger:true,run:()=>sb.auth.signOut({scope:'local'})}]);break;
   case 'settings-old':layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Paramètres"><div class="sheet-head">Paramètres</div><div class="sheet-list gutter"><p class="opt" style="margin:6px 0 4px">Connecté avec ${esc(session.user.email||'')}</p><button class="sheet-act" data-act="edit-profile">Modifier le profil</button><button class="sheet-act" data-act="add-story">Ajouter une story</button><button class="sheet-act danger" data-act="logout">Se déconnecter</button><button class="sheet-act" data-act="close-sheet-btn">Annuler</button></div></div></div>`;break;
   case 'close-sheet':if(e.target===a)layer.innerHTML='';break;
   case 'close-sheet-btn':layer.innerHTML='';break;
