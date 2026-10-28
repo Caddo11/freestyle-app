@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793205686">
+<meta name="fs-build" content="1793205912">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1083,6 +1083,15 @@ main{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
 .ptabs button[aria-selected="true"] svg{transform:scale(1.06)}
 .ptab-ind{position:absolute;left:0;bottom:-1px;width:50%;height:1.5px;background:var(--ink);border-radius:2px;transition:transform .45s cubic-bezier(.3,1.2,.4,1)}
 #pgrid.swap{animation:viewIn .35s cubic-bezier(.22,.9,.25,1) both}
+/* v15 : pseudo sous la story + petit plus */
+.st-it{flex:0 0 auto;width:78px;position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;animation:popIn .45s cubic-bezier(.22,.9,.25,1) both}
+.st-it:nth-child(2){animation-delay:.04s}.st-it:nth-child(3){animation-delay:.08s}.st-it:nth-child(4){animation-delay:.12s}.st-it:nth-child(5){animation-delay:.16s}
+.st-it .tile{animation:none}
+.st-n{width:100%;font-size:11.5px;font-weight:600;color:var(--ink);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile.mine{display:grid;place-items:center}
+.tile.mine .plus-big{margin:0}
+.st-add{position:absolute;right:-4px;top:92px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:#fff;border:2.5px solid #fff;z-index:3;transition:transform .25s cubic-bezier(.3,1.4,.5,1);animation:popIn .4s .2s cubic-bezier(.3,1.4,.5,1) both}
+.st-add:active{transform:scale(.85)}
 
 </style>
 </head>
@@ -1527,8 +1536,8 @@ async function renderHome(){
  const order=Object.keys(storiesBy).filter(k=>k!==me.id).sort((a,b)=>(following.has(b)?1:0)-(following.has(a)?1:0));
  const mine=storiesBy[me.id]||[];
  const seenAll=uid=>(storiesBy[uid]||[]).every(s=>seenStories.has(s.id));
- const tiles=`<button class="tile ${mine.length?'':'mine'}" data-act="${mine.length?'story':'add-story'}" data-u="${me.id}">${mine.length?`${mediaHTML(mine[0].media?[mine[0].media]:[],mine[0].sport)}<span class="t-av">${av(me.id,24)}</span><span class="t-n">Ta story</span>`:`<span><span class="plus-big">+</span><small>Ta story</small></span>`}</button>`+
-  order.map(uid=>{const it=storiesBy[uid][0];return `<button class="tile ${seenAll(uid)?'seen':''}" data-act="story" data-u="${uid}">${mediaHTML(it.media?[it.media]:[],it.sport)}<span class="t-av">${av(uid,24)}</span><span class="t-n">${esc(prof(uid).handle)}</span></button>`}).join('');
+ const tiles=`<div class="st-it">${mine.length?`<button class="tile" data-act="story" data-u="${me.id}" aria-label="Voir ta story">${mediaHTML(mine[0].media?[mine[0].media]:[],mine[0].sport)}<span class="t-av">${av(me.id,24)}</span></button><button class="st-add" data-act="add-story" aria-label="Ajouter une story"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:`<button class="tile mine" data-act="add-story" aria-label="Ajouter une story"><span class="plus-big">+</span></button>`}<span class="st-n">Ta story</span></div>`+
+  order.map(uid=>{const it=storiesBy[uid][0];return `<div class="st-it"><button class="tile ${seenAll(uid)?'seen':''}" data-act="story" data-u="${uid}" aria-label="Story de ${esc(prof(uid).handle)}">${mediaHTML(it.media?[it.media]:[],it.sport)}<span class="t-av">${av(uid,24)}</span></button><span class="st-n">${esc(prof(uid).handle)}</span></div>`}).join('');
  main.innerHTML=`<div class="gutter"><div class="stories" style="padding-top:4px">${tiles}</div>
   ${feed.length?feed.map(cardHTML).join(''):sportFilter?`<div class="empty">Aucune publication en ${esc(sportFilter)} pour l’instant.</div>`:`<div class="empty">Le fil est encore vide.<br>Publie ta première séance avec le bouton + en bas, ou invite des potes sportifs.</div>`}</div>`;
 }
