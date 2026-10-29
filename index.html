@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793278029">
+<meta name="fs-build" content="1793278177">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -2768,7 +2768,7 @@ function renderShop(){
   <i class="s3-c tl" aria-hidden="true"></i><i class="s3-c tr" aria-hidden="true"></i><i class="s3-c bl" aria-hidden="true"></i><i class="s3-c br" aria-hidden="true"></i>
   <span class="s3-side l" aria-hidden="true">FREESTYLE</span><span class="s3-side r" aria-hidden="true">CALISTHENICS</span>
   <div class="s3-stage"><div class="s3-obj" id="s3-obj"><span class="s3-halo" aria-hidden="true"></span>${layers}<img class="s3-front" src="${SHOP_LOGO}" alt="FREESTYLE Calisthenics" draggable="false"></div><span class="s3-floor" aria-hidden="true"></span></div>
-  <a class="s3-btn" href="${SHOP_URL}" target="_blank" rel="noopener noreferrer">Boutique<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  <a class="s3-btn" href="${SHOP_URL}" target="_blank" rel="noopener noreferrer">Boutique</a>
  </div>`;
  // logo de secours si celui du site ne charge pas
  const front=main.querySelector('.s3-front');front.addEventListener('error',()=>{main.querySelectorAll('.s3-obj img').forEach(im=>{im.src=LOGO});main.querySelector('.s3-obj').classList.add('fb')},{once:true});
@@ -2786,7 +2786,7 @@ function renderShop(){
   const ry=still?0:Math.sin(k*.55)*16+cx2*34,rx=still?0:Math.sin(k*.42)*5-cy2*22;
   obj.style.transform=`translateY(${still?0:Math.sin(k*.9)*5}px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
   cx.clearRect(0,0,W,H);
-  for(const p of dust){if(!still){p.y-=p.v*16;if(p.y<-.02){p.y=1.02;p.x=Math.random()}}const al=p.a*(.65+.35*Math.sin(k*1.4+p.tw));cx.fillStyle=`rgba(255,255,255,${al.toFixed(3)})`;const x=p.x*W,y=p.y*H;if(p.dash)cx.fillRect(x,y,7,1);else{cx.beginPath();cx.arc(x,y,p.r,0,6.283);cx.fill()}}
+  for(const p of dust){if(!still){p.y-=p.v*6;if(p.y<-.02){p.y=1.02;p.x=Math.random()}}const al=p.a*(.65+.35*Math.sin(k*1.4+p.tw));cx.fillStyle=`rgba(255,255,255,${al.toFixed(3)})`;const x=p.x*W,y=p.y*H;if(p.dash)cx.fillRect(x,y,7,1);else{cx.beginPath();cx.arc(x,y,p.r,0,6.283);cx.fill()}}
   shopRaf=requestAnimationFrame(loop);
  };
  cancelAnimationFrame(shopRaf);shopRaf=requestAnimationFrame(loop);
