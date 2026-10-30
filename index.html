@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793358567">
+<meta name="fs-build" content="1793360153">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1532,6 +1532,53 @@ html.theme-anim body,html.theme-anim .app,html.theme-anim main,html.theme-anim .
 .cbub{gap:9px}
 .stw-prev .stk{font-size:15px!important}
 @media (prefers-reduced-motion:reduce){.stk{animation:none!important}}
+
+/* ================= v24 : stickers adultes (monochrome) + menu sticker épuré ================= */
+.stk:not(.perf):not(.st-plain):not(.st-pill):not(.st-dark):not(.st-yellow){
+ --gl:rgba(255,255,255,.35);
+ font-family:var(--body);font-weight:600;font-size:calc(clamp(10px,2.7vw,11.5px) * var(--sz,1));letter-spacing:.16em;line-height:1;
+ padding:.5em .85em .46em;border-radius:3px;border:1px solid rgba(255,255,255,.7);color:#111;
+ background:rgba(255,255,255,.94);box-shadow:0 0 12px 0 var(--gl),0 1px 2px rgba(0,0,0,.14)}
+.stk.white,.stk.yellow,.stk.pink,.stk.mint,.stk.red,.stk.blue{background:rgba(255,255,255,.94);color:#111;border-color:rgba(255,255,255,.7);--gl:rgba(255,255,255,.35)}
+.stk.black{background:rgba(14,14,14,.92);color:#F2F2F0;border-color:rgba(255,255,255,.16);--gl:rgba(255,255,255,.16)}
+.stk.grey{background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(10px) saturate(1.3);backdrop-filter:blur(10px) saturate(1.3);color:#fff;border-color:rgba(255,255,255,.38);--gl:rgba(255,255,255,.22);text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.stk.holo{color:#111;border-color:rgba(255,255,255,.75);--gl:rgba(255,255,255,.3);background:linear-gradient(120deg,#f2f2f2 0%,#c9c9c9 22%,#f7f7f7 45%,#b9b9b9 70%,#ececec 100%);background-size:240% 100%}
+@keyframes stkGlow{0%,100%{box-shadow:0 0 8px 0 var(--gl),0 1px 2px rgba(0,0,0,.14)}50%{box-shadow:0 0 14px 1px var(--gl),0 1px 2px rgba(0,0,0,.14)}}
+@keyframes stkFloat{0%,100%{translate:0 0}50%{translate:0 -1.5px}}
+.cb{gap:3px}
+.cbub{gap:10px}
+.cb-by{font-family:var(--body);font-size:9.5px;font-weight:500;letter-spacing:.02em;color:rgba(255,255,255,.82);background:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0 0 0 2px;margin:0;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+/* menu sticker */
+.stw2{border-radius:20px 20px 0 0}
+.stw2 .sheet-head{display:none}
+.stw-top{display:flex;align-items:center;justify-content:space-between;padding:18px 16px 10px;position:relative}
+.stw-top::before{content:"";position:absolute;top:7px;left:50%;width:34px;height:4px;border-radius:2px;background:var(--line);transform:translateX(-50%)}
+.stw-top b{font-size:15px;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.stw-x{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:#8e8e8a;transition:background .2s}
+.stw-x:hover{background:var(--paper)}
+.stw2 .stw-prev{height:132px;margin:2px 0 18px;border-radius:14px;background:#141414 var(--pbg,none) center/cover;overflow:hidden;isolation:isolate}
+.stw2 .stw-prev::before{content:"";position:absolute;inset:-20px;z-index:-1;background:inherit;filter:blur(14px) brightness(.55);transform:scale(1.1)}
+.stw2 .stw-prev::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.35))}
+.stw2 .stw-prev .stk{font-size:14px!important;--r:0deg}
+.stw2 .stw-prev .stk.ph{opacity:.55}
+@keyframes stwBump{0%{transform:translate(-50%,-50%) scale(.97)}100%{transform:translate(-50%,-50%) scale(1)}}
+.stw2 .stw-f input{border:0;border-bottom:1px solid var(--paper-line);background:none;border-radius:0;padding:10px 54px 10px 2px;font-size:20px;font-weight:600;letter-spacing:.16em;color:var(--ink);transition:border-color .25s}
+.stw2 .stw-f input:focus{border-bottom-color:var(--ink)}
+.stw2 .stw-f input::placeholder{font-size:16px;font-weight:500;letter-spacing:0;color:#b5b4ae}
+.stw2 .stw-n{right:2px;font-size:11.5px;font-weight:600;letter-spacing:.04em;color:#a3a29d}
+.stw-lab{margin:20px 2px 8px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a3a29d}
+.stw2 .stw-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0}
+.stw2 .stw-c{width:auto;height:auto;display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 4px 10px;border-radius:12px;border:1px solid var(--paper-line);background:var(--paper);font-size:12px;font-weight:600;color:#8e8e8a;transform:none;box-shadow:none;transition:border-color .2s,color .2s,background .2s}
+.stw2 .stw-c[aria-checked="true"]{border-color:var(--ink);color:var(--ink);background:var(--bg)}
+.stw2 .stw-c i{width:30px;height:16px;border-radius:3px;display:block}
+.sw-white{background:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.sw-black{background:#111}
+.sw-grey{background:linear-gradient(135deg,rgba(150,150,150,.35),rgba(255,255,255,.6));box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.sw-holo{background:linear-gradient(120deg,#f2f2f2,#bdbdbd 45%,#f5f5f5 70%,#c4c4c4)}
+.stw2 .stw-hint{margin:14px 2px 16px;font-size:12px;line-height:1.45;color:#a3a29d}
+.stw2 .stw-go{height:50px;border-radius:12px;font-size:15px;font-weight:700;letter-spacing:.01em}
+html[data-theme="dark"] .stw2 .stw-c[aria-checked="true"]{border-color:#F1F1F1}
+html[data-theme="dark"] .sw-white{box-shadow:none}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -2020,6 +2067,24 @@ html[data-theme="dark"] .set-seg button[aria-pressed="true"]{color:var(--ink)}
 html[data-theme="dark"] .set-seg i{background:var(--paper);box-shadow:0 1px 2px rgba(0,0,0,.08),0 4px 14px rgba(0,0,0,.06)}
 html[data-theme="dark"] .set-note{color:#686868}
 html[data-theme="dark"] .set-foot{color:#575757}
+html[data-theme="dark"] .stw-top::before{background:var(--line)}
+html[data-theme="dark"] .stw-top b{color:var(--ink)}
+html[data-theme="dark"] .stw-x{color:#7B7B7B}
+html[data-theme="dark"] .stw-x:hover{background:var(--paper)}
+html[data-theme="dark"] .stw2 .stw-f input{border:0;border-bottom:1px solid var(--paper-line);background:none;color:var(--ink)}
+html[data-theme="dark"] .stw2 .stw-f input:focus{border-bottom-color:var(--ink)}
+html[data-theme="dark"] .stw2 .stw-f input::placeholder{color:#575757}
+html[data-theme="dark"] .stw2 .stw-n{color:#686868}
+html[data-theme="dark"] .stw-lab{color:#686868}
+html[data-theme="dark"] .stw2 .stw-c{border:1px solid var(--paper-line);background:var(--paper);color:#7B7B7B;box-shadow:none}
+html[data-theme="dark"] .stw2 .stw-c[aria-checked="true"]{border-color:var(--ink);color:var(--ink);background:var(--bg)}
+html[data-theme="dark"] .sw-white{background:#0F0F0F;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+html[data-theme="dark"] .sw-black{background:#EFEFEF}
+html[data-theme="dark"] .sw-grey{background:linear-gradient(135deg,rgba(114,114,114,0.35),rgba(15,15,15,0.6));box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+html[data-theme="dark"] .sw-holo{background:linear-gradient(120deg,#1B1B1B,#4D4D4D 45%,#181818 70%,#474747)}
+html[data-theme="dark"] .stw2 .stw-hint{color:#686868}
+html[data-theme="dark"][data-theme="dark"] .stw2 .stw-c[aria-checked="true"]{border-color:#1C1C1C}
+html[data-theme="dark"][data-theme="dark"] .sw-white{box-shadow:none}
 
 /* retouches manuelles */
 html[data-theme="dark"]{color-scheme:dark}
@@ -2621,7 +2686,7 @@ function cardHTML(p){
  </article>`;
 }
 const cmtLabel=n=>n>1?`Voir les ${n} commentaires`:'Voir le commentaire';
-const cbHTML=(c,fresh)=>`<div class="cb ${fresh?'new':''}" data-u="${c.user_id}" style="--rot:${(((c.user_id||'').charCodeAt(0)%5)-2)||-1}deg"><span class="stk ${esc(c.color||'white')}">${esc(c.word||c.text)}</span><span class="cb-by">@${esc(prof(c.user_id).handle)}</span></div>`;
+const cbHTML=(c,fresh)=>`<div class="cb ${fresh?'new':''}" data-u="${c.user_id}" style="--rot:0deg"><span class="stk ${esc(c.color||'white')}">${esc(c.word||c.text)}</span><span class="cb-by">@${esc(prof(c.user_id).handle)}</span></div>`;
 function pushSticker(box,c,fresh){box.querySelectorAll(`.cb[data-u="${c.user_id}"]`).forEach(el=>el.remove());box.insertAdjacentHTML('beforeend',cbHTML(c,fresh));const live=[...box.querySelectorAll('.cb:not(.out)')];if(live.length>3){const o=live[0];o.classList.add('out');setTimeout(()=>o.remove(),500)}}
 function playLast2(box){const list=(reactBy[box.dataset.cid]||[]).slice(-3);const tk=box.dataset.tk=String((+box.dataset.tk||0)+1);box.innerHTML='';list.forEach((c,i)=>setTimeout(()=>{if(box.isConnected&&box.dataset.tk===tk)pushSticker(box,c,false)},i*350))}
 setInterval(()=>{document.querySelectorAll('.cbub').forEach(box=>{const r=box.closest('.card-media').getBoundingClientRect();const vis=r.top<innerHeight*.75&&r.bottom>innerHeight*.25;if(vis&&box.dataset.on!=='1'){box.dataset.on='1';playLast2(box)}else if(!vis&&box.dataset.on==='1')box.dataset.on='0'})},300);
@@ -2638,7 +2703,7 @@ async function addReaction(id,btn){
   if(error){reactBy[id]=list;if(btn)btn.classList.add('on');return dbError(error,'Action impossible')}
   return;
  }
- const pick=await askStickerWord();if(!pick)return;
+ const pick=await askStickerWord(p);if(!pick)return;
  const {word,color}=pick;
  const row={post_id:id,user_id:me.id,word,color,created_at:new Date().toISOString()};
  if(btn){btn.classList.remove('pop-off');btn.classList.add('on');btn.classList.remove('pop-l');void btn.offsetWidth;btn.classList.add('pop-l')}
@@ -2648,22 +2713,26 @@ async function addReaction(id,btn){
  boxes().forEach(m=>{let box=m.querySelector('.cbub');if(!box){m.querySelector('.stamp').insertAdjacentHTML('beforebegin',`<div class="cbub" data-cid="${id}"></div>`);box=m.querySelector('.cbub')}box.dataset.on='1';box.querySelectorAll(`.cb[data-u="${me.id}"]`).forEach(el=>el.remove());pushSticker(box,row,true)});
 }
 // Sticker : chacun écrit son mot (7 lettres max). Seuls les 3 derniers restent sur la publication.
-function askStickerWord(){return new Promise(res=>{
- let col=CB_COLORS[Math.floor(Math.random()*CB_COLORS.length)],done=false;
+const STK_STYLES=[['white','Blanc'],['black','Noir'],['grey','Verre'],['holo','Argent']];
+function askStickerWord(post){return new Promise(res=>{
+ let col='white',done=false;
+ const m=post&&post.media&&post.media[0],bg=m?(m.type==='video'?(m.poster||''):m.url):'';
  const end=v=>{if(done)return;done=true;layer.removeEventListener('click',outside,true);if(layer.querySelector('.stw'))layer.innerHTML='';res(v)};
- layer.innerHTML=`<div class="layer sheet-wrap" id="stw-wrap"><div class="sheet stw" role="dialog" aria-label="Écrire un sticker"><div class="sheet-head">Ton sticker</div><div class="sheet-list gutter">
-  <div class="stw-prev"><span class="stk ${col}" id="stw-s">TON MOT</span></div>
-  <form id="stw-f" class="stw-f" autocomplete="off"><input id="stw-i" maxlength="7" placeholder="Un mot, 7 lettres max" aria-label="Mot du sticker" autocapitalize="characters" spellcheck="false"><span class="stw-n" id="stw-n">0/7</span></form>
-  <div class="stw-cols" role="radiogroup" aria-label="Couleur">${CB_COLORS.map(c=>`<button type="button" class="stw-c ${c===col?'on':''}" data-c="${c}" style="${swatch(c)}" aria-label="${c}"></button>`).join('')}</div>
-  <p class="stw-hint">Seuls les 3 derniers stickers restent affichés sur la publication.</p>
-  <button type="button" class="stw-go" id="stw-go" disabled>Coller le sticker</button>
+ layer.innerHTML=`<div class="layer sheet-wrap" id="stw-wrap"><div class="sheet stw stw2" role="dialog" aria-label="Ajouter un sticker"><div class="stw-top"><b>Ajouter un sticker</b><button type="button" class="stw-x" id="stw-x" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
+  <div class="stw-prev" style="${bg?`--pbg:url('${esc(bg)}')`:''}"><span class="stk ${col}" id="stw-s">TON MOT</span></div>
+  <form id="stw-f" class="stw-f" autocomplete="off"><input id="stw-i" maxlength="7" placeholder="Écris un mot" aria-label="Mot du sticker" autocapitalize="characters" spellcheck="false"><span class="stw-n" id="stw-n">0 / 7</span></form>
+  <div class="stw-lab">Style</div>
+  <div class="stw-cols" role="radiogroup" aria-label="Style du sticker">${STK_STYLES.map(([c,l])=>`<button type="button" role="radio" class="stw-c" data-c="${c}" aria-checked="${c===col}"><i class="sw-${c}" aria-hidden="true"></i><span>${l}</span></button>`).join('')}</div>
+  <p class="stw-hint">7 lettres maximum. Seuls les 3 derniers stickers restent sur la publication.</p>
+  <button type="button" class="stw-go" id="stw-go" disabled>Publier</button>
  </div></div></div>`;
  const i=$('stw-i'),sv=$('stw-s'),go=$('stw-go');
  const clean=v=>v.toUpperCase().replace(/[^A-ZÀ-ÖØ-ÞŒ]/g,'').slice(0,7);
- i.addEventListener('input',()=>{const v=clean(i.value);if(v!==i.value)i.value=v;sv.textContent=v||'TON MOT';$('stw-n').textContent=v.length+'/7';go.disabled=!v;sv.classList.remove('bump');void sv.offsetWidth;sv.classList.add('bump')});
- layer.querySelector('.stw-cols').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;col=b.dataset.c;layer.querySelectorAll('.stw-c').forEach(x=>x.classList.toggle('on',x===b));sv.className='stk '+col+' bump'});
+ i.addEventListener('input',()=>{const v=clean(i.value);if(v!==i.value)i.value=v;sv.textContent=v||'TON MOT';sv.classList.toggle('ph',!v);$('stw-n').textContent=v.length+' / 7';go.disabled=!v});
+ sv.classList.add('ph');
+ layer.querySelector('.stw-cols').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;col=b.dataset.c;layer.querySelectorAll('.stw-c').forEach(x=>x.setAttribute('aria-checked',x===b));sv.className='stk '+col+(i.value?'':' ph')});
  const submit=async e=>{e&&e.preventDefault();const v=clean(i.value);if(!v)return;go.disabled=true;if(!(await guard(v,{noLinks:true}))){go.disabled=false;return}end({word:v,color:col})};
- $('stw-f').addEventListener('submit',submit);go.addEventListener('click',submit);
+ $('stw-f').addEventListener('submit',submit);go.addEventListener('click',submit);$('stw-x').addEventListener('click',()=>end(null));
  function outside(e){if(e.target.id==='stw-wrap'){e.stopPropagation();end(null)}}
  layer.addEventListener('click',outside,true);
  setTimeout(()=>i.focus(),250);
