@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793358049">
+<meta name="fs-build" content="1793358567">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1504,22 +1504,34 @@ html.theme-anim body,html.theme-anim .app,html.theme-anim main,html.theme-anim .
 @keyframes stwBump{0%{transform:translate(-50%,-50%) rotate(-2deg) scale(.95)}100%{transform:translate(-50%,-50%) rotate(-2deg) scale(1)}}
 .stw-c{border-radius:7px}
 
-/* ================= v22 : stickers vivants (lueur + léger flottement) ================= */
-.stk:not(.perf):not(.st-plain):not(.st-pill):not(.st-dark):not(.st-yellow){overflow:hidden;isolation:isolate;animation:stkFloat 5.5s ease-in-out infinite}
-.cb .stk,.prs .stk,.pr-row .stk,.stk-tray .stk,.c-prev .stk{position:relative}
-.stk:not(.perf):not(.st-plain):not(.st-pill):not(.st-dark):not(.st-yellow)::after{content:"";position:absolute;top:-20%;bottom:-20%;left:0;width:45%;z-index:1;pointer-events:none;background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.08) 30%,rgba(255,255,255,.5) 50%,rgba(255,255,255,.08) 70%,transparent 100%);transform:translateX(-160%) skewX(-18deg);mix-blend-mode:soft-light;animation:stkShine 6s ease-in-out infinite}
-.stk.black::after,.stk.grey::after,.stk.red::after{mix-blend-mode:screen;opacity:.45}
-.stk.holo:not(.perf){animation:holo 9s linear infinite,stkFloat 5.5s ease-in-out infinite}
-@keyframes stkFloat{0%,100%{translate:0 0}50%{translate:0 -1.6px}}
-@keyframes stkShine{0%,62%{transform:translateX(-160%) skewX(-18deg)}88%,100%{transform:translateX(330%) skewX(-18deg)}}
-/* chaque sticker a son propre rythme */
-.cb:nth-child(2) .stk,.stk:nth-of-type(2){animation-delay:-1.8s}
-.cb:nth-child(2) .stk::after,.stk:nth-of-type(2)::after{animation-delay:-2.1s}
-.cb:nth-child(3) .stk,.stk:nth-of-type(3){animation-delay:-3.6s}
-.cb:nth-child(3) .stk::after,.stk:nth-of-type(3)::after{animation-delay:-4.2s}
-.cb:nth-child(4) .stk{animation-delay:-2.7s}
-.cb:nth-child(4) .stk::after{animation-delay:-1s}
-@media (prefers-reduced-motion:reduce){.stk,.stk::after{animation:none!important}}
+/* ================= v23 : stickers fins, lueur douce derrière, mouvement perpétuel léger ================= */
+.stk:not(.perf):not(.st-plain):not(.st-pill):not(.st-dark):not(.st-yellow){
+ --gl:rgba(255,255,255,.55);
+ font-weight:700;font-size:calc(clamp(10.5px,2.9vw,12px) * var(--sz,1));letter-spacing:.11em;line-height:1;
+ padding:.42em .8em .38em;border-radius:5px;border:1px solid rgba(255,255,255,.95);
+ box-shadow:0 0 10px 0 var(--gl),0 1px 2px rgba(0,0,0,.18);
+ animation:stkFloat 6s ease-in-out infinite,stkGlow 4.2s ease-in-out infinite}
+.stk.white{--gl:rgba(255,255,255,.6)}
+.stk.black{--gl:rgba(255,255,255,.28)}
+.stk.grey{--gl:rgba(220,220,220,.4)}
+.stk.yellow{--gl:rgba(233,210,122,.6)}
+.stk.pink{--gl:rgba(231,169,191,.6)}
+.stk.mint{--gl:rgba(169,214,195,.6)}
+.stk.red{--gl:rgba(217,83,79,.5)}
+.stk.blue{--gl:rgba(175,195,217,.6)}
+.stk.holo{--gl:rgba(226,232,246,.65)}
+.stk.holo:not(.perf){animation:holo 9s linear infinite,stkFloat 6s ease-in-out infinite,stkGlow 4.2s ease-in-out infinite}
+.cb.new .stk{box-shadow:0 0 10px 0 var(--gl),0 1px 2px rgba(0,0,0,.18)}
+@keyframes stkFloat{0%,100%{translate:0 0;rotate:0deg}25%{translate:.6px -1.2px;rotate:.35deg}50%{translate:0 -2px;rotate:0deg}75%{translate:-.6px -1px;rotate:-.35deg}}
+@keyframes stkGlow{0%,100%{box-shadow:0 0 8px 0 var(--gl),0 1px 2px rgba(0,0,0,.18)}50%{box-shadow:0 0 16px 2px var(--gl),0 1px 2px rgba(0,0,0,.18)}}
+.cb:nth-child(2) .stk,.stk:nth-of-type(2){animation-delay:-2s,-1.4s}
+.cb:nth-child(3) .stk,.stk:nth-of-type(3){animation-delay:-4s,-2.8s}
+.stk.holo:nth-of-type(2),.cb:nth-child(2) .stk.holo{animation-delay:0s,-2s,-1.4s}
+.stk.holo:nth-of-type(3),.cb:nth-child(3) .stk.holo{animation-delay:0s,-4s,-2.8s}
+.cb{gap:4px}
+.cbub{gap:9px}
+.stw-prev .stk{font-size:15px!important}
+@media (prefers-reduced-motion:reduce){.stk{animation:none!important}}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -2489,10 +2501,16 @@ async function cleanExpiredStories(){try{const {data}=await sb.from('stories').s
 // ================= DONNÉES =================
 async function loadFollowing(){const {data}=await sb.from('follows').select('following_id').eq('follower_id',me.id);following=new Set((data||[]).map(r=>r.following_id))}
 async function loadFeed(){
- let q=sb.from('feed').select('*').order('created_at',{ascending:false}).limit(60);if(sportFilter)q=q.eq('sport',sportFilter);const {data,error}=await q;
+ let q=sb.from('feed').select('*').order('created_at',{ascending:false}).limit(80);if(sportFilter)q=q.eq('sport',sportFilter);const {data,error}=await q;
  if(error){console.error(error);feed=[];return}
- const mine=(data||[]).filter(p=>p.user_id===me.id&&Date.now()-new Date(p.created_at)<36e5),rest=(data||[]).filter(p=>!mine.includes(p));
- feed=[...mine,...shuffle(rest)];
+ // Algorithme : 1) mes posts récents, 2) abonnements pas encore vus (du plus récent au plus ancien),
+ // 3) publications des autres membres (mélangées), 4) abonnements déjà vus.
+ const all=(data||[]).filter(p=>!blocked.has(p.user_id));
+ const mine=all.filter(p=>p.user_id===me.id&&Date.now()-new Date(p.created_at)<36e5);
+ const fol=all.filter(p=>following.has(p.user_id)&&!mine.includes(p));
+ let seen=new Set();if(fol.length){try{const {data:sv}=await sb.rpc('fs_my_seen',{ids:fol.map(p=>p.id)});seen=new Set((sv||[]).map(x=>typeof x==='string'?x:x.fs_my_seen||x.post_id))}catch(e){}}
+ const others=all.filter(p=>!mine.includes(p)&&!fol.includes(p)&&p.user_id!==me.id),myOld=all.filter(p=>p.user_id===me.id&&!mine.includes(p));
+ feed=[...mine,...fol.filter(p=>!seen.has(p.id)),...shuffle([...others,...myOld]),...fol.filter(p=>seen.has(p.id))];
  await loadProfiles(feed.map(p=>p.user_id));
  await loadComments(feed.map(p=>p.id));
 }
@@ -2501,11 +2519,12 @@ async function loadComments(ids){
  const {data}=await sb.from('comments').select('*').in('post_id',ids).order('created_at',{ascending:true}).limit(1000);
  ids.forEach(i=>{commentsBy[i]=[];reactBy[i]=[]});(data||[]).forEach(c=>(commentsBy[c.post_id]=commentsBy[c.post_id]||[]).push(c));
  const {data:rx}=await sb.from('post_reactions').select('*').in('post_id',ids).order('created_at',{ascending:true}).limit(2000);
- (rx||[]).forEach(r=>(reactBy[r.post_id]=reactBy[r.post_id]||[]).push(r));
+ (rx||[]).forEach(r=>(reactBy[r.post_id]=reactBy[r.post_id]||[]).push(r));Object.keys(reactBy).forEach(k=>{if(reactBy[k].length>3)reactBy[k]=reactBy[k].slice(-3)});
  await loadProfiles([...(data||[]).map(c=>c.user_id),...(rx||[]).map(r=>r.user_id)]);
 }
 async function loadStories(){
- const {data}=await sb.from('stories').select('*').gt('expires_at',new Date().toISOString()).order('created_at',{ascending:true});
+ const ids=[me.id,...[...following].filter(u=>!blocked.has(u))];
+ const {data}=await sb.from('stories').select('*').in('user_id',ids).gt('expires_at',new Date().toISOString()).order('created_at',{ascending:true});
  storiesBy={};(data||[]).forEach(s=>(storiesBy[s.user_id]=storiesBy[s.user_id]||[]).push(s));
  const {data:v}=await sb.from('story_views').select('story_id').eq('user_id',me.id);
  seenStories=new Set((v||[]).map(x=>x.story_id));
@@ -2603,8 +2622,8 @@ function cardHTML(p){
 }
 const cmtLabel=n=>n>1?`Voir les ${n} commentaires`:'Voir le commentaire';
 const cbHTML=(c,fresh)=>`<div class="cb ${fresh?'new':''}" data-u="${c.user_id}" style="--rot:${(((c.user_id||'').charCodeAt(0)%5)-2)||-1}deg"><span class="stk ${esc(c.color||'white')}">${esc(c.word||c.text)}</span><span class="cb-by">@${esc(prof(c.user_id).handle)}</span></div>`;
-function pushSticker(box,c,fresh){box.insertAdjacentHTML('beforeend',cbHTML(c,fresh));const live=[...box.querySelectorAll('.cb:not(.out)')];if(live.length>3){const o=live[0];o.classList.add('out');setTimeout(()=>o.remove(),500)}}
-function playLast2(box){const list=(reactBy[box.dataset.cid]||[]).slice(-3);box.innerHTML='';list.forEach((c,i)=>setTimeout(()=>{if(box.isConnected)pushSticker(box,c,false)},i*350))}
+function pushSticker(box,c,fresh){box.querySelectorAll(`.cb[data-u="${c.user_id}"]`).forEach(el=>el.remove());box.insertAdjacentHTML('beforeend',cbHTML(c,fresh));const live=[...box.querySelectorAll('.cb:not(.out)')];if(live.length>3){const o=live[0];o.classList.add('out');setTimeout(()=>o.remove(),500)}}
+function playLast2(box){const list=(reactBy[box.dataset.cid]||[]).slice(-3);const tk=box.dataset.tk=String((+box.dataset.tk||0)+1);box.innerHTML='';list.forEach((c,i)=>setTimeout(()=>{if(box.isConnected&&box.dataset.tk===tk)pushSticker(box,c,false)},i*350))}
 setInterval(()=>{document.querySelectorAll('.cbub').forEach(box=>{const r=box.closest('.card-media').getBoundingClientRect();const vis=r.top<innerHeight*.75&&r.bottom>innerHeight*.25;if(vis&&box.dataset.on!=='1'){box.dataset.on='1';playLast2(box)}else if(!vis&&box.dataset.on==='1')box.dataset.on='0'})},300);
 const findPost=id=>feed.find(p=>p.id===id)||profilePosts.find(p=>p.id===id)||clipsList.find(p=>p.id===id)||savedPosts.find(p=>p.id===id);
 async function addReaction(id,btn){
@@ -2673,6 +2692,7 @@ async function toggleFollow(uid){
  const {error}=was?await sb.from('follows').delete().eq('follower_id',me.id).eq('following_id',uid):await sb.from('follows').insert({follower_id:me.id,following_id:uid});
  if(error&&!/duplicate/.test(error.message||'')){was?following.add(uid):following.delete(uid);return dbError(error,'Action impossible')}
  toast(was?'Tu ne suis plus @'+prof(uid).handle:'Tu suis @'+prof(uid).handle);
+ loadStories().catch(()=>{}); // les stories suivent les abonnements
 }
 
 // ================= LECTURE AUTOMATIQUE =================
@@ -2698,7 +2718,7 @@ let miniCloser=null;
 function closeMini(){document.getElementById('mini-menu')?.remove();if(miniCloser){document.removeEventListener('click',miniCloser);miniCloser=null}}
 // ================= CLIPS =================
 let obs;
-async function fetchClips(){const {data}=await sb.from('feed').select('*').eq('kind','clip').order('created_at',{ascending:false}).limit(40);const l=shuffle(data||[]);await loadProfiles(l.map(r=>r.user_id));return l}
+async function fetchClips(){const {data}=await sb.from('feed').select('*').eq('kind','clip').order('created_at',{ascending:false}).limit(100);const l=shuffle(data||[]);await loadProfiles(l.map(r=>r.user_id));return l}
 async function loadClips(){clipsList=await fetchClips()}
 function clipHTML(r){const u=prof(r.user_id);return `<section class="clipv" data-id="${r.id}">
   <div class="card-media" data-dbl="${r.id}">${mediaHTML(r.media,r.sport)}${(r.stickers||[]).map(s=>stkHTML(s)).join('')}<span class="stamp">${I.bigheart}</span></div>
@@ -3597,7 +3617,7 @@ async function renderInsights(){
 }
 
 // ================= DÉMARRAGE =================
-async function refreshHome(){await Promise.all([loadFeed(),loadStories(),loadFollowing()])}
+async function refreshHome(){await Promise.all([loadFollowing(),loadBlocks()]);await Promise.all([loadFeed(),loadStories()])}
 let booted=false;
 async function boot(){
  const {data:{session:s}}=await sb.auth.getSession();session=s;
