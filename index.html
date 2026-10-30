@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793363480">
+<meta name="fs-build" content="1793363820">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1674,7 +1674,7 @@ html[data-theme="dark"] .sh-hero{background:radial-gradient(120% 90% at 50% 0%,#
 .ex-chips{display:flex;gap:7px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}
 .ex-chips::-webkit-scrollbar{display:none}
 .ex-chips button{flex:0 0 auto;padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink);background:var(--paper);border:1px solid var(--paper-line);transition:background .25s,color .25s,border-color .25s}
-.ex-chips button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ex-chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .ex-g{padding-bottom:12px}
 .ex-grid{gap:2px;grid-auto-flow:dense}
 .ex-grid>button{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--paper)}
@@ -1683,6 +1683,9 @@ html[data-theme="dark"] .sh-hero{background:radial-gradient(120% 90% at 50% 0%,#
 .ex-grid>button>.slides,.ex-grid>button>.grad{position:absolute;inset:0}
 .ex-multi{position:absolute;top:7px;right:7px;color:#fff;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
 .ex-grid>button:active{opacity:.85}
+
+.ex-chips button{display:inline-flex;align-items:center;gap:6px}
+.ex-chips button[data-k]:not([data-k=""])[aria-pressed="true"]::before{content:"";width:9px;height:5px;margin:-3px 0 0 -1px;border:solid currentColor;border-width:0 0 1.8px 1.8px;transform:rotate(-45deg)}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -2211,9 +2214,10 @@ html[data-theme="dark"] .sh-row:hover .sh-go{color:var(--ink)}
 html[data-theme="dark"] .sh-foot{color:#575757}
 html[data-theme="dark"][data-theme="dark"] .sh-row:hover{background:rgba(15,15,15,0.03)}
 html[data-theme="dark"] .ex-chips button{color:var(--ink);background:var(--paper);border:1px solid var(--paper-line)}
-html[data-theme="dark"] .ex-chips button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+html[data-theme="dark"] .ex-chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 html[data-theme="dark"] .ex-grid>button{background:var(--paper)}
 html[data-theme="dark"] .ex-multi{color:#0F0F0F}
+html[data-theme="dark"] .ex-chips button[data-k]:not([data-k=""])[aria-pressed="true"]::before{border:solid currentColor}
 
 /* retouches manuelles */
 html[data-theme="dark"]{color-scheme:dark}
@@ -2268,8 +2272,10 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSe
 const BASE_URL=location.origin+location.pathname;
 
 // ================= CONSTANTES =================
-const SPORTS={'Calisthenics':['#5a5a5a','#121212'],'Musculation':['#6e6e6e','#161616'],'Powerlifting':['#4a4a4a','#0F0F0F'],'Sport de combat':['#7a7a7a','#1a1a1a'],'Running & vélo':['#555555','#101010'],'Autre':['#5f5f5f','#111111']};
-const SPORT_LIST=Object.keys(SPORTS);
+const SPORTS={'Calisthenics':['#5a5a5a','#121212'],'Musculation':['#6e6e6e','#161616'],'Powerlifting':['#4a4a4a','#0F0F0F'],'Sport de combat':['#7a7a7a','#1a1a1a'],'Running':['#555555','#101010'],'Vélo':['#5c5c5c','#121212'],'Running & vélo':['#555555','#101010'],'Autre':['#5f5f5f','#111111']};
+const SPORT_LIST=Object.keys(SPORTS).filter(k=>k!=='Running & vélo'); // ancienne catégorie, gardée pour l'affichage
+// une ancienne publication « Running & vélo » reste visible dans Running comme dans Vélo
+const sportMatch=list=>[...new Set(list.flatMap(sp=>sp==='Running'||sp==='Vélo'?[sp,'Running & vélo']:[sp]))];
 const STICKERS=[['PR','yellow'],['DAY 1','holo'],['NO EXCUSE','black'],['EN FEU','red'],['VALIDÉ','white']];
 const S_COLORS=[['holo','Holo'],['white','Blanc'],['black','Noir'],['grey','Gris'],['yellow','Jaune'],['pink','Rose'],['mint','Menthe'],['red','Rouge']];
 const S_FONTS=[['display','Bloc','var(--display)'],['ui','Console','var(--ui)'],['pixel','Pixel','var(--pixel)'],['mono','Machine','var(--mono)'],['body','Simple','var(--body)']];
@@ -2696,7 +2702,7 @@ async function cleanExpiredStories(){try{const {data}=await sb.from('stories').s
 // ================= DONNÉES =================
 async function loadFollowing(){const {data}=await sb.from('follows').select('following_id').eq('follower_id',me.id);following=new Set((data||[]).map(r=>r.following_id))}
 async function loadFeed(){
- let q=sb.from('feed').select('*').order('created_at',{ascending:false}).limit(80);if(sportFilter)q=q.eq('sport',sportFilter);const {data,error}=await q;
+ let q=sb.from('feed').select('*').order('created_at',{ascending:false}).limit(80);if(sportFilter)q=q.in('sport',sportMatch([sportFilter]));const {data,error}=await q;
  if(error){console.error(error);feed=[];return}
  // Algorithme : 1) mes posts récents, 2) abonnements pas encore vus (du plus récent au plus ancien),
  // 3) publications des autres membres (mélangées), 4) abonnements déjà vus.
@@ -3284,17 +3290,17 @@ async function openReports(){
 
 // ================= RECHERCHE =================
 let sTimer,sQuery='';
-let exploreSport=null,explorePosts=[];
+let exploreSports=new Set(),explorePosts=[];
 async function loadExplore(){
- let q=sb.from('feed').select('*').order('created_at',{ascending:false}).limit(90);if(exploreSport)q=q.eq('sport',exploreSport);
+ let q=sb.from('feed').select('*').order('created_at',{ascending:false}).limit(90);if(exploreSports.size)q=q.in('sport',sportMatch([...exploreSports]));
  const {data}=await q;explorePosts=shuffle((data||[]).filter(p=>!blocked.has(p.user_id)&&p.media&&p.media.length));
 }
-const exploreGridHTML=()=>explorePosts.length?`<div class="grid ex-grid">${explorePosts.map((p,n)=>`<button data-act="open-item" data-id="${p.id}" class="${n%10===2||n%10===5?'big':''}" aria-label="Ouvrir la publication de @${esc(prof(p.user_id).handle)}">${mediaHTML([p.media[0]],p.sport)}${p.kind==='clip'?`<span class="g-views">${I.playV}${fmt(p.view_count||0)}</span>`:p.media.length>1?`<span class="ex-multi" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="3" width="13" height="13" rx="2.5"/><path d="M16 19.5a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 3 19.5v-10A1.5 1.5 0 0 1 4.5 8"/></svg></span>`:''}</button>`).join('')}</div>`:`<div class="empty">Aucune publication${exploreSport?' en '+esc(exploreSport):''} pour l’instant.</div>`;
+const exploreGridHTML=()=>explorePosts.length?`<div class="grid ex-grid">${explorePosts.map((p,n)=>`<button data-act="open-item" data-id="${p.id}" class="${n%10===2||n%10===5?'big':''}" aria-label="Ouvrir la publication de @${esc(prof(p.user_id).handle)}">${mediaHTML([p.media[0]],p.sport)}${p.kind==='clip'?`<span class="g-views">${I.playV}${fmt(p.view_count||0)}</span>`:p.media.length>1?`<span class="ex-multi" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="3" width="13" height="13" rx="2.5"/><path d="M16 19.5a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 3 19.5v-10A1.5 1.5 0 0 1 4.5 8"/></svg></span>`:''}</button>`).join('')}</div>`:`<div class="empty">Aucune publication${exploreSports.size?' dans '+(exploreSports.size>1?'ces catégories':'cette catégorie'):''} pour l’instant.</div>`;
 async function paintExplore(){const g=$('ex-g');if(!g)return;g.innerHTML=loadingHTML();await loadExplore();await loadProfiles(explorePosts.map(p=>p.user_id));if(view!=='search'||sQuery)return;const g2=$('ex-g');if(!g2)return;g2.innerHTML=exploreGridHTML();g2.querySelectorAll('video').forEach(v=>{v.dataset.w='1';v.muted=true;v.removeAttribute('autoplay');v.pause()})}
 async function renderSearch(q){
  sQuery=q||'';
  topEl.innerHTML=`<label class="search search-top">${I.search}<input id="sq" placeholder="Rechercher un profil" value="${esc(sQuery)}" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Rechercher un profil"></label>`;
- const chips=`<div class="ex-chips" role="tablist" aria-label="Catégorie">${[null,...SPORT_LIST].map(sp=>`<button role="tab" data-act="ex-sport" data-k="${sp?esc(sp):''}" aria-selected="${exploreSport===sp}">${sp?esc(sp):'Tout'}</button>`).join('')}</div>`;
+ const chips=`<div class="ex-chips" role="group" aria-label="Catégories (plusieurs choix possibles)">${[null,...SPORT_LIST].map(sp=>`<button data-act="ex-sport" data-k="${sp?esc(sp):''}" aria-pressed="${sp?exploreSports.has(sp):!exploreSports.size}">${sp?esc(sp):'Tout'}</button>`).join('')}</div>`;
  main.innerHTML=`<div class="gutter" id="sres" ${sQuery?'':'hidden'}>${loadingHTML()}</div><div class="ex" id="ex" ${sQuery?'hidden':''}><div class="gutter">${chips}</div><div id="ex-g" class="ex-g">${explorePosts.length?exploreGridHTML():loadingHTML()}</div></div>`;
  const run=async v=>{
   const ex=$('ex'),b=$('sres');if(!b)return;
@@ -3401,7 +3407,7 @@ function renderEditProfile(){
   <div class="ep-duo"><label class="ep-btn" for="pa">Changer la photo</label><label class="ep-btn" for="pb">Changer la bannière</label></div>
   <input type="file" id="pa" accept="image/*" hidden><input type="file" id="pb" accept="image/*" hidden>
   ${(()=>{const nx=me.name_changed_at?new Date(new Date(me.name_changed_at).getTime()+14*864e5):null,locked=nx&&nx>new Date();return `<label class="ep-f"><span>Nom <em>${locked?'modifiable à nouveau le '+nx.toLocaleDateString('fr-FR',{day:'numeric',month:'long'}):'modifiable une fois tous les 14 jours'}</em></span><input id="pn" maxlength="30" value="${esc(d.name)}" placeholder="Ton pseudo" ${locked?'disabled':''}></label>`})()}
-  <label class="ep-f"><span>Sport principal</span><select id="psp">${SPORT_LIST.map(x=>`<option ${x===d.sport?'selected':''}>${x}</option>`).join('')}</select></label>
+  <label class="ep-f"><span>Sport principal</span><select id="psp">${(SPORT_LIST.includes(d.sport)?SPORT_LIST:[...SPORT_LIST,d.sport]).map(x=>`<option ${x===d.sport?'selected':''}>${x}</option>`).join('')}</select></label>
   <label class="ep-f"><span>Ville <em>facultatif</em></span><input id="pcy" maxlength="40" value="${esc(d.city||'')}" placeholder="Ex. Toulouse" autocomplete="address-level2"></label>
   <label class="ep-f"><span>Bio</span><textarea id="pd" maxlength="160" rows="3" placeholder="Ton sport, ta ville, tes objectifs…">${esc(d.bio)}</textarea></label>
   <button class="ep-save" type="submit" id="pfs">Enregistrer</button>
@@ -3571,7 +3577,11 @@ document.addEventListener('click',async e=>{
   case 'like':toggleLike(id);break;
   case 'react':addReaction(id,a);break;
   case 'save':toggleSave(id,a);break;
-  case 'ex-sport':{const k=a.dataset.k||null;if(k===exploreSport)break;exploreSport=k;a.parentElement.querySelectorAll('[role=tab]').forEach(b=>b.setAttribute('aria-selected',b===a));a.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});paintExplore();break}
+  case 'ex-sport':{const k=a.dataset.k||null;
+   // « Tout » est exclusif ; les sports se cumulent ; plus rien de coché = « Tout »
+   if(!k){if(!exploreSports.size)break;exploreSports.clear()}else if(exploreSports.has(k))exploreSports.delete(k);else exploreSports.add(k);
+   a.parentElement.querySelectorAll('[data-act="ex-sport"]').forEach(b=>{const kk=b.dataset.k||null;b.setAttribute('aria-pressed',kk?exploreSports.has(kk):!exploreSports.size)});
+   a.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});paintExplore();break}
   case 'pp-add':openPartnerPicker();break;
   case 'pp-yes':partnerRespond(id,true,a);break;
   case 'pp-no':partnerRespond(id,false,a);break;
