@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793357364">
+<meta name="fs-build" content="1793357889">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1474,6 +1474,35 @@ html.theme-anim body,html.theme-anim .app,html.theme-anim main,html.theme-anim .
 .s4-all{font-size:11.5px;font-weight:600;letter-spacing:.06em;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:2px;transition:color .25s,border-color .25s}
 .s4-all:hover{color:#fff;border-color:rgba(255,255,255,.6)}
 @media (prefers-reduced-motion:reduce){.s4 .s3-stage,.s4-cta,.s4-kicker{transition:none}}
+
+/* ================= v21 : stickers sobres, découpe fine, rendu propre ================= */
+.stk:not(.perf):not(.st-plain):not(.st-pill):not(.st-dark):not(.st-yellow){
+ font-family:var(--body);font-weight:800;font-size:calc(clamp(11.5px,3.3vw,14px) * var(--sz,1));letter-spacing:.09em;text-transform:uppercase;line-height:1;
+ padding:.62em .85em .58em;border-radius:6px;border:1.5px solid #fff;
+ box-shadow:0 1px 1.5px rgba(0,0,0,.22),0 6px 14px -4px rgba(0,0,0,.35);
+ -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+.stk.white{background:#FAFAF8;color:#141414;border-color:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05),0 1px 1.5px rgba(0,0,0,.2),0 6px 14px -4px rgba(0,0,0,.3)}
+.stk.black{background:#141414;color:#F5F5F3}
+.stk.grey{background:#8C8C8A;color:#fff}
+.stk.yellow{background:#E9D27A;color:#1a1a1a}
+.stk.pink{background:#E7A9BF;color:#1a1a1a}
+.stk.mint{background:#A9D6C3;color:#1a1a1a}
+.stk.red{background:#D9534F;color:#fff}
+.stk.blue{background:#AFC3D9;color:#1a1a1a}
+.stk.holo{color:#1a1a1a;background:linear-gradient(115deg,#ECEEF2 0%,#E3ECF4 30%,#EFE7F2 55%,#F2EFE4 80%,#ECEEF2 100%);background-size:220% 100%;animation:holo 9s linear infinite}
+.stk.outline{background:rgba(20,20,20,.35);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;border-color:rgba(255,255,255,.85)}
+/* réactions sur les publications */
+.cbub{gap:7px}
+.cb{gap:3px;animation:stkIn .45s cubic-bezier(.22,.9,.25,1) both}
+.cb:nth-child(2){margin-left:14px}
+.cb.new .stk{box-shadow:0 1px 1.5px rgba(0,0,0,.22),0 6px 14px -4px rgba(0,0,0,.35)}
+.cb-by{font-family:var(--body);font-size:10px;font-weight:600;letter-spacing:.01em;color:rgba(255,255,255,.92);background:rgba(15,15,15,.42);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);padding:2px 6px;border-radius:4px;margin-left:2px}
+.cb.out{animation:stkOut .4s ease-in forwards}
+@keyframes stkIn{from{opacity:0;transform:rotate(var(--rot)) translateY(6px) scale(.94)}to{opacity:1;transform:rotate(var(--rot)) translateY(0) scale(1)}}
+@keyframes stkOut{to{opacity:0;transform:rotate(var(--rot)) translateY(-6px) scale(.96)}}
+.stw-prev .stk{font-size:17px!important;--r:-2deg}
+@keyframes stwBump{0%{transform:translate(-50%,-50%) rotate(-2deg) scale(.95)}100%{transform:translate(-50%,-50%) rotate(-2deg) scale(1)}}
+.stw-c{border-radius:7px}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -2556,7 +2585,7 @@ function cardHTML(p){
  </article>`;
 }
 const cmtLabel=n=>n>1?`Voir les ${n} commentaires`:'Voir le commentaire';
-const cbHTML=(c,fresh)=>`<div class="cb ${fresh?'new':''}" data-u="${c.user_id}" style="--rot:${((c.id||'').charCodeAt(0)%10-5)||-2}deg"><span class="stk ${esc(c.color||'white')}">${esc(c.word||c.text)}</span><span class="cb-by">@${esc(prof(c.user_id).handle)}</span></div>`;
+const cbHTML=(c,fresh)=>`<div class="cb ${fresh?'new':''}" data-u="${c.user_id}" style="--rot:${(((c.user_id||'').charCodeAt(0)%5)-2)||-1}deg"><span class="stk ${esc(c.color||'white')}">${esc(c.word||c.text)}</span><span class="cb-by">@${esc(prof(c.user_id).handle)}</span></div>`;
 function pushSticker(box,c,fresh){box.insertAdjacentHTML('beforeend',cbHTML(c,fresh));const live=[...box.querySelectorAll('.cb:not(.out)')];if(live.length>3){const o=live[0];o.classList.add('out');setTimeout(()=>o.remove(),500)}}
 function playLast2(box){const list=(reactBy[box.dataset.cid]||[]).slice(-3);box.innerHTML='';list.forEach((c,i)=>setTimeout(()=>{if(box.isConnected)pushSticker(box,c,false)},i*350))}
 setInterval(()=>{document.querySelectorAll('.cbub').forEach(box=>{const r=box.closest('.card-media').getBoundingClientRect();const vis=r.top<innerHeight*.75&&r.bottom>innerHeight*.25;if(vis&&box.dataset.on!=='1'){box.dataset.on='1';playLast2(box)}else if(!vis&&box.dataset.on==='1')box.dataset.on='0'})},300);
