@@ -1459,7 +1459,7 @@ html.theme-anim body,html.theme-anim .app,html.theme-anim main,html.theme-anim .
 .s4 .s3-obj{--lx:50%;transform-style:preserve-3d;will-change:transform}
 .s4 .s3-layer{filter:brightness(var(--b,.3)) grayscale(.15);backface-visibility:hidden}
 .s4 .s3-front{animation:none;filter:drop-shadow(0 0 1px rgba(255,255,255,.4)) drop-shadow(0 10px 22px rgba(0,0,0,.55));transform:translateZ(.6px)}
-.s4-sheen{position:absolute;inset:0;transform:translateZ(1px);pointer-events:none;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;background:linear-gradient(105deg,transparent calc(var(--lx) - 22%),rgba(255,255,255,.5) var(--lx),transparent calc(var(--lx) + 22%));mix-blend-mode:overlay;opacity:.9}
+.s4-sheen{position:absolute;inset:0;transform:translateZ(1px);pointer-events:none;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;background:linear-gradient(105deg,rgba(0,0,0,.28) 0%,transparent calc(var(--lx) - 26%),rgba(255,255,255,.95) var(--lx),transparent calc(var(--lx) + 26%),rgba(0,0,0,.28) 100%);mix-blend-mode:soft-light;opacity:1}
 .s4 .s3-halo{animation:s3halo 5s ease-in-out infinite;background:radial-gradient(closest-side,rgba(255,255,255,.1),rgba(255,255,255,.03) 55%,transparent)}
 .s4 .s3-floor{top:calc(100% + 30px);width:58%;height:22px;background:radial-gradient(closest-side,rgba(255,255,255,.16),transparent);filter:blur(6px);will-change:transform,opacity}
 .s4-cta{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:clamp(70px,13vh,130px);opacity:0;transform:translateY(16px);transition:opacity .8s ease .45s,transform .9s cubic-bezier(.22,.9,.25,1) .45s}
@@ -3376,7 +3376,7 @@ let shopRaf=0,shopFit=null;
 function renderShop(){
  topEl.innerHTML='';
  // extrusion : 14 couches très serrées, de plus en plus sombres vers l'arrière = vraie épaisseur 3D
- const N=14,layers=Array.from({length:N},(_,k)=>{const i=N-k;return `<img class="s3-layer" src="${SHOP_LOGO}" alt="" aria-hidden="true" draggable="false" style="--z:${(-i*.85).toFixed(2)}px;--b:${(.08+.34*(1-i/N)).toFixed(2)}">`}).join('');
+ const N=18,layers=Array.from({length:N},(_,k)=>{const i=N-k;return `<img class="s3-layer" src="${SHOP_LOGO}" alt="" aria-hidden="true" draggable="false" style="--z:${(-i*1.25).toFixed(2)}px;--b:${(.05+.4*Math.pow(1-i/N,1.6)).toFixed(3)}">`}).join('');
  main.innerHTML=`<div class="shop3d s4" id="shop3d">
   <canvas class="s3-dust" id="s3-dust" aria-hidden="true"></canvas>
   <span class="s3-beam" aria-hidden="true"></span><span class="s4-grain" aria-hidden="true"></span>
