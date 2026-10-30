@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793278177">
+<meta name="fs-build" content="1793357364">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1457,7 +1457,8 @@ html.theme-anim body,html.theme-anim .app,html.theme-anim main,html.theme-anim .
 .s4-kicker{position:relative;z-index:1;margin-bottom:clamp(26px,6vh,54px);font-size:10px;font-weight:700;letter-spacing:.42em;text-transform:uppercase;color:rgba(255,255,255,.42);opacity:0;transform:translateY(8px);transition:opacity .8s ease .15s,transform .8s cubic-bezier(.22,.9,.25,1) .15s}
 .s4 .s3-stage{opacity:0;transform:scale(.9) translateY(10px);transition:opacity 1s ease,transform 1.2s cubic-bezier(.22,.9,.25,1)}
 .s4 .s3-obj{--lx:50%;transform-style:preserve-3d;will-change:transform}
-.s4 .s3-layer{filter:brightness(var(--b,.3)) grayscale(.15);backface-visibility:hidden}
+.s4 .s3-layer{filter:brightness(var(--b,.3)) contrast(1.1);backface-visibility:hidden}
+.s4 .s3-layer:first-of-type{filter:brightness(.1) drop-shadow(0 0 1px rgba(255,255,255,.25))}
 .s4 .s3-front{animation:none;filter:drop-shadow(0 0 1px rgba(255,255,255,.4)) drop-shadow(0 10px 22px rgba(0,0,0,.55));transform:translateZ(.6px)}
 .s4-sheen{position:absolute;inset:0;transform:translateZ(1px);pointer-events:none;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;background:linear-gradient(105deg,rgba(0,0,0,.28) 0%,transparent calc(var(--lx) - 26%),rgba(255,255,255,.95) var(--lx),transparent calc(var(--lx) + 26%),rgba(0,0,0,.28) 100%);mix-blend-mode:soft-light;opacity:1}
 .s4 .s3-halo{animation:s3halo 5s ease-in-out infinite;background:radial-gradient(closest-side,rgba(255,255,255,.1),rgba(255,255,255,.03) 55%,transparent)}
@@ -1965,6 +1966,15 @@ html[data-theme="dark"] .set-foot{color:#575757}
 /* retouches manuelles */
 html[data-theme="dark"]{color-scheme:dark}
 html[data-theme="dark"] nav.tabs .pill,html[data-theme="dark"] .app:has(main.clips-mode) nav.tabs .pill,html[data-theme="dark"] .app:has(main.shop-mode) nav.tabs .pill{background:rgba(26,26,26,.88)!important;border-color:#2A2A2A!important;box-shadow:0 10px 30px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06)!important}
+html[data-theme="dark"] .pub-stage{background:linear-gradient(160deg,#1c1c1c,#141414)}
+html[data-theme="dark"] .pub-stage:not(.has) .pub-plus{color:#F1F1F1;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.16);box-shadow:0 8px 30px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1)}
+html[data-theme="dark"] .pub-stage:not(.has) .pub-plus-l{color:#939393}
+html[data-theme="dark"] .tile.mine{border-color:#333;background:#181818}
+html[data-theme="dark"] .st-add{border-color:#0F0F0F}
+html[data-theme="dark"] .stw-c{border-color:rgba(255,255,255,.14)}
+html[data-theme="dark"] .stw-prev{background:radial-gradient(120% 120% at 20% 0%,#2c2c2c,#161616 70%)}
+html[data-theme="dark"] .set-row:hover{background:rgba(255,255,255,.03)}
+html[data-theme="dark"] .set-seg i{box-shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3)}
 </style>
 </head>
 <body>
@@ -3376,7 +3386,7 @@ let shopRaf=0,shopFit=null;
 function renderShop(){
  topEl.innerHTML='';
  // extrusion : 14 couches très serrées, de plus en plus sombres vers l'arrière = vraie épaisseur 3D
- const N=18,layers=Array.from({length:N},(_,k)=>{const i=N-k;return `<img class="s3-layer" src="${SHOP_LOGO}" alt="" aria-hidden="true" draggable="false" style="--z:${(-i*1.25).toFixed(2)}px;--b:${(.05+.4*Math.pow(1-i/N,1.6)).toFixed(3)}">`}).join('');
+ const N=18,layers=Array.from({length:N},(_,k)=>{const i=N-k;return `<img class="s3-layer" src="${SHOP_LOGO}" alt="" aria-hidden="true" draggable="false" style="--z:${(-i*1.25).toFixed(2)}px;--b:${(.16+.56*Math.pow(1-i/N,1.4)).toFixed(3)}">`}).join('');
  main.innerHTML=`<div class="shop3d s4" id="shop3d">
   <canvas class="s3-dust" id="s3-dust" aria-hidden="true"></canvas>
   <span class="s3-beam" aria-hidden="true"></span><span class="s4-grain" aria-hidden="true"></span>
