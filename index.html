@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793361495">
+<meta name="fs-build" content="1793361743">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1613,7 +1613,7 @@ html[data-theme="dark"] .sw-white{box-shadow:none}
 .pp-add-ic{width:36px;height:36px;border-radius:11px;background:var(--paper);display:grid;place-items:center;flex:0 0 auto}
 .pp-req{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--paper)}
 .pp-req-u{flex:1;min-width:0;display:flex;align-items:center;gap:10px;text-align:left}
-.pp-req-u span{min-width:0;display:flex;flex-direction:column}
+.pp-req-u .pp-tx{min-width:0;display:flex;flex-direction:column}
 .pp-req-u b{font-size:14px;color:var(--ink)}
 .pp-req-u small{font-size:12px;color:#8e8e8a;line-height:1.3}
 .pp-req-b{display:flex;gap:6px;flex:0 0 auto}
@@ -1621,7 +1621,7 @@ html[data-theme="dark"] .sw-white{box-shadow:none}
 .pp-yes{background:var(--ink);color:#fff}
 .pp-no{background:var(--bg);color:var(--ink);border:1px solid var(--paper-line)}
 .pp-pend{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:14px;border:1px solid var(--paper-line);font-size:13px;color:#8e8e8a}
-.pp-pend span{flex:1;min-width:0}
+.pp-pend .pp-tx{flex:1;min-width:0}
 .pp-pend b{color:var(--ink)}
 .pp-pend button{font-size:12.5px;font-weight:700;color:var(--ink)}
 .pp-sheet{border-radius:20px 20px 0 0;max-height:80%}
@@ -1629,7 +1629,7 @@ html[data-theme="dark"] .sw-white{box-shadow:none}
 .pp-res{display:flex;flex-direction:column;margin:10px 0 calc(16px + env(safe-area-inset-bottom,0px))}
 .pp-pick{display:flex;align-items:center;gap:12px;width:100%;padding:9px 2px;text-align:left;border-radius:12px;transition:background .2s}
 .pp-pick:hover{background:var(--paper)}
-.pp-pick>span{flex:1;min-width:0;display:flex;flex-direction:column}
+.pp-pick .pp-tx{flex:1;min-width:0;display:flex;flex-direction:column}
 .pp-pick b{font-size:14px;color:var(--ink)}
 .pp-pick small{font-size:12px;color:#8e8e8a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pp-pick i{font-style:normal;font-size:12.5px;font-weight:700;padding:7px 12px;border-radius:9px;background:var(--ink);color:#fff}
@@ -3806,8 +3806,8 @@ async function paintPartner(uid,mine){
  const inc=rows.filter(r=>r.status==='pending'&&r.addressee===uid),out=rows.find(r=>r.status==='pending'&&r.requester===uid);
  await loadProfiles([...inc.map(r=>r.requester),...(out?[out.addressee]:[])]);
  if(!box.isConnected)return;
- box.innerHTML=inc.map(r=>`<div class="pp-req"><button class="pp-req-u" data-act="profile" data-u="${r.requester}">${av(r.requester,36)}<span><b>@${esc(prof(r.requester).handle)}</b><small>veut être ton partenaire d’entraînement</small></span></button><span class="pp-req-b"><button class="pp-yes" data-act="pp-yes" data-id="${r.id}">Accepter</button><button class="pp-no" data-act="pp-no" data-id="${r.id}">Refuser</button></span></div>`).join('')
-  +(out?`<div class="pp-pend">${av(out.addressee,28)}<span>Demande envoyée à <b>@${esc(prof(out.addressee).handle)}</b></span><button data-act="pp-cancel" data-id="${out.id}">Annuler</button></div>`
+ box.innerHTML=inc.map(r=>`<div class="pp-req"><button class="pp-req-u" data-act="profile" data-u="${r.requester}">${av(r.requester,36)}<span class="pp-tx"><b>@${esc(prof(r.requester).handle)}</b><small>veut être ton partenaire d’entraînement</small></span></button><span class="pp-req-b"><button class="pp-yes" data-act="pp-yes" data-id="${r.id}">Accepter</button><button class="pp-no" data-act="pp-no" data-id="${r.id}">Refuser</button></span></div>`).join('')
+  +(out?`<div class="pp-pend">${av(out.addressee,28)}<span class="pp-tx">Demande envoyée à <b>@${esc(prof(out.addressee).handle)}</b></span><button data-act="pp-cancel" data-id="${out.id}">Annuler</button></div>`
   :`<button class="pp-add" data-act="pp-add"><span class="pp-add-ic">${ppIc}</span><span><b>Ajouter un partenaire d’entraînement</b><small>Il reçoit ta demande et la valide</small></span><i aria-hidden="true">›</i></button>`);
 }
 const PP_MSG={sent:'Demande envoyée',accepted:'Vous êtes maintenant partenaires d’entraînement',me_taken:'Tu as déjà un partenaire d’entraînement',target_taken:'Ce membre a déjà un partenaire d’entraînement',exists:'Une demande existe déjà avec ce membre',blocked:'Action impossible avec ce membre',banned:'Action impossible',invalid:'Action impossible',taken:'L’un de vous a déjà un partenaire',declined:'Demande refusée',ended:'C’est fait'};
@@ -3823,7 +3823,7 @@ function partnerEnd(rid,isPartner){
 function openPartnerPicker(){
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet pp-sheet" role="dialog" aria-label="Ajouter un partenaire d’entraînement"><div class="stw-top"><b>Partenaire d’entraînement</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter"><p class="pp-intro">Choisis le membre avec qui tu t’entraînes. Il recevra une demande : une fois acceptée, vous apparaîtrez ensemble sur vos profils.</p><input id="pp-q" class="pk-name" placeholder="Rechercher un pseudo" autocomplete="off" autocapitalize="off" spellcheck="false"><div id="pp-res" class="pp-res"></div></div></div></div>`;
  const res=$('pp-res'),q=$('pp-q');let tm;
- const paint=list=>{res.innerHTML=list.length?list.map(id=>`<button class="pp-pick" data-pp="${id}">${av(id,40)}<span><b>@${esc(prof(id).handle)}${vb(id)}</b><small>${esc(prof(id).name||'')}${prof(id).sport?' · '+esc(prof(id).sport):''}</small></span><i>Inviter</i></button>`).join(''):`<p class="pp-none">${q.value.trim()?'Aucun membre trouvé':'Commence à taper un pseudo'}</p>`};
+ const paint=list=>{res.innerHTML=list.length?list.map(id=>`<button class="pp-pick" data-pp="${id}">${av(id,40)}<span class="pp-tx"><b>@${esc(prof(id).handle)}${vb(id)}</b><small>${esc(prof(id).name||'')}${prof(id).sport?' · '+esc(prof(id).sport):''}</small></span><i>Inviter</i></button>`).join(''):`<p class="pp-none">${q.value.trim()?'Aucun membre trouvé':'Commence à taper un pseudo'}</p>`};
  const base=[...following].filter(x=>!blocked.has(x)&&x!==me.id).slice(0,8);loadProfiles(base).then(()=>{if(!q.value.trim())paint(base)});
  q.addEventListener('input',()=>{clearTimeout(tm);tm=setTimeout(async()=>{const v=q.value.trim().replace(/^@/,'');if(!v){paint(base);return}const safe=v.replace(/[%,()*]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(15);(data||[]).forEach(x=>P[x.id]=x);if(q.value.trim().replace(/^@/,'')===v)paint((data||[]).map(x=>x.id).filter(x=>!blocked.has(x)))},250)});
  res.addEventListener('click',async e=>{const b=e.target.closest('[data-pp]');if(!b)return;b.disabled=true;b.querySelector('i').textContent='Envoi…';await partnerRequest(b.dataset.pp);layer.innerHTML=''});
