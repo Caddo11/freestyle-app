@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793360868">
+<meta name="fs-build" content="1793361022">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -2225,6 +2225,7 @@ Object.assign(I,{
  infoSm:cic(D.mega,'','',14),
  views:cic(D.eye,'<circle class="ic-in" cx="12" cy="12" r="2.6"/>','',20),
  playV:cic(D.play,'','',14),
+ eyeV:cic(D.eye,'<circle class="ic-in" cx="12" cy="12" r="2.4"/>','',14),
  bell:cic(D.bell,'<path class="ic-d" d="M10 20.5a2.1 2.1 0 0 0 4 0"/>','',24),
  dm:cic(D.bubble,'<path class="ic-in" d="m8.2 12.6 2.7-2.5 2.2 1.8 2.8-2.6"/>','',24),
  plus:cic(D.square,'<path class="ic-in" d="M12 8.4v7.2M8.4 12h7.2"/>','',24),
@@ -2683,7 +2684,7 @@ function cardHTML(p){
   </div>
   <div class="bar-actions ps-bar"><button class="respect ${p.liked?'on':''}" data-act="like" data-id="${p.id}" aria-label="J’aime">${I.psHeart}<span>${fmt(p.like_count)}</span></button><button class="round" data-act="comments" data-id="${p.id}" aria-label="Commentaires">${I.psComment}</button><button class="round" data-act="share-post" data-id="${p.id}" aria-label="Partager la publication">${I.psShare}</button><span class="sp"></span><button class="round save-btn ${savedSet.has(p.id)?'on':''}" data-act="save" data-id="${p.id}" aria-pressed="${savedSet.has(p.id)}" aria-label="${savedSet.has(p.id)?'Retirer des enregistrements':'Enregistrer'}">${I.psSave}</button><button class="react-btn ${myR?'on':''}" data-act="react" data-id="${p.id}" aria-label="Réagir avec un sticker">${I.psReact}</button></div>
   ${p.caption?`<div class="caption"><b>${esc(u.handle)}${vb(p.user_id)}</b>${esc(p.caption)}</div>`:''}
-  ${clip&&p.view_count?`<span class="views-l">${I.playV}${fmt(p.view_count)} vue${p.view_count>1?'s':''}</span>`:''}
+  ${p.view_count?`<span class="views-l">${clip?I.playV:I.eyeV}${fmt(p.view_count)} vue${p.view_count>1?'s':''}</span>`:''}
   ${nc?`<button class="linkish" data-act="comments" data-id="${p.id}">${cmtLabel(nc)}</button>`:''}
   ${mine?`<button class="linkish st-link" data-act="post-stats" data-id="${p.id}">Voir les statistiques</button>`:''}
   <form class="inline-cmt" data-id="${p.id}"><input placeholder="Écrire un commentaire…" maxlength="2000" aria-label="Écrire un commentaire"><button type="submit">Envoyer</button></form>
@@ -3613,7 +3614,7 @@ async function deleteAnn(id){const {error}=await sb.from('announcements').delete
 
 // ================= VUES =================
 const viewQ=new Set(),viewSeen={};let viewTimer;
-const viewObs='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{const el=e.target;if(!el.isConnected){viewObs.unobserve(el);return}if(e.isIntersecting&&e.intersectionRatio>=.6){clearTimeout(el._vt);el._vt=setTimeout(()=>{if(el.isConnected)queueView(el.dataset.dbl)},1000)}else clearTimeout(el._vt)}),{threshold:[0,.6]}):null;
+const viewObs='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{const el=e.target;if(!el.isConnected){viewObs.unobserve(el);return}if(e.isIntersecting&&e.intersectionRatio>=.6){clearTimeout(el._vt);const pv=findPost(el.dataset.dbl);el._vt=setTimeout(()=>{if(el.isConnected)queueView(el.dataset.dbl)},pv&&pv.kind==='clip'?2000:1000)}else clearTimeout(el._vt)}),{threshold:[0,.6]}):null;
 function wireViews(root){if(!viewObs)return;root.querySelectorAll('[data-dbl]:not([data-vo])').forEach(el=>{el.dataset.vo='1';viewObs.observe(el)})}
 function queueView(id){if(!id||!me)return;const p=findPost(id);if(!p||p.user_id===me.id)return;if(viewSeen[id]&&Date.now()-viewSeen[id]<60000)return;viewSeen[id]=Date.now();viewQ.add(id);clearTimeout(viewTimer);viewTimer=setTimeout(flushViews,2500)}
 async function flushViews(){if(!viewQ.size)return;const ids=[...viewQ];viewQ.clear();try{await sb.rpc('fs_view_posts',{ids})}catch(e){}}
