@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793534572">
+<meta name="fs-build" content="1793535156">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1607,6 +1607,15 @@ html[data-theme="dark"] .creator .pname{background-image:linear-gradient(100deg,
 html:not([data-theme="dark"]) .creator .pbanner{box-shadow:0 0 0 1px rgba(0,0,0,.06),0 0 22px 2px rgba(255,255,255,.9),0 10px 30px rgba(0,0,0,.12);animation:crIn .8s cubic-bezier(.22,.9,.25,1) both,crGlowL 4.5s ease-in-out .8s infinite}
 @keyframes crGlowL{0%,100%{box-shadow:0 0 0 1px rgba(0,0,0,.06),0 6px 22px rgba(0,0,0,.10),0 0 0 4px rgba(255,255,255,.9)}50%{box-shadow:0 0 0 1px rgba(0,0,0,.04),0 10px 34px rgba(0,0,0,.16),0 0 0 6px rgba(255,255,255,1)}}
 @media (prefers-reduced-motion:reduce){.creator *,.creator .pbanner,.creator .pbanner::before{animation:none!important}}
+
+/* v30 : étoiles placées au-dessus de l'heure et sous les ••• */
+.conv-r{gap:3px}
+.streak{gap:4px;font-size:12.5px}
+.streak.zero{opacity:.38}
+.streak.zero i{filter:grayscale(1)}
+.chat-r{display:flex;flex-direction:column;align-items:center;gap:0;flex:0 0 auto}
+.chat-r .icon-btn{height:30px}
+.chat-r .streak{margin-top:-2px}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -3034,6 +3043,7 @@ let curQuery='',searchTimer,searchResults=null;
 // +1 étoile par jour d'affilée où les DEUX personnes se sont écrit au moins un message.
 // La série s'arrête si un jour passe sans échange des deux côtés (aujourd'hui peut encore être complété).
 const dayKey=d=>new Date(d).toLocaleDateString('fr-CA',{timeZone:'Europe/Paris'});
+const streakHTML=uid=>{const st=dmStreak(uid);return `<span class="streak ${st?'':'zero'}" title="${st} jour${st>1?'s':''} d’affilée où vous vous êtes écrit tous les deux"><i aria-hidden="true">⭐</i>${st}</span>`};
 function dmStreak(uid){
  const c=convs[uid]||[];if(!c.length)return 0;
  const mine=new Set(),his=new Set();c.forEach(m=>(m.sender_id===me.id?mine:his).add(dayKey(m.created_at)));
@@ -3054,7 +3064,7 @@ function renderMessages(q){
  main.innerHTML=`<div class="gutter">
   ${mtabsHTML()}
   <label class="search">${I.search}<input id="ms" placeholder="Chercher un sportif par pseudo ou nom" value="${esc(curQuery)}" aria-label="Rechercher"></label>
-  ${list.map(it=>{if(it.g){const g=groups[it.g],l=glast(it.g);return `<button class="conv ${gUnread(it.g)?'unread':''}" data-act="gchat" data-g="${it.g}">${gAv(it.g,48)}<span class="meta"><b>${esc(g.name)}</b><span>${l?(l.sender_id===me.id?'Toi':'@'+esc(prof(l.sender_id).handle))+' : '+esc(l.text):(gMembers[it.g]||[]).length+' membres'}</span></span>${l?`<time>${hhmm(l.created_at)}</time>`:''}</button>`}const uid=it.u;const p=prof(uid),l=last(uid),un=l&&convs[uid].some(m=>m.recipient_id===me.id&&!m.read_at);return `<button class="conv ${un?'unread':''}" data-act="chat" data-u="${uid}">${av(uid,48)}<span class="meta"><b>${esc(p.name)}</b><span>${l?(l.sender_id===me.id?'Toi : ':'')+esc(l.text):'@'+esc(p.handle)+' · '+esc(p.sport)}</span></span><span class="conv-r">${l?`<time>${hhmm(l.created_at)}</time>`:''}${(st=>st?`<span class="streak" title="${st} jour${st>1?'s':''} d’affilée où vous vous êtes écrit tous les deux">${st}<i aria-hidden="true">⭐</i></span>`:'')(dmStreak(uid))}</span></button>`}).join('')||`<div class="empty">${curQuery?(searchResults?'Aucun sportif trouvé.':'Recherche…'):'Aucune discussion pour l’instant.<br>Cherche un sportif ci-dessus pour lui écrire.'}</div>`}
+  ${list.map(it=>{if(it.g){const g=groups[it.g],l=glast(it.g);return `<button class="conv ${gUnread(it.g)?'unread':''}" data-act="gchat" data-g="${it.g}">${gAv(it.g,48)}<span class="meta"><b>${esc(g.name)}</b><span>${l?(l.sender_id===me.id?'Toi':'@'+esc(prof(l.sender_id).handle))+' : '+esc(l.text):(gMembers[it.g]||[]).length+' membres'}</span></span>${l?`<time>${hhmm(l.created_at)}</time>`:''}</button>`}const uid=it.u;const p=prof(uid),l=last(uid),un=l&&convs[uid].some(m=>m.recipient_id===me.id&&!m.read_at);return `<button class="conv ${un?'unread':''}" data-act="chat" data-u="${uid}">${av(uid,48)}<span class="meta"><b>${esc(p.name)}</b><span>${l?(l.sender_id===me.id?'Toi : ':'')+esc(l.text):'@'+esc(p.handle)+' · '+esc(p.sport)}</span></span><span class="conv-r">${streakHTML(uid)}${l?`<time>${hhmm(l.created_at)}</time>`:''}</span></button>`}).join('')||`<div class="empty">${curQuery?(searchResults?'Aucun sportif trouvé.':'Recherche…'):'Aucune discussion pour l’instant.<br>Cherche un sportif ci-dessus pour lui écrire.'}</div>`}
  </div>`;
  const s=$('ms');s.addEventListener('input',()=>{const v=s.value.trim(),pos=s.selectionStart;clearTimeout(searchTimer);searchResults=null;
   searchTimer=setTimeout(async()=>{if(v){const safe=v.replace(/[%,()]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(20);(data||[]).forEach(p=>P[p.id]=p);searchResults=(data||[]).map(p=>p.id)}
@@ -3064,7 +3074,7 @@ async function markRead(uid){const c=convs[uid]||[];const ids=c.filter(m=>m.reci
 const msgHTML=m=>`<div class="msg ${m.sender_id===me.id?'me':''}">${esc(m.text)}<small>${hhmm(m.created_at)}</small></div>`;
 async function renderChat(){
  const uid=arg;await loadProfiles([uid]);const u=prof(uid),c=convs[uid]||[];
- topEl.innerHTML=`<button class="icon-btn" data-act="back" aria-label="Retour">${I.back}</button><button data-act="profile" data-u="${uid}" style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;text-align:left">${av(uid,36)}<span style="min-width:0"><b style="display:block">${esc(u.name)}</b><small style="color:var(--muted)">@${esc(u.handle)} · ${esc(u.sport)}</small></span></button><button class="icon-btn" data-act="user-menu" data-u="${uid}" aria-label="Options">•••</button>`;
+ topEl.innerHTML=`<button class="icon-btn" data-act="back" aria-label="Retour">${I.back}</button><button data-act="profile" data-u="${uid}" style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;text-align:left">${av(uid,36)}<span style="min-width:0"><b style="display:block">${esc(u.name)}</b><small style="color:var(--muted)">@${esc(u.handle)} · ${esc(u.sport)}</small></span></button><span class="chat-r"><button class="icon-btn" data-act="user-menu" data-u="${uid}" aria-label="Options">•••</button>${streakHTML(uid)}</span>`;
  main.innerHTML=`<div class="chat"><div class="thread gutter" id="th">${c.length?c.map(msgHTML).join(''):`<div class="empty" id="chat-empty">Lance la discussion avec ${esc(u.name)}.</div>`}</div>
   <form class="composer gutter" id="cp">${c.length?'':`<div class="quick">${['On s’entraîne ensemble ?','Tu as un programme à conseiller ?','Ton dernier post est propre'].map(t=>`<button type="button" data-act="quick" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>`}
   ${blocked.has(uid)?`<div class="blk-note">Tu as bloqué ce compte. <button type="button" data-act="unblock" data-u="${uid}">Débloquer</button></div>`:`<div class="line"><input id="mi" placeholder="Écris un message…" autocomplete="off" maxlength="1000" aria-label="Message"><button class="send" type="submit" aria-label="Envoyer">${I.send}</button></div>`}</form></div>`;
@@ -3074,7 +3084,7 @@ async function renderChat(){
  $('cp').addEventListener('submit',e=>{e.preventDefault();const i=$('mi');const t=i.value;i.value='';sendMsg(uid,t).then(ok=>{if(!ok)i.value=t})});
  markRead(uid);
 }
-function appendMsg(m){const th=$('th');if(!th)return;$('chat-empty')?.remove();document.querySelector('.quick')?.remove();th.insertAdjacentHTML('beforeend',msgHTML(m));th.scrollTop=th.scrollHeight}
+function appendMsg(m){const th=$('th');if(!th)return;setTimeout(()=>{const o=document.querySelector('.chat-r .streak');if(o&&arg)o.outerHTML=streakHTML(arg)},0);$('chat-empty')?.remove();document.querySelector('.quick')?.remove();th.insertAdjacentHTML('beforeend',msgHTML(m));th.scrollTop=th.scrollHeight}
 async function sendMsg(uid,t){
  t=(t||'').trim();if(!t)return false;if(!(await guard(t)))return false;
  const {data,error}=await sb.from('messages').insert({sender_id:me.id,recipient_id:uid,text:t}).select().single();
