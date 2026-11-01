@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793537405">
+<meta name="fs-build" content="1793554609">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1734,6 +1734,20 @@ html[data-theme="dark"] .msg:not(.me) .vm-play{background:rgba(255,255,255,.1)}
 .aff-pt{font-size:15px;font-weight:800;color:var(--ink)}
 .aff-pt i{font-style:normal;font-size:11px;font-weight:600;color:#a3a29d}
 .pp-sheet .sheet-list{padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))}
+
+/* ================= v36 : alerte de série + affinité au jour le jour ================= */
+.sk-alert{display:flex;align-items:center;gap:11px;margin:8px 12px 0;padding:10px 13px;border-radius:14px;background:linear-gradient(135deg,rgba(255,176,32,.14),rgba(237,73,86,.10));border:1px solid rgba(240,140,46,.35);animation:skIn .5s cubic-bezier(.22,.9,.25,1) both}
+.sk-ic{font-size:20px;line-height:1;animation:skTurn 2.4s ease-in-out infinite}
+.sk-alert b{display:block;font-size:13.5px;color:var(--ink)}
+.sk-alert small{display:block;font-size:12px;color:#8a6a3a;line-height:1.35}
+html[data-theme="dark"] .sk-alert small{color:#E3B77A}
+@keyframes skTurn{0%,40%{transform:rotate(0)}50%,90%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}
+@keyframes skIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.streak.risk{color:#E8862A}
+.streak.risk i{filter:none;animation:skTurn 2.4s ease-in-out infinite;display:inline-block}
+.aff-day{font-style:normal;font-size:11px;font-weight:700;margin-top:2px}
+.aff-day.ok{color:#22A55C}
+.aff-day.ko{color:#E8862A}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -2267,6 +2281,9 @@ html[data-theme="dark"] .aff-t b{color:var(--ink)}
 html[data-theme="dark"] .aff-t small{color:#7B7B7B}
 html[data-theme="dark"] .aff-pt{color:var(--ink)}
 html[data-theme="dark"] .aff-pt i{color:#686868}
+html[data-theme="dark"] .streak.risk{color:#E8862A}
+html[data-theme="dark"] .aff-day.ok{color:#22A55C}
+html[data-theme="dark"] .aff-day.ko{color:#E8862A}
 
 /* retouches manuelles */
 html[data-theme="dark"]{color-scheme:dark}
@@ -3180,7 +3197,11 @@ let curQuery='',searchTimer,searchResults=null;
 // +1 étoile par jour d'affilée où les DEUX personnes se sont écrit au moins un message.
 // La série s'arrête si un jour passe sans échange des deux côtés (aujourd'hui peut encore être complété).
 const dayKey=d=>new Date(d).toLocaleDateString('fr-CA',{timeZone:'Europe/Paris'});
-const streakHTML=uid=>{const st=dmStreak(uid);return `<span class="streak ${st?'':'zero'}" title="${st} jour${st>1?'s':''} d’affilée où vous vous êtes écrit tous les deux"><i aria-hidden="true">⭐</i>${st}</span>`};
+// Série en danger : il y a une série, mais vous ne vous êtes pas encore écrit tous les deux aujourd'hui
+function streakRisk(uid){const st=dmStreak(uid);if(!st)return null;const c=convs[uid]||[],k=dayKey(new Date());const meT=c.some(m=>m.sender_id===me.id&&dayKey(m.created_at)===k),him=c.some(m=>m.sender_id===uid&&dayKey(m.created_at)===k);if(meT&&him)return null;return {st,meT,him}}
+function streakAlertHTML(uid){const r=streakRisk(uid);if(!r)return '';const n=prof(uid).name||prof(uid).handle;const miss=!r.meT&&!r.him?'Écrivez-vous tous les deux aujourd’hui':!r.meT?'Il manque ton message d’aujourd’hui':'Il manque le message de '+esc(n)+' aujourd’hui';
+ return `<div class="sk-alert" role="status"><span class="sk-ic" aria-hidden="true">⏳</span><span><b>Votre série de ${r.st} ⭐ est en danger</b><small>${miss}, sinon elle retombe à zéro à minuit.</small></span></div>`}
+const streakHTML=uid=>{const st=dmStreak(uid);return `<span class="streak ${st?'':'zero'} ${streakRisk(uid)?'risk':''}" title="${st} jour${st>1?'s':''} d’affilée où vous vous êtes écrit tous les deux"><i aria-hidden="true">${streakRisk(uid)?'⏳':'⭐'}</i>${st}</span>`};
 // Démonstration demandée : la conversation @caddo / @chloe affiche au moins 7 étoiles.
 // Retirer cette ligne pour revenir au calcul réel uniquement.
 const STREAK_DEMO={'a5124ac2-5eba-4c71-b4bd-52e5ca7e7138|d95af5f8-8d87-4b76-86a9-8ae8001edef2':7};
@@ -3327,7 +3348,7 @@ function paintRec(on){const l=$('cp-line'),r=$('cp-rec');if(!l||!r)return;l.hidd
 async function renderChat(){
  const uid=arg;await loadProfiles([uid]);const u=prof(uid),c=convs[uid]||[];
  topEl.innerHTML=`<button class="icon-btn" data-act="back" aria-label="Retour">${I.back}</button><button data-act="profile" data-u="${uid}" style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;text-align:left">${av(uid,36)}<span style="min-width:0"><b style="display:block">${esc(u.name)}</b><small style="color:var(--muted)">@${esc(u.handle)} · ${esc(u.sport)}</small></span></button><span class="chat-r"><button class="icon-btn" data-act="user-menu" data-u="${uid}" aria-label="Options">•••</button>${streakHTML(uid)}</span>`;
- main.innerHTML=`<div class="chat"><div class="thread gutter" id="th">${c.length?c.map(msgHTML).join(''):`<div class="empty" id="chat-empty">Lance la discussion avec ${esc(u.name)}.</div>`}</div>
+ main.innerHTML=`<div class="chat">${streakAlertHTML(uid)}<div class="thread gutter" id="th">${c.length?c.map(msgHTML).join(''):`<div class="empty" id="chat-empty">Lance la discussion avec ${esc(u.name)}.</div>`}</div>
   <form class="composer gutter" id="cp">${c.length?'':`<div class="quick">${['On s’entraîne ensemble ?','Tu as un programme à conseiller ?','Ton dernier post est propre'].map(t=>`<button type="button" data-act="quick" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>`}
   ${blocked.has(uid)?`<div class="blk-note">Tu as bloqué ce compte. <button type="button" data-act="unblock" data-u="${uid}">Débloquer</button></div>`:`<div class="dm-busy" id="dm-busy" hidden>Envoi…</div><div class="line" id="cp-line"><label class="cp-ic" for="dm-file" aria-label="Envoyer une photo ou une vidéo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="3.5"/><circle cx="9" cy="10" r="1.6"/><path d="m20.5 15.5-4.6-4.4-7.4 7.9"/></svg></label><input type="file" id="dm-file" accept="image/*,video/*" hidden><input id="mi" placeholder="Écris un message…" autocomplete="off" maxlength="1000" aria-label="Message"><button class="cp-ic cp-mic" type="button" id="cp-mic" aria-label="Enregistrer un message vocal (30 s max)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v2.5"/></svg></button><button class="send" type="submit" id="cp-send" aria-label="Envoyer" hidden>${I.send}</button></div><div class="line rec-line" id="cp-rec" hidden><button type="button" class="cp-ic rec-x" id="rec-x" aria-label="Annuler l’enregistrement"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/></svg></button><span class="rec-box"><span class="rec-mic" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v2.5"/></svg></span><canvas class="rec-cv" id="rec-cv" aria-hidden="true"></canvas><span class="rec-t" id="rec-t">0:00 / 0:30</span><span class="rec-track"><i id="rec-bar"></i></span></span><button class="send" type="button" id="rec-ok" aria-label="Envoyer le message vocal">${I.send}</button></div><p class="dm-note">Les vocaux, photos et vidéos disparaissent au bout de 24 h.</p>`}</form></div>`;
  const th=$('th');th.scrollTop=th.scrollHeight;
@@ -3342,7 +3363,7 @@ async function renderChat(){
  $('dm-file').addEventListener('change',async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const type=f.type.startsWith('video')?'video':f.type.startsWith('image')?'image':null;if(!type){toast('Format non pris en charge');return}openDmPreview(uid,f,type)});
  markRead(uid);
 }
-function appendMsg(m){const th=$('th');if(!th)return;setTimeout(()=>{const o=document.querySelector('.chat-r .streak');if(o&&arg)o.outerHTML=streakHTML(arg)},0);$('chat-empty')?.remove();document.querySelector('.quick')?.remove();th.insertAdjacentHTML('beforeend',msgHTML(m));th.scrollTop=th.scrollHeight}
+function appendMsg(m){const th=$('th');if(!th)return;setTimeout(()=>{const o=document.querySelector('.chat-r .streak');if(o&&arg)o.outerHTML=streakHTML(arg);const al=document.querySelector('.chat .sk-alert');if(al&&arg&&!streakRisk(arg))al.remove()},0);$('chat-empty')?.remove();document.querySelector('.quick')?.remove();th.insertAdjacentHTML('beforeend',msgHTML(m));th.scrollTop=th.scrollHeight}
 async function sendMsg(uid,t){
  t=(t||'').trim();if(!t)return false;if(!(await guard(t)))return false;
  const {data,error}=await sb.from('messages').insert({sender_id:me.id,recipient_id:uid,text:t}).select().single();
@@ -4010,8 +4031,9 @@ async function ppAffinity(a,b){try{const {data,error}=await sb.rpc('fs_partner_a
 const affClass=v=>v>=100?'max':v>=75?'hi':v>=40?'mid':'lo';
 function openAffinity(a,b){
  const r=ppAffCache[[a,b].sort().join('|')];if(!r)return;const p=r.parts||{};
- const rows=[['⭐','Étoiles de messages',`${r.streak} jour${r.streak>1?'s':''} d’affilée`,p.streak,30],['💬','Jours où vous vous écrivez',`${r.days} sur 30 jours`,p.days,20],['👍','Likes sur les publications de l’autre',`${r.likes}`,p.likes,15],['🗨️','Commentaires chez l’autre',`${r.comments}`,p.comments,15],['✨','Stickers et likes de stories',`${r.reactions}`,p.reactions,10],['🤝','Abonnement',r.follow>=2?'Mutuel':r.follow?'À sens unique':'Aucun',p.follow,5],['📅','Ancienneté du duo',`${r.duo_days} jour${r.duo_days>1?'s':''}`,p.age,5]];
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet pp-sheet" role="dialog" aria-label="Affinité"><div class="stw-top"><b>Affinité · ${r.score} %</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter"><div class="aff-big ${affClass(r.score)}"><span class="pp-bar"><i class="go" style="--w:${r.score}%"></i></span></div><p class="pp-intro">Calculée sur votre activité commune des 30 derniers jours. Plus vous échangez, plus elle monte.</p>${rows.map(([ic,t,v,pt,max])=>`<div class="aff-row"><span class="aff-ic">${ic}</span><span class="aff-t"><b>${t}</b><small>${v}</small></span><span class="aff-pt">${Math.round(pt||0)}<i>/${max}</i></span></div>`).join('')}</div></div></div>`;
+ const td=r.today||{},tag=(done,txt)=>`<em class="aff-day ${done?'ok':'ko'}">${done?'✓ fait aujourd’hui':txt}</em>`;
+ const rows=[['⭐','Étoiles de messages',`${r.streak} jour${r.streak>1?'s':''} d’affilée`,p.streak,30,tag(td.msg,'retombe à 0 si personne n’écrit')],['💬','Messages chaque jour',`${r.days} jour${r.days>1?'s':''} d’échange sur 30`,p.days,20,tag(td.msg,'−2 par jour sans échange')],['👍','Likes sur les publications de l’autre',`${r.likes} sur 30 jours`,p.likes,15,tag(td.like,'−1 par jour sans like')],['🗨️','Commentaires chez l’autre',`${r.comments} sur 30 jours`,p.comments,15,tag(td.cmt,'−1 par jour sans commentaire')],['✨','Stickers et likes de stories',`${r.reactions} sur 30 jours`,p.reactions,10,tag(td.misc,'−1 par jour sans')],['🤝','Abonnement',r.follow>=2?'Mutuel':r.follow?'À sens unique':'Aucun',p.follow,5,''],['📅','Ancienneté du duo',`${r.duo_days} jour${r.duo_days>1?'s':''}`,p.age,5,'']];
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet pp-sheet" role="dialog" aria-label="Affinité"><div class="stw-top"><b>Affinité · ${r.score} %</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter"><div class="aff-big ${affClass(r.score)}"><span class="pp-bar"><i class="go" style="--w:${r.score}%"></i></span></div><p class="pp-intro">Chaque jour où vous êtes actifs l’un envers l’autre, l’affinité monte. Chaque jour sans activité, chaque catégorie redescend.</p>${rows.map(([ic,t,v,pt,max,dy])=>`<div class="aff-row"><span class="aff-ic">${ic}</span><span class="aff-t"><b>${t}</b><small>${v}</small>${dy}</span><span class="aff-pt">${Math.round(pt||0)}<i>/${max}</i></span></div>`).join('')}</div></div></div>`;
 }
 const ppIc='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3 2.8-4.8 5.5-4.8s4.9 1.8 5.5 4.8"/><path d="M16 5.2a3.2 3.2 0 0 1 0 5.6M17.5 14.6c1.6.6 2.7 2.2 3 4.4"/></svg>';
 async function paintPartner(uid,mine){
