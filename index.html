@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793556379">
+<meta name="fs-build" content="1793556510">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -2533,10 +2533,10 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSe
 const BASE_URL=location.origin+location.pathname;
 
 // ================= CONSTANTES =================
-const SPORTS={'Calisthenics':['#5a5a5a','#121212'],'Musculation':['#6e6e6e','#161616'],'Powerlifting':['#4a4a4a','#0F0F0F'],'Sport de combat':['#7a7a7a','#1a1a1a'],'Running':['#555555','#101010'],'Vélo':['#5c5c5c','#121212'],'Running & vélo':['#555555','#101010'],'Autre':['#5f5f5f','#111111']};
-const SPORT_LIST=Object.keys(SPORTS).filter(k=>k!=='Running & vélo'); // ancienne catégorie, gardée pour l'affichage
+const SPORTS={'Calisthenics':['#5a5a5a','#121212'],'Musculation':['#6e6e6e','#161616'],'Powerlifting':['#4a4a4a','#0F0F0F'],'Strongman':['#626262','#141414'],'Hyrox':['#585858','#111111'],'Sport de combat':['#7a7a7a','#1a1a1a'],'Running':['#555555','#101010'],'Autre':['#5f5f5f','#111111'],'Vélo':['#5c5c5c','#121212'],'Running & vélo':['#555555','#101010']};
+const SPORT_LIST=Object.keys(SPORTS).filter(k=>k!=='Running & vélo'&&k!=='Vélo'); // anciennes catégories gardées seulement pour l'affichage // ancienne catégorie, gardée pour l'affichage
 // une ancienne publication « Running & vélo » reste visible dans Running comme dans Vélo
-const sportMatch=list=>[...new Set(list.flatMap(sp=>sp==='Running'||sp==='Vélo'?[sp,'Running & vélo']:[sp]))];
+const sportMatch=list=>[...new Set(list.flatMap(sp=>sp==='Running'?[sp,'Running & vélo']:sp==='Autre'?[sp,'Vélo']:[sp]))];
 const STICKERS=[['PR','yellow'],['DAY 1','holo'],['NO EXCUSE','black'],['EN FEU','red'],['VALIDÉ','white']];
 const S_COLORS=[['holo','Holo'],['white','Blanc'],['black','Noir'],['grey','Gris'],['yellow','Jaune'],['pink','Rose'],['mint','Menthe'],['red','Rouge']];
 const S_FONTS=[['display','Bloc','var(--display)'],['ui','Console','var(--ui)'],['pixel','Pixel','var(--pixel)'],['mono','Machine','var(--mono)'],['body','Simple','var(--body)']];
