@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793535309">
+<meta name="fs-build" content="1793536326">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1628,6 +1628,35 @@ html[data-theme="dark"] .thread .msg.me,html[data-theme="dark"] .gm .msg.me,html
 html[data-theme="dark"] .gm .msg .gh{color:#9AA6F7}
 .pp-wait{cursor:default;opacity:.8}
 .pp-wait .pp-add-ic{background:var(--paper-line);color:var(--ink)}
+
+/* ================= v32 : messages éphémères (vocal, photo, vidéo) ================= */
+.composer .line{align-items:center}
+.cp-ic{width:38px;height:38px;flex:0 0 auto;display:grid;place-items:center;border-radius:50%;color:var(--ink);cursor:pointer;transition:background .2s,transform .15s}
+.cp-ic:hover{background:var(--paper)}
+.cp-ic:active{transform:scale(.9)}
+.dm-note{margin:6px 2px 0;font-size:11px;color:#a3a29d;text-align:center}
+.dm-busy{font-size:12.5px;color:#8e8e8a;text-align:center;padding:2px 0 6px}
+.rec-line{gap:8px}
+.rec-box{flex:1;min-width:0;display:flex;align-items:center;gap:10px;height:42px;padding:0 14px;border-radius:21px;background:var(--paper);font-size:13px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.rec-dot{width:9px;height:9px;border-radius:50%;background:#ED4956;animation:recDot 1s ease-in-out infinite}
+@keyframes recDot{50%{opacity:.25}}
+.rec-track{flex:1;height:3px;border-radius:2px;background:var(--paper-line);overflow:hidden}
+.rec-track i{display:block;height:100%;width:0;background:#ED4956;transition:width .2s linear}
+.rec-x{color:#ED4956}
+.msg.dm-v{padding:4px;background:transparent!important;box-shadow:none!important}
+.dm-media{display:block;max-width:min(240px,62vw);max-height:320px;border-radius:16px;object-fit:cover;background:#000;cursor:pointer}
+.msg.dm-v small{padding:3px 6px 0;color:var(--muted);opacity:.85}
+.msg.dm-v.me small{text-align:right}
+.vm{display:flex;align-items:center;gap:10px;min-width:200px}
+.vm-play{width:34px;height:34px;flex:0 0 auto;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.22);color:inherit}
+.msg:not(.me) .vm-play{background:rgba(0,0,0,.08)}
+.vm .i-pause{display:none}.vm.on .i-pause{display:block}.vm.on .i-play{display:none}
+.vm-wave{flex:1;display:flex;align-items:center;gap:2px;height:26px}
+.vm-wave i{flex:1;min-width:2px;border-radius:2px;background:currentColor;opacity:.4;transition:opacity .15s}
+.vm-wave i.p{opacity:1}
+.vm-t{font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums;opacity:.85}
+.dm-left{font-style:italic}
+html[data-theme="dark"] .msg:not(.me) .vm-play{background:rgba(255,255,255,.1)}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -2140,6 +2169,18 @@ html[data-theme="dark"] .pp-add small{color:#7E7E7E}
 html[data-theme="dark"] .pp-add i{color:var(--ink)}
 html[data-theme="dark"] .pp-add-ic{background:var(--ink);color:var(--bg)}
 html[data-theme="dark"] .pp-wait .pp-add-ic{background:var(--paper-line);color:var(--ink)}
+html[data-theme="dark"] .cp-ic{color:var(--ink)}
+html[data-theme="dark"] .cp-ic:hover{background:var(--paper)}
+html[data-theme="dark"] .dm-note{color:#686868}
+html[data-theme="dark"] .dm-busy{color:#7B7B7B}
+html[data-theme="dark"] .rec-box{background:var(--paper);color:var(--ink)}
+html[data-theme="dark"] .rec-dot{background:#ED4956}
+html[data-theme="dark"] .rec-track{background:var(--paper-line)}
+html[data-theme="dark"] .rec-track i{background:#ED4956}
+html[data-theme="dark"] .rec-x{color:#ED4956}
+html[data-theme="dark"] .dm-media{background:#FFFFFF}
+html[data-theme="dark"] .vm-play{background:rgba(15,15,15,0.22);color:inherit}
+html[data-theme="dark"] .vm-wave i{background:currentColor}
 
 /* retouches manuelles */
 html[data-theme="dark"]{color-scheme:dark}
@@ -2663,7 +2704,8 @@ async function loadStories(){
 async function loadConvs(){
  const {data}=await sb.from('messages').select('*').or(`sender_id.eq.${me.id},recipient_id.eq.${me.id}`).order('created_at',{ascending:true}).limit(2000);
  convs={};unreadCount=0;
- (data||[]).forEach(m=>{const o=m.sender_id===me.id?m.recipient_id:m.sender_id;(convs[o]=convs[o]||[]).push(m)});
+ const nowT=Date.now();(data||[]).filter(m=>!dmExpired(m,nowT)).forEach(m=>{const o=m.sender_id===me.id?m.recipient_id:m.sender_id;(convs[o]=convs[o]||[]).push(m)});
+ cleanMyExpiredDm(data||[]);
  Object.values(convs).forEach(c=>{if(c.some(m=>m.recipient_id===me.id&&!m.read_at))unreadCount++});
  await loadProfiles(Object.keys(convs));
 }
@@ -3077,24 +3119,91 @@ function renderMessages(q){
  main.innerHTML=`<div class="gutter">
   ${mtabsHTML()}
   <label class="search">${I.search}<input id="ms" placeholder="Chercher un sportif par pseudo ou nom" value="${esc(curQuery)}" aria-label="Rechercher"></label>
-  ${list.map(it=>{if(it.g){const g=groups[it.g],l=glast(it.g);return `<button class="conv ${gUnread(it.g)?'unread':''}" data-act="gchat" data-g="${it.g}">${gAv(it.g,48)}<span class="meta"><b>${esc(g.name)}</b><span>${l?(l.sender_id===me.id?'Toi':'@'+esc(prof(l.sender_id).handle))+' : '+esc(l.text):(gMembers[it.g]||[]).length+' membres'}</span></span>${l?`<time>${hhmm(l.created_at)}</time>`:''}</button>`}const uid=it.u;const p=prof(uid),l=last(uid),un=l&&convs[uid].some(m=>m.recipient_id===me.id&&!m.read_at);return `<button class="conv ${un?'unread':''}" data-act="chat" data-u="${uid}">${av(uid,48)}<span class="meta"><b>${esc(p.name)}</b><span>${l?(l.sender_id===me.id?'Toi : ':'')+esc(l.text):'@'+esc(p.handle)+' · '+esc(p.sport)}</span></span><span class="conv-r">${streakHTML(uid)}${l?`<time>${hhmm(l.created_at)}</time>`:''}</span></button>`}).join('')||`<div class="empty">${curQuery?(searchResults?'Aucun sportif trouvé.':'Recherche…'):'Aucune discussion pour l’instant.<br>Cherche un sportif ci-dessus pour lui écrire.'}</div>`}
+  ${list.map(it=>{if(it.g){const g=groups[it.g],l=glast(it.g);return `<button class="conv ${gUnread(it.g)?'unread':''}" data-act="gchat" data-g="${it.g}">${gAv(it.g,48)}<span class="meta"><b>${esc(g.name)}</b><span>${l?(l.sender_id===me.id?'Toi':'@'+esc(prof(l.sender_id).handle))+' : '+esc(l.text):(gMembers[it.g]||[]).length+' membres'}</span></span>${l?`<time>${hhmm(l.created_at)}</time>`:''}</button>`}const uid=it.u;const p=prof(uid),l=last(uid),un=l&&convs[uid].some(m=>m.recipient_id===me.id&&!m.read_at);return `<button class="conv ${un?'unread':''}" data-act="chat" data-u="${uid}">${av(uid,48)}<span class="meta"><b>${esc(p.name)}</b><span>${l?(l.sender_id===me.id?'Toi : ':'')+esc(msgPreview(l)):'@'+esc(p.handle)+' · '+esc(p.sport)}</span></span><span class="conv-r">${streakHTML(uid)}${l?`<time>${hhmm(l.created_at)}</time>`:''}</span></button>`}).join('')||`<div class="empty">${curQuery?(searchResults?'Aucun sportif trouvé.':'Recherche…'):'Aucune discussion pour l’instant.<br>Cherche un sportif ci-dessus pour lui écrire.'}</div>`}
  </div>`;
  const s=$('ms');s.addEventListener('input',()=>{const v=s.value.trim(),pos=s.selectionStart;clearTimeout(searchTimer);searchResults=null;
   searchTimer=setTimeout(async()=>{if(v){const safe=v.replace(/[%,()]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(20);(data||[]).forEach(p=>P[p.id]=p);searchResults=(data||[]).map(p=>p.id)}
    if(view!=='messages')return;renderMessages(v);const n=$('ms');n.focus();n.setSelectionRange(pos,pos)},300)});
 }
 async function markRead(uid){const c=convs[uid]||[];const ids=c.filter(m=>m.recipient_id===me.id&&!m.read_at).map(m=>m.id);if(!ids.length)return;const now=new Date().toISOString();c.forEach(m=>{if(ids.includes(m.id))m.read_at=now});await sb.from('messages').update({read_at:now}).in('id',ids);recountUnread()}
-const msgHTML=m=>`<div class="msg ${m.sender_id===me.id?'me':''}">${esc(m.text)}<small>${hhmm(m.created_at)}</small></div>`;
+const msgHTML=m=>{const mine=m.sender_id===me.id;if(!m.media)return `<div class="msg ${mine?'me':''}">${esc(m.text)}<small>${hhmm(m.created_at)}</small></div>`;
+ const md=m.media,left=dmLeft(m);
+ const body=md.type==='audio'?`<div class="vm" data-src="${esc(md.url)}"><button type="button" class="vm-play" data-act="vm-play" aria-label="Écouter le message vocal"><svg class="i-play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="i-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button><span class="vm-wave" aria-hidden="true">${vmBars(m.id)}</span><span class="vm-t">${fmtDur(md.dur||0)}</span></div>`
+  :md.type==='video'?`<video class="dm-media" src="${esc(md.url)}" controls playsinline preload="metadata"></video>`
+  :`<img class="dm-media" src="${esc(md.url)}" alt="Photo" loading="lazy" data-act="dm-photo">`;
+ return `<div class="msg dm-m ${md.type==='audio'?'dm-a':'dm-v'} ${mine?'me':''}" data-exp="${esc(m.expires_at||'')}">${body}<small>${hhmm(m.created_at)}${left?` · <span class="dm-left">${left}</span>`:''}</small></div>`};
+// ================= MESSAGES ÉPHÉMÈRES : vocal (30 s max), photo, vidéo — supprimés au bout de 24 h =================
+const DM_TTL=864e5;
+const dmExpired=(m,t)=>!!m.media&&(m.expires_at?new Date(m.expires_at).getTime():new Date(m.created_at).getTime()+DM_TTL)<=(t||Date.now());
+function dmLeft(m){const end=m.expires_at?new Date(m.expires_at).getTime():new Date(m.created_at).getTime()+DM_TTL;const h=Math.max(0,(end-Date.now())/36e5);return h>=1?'disparaît dans '+Math.floor(h)+' h':'disparaît bientôt'}
+const msgPreview=m=>m.media?({audio:'🎤 Message vocal',video:'🎬 Vidéo',image:'📷 Photo'}[m.media.type]||'Pièce jointe'):(m.text||'');
+const fmtDur=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+function vmBars(seed){let h=0;for(const ch of String(seed||'x'))h=(h*31+ch.charCodeAt(0))>>>0;return Array.from({length:26},()=>{h=(h*1103515245+12345)>>>0;return `<i style="height:${28+(h%72)}%"></i>`}).join('')}
+// l'expéditeur nettoie aussi ses fichiers expirés (le serveur le fait de toute façon toutes les 15 min)
+function cleanMyExpiredDm(list){const t=Date.now(),old=list.filter(m=>m.sender_id===me.id&&dmExpired(m,t));if(!old.length)return;removeFiles(old.map(m=>m.media&&m.media.url));sb.from('messages').delete().in('id',old.map(m=>m.id)).then(()=>{},()=>{})}
+// retire de l'écran les messages qui expirent pendant qu'on regarde
+setInterval(()=>{const t=Date.now();let ch=false;Object.keys(convs).forEach(k=>{const n=convs[k].filter(m=>!dmExpired(m,t));if(n.length!==convs[k].length){convs[k]=n;ch=true}});if(ch&&view==='chat')renderChat();else if(ch&&view==='messages')renderMessages(curQuery)},60000);
+let vmAudio=null,vmBtn=null;
+function vmToggle(btn){
+ const box=btn.closest('.vm');if(!box)return;
+ if(vmBtn===btn&&vmAudio){if(vmAudio.paused)vmAudio.play();else vmAudio.pause();return}
+ if(vmAudio){vmAudio.pause();vmBtn&&vmBtn.closest('.vm')?.classList.remove('on')}
+ const a=new Audio(box.dataset.src);vmAudio=a;vmBtn=btn;const bars=[...box.querySelectorAll('.vm-wave i')],tEl=box.querySelector('.vm-t'),d0=tEl.textContent;
+ a.addEventListener('play',()=>box.classList.add('on'));a.addEventListener('pause',()=>box.classList.remove('on'));
+ a.addEventListener('timeupdate',()=>{const d=a.duration&&isFinite(a.duration)?a.duration:0;const r=d?a.currentTime/d:0;bars.forEach((b,i)=>b.classList.toggle('p',i/bars.length<r));tEl.textContent=fmtDur(d?d-a.currentTime:a.currentTime)});
+ a.addEventListener('ended',()=>{box.classList.remove('on');bars.forEach(b=>b.classList.remove('p'));tEl.textContent=d0;vmAudio=null;vmBtn=null});
+ a.play().catch(()=>toast('Lecture impossible'));
+}
+async function sendDmMedia(uid,file,type,dur){
+ const bar=$('dm-busy');if(bar)bar.hidden=false;
+ try{
+  let f=file;
+  if(type==='image')f=await compressImage(file,IG.post);
+  else if(type==='video'){const r=await compressVideo(file,60,(t,d)=>{const b=$('dm-busy');if(b)b.textContent=`Compression ${Math.floor(t)}/${Math.ceil(d)} s…`},IG.clip);if(r.ok)f=r.file;else{const d=await videoDuration(file);if(d>60.5){toast('Vidéo trop longue : 60 s maximum');return false}}}
+  const url=await upload(f,'dm');
+  const media={url,type};if(dur)media.dur=Math.round(dur*10)/10;
+  const {data,error}=await sb.from('messages').insert({sender_id:me.id,recipient_id:uid,text:'',media}).select().single();
+  if(error){removeFiles([url]);if(/row-level security/i.test(error.message||'')){toast('Impossible d’écrire à ce compte');return false}await dbError(error,'Envoi impossible');return false}
+  (convs[uid]=convs[uid]||[]).push(data);if(view==='chat'&&arg===uid)appendMsg(data);return true;
+ }catch(e){if(e&&e.message)toast(e.message);return false}
+ finally{const b=$('dm-busy');if(b){b.hidden=true;b.textContent='Envoi…'}}
+}
+// enregistrement vocal
+let rec=null;
+async function startVoice(uid){
+ if(rec)return;
+ if(!navigator.mediaDevices||!window.MediaRecorder){toast('Le micro n’est pas disponible sur cet appareil');return}
+ let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){toast('Autorise le micro pour envoyer un message vocal');return}
+ const types=['audio/webm;codecs=opus','audio/mp4','audio/webm','audio/ogg'];const mt=types.find(t=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t))||'';
+ const mr=new MediaRecorder(stream,mt?{mimeType:mt,audioBitsPerSecond:48000}:undefined);const chunks=[];
+ rec={mr,stream,chunks,t0:Date.now(),uid,send:false};
+ mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+ mr.onstop=async()=>{stream.getTracks().forEach(t=>t.stop());const r=rec;rec=null;paintRec(false);clearInterval(r.tick);
+  if(!r.send)return;const dur=Math.min(30,(Date.now()-r.t0)/1000);if(dur<0.8){toast('Message trop court');return}
+  const type=(mr.mimeType||'audio/webm').split(';')[0];const ext=type.includes('mp4')?'m4a':type.includes('ogg')?'ogg':'webm';
+  await sendDmMedia(r.uid,new File(chunks,'vocal.'+ext,{type}),'audio',dur)};
+ mr.start(250);paintRec(true);
+ rec.tick=setInterval(()=>{if(!rec)return;const s=(Date.now()-rec.t0)/1000;const t=$('rec-t');if(t)t.textContent=fmtDur(s)+' / 0:30';const b=$('rec-bar');if(b)b.style.width=Math.min(100,s/30*100)+'%';if(s>=30)stopVoice(true)},200);
+}
+function stopVoice(send){if(!rec)return;rec.send=send;try{rec.mr.stop()}catch(e){}}
+function paintRec(on){const l=$('cp-line'),r=$('cp-rec');if(!l||!r)return;l.hidden=on;r.hidden=!on;if(on){$('rec-t').textContent='0:00 / 0:30';$('rec-bar').style.width='0%'}}
+
 async function renderChat(){
  const uid=arg;await loadProfiles([uid]);const u=prof(uid),c=convs[uid]||[];
  topEl.innerHTML=`<button class="icon-btn" data-act="back" aria-label="Retour">${I.back}</button><button data-act="profile" data-u="${uid}" style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;text-align:left">${av(uid,36)}<span style="min-width:0"><b style="display:block">${esc(u.name)}</b><small style="color:var(--muted)">@${esc(u.handle)} · ${esc(u.sport)}</small></span></button><span class="chat-r"><button class="icon-btn" data-act="user-menu" data-u="${uid}" aria-label="Options">•••</button>${streakHTML(uid)}</span>`;
  main.innerHTML=`<div class="chat"><div class="thread gutter" id="th">${c.length?c.map(msgHTML).join(''):`<div class="empty" id="chat-empty">Lance la discussion avec ${esc(u.name)}.</div>`}</div>
   <form class="composer gutter" id="cp">${c.length?'':`<div class="quick">${['On s’entraîne ensemble ?','Tu as un programme à conseiller ?','Ton dernier post est propre'].map(t=>`<button type="button" data-act="quick" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>`}
-  ${blocked.has(uid)?`<div class="blk-note">Tu as bloqué ce compte. <button type="button" data-act="unblock" data-u="${uid}">Débloquer</button></div>`:`<div class="line"><input id="mi" placeholder="Écris un message…" autocomplete="off" maxlength="1000" aria-label="Message"><button class="send" type="submit" aria-label="Envoyer">${I.send}</button></div>`}</form></div>`;
+  ${blocked.has(uid)?`<div class="blk-note">Tu as bloqué ce compte. <button type="button" data-act="unblock" data-u="${uid}">Débloquer</button></div>`:`<div class="dm-busy" id="dm-busy" hidden>Envoi…</div><div class="line" id="cp-line"><label class="cp-ic" for="dm-file" aria-label="Envoyer une photo ou une vidéo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="3.5"/><circle cx="9" cy="10" r="1.6"/><path d="m20.5 15.5-4.6-4.4-7.4 7.9"/></svg></label><input type="file" id="dm-file" accept="image/*,video/*" hidden><input id="mi" placeholder="Écris un message…" autocomplete="off" maxlength="1000" aria-label="Message"><button class="cp-ic cp-mic" type="button" id="cp-mic" aria-label="Enregistrer un message vocal (30 s max)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v2.5"/></svg></button><button class="send" type="submit" id="cp-send" aria-label="Envoyer" hidden>${I.send}</button></div><div class="line rec-line" id="cp-rec" hidden><button type="button" class="cp-ic rec-x" id="rec-x" aria-label="Annuler l’enregistrement"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/></svg></button><span class="rec-box"><i class="rec-dot"></i><span id="rec-t">0:00 / 0:30</span><span class="rec-track"><i id="rec-bar"></i></span></span><button class="send" type="button" id="rec-ok" aria-label="Envoyer le message vocal">${I.send}</button></div><p class="dm-note">Les vocaux, photos et vidéos disparaissent au bout de 24 h.</p>`}</form></div>`;
  const th=$('th');th.scrollTop=th.scrollHeight;
  {const ids=notifs.filter(n=>n.type==='message'&&n.actor_id===uid&&!n.read_at).map(n=>n.id);if(ids.length){const now=new Date().toISOString();notifs.forEach(n=>{if(ids.includes(n.id))n.read_at=now});unreadNotifs=notifs.filter(n=>!n.read_at).length;paintBadge();sb.from('notifications').update({read_at:now}).in('id',ids).then(()=>{})}}
  if(!$('mi'))return;
- $('cp').addEventListener('submit',e=>{e.preventDefault();const i=$('mi');const t=i.value;i.value='';sendMsg(uid,t).then(ok=>{if(!ok)i.value=t})});
+ $('cp').addEventListener('submit',e=>{e.preventDefault();const i=$('mi');const t=i.value;if(!t.trim())return;i.value='';swapSend();sendMsg(uid,t).then(ok=>{if(!ok){i.value=t;swapSend()}})});
+ const swapSend=()=>{const has=!!$('mi').value.trim();$('cp-send').hidden=!has;$('cp-mic').hidden=has};
+ $('mi').addEventListener('input',swapSend);
+ $('cp-mic').addEventListener('click',()=>startVoice(uid));
+ $('rec-x').addEventListener('click',()=>stopVoice(false));
+ $('rec-ok').addEventListener('click',()=>stopVoice(true));
+ $('dm-file').addEventListener('change',async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const type=f.type.startsWith('video')?'video':f.type.startsWith('image')?'image':null;if(!type){toast('Format non pris en charge');return}await sendDmMedia(uid,f,type)});
  markRead(uid);
 }
 function appendMsg(m){const th=$('th');if(!th)return;setTimeout(()=>{const o=document.querySelector('.chat-r .streak');if(o&&arg)o.outerHTML=streakHTML(arg)},0);$('chat-empty')?.remove();document.querySelector('.quick')?.remove();th.insertAdjacentHTML('beforeend',msgHTML(m));th.scrollTop=th.scrollHeight}
@@ -3526,6 +3635,8 @@ document.addEventListener('click',async e=>{
   case 'like':toggleLike(id);break;
   case 'react':addReaction(id,a);break;
   case 'save':toggleSave(id,a);break;
+  case 'vm-play':vmToggle(a);break;
+  case 'dm-photo':window.open(a.getAttribute('src'),'_blank','noopener');break;
   case 'ex-sport':{const k=a.dataset.k||null;
    // « Tout » est exclusif ; les sports se cumulent ; plus rien de coché = « Tout »
    if(!k){if(!exploreSports.size)break;exploreSports.clear()}else if(exploreSports.has(k))exploreSports.delete(k);else exploreSports.add(k);
