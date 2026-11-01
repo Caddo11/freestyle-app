@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793554779">
+<meta name="fs-build" content="1793554909">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1776,6 +1776,14 @@ html:not([data-theme="dark"]) .cr-name{background-image:linear-gradient(100deg,#
 .cr-chip::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.8),transparent);transform:skewX(-20deg);animation:crChip 3.5s ease-in-out 1.2s infinite}
 @keyframes crChip{0%,70%{left:-60%}100%{left:130%}}
 @media (prefers-reduced-motion:reduce){.cr-ring,.cr-glow,.cr-name,.cr-chip::after{animation:none!important}}
+
+/* v37b : badge ajusté, lueur plus présente */
+.cr-chip{align-self:flex-start;width:fit-content}
+.cr-ring{inset:-3px;padding:3px;border-radius:19.5px}
+.cr-glow{inset:-10px;filter:blur(16px);opacity:1}
+html:not([data-theme="dark"]) .cr-glow{filter:blur(13px) saturate(1.5) brightness(.95)}
+.cr-frame::before{opacity:.8}
+.creator .pname{font-size:18px}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
