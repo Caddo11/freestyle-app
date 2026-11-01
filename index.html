@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793555111">
+<meta name="fs-build" content="1793555259">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1818,6 +1818,28 @@ html[data-theme="dark"] nav.tabs .pill button[data-l][aria-current="page"]{backg
 html[data-theme="dark"] nav.tabs .pill [data-nav="profile"][aria-current="page"] .nav-av{box-shadow:0 0 0 2px #1A1A1C,0 0 0 3.5px #F1F1F1!important}
 html[data-theme="dark"] nav.tabs .pill [data-nav="profile"] .nav-av{box-shadow:0 0 0 1.5px rgba(255,255,255,.1)!important}
 @media (prefers-reduced-motion:reduce){nav.tabs .pill button,nav.tabs .pill button::before{transition:none}}
+
+/* ================= v39 : bordure photo fine, traînée discrète, badge premium ================= */
+/* photo de profil dans la bannière : bordure très fine (tous les profils) */
+.pav{padding:1px!important}
+.pav .av{border-radius:10.5px!important}
+/* administrateur : seulement une fine traînée qui tourne autour de la bannière */
+.cr-glow{display:none!important}
+.cr-frame::before{display:none!important}
+html:not([data-theme="dark"]) .cr-frame{box-shadow:none!important}
+.cr-ring{inset:-1.5px!important;padding:1.5px!important;border-radius:17.5px!important;animation-duration:5s;
+ background:conic-gradient(from var(--crA),transparent 0deg,transparent 250deg,rgba(201,146,46,.15) 285deg,#D9A645 325deg,#FFF3C9 352deg,transparent 360deg)!important;
+ filter:drop-shadow(0 0 2px rgba(233,185,73,.45))}
+html:not([data-theme="dark"]) .cr-ring{background:conic-gradient(from var(--crA),transparent 0deg,transparent 250deg,rgba(169,118,31,.15) 285deg,#B8862B 325deg,#E9B949 352deg,transparent 360deg)!important;filter:none}
+/* la photo de profil reste comme sur les autres profils */
+.creator .pav{box-shadow:none!important}
+html:not([data-theme="dark"]) .creator .pav{box-shadow:0 4px 14px rgba(0,0,0,.18)!important}
+/* badge administrateur premium */
+.cr-chip{gap:7px;padding:5px 12px 5px 8px;border-radius:999px;background:linear-gradient(#141414,#141414) padding-box,linear-gradient(120deg,#A9761F,#F3D27C 30%,#FFF6D8 50%,#E2B04A 70%,#A9761F) border-box;border:1px solid transparent;box-shadow:0 4px 14px rgba(0,0,0,.18);color:#E9B949;font-size:10px;letter-spacing:.2em}
+.cr-chip-ic{flex:0 0 auto;filter:drop-shadow(0 0 4px rgba(233,185,73,.45))}
+.cr-chip-t{background:linear-gradient(100deg,#C9922E 0%,#F3D27C 35%,#FFF6D8 50%,#F3D27C 65%,#C9922E 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:crGold 4.5s linear infinite}
+.cr-chip::after{background:linear-gradient(100deg,transparent,rgba(255,240,200,.25),transparent)}
+html[data-theme="dark"] .cr-chip{box-shadow:0 4px 18px rgba(0,0,0,.5),0 0 12px rgba(233,185,73,.12)}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -3633,7 +3655,7 @@ async function renderProfile(){
  main.innerHTML=`<div class="gutter ${creator?'creator':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>${creator?'</div>':''}
  <section class="phead">
   <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
-  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${creator?'<span class="cr-chip"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.6 6.1 6.6.5-5 4.3 1.6 6.4L12 16.3l-5.8 3.5 1.6-6.4-5-4.3 6.6-.5z"/></svg>Administrateur</span>':''}${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
+  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${creator?'<span class="cr-chip"><svg class="cr-chip-ic" width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><defs><linearGradient id="crg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1BF"/><stop offset=".5" stop-color="#E2B04A"/><stop offset="1" stop-color="#A9761F"/></linearGradient></defs><path d="M12 2.6 19.4 5.4v5.9c0 4.6-3.1 8.4-7.4 10.1-4.3-1.7-7.4-5.5-7.4-10.1V5.4z" fill="url(#crg)"/><path d="m8.6 12.1 2.4 2.4 4.6-4.8" stroke="#141414" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cr-chip-t">Administrateur</span></span>':''}${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pp-box" id="pp-box" data-u="${uid}"></div>
   ${mine?`<button class="pdash" data-act="insights">${I.stats}<span><b>Tableau de bord</b><small id="pdash-n">Vues et statistiques de ton compte</small></span><i>›</i></button>`:''}
