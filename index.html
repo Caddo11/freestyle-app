@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793534414">
+<meta name="fs-build" content="1793534572">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1585,6 +1585,28 @@ nav.tabs .pill{grid-template-columns:repeat(3,1fr) 1.1fr}
 .pp-add small{font-size:12.5px;color:#8a8a86}
 .pp-add i{color:var(--ink);opacity:.5}
 .pp-add-ic{background:var(--ink);color:var(--bg)}
+
+/* ================= v29 : page du créateur (compte certifié) ================= */
+.creator .pbanner{overflow:visible;isolation:isolate;animation:crIn .8s cubic-bezier(.22,.9,.25,1) both,crGlow 4.5s ease-in-out .8s infinite;box-shadow:0 0 0 1px rgba(255,255,255,.55),0 0 18px 2px rgba(255,255,255,.28),0 0 44px 6px rgba(255,255,255,.12)}
+.creator .pbanner::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.22) 48%,rgba(255,255,255,.04) 56%,transparent 64%) no-repeat;background-size:260% 100%;background-position:130% 0;animation:crSweep 6s ease-in-out 1.2s infinite}
+.creator .pbanner{background-clip:padding-box}
+.creator .pbanner>.pav{z-index:2}
+@keyframes crGlow{0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.5),0 0 16px 1px rgba(255,255,255,.22),0 0 40px 4px rgba(255,255,255,.08)}50%{box-shadow:0 0 0 1px rgba(255,255,255,.8),0 0 24px 3px rgba(255,255,255,.38),0 0 60px 10px rgba(255,255,255,.14)}}
+@keyframes crSweep{0%,55%{background-position:130% 0}100%{background-position:-60% 0}}
+@keyframes crIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+.creator .pav{animation:crAv .7s cubic-bezier(.3,1.35,.5,1) .25s both;box-shadow:0 0 0 1px rgba(255,255,255,.7),0 0 14px rgba(255,255,255,.35)}
+@keyframes crAv{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+.creator .phead>*{animation:crUp .6s cubic-bezier(.22,.9,.25,1) both}
+.creator .phead>*:nth-child(1){animation-delay:.3s}.creator .phead>*:nth-child(2){animation-delay:.38s}.creator .phead>*:nth-child(3){animation-delay:.44s}.creator .phead>*:nth-child(4){animation-delay:.5s}.creator .phead>*:nth-child(5){animation-delay:.56s}.creator .phead>*:nth-child(6){animation-delay:.62s}.creator .phead>*:nth-child(n+7){animation-delay:.68s}
+.creator .ptabs,.creator #pgrid{animation:crUp .6s cubic-bezier(.22,.9,.25,1) .72s both}
+@keyframes crUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.creator .pname{background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 40%,#9a9a9a 50%,var(--ink) 60%,var(--ink) 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:crName 5s ease-in-out 1.4s infinite}
+.creator .pname .vbadge{-webkit-text-fill-color:initial}
+@keyframes crName{0%,60%{background-position:100% 0}100%{background-position:0 0}}
+html[data-theme="dark"] .creator .pname{background-image:linear-gradient(100deg,#F1F1F1 0%,#F1F1F1 40%,#fff 46%,#8a8a8a 50%,#fff 54%,#F1F1F1 60%,#F1F1F1 100%)}
+html:not([data-theme="dark"]) .creator .pbanner{box-shadow:0 0 0 1px rgba(0,0,0,.06),0 0 22px 2px rgba(255,255,255,.9),0 10px 30px rgba(0,0,0,.12);animation:crIn .8s cubic-bezier(.22,.9,.25,1) both,crGlowL 4.5s ease-in-out .8s infinite}
+@keyframes crGlowL{0%,100%{box-shadow:0 0 0 1px rgba(0,0,0,.06),0 6px 22px rgba(0,0,0,.10),0 0 0 4px rgba(255,255,255,.9)}50%{box-shadow:0 0 0 1px rgba(0,0,0,.04),0 10px 34px rgba(0,0,0,.16),0 0 0 6px rgba(255,255,255,1)}}
+@media (prefers-reduced-motion:reduce){.creator *,.creator .pbanner,.creator .pbanner::before{animation:none!important}}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -3235,7 +3257,8 @@ async function renderProfile(){
  if(view!=='profile'||(arg||me.id)!==uid)return;
  profilePosts=posts||[];await loadPinned(uid);profilePosts=sortPinned(profilePosts);if(profTabUid!==uid||(profTab==='saved'&&!mine)){profTab='all';profTabUid=uid}if(mine&&profTab==='saved')loadSavedPosts().then(()=>{if(profTab==='saved'&&$('pgrid'))$('pgrid').innerHTML=pgridHTML(true)});
  const c=SPORTS[u.sport]||SPORTS.Autre,s=st||{followers:0,following:0,posts:0};
- main.innerHTML=`<div class="gutter"><div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>
+ const creator=ADMINS.has(uid);
+ main.innerHTML=`<div class="gutter ${creator?'creator':''}"><div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>
  <section class="phead">
   <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
   <b class="pname">${esc(u.name)}${vb(uid)}${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
@@ -3248,6 +3271,7 @@ async function renderProfile(){
  <div id="pgrid">${pgridHTML(mine)}</div></div>`;
  main.querySelectorAll('.grid video').forEach(v=>{v.dataset.w='1';v.muted=true;v.removeAttribute('autoplay');v.pause()});
  paintPartner(uid,mine);
+ if(creator)creatorIntro();
  if(mine)sb.rpc('fs_account_stats',{days:30}).then(({data})=>{const e=$('pdash-n');if(e&&data)e.textContent=fmt(data.views)+' vue'+(data.views>1?'s':'')+' ces 30 derniers jours'},()=>{});
 }
 async function openUserList(uid,k){
@@ -3689,6 +3713,18 @@ async function togglePin(id){const on=!pinnedSet.has(id);const {data,error}=awai
  if(on){pinnedSet.add(id);pinnedAt[id]=new Date().toISOString()}else pinnedSet.delete(id);
  toast(on?'Épinglée en haut de ton profil':'Retirée du haut de ton profil');
  if(view==='profile'&&(arg||me.id)===me.id){profilePosts=sortPinned(profilePosts);const g=$('pgrid');if(g)g.innerHTML=pgridHTML(true)}}
+
+// ================= PAGE DU CRÉATEUR (comptes certifiés) =================
+// Chiffres qui montent doucement à l'ouverture du profil.
+function creatorIntro(){
+ if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ main.querySelectorAll('.creator .pnums3 b').forEach((b,k)=>{
+  const txt=b.textContent.trim();if(!/^\d+$/.test(txt))return;const to=+txt;if(!to)return;
+  const t0=performance.now()+k*90,dur=900;
+  const step=t=>{if(!b.isConnected)return;const x=Math.min(1,Math.max(0,(t-t0)/dur)),e=1-Math.pow(1-x,3);b.textContent=fmt(Math.round(to*e));if(x<1)requestAnimationFrame(step)};
+  b.textContent='0';requestAnimationFrame(step);
+ });
+}
 // ================= PARTENAIRE D'ENTRAÎNEMENT =================
 // Un partenaire par membre, validé par les deux. Affinité calculée à partir du sport, de la ville,
 // de l'abonnement mutuel et de l'ancienneté du duo.
