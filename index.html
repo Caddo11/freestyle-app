@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793555681">
+<meta name="fs-build" content="1793556007">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1885,6 +1885,23 @@ html:not([data-theme="dark"]) .cr-ring{background:conic-gradient(from var(--crA)
  box-shadow:0 6px 16px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06)!important;animation:crUp .6s cubic-bezier(.22,.9,.25,1) .45s both,crSpin 6s linear infinite!important}
 .cr-chip-t{padding-right:0;margin-right:-.32em}
 .cr-chip::after{display:none}
+
+/* ================= v42 : ligne partenaire minimaliste, pastille bleue ================= */
+.vb-blue{filter:drop-shadow(0 0 3px rgba(47,139,255,.4))!important}
+.pp-line{--c:#E5484D;display:flex;align-items:center;gap:10px;margin-top:10px;padding:7px 4px 7px 2px;border-top:1px solid var(--paper-line);border-bottom:1px solid var(--paper-line);animation:fadeIn .4s ease both}
+.pp-line.mid{--c:#F08C2E}.pp-line.hi,.pp-line.max{--c:#2FB86A}
+.pl-who{flex:1;min-width:0;display:flex;align-items:center;gap:8px;text-align:left}
+.pl-avs{display:flex;flex:0 0 auto}
+.pl-avs .av{box-shadow:0 0 0 1.5px var(--bg);border-radius:7px!important}
+.pl-avs .av+.av{margin-left:-7px}
+.pl-t{min-width:0;font-size:12.5px;color:#8e8e8a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-flex;align-items:center}
+.pl-t b{color:var(--ink);font-weight:700;margin-left:3px}
+.pl-aff{flex:0 0 auto;display:flex;align-items:center;gap:7px;background:none;border:0;cursor:pointer}
+.pl-bar{position:relative;width:54px;height:2px;border-radius:2px;background:var(--paper-line);overflow:hidden}
+.pl-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:2px;background:var(--c);transition:width 1s cubic-bezier(.22,.9,.25,1)}
+.pp-line.max .pl-bar i::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.9),transparent);animation:affShine 2.2s ease-in-out infinite}
+.pl-aff b{font-size:12px;font-weight:800;color:var(--c);font-variant-numeric:tabular-nums;min-width:30px;text-align:right}
+.pl-more{flex:0 0 auto;width:24px;height:24px;color:#a3a29d;font-size:12px;letter-spacing:-.14em}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -2435,6 +2452,14 @@ html[data-theme="dark"][data-theme="dark"] nav.tabs .pill::before,html[data-them
 html[data-theme="dark"][data-theme="dark"] nav.tabs .pill button{color:#777777!important}
 html[data-theme="dark"][data-theme="dark"] nav.tabs .pill button:hover{color:#1C1C1C!important}
 html[data-theme="dark"][data-theme="dark"] nav.tabs .pill button[data-l][aria-current="page"]{background:#1C1C1C!important;color:#F1F1F1!important;box-shadow:0 6px 18px rgba(0,0,0,.45),inset 0 -1px 0 rgba(0,0,0,.08)}
+html[data-theme="dark"] .pp-line{--c:#E5484D;border-top:1px solid var(--paper-line);border-bottom:1px solid var(--paper-line)}
+html[data-theme="dark"] .pl-t{color:#7B7B7B}
+html[data-theme="dark"] .pl-t b{color:var(--ink)}
+html[data-theme="dark"] .pl-aff{background:none;border:0}
+html[data-theme="dark"] .pl-bar{background:var(--paper-line)}
+html[data-theme="dark"] .pl-bar i{background:var(--c)}
+html[data-theme="dark"] .pl-aff b{color:var(--c)}
+html[data-theme="dark"] .pl-more{color:#686868}
 
 /* retouches manuelles */
 html[data-theme="dark"]{color-scheme:dark}
@@ -2471,6 +2496,7 @@ html[data-theme="dark"] .streak i{filter:drop-shadow(0 0 5px rgba(255,200,40,.55
     <button data-nav="profile" id="nav-me" aria-label="Profil"><span class="nav-av"></span></button>
   </div></nav>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+ <linearGradient id="vbBlue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6FB6FF"/><stop offset=".5" stop-color="#2F8BFF"/><stop offset="1" stop-color="#1E62E0"/></linearGradient>
  <linearGradient id="vbGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1BF"/><stop offset=".45" stop-color="#E9B949"/><stop offset="1" stop-color="#A9761F"/></linearGradient>
  <linearGradient id="chr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".46" stop-color="#e2e3e7"/><stop offset=".5" stop-color="#b3b6be"/><stop offset="1" stop-color="#e9eaee"/></linearGradient>
  <linearGradient id="chrRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff98a2"/><stop offset=".46" stop-color="#ff4458"/><stop offset=".5" stop-color="#d4142c"/><stop offset="1" stop-color="#ff5a6c"/></linearGradient>
@@ -2512,6 +2538,7 @@ const I={
  send:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19.5V5M5.5 11.5 12 5l6.5 6.5"/></svg>',
  image:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="4"/><circle cx="9" cy="10" r="1.7"/><path d="m4.5 17.5 5-4.5 3.5 3 2.5-2 4 3.5"/></svg>',
  verified:'<svg class="vbadge" width="15" height="15" viewBox="0 0 24 24" aria-label="Compte vérifié" role="img"><path d="M12 1.6l2.7 2 3.3-.3 1 3.2 2.8 1.9-1.1 3.2 1.1 3.2-2.8 1.9-1 3.2-3.3-.3-2.7 2-2.7-2-3.3.3-1-3.2-2.8-1.9 1.1-3.2-1.1-3.2 2.8-1.9 1-3.2 3.3.3z" fill="url(#vbGold)"/><path d="M7.8 12.3l2.8 2.8 5.6-5.8" fill="none" stroke="#3A2806" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ verifiedBlue:'<svg class="vbadge vb-blue" width="15" height="15" viewBox="0 0 24 24" aria-label="Compte vérifié" role="img"><path d="M12 1.6l2.7 2 3.3-.3 1 3.2 2.8 1.9-1.1 3.2 1.1 3.2-2.8 1.9-1 3.2-3.3-.3-2.7 2-2.7-2-3.3.3-1-3.2-2.8-1.9 1.1-3.2-1.1-3.2 2.8-1.9 1-3.2 3.3.3z" fill="url(#vbBlue)"/><path d="M7.8 12.3l2.8 2.8 5.6-5.8" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
  psLink:'<svg class="ps-ic" width="27" height="27" viewBox="0 0 24 24"><g transform="rotate(-45 12 12)" fill="none" stroke-linecap="round"><rect x="1.6" y="8.3" width="11.6" height="7.4" rx="3.7" stroke="#2b2b2b" stroke-width="4.3"/><rect x="10.8" y="8.3" width="11.6" height="7.4" rx="3.7" stroke="#2b2b2b" stroke-width="4.3"/><rect x="1.6" y="8.3" width="11.6" height="7.4" rx="3.7" stroke="url(#chr)" stroke-width="2"/><rect x="10.8" y="8.3" width="11.6" height="7.4" rx="3.7" stroke="url(#chr)" stroke-width="2"/><path d="M3.6 9.6h4" stroke="#fff" stroke-width="1" opacity=".95"/><path d="M12.8 9.6h4" stroke="#fff" stroke-width="1" opacity=".95"/></g></svg>',
  back:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
  close:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
@@ -2696,13 +2723,13 @@ async function openBanList(){
  await loadBans();await loadProfiles(Object.keys(bansMap));const ids=Object.keys(bansMap);
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet ban-sheet" role="dialog" aria-label="Comptes bannis"><div class="sheet-head">Comptes bannis</div><div class="sheet-list gutter">${ids.length?ids.map(x=>{const b=bansMap[x];return `<div class="conv">${av(x,42)}<span class="meta"><b>${esc(prof(x).handle)}</b><span>${b.until?'Jusqu’au '+new Date(b.until).toLocaleDateString('fr-FR',{day:'numeric',month:'short'}):'Définitif'}${b.reason?' · '+esc(b.reason):''}</span></span><button class="mini" data-act="unban" data-u="${x}">Lever</button></div>`}).join(''):'<div class="empty">Aucun compte banni.</div>'}</div></div></div>`;
 }
-let ADMINS=new Set();const isAdmin=()=>!!(me&&ADMINS.has(me.id));const vb=uid=>ADMINS.has(uid)?I.verified:'';
+let ADMINS=new Set();const isAdmin=()=>!!(me&&ADMINS.has(me.id));const vb=uid=>ADMINS.has(uid)?I.verified:(P[uid]&&P[uid].verified)?I.verifiedBlue:'';
 async function loadAdmins(){try{const {data}=await sb.from('admins').select('user_id');ADMINS=new Set((data||[]).map(r=>r.user_id))}catch(e){}}
 let notifs=[],unreadNotifs=0,likedStories=new Set(),myStoryLikes={},soundOn=false;
 
 async function loadProfiles(ids){
  const need=[...new Set(ids)].filter(id=>id&&!P[id]);if(!need.length)return;
- const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').in('id',need);
+ const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').in('id',need);
  (data||[]).forEach(p=>P[p.id]=p);
 }
 const prof=id=>P[id]||{id,handle:'…',name:'…',sport:'Autre',bio:'',prs:[]};
@@ -3380,7 +3407,7 @@ function renderMessages(q){
   ${list.map(it=>{if(it.g){const g=groups[it.g],l=glast(it.g);return `<button class="conv ${gUnread(it.g)?'unread':''}" data-act="gchat" data-g="${it.g}">${gAv(it.g,48)}<span class="meta"><b>${esc(g.name)}</b><span>${l?(l.sender_id===me.id?'Toi':'@'+esc(prof(l.sender_id).handle))+' : '+esc(l.text):(gMembers[it.g]||[]).length+' membres'}</span></span>${l?`<time>${hhmm(l.created_at)}</time>`:''}</button>`}const uid=it.u;const p=prof(uid),l=last(uid),un=l&&convs[uid].some(m=>m.recipient_id===me.id&&!m.read_at);return `<button class="conv ${un?'unread':''}" data-act="chat" data-u="${uid}">${av(uid,48)}<span class="meta"><b>${esc(p.name)}</b><span>${l?(l.sender_id===me.id?'Toi : ':'')+esc(msgPreview(l)):'@'+esc(p.handle)+' · '+esc(p.sport)}</span></span><span class="conv-r">${streakHTML(uid)}${l?`<time>${hhmm(l.created_at)}</time>`:''}</span></button>`}).join('')||`<div class="empty">${curQuery?(searchResults?'Aucun sportif trouvé.':'Recherche…'):'Aucune discussion pour l’instant.<br>Cherche un sportif ci-dessus pour lui écrire.'}</div>`}
  </div>`;
  const s=$('ms');s.addEventListener('input',()=>{const v=s.value.trim(),pos=s.selectionStart;clearTimeout(searchTimer);searchResults=null;
-  searchTimer=setTimeout(async()=>{if(v){const safe=v.replace(/[%,()]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(20);(data||[]).forEach(p=>P[p.id]=p);searchResults=(data||[]).map(p=>p.id)}
+  searchTimer=setTimeout(async()=>{if(v){const safe=v.replace(/[%,()]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(20);(data||[]).forEach(p=>P[p.id]=p);searchResults=(data||[]).map(p=>p.id)}
    if(view!=='messages')return;renderMessages(v);const n=$('ms');n.focus();n.setSelectionRange(pos,pos)},300)});
 }
 async function markRead(uid){const c=convs[uid]||[];const ids=c.filter(m=>m.recipient_id===me.id&&!m.read_at).map(m=>m.id);if(!ids.length)return;const now=new Date().toISOString();c.forEach(m=>{if(ids.includes(m.id))m.read_at=now});await sb.from('messages').update({read_at:now}).in('id',ids);recountUnread()}
@@ -3599,7 +3626,7 @@ function openPeoplePicker({title,cta,exclude=[],withName=false,onDone}){
  paint();
  const toggle=e=>{const b=e.target.closest('[data-pk]');if(!b)return;const x=b.dataset.pk;sel.has(x)?sel.delete(x):sel.add(x);paint()};
  $('pk-list').addEventListener('click',toggle);$('pk-chips').addEventListener('click',toggle);
- let tm;$('pk-q').addEventListener('input',e=>{const v=e.target.value.trim();clearTimeout(tm);tm=setTimeout(async()=>{if(!v){shown=base;paint();return}const safe=v.replace(/[%,()*]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(20);(data||[]).forEach(p=>P[p.id]=p);shown=(data||[]).map(p=>p.id).filter(x=>!ex.has(x)&&!blocked.has(x));if(layer.querySelector('.pk'))paint()},250)});
+ let tm;$('pk-q').addEventListener('input',e=>{const v=e.target.value.trim();clearTimeout(tm);tm=setTimeout(async()=>{if(!v){shown=base;paint();return}const safe=v.replace(/[%,()*]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(20);(data||[]).forEach(p=>P[p.id]=p);shown=(data||[]).map(p=>p.id).filter(x=>!ex.has(x)&&!blocked.has(x));if(layer.querySelector('.pk'))paint()},250)});
  $('pk-go').addEventListener('click',async()=>{const b=$('pk-go');b.disabled=true;const ok=await onDone([...sel],withName?$('pk-name').value:'');if(!ok&&$('pk-go'))b.disabled=false});
 }
 // ================= PROTECTION : blocage, signalement =================
@@ -3671,7 +3698,7 @@ async function renderSearch(q){
   if(!v){b.hidden=true;ex.hidden=false;return}
   ex.hidden=true;b.hidden=false;
   const safe=v.replace(/[%,()*]/g,'');
-  const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').neq('id',me.id).or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).limit(30);(data||[]).forEach(p=>P[p.id]=p);
+  const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').neq('id',me.id).or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).limit(30);(data||[]).forEach(p=>P[p.id]=p);
   if(view!=='search'||sQuery!==v)return;
   b.innerHTML=((data||[]).filter(p=>!blocked.has(p.id)).map(p=>`<button class="conv" data-act="profile" data-u="${p.id}">${av(p.id,48)}<span class="meta"><b>${esc(p.handle)}${vb(p.id)}</b><span>${esc(p.name)} · ${esc(p.sport)}</span></span>${following.has(p.id)?'<span class="opt">Abonné</span>':''}</button>`).join('')||`<div class="empty">Aucun profil trouvé pour « ${esc(v)} ».</div>`);
  };
@@ -3701,7 +3728,7 @@ async function renderProfile(){
  main.innerHTML=`<div class="gutter ${creator?'creator':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>${creator?'</div>':''}
  <section class="phead">
   <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
-  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${creator?'<span class="cr-chip"><span class="cr-chip-t">Administrateur</span></span>':''}${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
+  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pp-box" id="pp-box" data-u="${uid}"></div>
   
@@ -4197,15 +4224,10 @@ async function paintPartner(uid,mine){
   const pid=acc.requester===uid?acc.addressee:acc.requester;await loadProfiles([pid]);
   const d=ppDays(acc),aff=(await ppAffinity(uid,pid)).score||0,ph=prof(pid);
   if(!box.isConnected)return;
-  box.innerHTML=`<div class="pp-duo ${affClass(aff)}" style="--aff:${aff}">
-   <div class="pd-head"><span class="pd-k">Partenaires d’entraînement</span>${mine?`<button class="pp-more" data-act="pp-menu" data-id="${acc.id}" data-u="${pid}" aria-label="Options du partenariat">•••</button>`:''}</div>
-   <div class="pd-link">
-    <button class="pd-av" data-act="profile" data-u="${uid}" aria-label="Profil de @${esc(prof(uid).handle)}">${av(uid,46)}</button>
-    <button type="button" class="pd-mid" data-act="pp-aff" data-u="${pid}" data-k="${uid}" aria-label="Affinité ${aff} %, voir le détail"><span class="pd-line" aria-hidden="true"><i class="pd-fill"></i><i class="pd-spark"></i></span><span class="pd-pct">${aff}<small>%</small></span><span class="pd-cap">affinité</span></button>
-    <button class="pd-av" data-act="profile" data-u="${pid}" aria-label="Profil de @${esc(ph.handle)}">${av(pid,46)}</button>
-   </div>
-   <div class="pd-names"><b>@${esc(prof(uid).handle)}</b><span>&</span><b>@${esc(ph.handle)}${vb(pid)}</b></div>
-   <div class="pd-since">${d<1?'Duo formé aujourd’hui':'Ensemble depuis '+d+' jour'+(d>1?'s':'')}</div>
+  box.innerHTML=`<div class="pp-line ${affClass(aff)}">
+   <button class="pl-who" data-act="profile" data-u="${pid}" aria-label="Profil de @${esc(ph.handle)}"><span class="pl-avs">${av(uid,22)}${av(pid,22)}</span><span class="pl-t">Partenaire · <b>@${esc(ph.handle)}</b>${vb(pid)}</span></button>
+   <button type="button" class="pl-aff" data-act="pp-aff" data-u="${pid}" data-k="${uid}" aria-label="Affinité ${aff} %, voir le détail" title="${d<1?'Duo formé aujourd’hui':'Ensemble depuis '+d+' jour'+(d>1?'s':'')}"><span class="pl-bar"><i style="width:${Math.max(3,aff)}%"></i></span><b>${aff}%</b></button>
+   ${mine?`<button class="pl-more" data-act="pp-menu" data-id="${acc.id}" data-u="${pid}" aria-label="Options du partenariat">•••</button>`:''}
   </div>`;
   requestAnimationFrame(()=>box.querySelector('.pp-bar i')?.classList.add('go'));
   return;
@@ -4234,7 +4256,7 @@ function openPartnerPicker(){
  const res=$('pp-res'),q=$('pp-q');let tm;
  const paint=list=>{res.innerHTML=list.length?list.map(id=>`<button class="pp-pick" data-pp="${id}">${av(id,40)}<span class="pp-tx"><b>@${esc(prof(id).handle)}${vb(id)}</b><small>${esc(prof(id).name||'')}${prof(id).sport?' · '+esc(prof(id).sport):''}</small></span><i>Inviter</i></button>`).join(''):`<p class="pp-none">${q.value.trim()?'Aucun membre trouvé':'Commence à taper un pseudo'}</p>`};
  const base=[...following].filter(x=>!blocked.has(x)&&x!==me.id).slice(0,8);loadProfiles(base).then(()=>{if(!q.value.trim())paint(base)});
- q.addEventListener('input',()=>{clearTimeout(tm);tm=setTimeout(async()=>{const v=q.value.trim().replace(/^@/,'');if(!v){paint(base);return}const safe=v.replace(/[%,()*]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(15);(data||[]).forEach(x=>P[x.id]=x);if(q.value.trim().replace(/^@/,'')===v)paint((data||[]).map(x=>x.id).filter(x=>!blocked.has(x)))},250)});
+ q.addEventListener('input',()=>{clearTimeout(tm);tm=setTimeout(async()=>{const v=q.value.trim().replace(/^@/,'');if(!v){paint(base);return}const safe=v.replace(/[%,()*]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(15);(data||[]).forEach(x=>P[x.id]=x);if(q.value.trim().replace(/^@/,'')===v)paint((data||[]).map(x=>x.id).filter(x=>!blocked.has(x)))},250)});
  res.addEventListener('click',async e=>{const b=e.target.closest('[data-pp]');if(!b)return;b.disabled=true;b.querySelector('i').textContent='Envoi…';await partnerRequest(b.dataset.pp);layer.innerHTML=''});
  setTimeout(()=>q.focus(),250);
 }
@@ -4277,7 +4299,7 @@ async function boot(){
  await Promise.all([refreshHome(),loadConvs(),loadNotifs(),loadClips(),loadAdmins(),loadBlocks(),loadGroups(),loadAnnouncements(),loadNotifPrefs(),loadSaved()]);recountUnread();loadBans();
  subscribeRealtime();
  const qpost=new URLSearchParams(location.search).get('p');if(qpost){history.replaceState(null,'',BASE_URL);const {data:pp}=await sb.from('feed').select('*').eq('id',qpost).maybeSingle();if(pp){await loadProfiles([pp.user_id]);if(pp.kind==='clip'){clipsList=[pp,...clipsList.filter(x=>x.id!==pp.id)];view='clips';arg=pp.id}else{feed=[pp,...feed.filter(x=>x.id!==pp.id)];await loadComments(feed.map(x=>x.id));view='home';setTimeout(()=>document.querySelector(`.card[data-id="${pp.id}"]`)?.scrollIntoView({block:'start'}),80)}}else toast('Cette publication n’existe plus')}
- const qu=new URLSearchParams(location.search).get('u');if(qu){history.replaceState(null,'',BASE_URL);const {data:tp}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs').eq('handle',qu.toLowerCase()).maybeSingle();if(tp){P[tp.id]=tp;view='profile';arg=tp.id}}
+ const qu=new URLSearchParams(location.search).get('u');if(qu){history.replaceState(null,'',BASE_URL);const {data:tp}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').eq('handle',qu.toLowerCase()).maybeSingle();if(tp){P[tp.id]=tp;view='profile';arg=tp.id}}
  cleanExpiredStories();
  if(!['home','clips','messages','profile','create'].includes(view))view='home';
  render();
