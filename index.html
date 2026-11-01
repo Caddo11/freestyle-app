@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793536907">
+<meta name="fs-build" content="1793537405">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1711,6 +1711,29 @@ html[data-theme="dark"] .msg:not(.me) .vm-play{background:rgba(255,255,255,.1)}
 .ps-rail .rail-snd{width:30px;height:30px}
 .ps-rail .fs-ic .ic-f,.ps-rail .fs-ic .ic-d,.ps-rail .fs-ic .ic-in{stroke-width:1.7}
 .ps-rail button.burst::after{top:18px;width:30px;height:30px;margin:-15px 0 0 -15px}
+
+/* ================= v35 : couleur de l'affinité ================= */
+.pp-aff{background:none;border:0;cursor:pointer;text-align:right}
+.pp-bar{width:70px;height:4px}
+.pp-aff.lo .pp-bar i,.aff-big.lo .pp-bar i{background:linear-gradient(90deg,#E5484D,#F2555A)}
+.pp-aff.mid .pp-bar i,.aff-big.mid .pp-bar i{background:linear-gradient(90deg,#F08C2E,#F5A524)}
+.pp-aff.hi .pp-bar i,.pp-aff.max .pp-bar i,.aff-big.hi .pp-bar i,.aff-big.max .pp-bar i{background:linear-gradient(90deg,#2FB86A,#3DD47D)}
+.pp-aff.lo b{color:#E5484D}.pp-aff.mid b{color:#E8862A}.pp-aff.hi b,.pp-aff.max b{color:#22A55C}
+.pp-aff.max .pp-bar,.aff-big.max .pp-bar{position:relative;box-shadow:0 0 10px rgba(61,212,125,.55)}
+.pp-aff.max .pp-bar i,.aff-big.max .pp-bar i{position:relative;overflow:hidden}
+.pp-aff.max .pp-bar i::after,.aff-big.max .pp-bar i::after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent);animation:affShine 2.2s ease-in-out infinite}
+.pp-aff.max b{text-shadow:0 0 8px rgba(61,212,125,.55)}
+@keyframes affShine{0%{left:-40%}60%,100%{left:120%}}
+.aff-big{margin:4px 0 6px}
+.aff-big .pp-bar{width:100%;height:8px;border-radius:4px}
+.aff-row{display:flex;align-items:center;gap:12px;padding:10px 2px;border-top:1px solid var(--paper-line)}
+.aff-ic{width:34px;height:34px;border-radius:10px;background:var(--paper);display:grid;place-items:center;font-size:16px;flex:0 0 auto}
+.aff-t{flex:1;min-width:0;display:flex;flex-direction:column}
+.aff-t b{font-size:13.5px;color:var(--ink)}
+.aff-t small{font-size:12px;color:#8e8e8a}
+.aff-pt{font-size:15px;font-weight:800;color:var(--ink)}
+.aff-pt i{font-style:normal;font-size:11px;font-weight:600;color:#a3a29d}
+.pp-sheet .sheet-list{padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -2237,6 +2260,13 @@ html[data-theme="dark"] .vm-play{background:rgba(15,15,15,0.22);color:inherit}
 html[data-theme="dark"] .vm-wave i{background:currentColor}
 html[data-theme="dark"] .dm-keep{color:inherit}
 html[data-theme="dark"] .dm-keep[aria-pressed="true"]{color:#E9B949}
+html[data-theme="dark"] .pp-aff{background:none;border:0}
+html[data-theme="dark"] .aff-row{border-top:1px solid var(--paper-line)}
+html[data-theme="dark"] .aff-ic{background:var(--paper)}
+html[data-theme="dark"] .aff-t b{color:var(--ink)}
+html[data-theme="dark"] .aff-t small{color:#7B7B7B}
+html[data-theme="dark"] .aff-pt{color:var(--ink)}
+html[data-theme="dark"] .aff-pt i{color:#686868}
 
 /* retouches manuelles */
 html[data-theme="dark"]{color-scheme:dark}
@@ -3750,6 +3780,7 @@ document.addEventListener('click',async e=>{
    a.parentElement.querySelectorAll('[data-act="ex-sport"]').forEach(b=>{const kk=b.dataset.k||null;b.setAttribute('aria-pressed',kk?exploreSports.has(kk):!exploreSports.size)});
    a.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});paintExplore();break}
   case 'pp-add':openPartnerPicker();break;
+  case 'pp-aff':openAffinity(a.dataset.k,u);break;
   case 'pp-yes':partnerRespond(id,true,a);break;
   case 'pp-no':partnerRespond(id,false,a);break;
   case 'pp-cancel':partnerEnd(id,false);break;
@@ -3972,13 +4003,15 @@ function creatorIntro(){
 const ppState={mine:null,of:{}};
 async function loadPartnerRows(uid){const {data}=await sb.from('training_partners').select('*').or(`requester.eq.${uid},addressee.eq.${uid}`);return data||[]}
 function ppDays(r){return Math.max(0,Math.floor((Date.now()-new Date(r.accepted_at||r.created_at))/864e5))}
-async function ppAffinity(a,b,r){
- const A=prof(a),B=prof(b);let sc=52;
- if(A.sport&&A.sport===B.sport)sc+=16;
- if(A.city&&B.city&&A.city.trim().toLowerCase()===B.city.trim().toLowerCase())sc+=12;
- try{const {data}=await sb.from('follows').select('follower_id').or(`and(follower_id.eq.${a},following_id.eq.${b}),and(follower_id.eq.${b},following_id.eq.${a})`);if((data||[]).length>=2)sc+=10;else if((data||[]).length)sc+=4}catch(e){}
- sc+=Math.min(9,Math.floor(ppDays(r)/4));
- return Math.min(99,sc);
+// Affinité calculée par le serveur à partir de l'activité commune des 30 derniers jours :
+// étoiles de messages, jours où les deux s'écrivent, likes, commentaires, stickers et likes de stories, abonnement, ancienneté.
+const ppAffCache={};
+async function ppAffinity(a,b){try{const {data,error}=await sb.rpc('fs_partner_affinity',{a,b});if(error||!data)return {score:0};ppAffCache[[a,b].sort().join('|')]=data;return data}catch(e){return {score:0}}}
+const affClass=v=>v>=100?'max':v>=75?'hi':v>=40?'mid':'lo';
+function openAffinity(a,b){
+ const r=ppAffCache[[a,b].sort().join('|')];if(!r)return;const p=r.parts||{};
+ const rows=[['⭐','Étoiles de messages',`${r.streak} jour${r.streak>1?'s':''} d’affilée`,p.streak,30],['💬','Jours où vous vous écrivez',`${r.days} sur 30 jours`,p.days,20],['👍','Likes sur les publications de l’autre',`${r.likes}`,p.likes,15],['🗨️','Commentaires chez l’autre',`${r.comments}`,p.comments,15],['✨','Stickers et likes de stories',`${r.reactions}`,p.reactions,10],['🤝','Abonnement',r.follow>=2?'Mutuel':r.follow?'À sens unique':'Aucun',p.follow,5],['📅','Ancienneté du duo',`${r.duo_days} jour${r.duo_days>1?'s':''}`,p.age,5]];
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet pp-sheet" role="dialog" aria-label="Affinité"><div class="stw-top"><b>Affinité · ${r.score} %</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter"><div class="aff-big ${affClass(r.score)}"><span class="pp-bar"><i class="go" style="--w:${r.score}%"></i></span></div><p class="pp-intro">Calculée sur votre activité commune des 30 derniers jours. Plus vous échangez, plus elle monte.</p>${rows.map(([ic,t,v,pt,max])=>`<div class="aff-row"><span class="aff-ic">${ic}</span><span class="aff-t"><b>${t}</b><small>${v}</small></span><span class="aff-pt">${Math.round(pt||0)}<i>/${max}</i></span></div>`).join('')}</div></div></div>`;
 }
 const ppIc='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3 2.8-4.8 5.5-4.8s4.9 1.8 5.5 4.8"/><path d="M16 5.2a3.2 3.2 0 0 1 0 5.6M17.5 14.6c1.6.6 2.7 2.2 3 4.4"/></svg>';
 async function paintPartner(uid,mine){
@@ -3989,9 +4022,9 @@ async function paintPartner(uid,mine){
  ppState.of[uid]=acc||null;if(mine)ppState.mine=acc||null;
  if(acc){
   const pid=acc.requester===uid?acc.addressee:acc.requester;await loadProfiles([pid]);
-  const d=ppDays(acc),aff=await ppAffinity(uid,pid,acc),ph=prof(pid);
+  const d=ppDays(acc),aff=(await ppAffinity(uid,pid)).score||0,ph=prof(pid);
   if(!box.isConnected)return;
-  box.innerHTML=`<div class="pp-card"><button class="pp-main" data-act="profile" data-u="${pid}"><span class="pp-avs">${av(uid,36)}${av(pid,36)}</span><span class="pp-t"><small>Partenaire d’entraînement</small><b>@${esc(ph.handle)}${vb(pid)}</b><i>${d<1?'Duo formé aujourd’hui':'Ensemble depuis '+d+' jour'+(d>1?'s':'')}</i></span></button><span class="pp-aff" title="Sport, ville, abonnement mutuel et ancienneté du duo"><em>Affinité</em><b>${aff} %</b><span class="pp-bar"><i style="--w:${aff}%"></i></span></span>${mine?`<button class="pp-more" data-act="pp-menu" data-id="${acc.id}" data-u="${pid}" aria-label="Options du partenariat">•••</button>`:''}</div>`;
+  box.innerHTML=`<div class="pp-card"><button class="pp-main" data-act="profile" data-u="${pid}"><span class="pp-avs">${av(uid,36)}${av(pid,36)}</span><span class="pp-t"><small>Partenaire d’entraînement</small><b>@${esc(ph.handle)}${vb(pid)}</b><i>${d<1?'Duo formé aujourd’hui':'Ensemble depuis '+d+' jour'+(d>1?'s':'')}</i></span></button><button type="button" class="pp-aff ${affClass(aff)}" data-act="pp-aff" data-u="${pid}" data-k="${uid}" title="Voir le détail de l’affinité"><em>Affinité</em><b>${aff} %</b><span class="pp-bar"><i style="--w:${aff}%"></i></span></button>${mine?`<button class="pp-more" data-act="pp-menu" data-id="${acc.id}" data-u="${pid}" aria-label="Options du partenariat">•••</button>`:''}</div>`;
   requestAnimationFrame(()=>box.querySelector('.pp-bar i')?.classList.add('go'));
   return;
  }
