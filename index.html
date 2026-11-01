@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793536326">
+<meta name="fs-build" content="1793536907">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1657,6 +1657,60 @@ html[data-theme="dark"] .gm .msg .gh{color:#9AA6F7}
 .vm-t{font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums;opacity:.85}
 .dm-left{font-style:italic}
 html[data-theme="dark"] .msg:not(.me) .vm-play{background:rgba(255,255,255,.1)}
+
+/* ================= v33 : garder un média, aperçu avant envoi, animations vocales ================= */
+.msg.dm-m small{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.msg.dm-m.me small{justify-content:flex-end}
+.dm-keep{display:inline-grid;place-items:center;width:22px;height:22px;margin-left:2px;border-radius:6px;color:inherit;opacity:.75;transition:opacity .2s,transform .2s}
+.dm-keep:hover{opacity:1}
+.dm-keep:active{transform:scale(.85)}
+.dm-keep[aria-pressed="true"]{opacity:1;color:#E9B949}
+.dm-kept{font-weight:700}
+.msg.dm-m.kept .dm-media{box-shadow:0 0 0 2px #E9B949}
+/* visionneuse / aperçu */
+.dmv{position:fixed;inset:0;z-index:130;display:flex;flex-direction:column;background:rgba(8,8,8,.96);color:#fff;opacity:0;transition:opacity .25s ease}
+.dmv.in{opacity:1}
+.dmv-top{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 8px;font-size:13.5px;font-weight:600}
+.dmv-x{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.dmv-x:hover{background:rgba(255,255,255,.08)}
+.dmv-stage{flex:1;min-height:0;display:grid;place-items:center;padding:8px 12px}
+.dmv-stage img,.dmv-stage video{max-width:100%;max-height:100%;border-radius:14px;object-fit:contain;transform:scale(.96);transition:transform .35s cubic-bezier(.22,.9,.25,1)}
+.dmv.in .dmv-stage img,.dmv.in .dmv-stage video{transform:none}
+.dmv-bar{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+.dmv-keep{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;background:rgba(255,255,255,.12);color:#fff;font-size:14px;font-weight:700;transition:background .2s,color .2s}
+.dmv-keep.on{background:#E9B949;color:#141414}
+.dmv-note{font-size:12px;color:rgba(255,255,255,.6);text-align:center}
+.dmp-btns{display:flex;gap:10px;width:100%;max-width:420px}
+.dmp-btns button{flex:1;height:48px;border-radius:14px;font-size:15px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.dmp-no{background:rgba(255,255,255,.1);color:#fff}
+.dmp-go{background:linear-gradient(135deg,#6E7FF3,#8C78EC);color:#fff;box-shadow:0 6px 18px rgba(110,127,243,.3)}
+/* enregistrement : micro qui pulse + onde en direct */
+.rec-box{gap:10px;padding:0 12px 0 6px}
+.rec-mic{position:relative;width:30px;height:30px;flex:0 0 auto;border-radius:50%;display:grid;place-items:center;background:#ED4956;color:#fff}
+.rec-mic::before,.rec-mic::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #ED4956;animation:recRing 1.6s ease-out infinite}
+.rec-mic::after{animation-delay:.8s}
+@keyframes recRing{from{transform:scale(1);opacity:.7}to{transform:scale(1.9);opacity:0}}
+.rec-cv{flex:1;min-width:40px;height:26px}
+.rec-t{flex:0 0 auto;font-size:12.5px}
+.rec-track{flex:0 0 46px}
+.rec-dot{display:none}
+/* lecture : l'onde danse et se remplit */
+.vm-play{transition:transform .2s}
+.vm.on .vm-play{animation:vmPulse 1.4s ease-in-out infinite}
+@keyframes vmPulse{50%{transform:scale(1.08)}}
+.vm-wave i{transform-origin:center;transition:opacity .15s,background .15s}
+.vm.on .vm-wave i{animation:vmBar .9s ease-in-out infinite}
+.vm.on .vm-wave i:nth-child(3n){animation-delay:-.3s}.vm.on .vm-wave i:nth-child(3n+1){animation-delay:-.6s}.vm.on .vm-wave i:nth-child(4n){animation-duration:1.15s}
+@keyframes vmBar{0%,100%{transform:scaleY(.55)}50%{transform:scaleY(1.15)}}
+.vm-wave i.p{opacity:1}
+
+/* v34 : icônes du côté des clips plus petites */
+.ps-rail{gap:14px}
+.ps-rail .fs-ic,.ps-rail .ps-ic{width:26px!important;height:26px!important}
+.ps-rail button{font-size:11.5px;gap:2px}
+.ps-rail .rail-snd{width:30px;height:30px}
+.ps-rail .fs-ic .ic-f,.ps-rail .fs-ic .ic-d,.ps-rail .fs-ic .ic-in{stroke-width:1.7}
+.ps-rail button.burst::after{top:18px;width:30px;height:30px;margin:-15px 0 0 -15px}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -2181,6 +2235,8 @@ html[data-theme="dark"] .rec-x{color:#ED4956}
 html[data-theme="dark"] .dm-media{background:#FFFFFF}
 html[data-theme="dark"] .vm-play{background:rgba(15,15,15,0.22);color:inherit}
 html[data-theme="dark"] .vm-wave i{background:currentColor}
+html[data-theme="dark"] .dm-keep{color:inherit}
+html[data-theme="dark"] .dm-keep[aria-pressed="true"]{color:#E9B949}
 
 /* retouches manuelles */
 html[data-theme="dark"]{color-scheme:dark}
@@ -3130,15 +3186,17 @@ const msgHTML=m=>{const mine=m.sender_id===me.id;if(!m.media)return `<div class=
  const md=m.media,left=dmLeft(m);
  const body=md.type==='audio'?`<div class="vm" data-src="${esc(md.url)}"><button type="button" class="vm-play" data-act="vm-play" aria-label="Écouter le message vocal"><svg class="i-play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="i-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button><span class="vm-wave" aria-hidden="true">${vmBars(m.id)}</span><span class="vm-t">${fmtDur(md.dur||0)}</span></div>`
   :md.type==='video'?`<video class="dm-media" src="${esc(md.url)}" controls playsinline preload="metadata"></video>`
-  :`<img class="dm-media" src="${esc(md.url)}" alt="Photo" loading="lazy" data-act="dm-photo">`;
- return `<div class="msg dm-m ${md.type==='audio'?'dm-a':'dm-v'} ${mine?'me':''}" data-exp="${esc(m.expires_at||'')}">${body}<small>${hhmm(m.created_at)}${left?` · <span class="dm-left">${left}</span>`:''}</small></div>`};
+  :`<img class="dm-media" src="${esc(md.url)}" alt="Photo" loading="lazy" data-act="dm-photo" data-id="${m.id}">`;
+ const kept=!m.expires_at;
+ return `<div class="msg dm-m ${md.type==='audio'?'dm-a':'dm-v'} ${mine?'me':''} ${kept?'kept':''}" data-mid="${m.id}">${body}<small>${hhmm(m.created_at)}${kept?` · <span class="dm-kept">Enregistré</span>`:left?` · <span class="dm-left">${left}</span>`:''}<button type="button" class="dm-keep" data-act="dm-keep" data-id="${m.id}" aria-pressed="${kept}" aria-label="${kept?'Retirer de la conversation':'Enregistrer dans la conversation'}" title="${kept?'Ne plus garder (disparaît 24 h après l’envoi)':'Enregistrer : ne sera plus supprimé'}"><svg width="13" height="13" viewBox="0 0 24 24" fill="${kept?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6.6 3.8h10.8a1.2 1.2 0 0 1 1.2 1.2v15.2l-6.6-4.6-6.6 4.6V5a1.2 1.2 0 0 1 1.2-1.2z"/></svg></button></small></div>`};
 // ================= MESSAGES ÉPHÉMÈRES : vocal (30 s max), photo, vidéo — supprimés au bout de 24 h =================
 const DM_TTL=864e5;
-const dmExpired=(m,t)=>!!m.media&&(m.expires_at?new Date(m.expires_at).getTime():new Date(m.created_at).getTime()+DM_TTL)<=(t||Date.now());
+// un média enregistré dans la conversation n'a plus de date d'expiration
+const dmExpired=(m,t)=>!!m.media&&!!m.expires_at&&new Date(m.expires_at).getTime()<=(t||Date.now());
 function dmLeft(m){const end=m.expires_at?new Date(m.expires_at).getTime():new Date(m.created_at).getTime()+DM_TTL;const h=Math.max(0,(end-Date.now())/36e5);return h>=1?'disparaît dans '+Math.floor(h)+' h':'disparaît bientôt'}
 const msgPreview=m=>m.media?({audio:'🎤 Message vocal',video:'🎬 Vidéo',image:'📷 Photo'}[m.media.type]||'Pièce jointe'):(m.text||'');
 const fmtDur=s=>{s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
-function vmBars(seed){let h=0;for(const ch of String(seed||'x'))h=(h*31+ch.charCodeAt(0))>>>0;return Array.from({length:26},()=>{h=(h*1103515245+12345)>>>0;return `<i style="height:${28+(h%72)}%"></i>`}).join('')}
+function vmBars(seed){let h=0;for(const ch of String(seed||'x'))h=(h*31+ch.charCodeAt(0))>>>0;return Array.from({length:26},()=>{h=(h*1103515245+12345)>>>0;return `<i style="height:${28+(h%72)}%"></i>`}).join('').replace(/<i /g,(()=>{let k=0;return ()=>`<i data-k="${k++}" `})())}
 // l'expéditeur nettoie aussi ses fichiers expirés (le serveur le fait de toute façon toutes les 15 min)
 function cleanMyExpiredDm(list){const t=Date.now(),old=list.filter(m=>m.sender_id===me.id&&dmExpired(m,t));if(!old.length)return;removeFiles(old.map(m=>m.media&&m.media.url));sb.from('messages').delete().in('id',old.map(m=>m.id)).then(()=>{},()=>{})}
 // retire de l'écran les messages qui expirent pendant qu'on regarde
@@ -3168,6 +3226,54 @@ async function sendDmMedia(uid,file,type,dur){
  }catch(e){if(e&&e.message)toast(e.message);return false}
  finally{const b=$('dm-busy');if(b){b.hidden=true;b.textContent='Envoi…'}}
 }
+
+// ----- enregistrer un média dans la conversation (il n'est alors plus supprimé)
+const findDm=id=>{for(const k in convs){const m=convs[k].find(x=>x.id===id);if(m)return m}return null};
+function repaintDm(m){document.querySelectorAll(`.msg[data-mid="${m.id}"]`).forEach(el=>{el.outerHTML=msgHTML(m)})}
+async function dmKeep(id,force){
+ const m=findDm(id);if(!m)return;const keep=force!=null?force:!!m.expires_at;
+ const {data,error}=await sb.rpc('fs_dm_keep',{mid:id,keep});
+ if(error)return dbError(error,'Action impossible');
+ if(data==='expired'){toast('Ce média a déjà expiré');return}
+ if(data==='invalid'){toast('Action impossible');return}
+ m.expires_at=keep?null:new Date(Math.max(new Date(m.created_at).getTime()+DM_TTL,Date.now()+60000)).toISOString();
+ repaintDm(m);paintViewerKeep(m);
+ toast(keep?'Enregistré dans la conversation : il ne sera plus supprimé':'Ne sera plus gardé : disparaît 24 h après l’envoi');
+}
+// ----- visionneuse photo / vidéo reçue
+function openDmViewer(id){
+ const m=findDm(id);if(!m||!m.media)return;
+ const d=document.createElement('div');d.className='dmv';d.id='dmv';
+ d.innerHTML=`<div class="dmv-top"><button type="button" class="dmv-x" aria-label="Fermer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><span>${esc(prof(m.sender_id).handle)} · ${hhmm(m.created_at)}</span></div><div class="dmv-stage">${m.media.type==='video'?`<video src="${esc(m.media.url)}" controls autoplay playsinline></video>`:`<img src="${esc(m.media.url)}" alt="Photo">`}</div><div class="dmv-bar"><button type="button" class="dmv-keep" data-id="${m.id}"></button><small class="dmv-note"></small></div>`;
+ document.body.appendChild(d);paintViewerKeep(m);requestAnimationFrame(()=>d.classList.add('in'));
+ const close=()=>{d.classList.remove('in');setTimeout(()=>d.remove(),250)};
+ d.querySelector('.dmv-x').addEventListener('click',close);d.addEventListener('click',e=>{if(e.target===d||e.target.classList.contains('dmv-stage'))close()});
+ d.querySelector('.dmv-keep').addEventListener('click',()=>dmKeep(m.id));
+}
+function paintViewerKeep(m){const d=$('dmv');if(!d)return;const b=d.querySelector('.dmv-keep');if(!b||b.dataset.id!==m.id)return;const kept=!m.expires_at;
+ b.classList.toggle('on',kept);b.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="${kept?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6.6 3.8h10.8a1.2 1.2 0 0 1 1.2 1.2v15.2l-6.6-4.6-6.6 4.6V5a1.2 1.2 0 0 1 1.2-1.2z"/></svg>${kept?'Enregistré dans la conversation':'Enregistrer dans la conversation'}`;
+ d.querySelector('.dmv-note').textContent=kept?'Ce média ne sera plus supprimé.':'Sinon, il '+dmLeft(m)+'.'}
+// ----- valider la photo / la vidéo avant l'envoi
+function openDmPreview(uid,file,type){
+ const url=URL.createObjectURL(file);const d=document.createElement('div');d.className='dmv dmp';
+ d.innerHTML=`<div class="dmv-top"><button type="button" class="dmv-x" aria-label="Annuler"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><span>Envoyer à ${esc(prof(uid).name||prof(uid).handle)}</span></div><div class="dmv-stage">${type==='video'?`<video src="${url}" controls autoplay muted playsinline loop></video>`:`<img src="${url}" alt="Aperçu">`}</div><div class="dmv-bar dmp-bar"><small class="dmv-note">Disparaît au bout de 24 h, sauf s’il est enregistré dans la conversation.</small><span class="dmp-btns"><button type="button" class="dmp-no">Annuler</button><button type="button" class="dmp-go">Envoyer<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></span></div>`;
+ document.body.appendChild(d);requestAnimationFrame(()=>d.classList.add('in'));
+ const close=()=>{d.classList.remove('in');setTimeout(()=>{d.remove();URL.revokeObjectURL(url)},250)};
+ d.querySelector('.dmv-x').addEventListener('click',close);d.querySelector('.dmp-no').addEventListener('click',close);
+ d.querySelector('.dmp-go').addEventListener('click',()=>{close();sendDmMedia(uid,file,type)});
+}
+// ----- onde du micro pendant l'enregistrement
+function recWave(stream){
+ const cv=$('rec-cv');if(!cv)return null;
+ let ac,an;try{ac=new (window.AudioContext||window.webkitAudioContext)();an=ac.createAnalyser();an.fftSize=256;ac.createMediaStreamSource(stream).connect(an)}catch(e){return null}
+ const buf=new Uint8Array(an.fftSize),hist=[],dpr=Math.min(2,devicePixelRatio||1);let raf=0;
+ const col=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim()||'#2E2E2E';
+ const draw=()=>{if(!cv.isConnected){stop();return}const W=cv.clientWidth,H=cv.clientHeight;if(cv.width!==W*dpr){cv.width=W*dpr;cv.height=H*dpr}const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);
+  an.getByteTimeDomainData(buf);let pk=0;for(const v of buf)pk=Math.max(pk,Math.abs(v-128));hist.push(Math.min(1,pk/70));const n=Math.floor(W/4);while(hist.length>n)hist.shift();
+  c.clearRect(0,0,W,H);c.fillStyle=col;hist.forEach((v,i)=>{const h=Math.max(3,v*H*.95),x=W-(hist.length-i)*4;c.globalAlpha=.35+.65*(i/hist.length);c.beginPath();c.roundRect?c.roundRect(x,(H-h)/2,2.4,h,1.2):c.rect(x,(H-h)/2,2.4,h);c.fill()});c.globalAlpha=1;raf=requestAnimationFrame(draw)};
+ const stop=()=>{cancelAnimationFrame(raf);try{ac.close()}catch(e){}};
+ raf=requestAnimationFrame(draw);return stop;
+}
 // enregistrement vocal
 let rec=null;
 async function startVoice(uid){
@@ -3178,11 +3284,11 @@ async function startVoice(uid){
  const mr=new MediaRecorder(stream,mt?{mimeType:mt,audioBitsPerSecond:48000}:undefined);const chunks=[];
  rec={mr,stream,chunks,t0:Date.now(),uid,send:false};
  mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
- mr.onstop=async()=>{stream.getTracks().forEach(t=>t.stop());const r=rec;rec=null;paintRec(false);clearInterval(r.tick);
+ mr.onstop=async()=>{stream.getTracks().forEach(t=>t.stop());const r=rec;rec=null;if(r.waveStop)r.waveStop();paintRec(false);clearInterval(r.tick);
   if(!r.send)return;const dur=Math.min(30,(Date.now()-r.t0)/1000);if(dur<0.8){toast('Message trop court');return}
   const type=(mr.mimeType||'audio/webm').split(';')[0];const ext=type.includes('mp4')?'m4a':type.includes('ogg')?'ogg':'webm';
   await sendDmMedia(r.uid,new File(chunks,'vocal.'+ext,{type}),'audio',dur)};
- mr.start(250);paintRec(true);
+ mr.start(250);paintRec(true);rec.waveStop=recWave(stream);
  rec.tick=setInterval(()=>{if(!rec)return;const s=(Date.now()-rec.t0)/1000;const t=$('rec-t');if(t)t.textContent=fmtDur(s)+' / 0:30';const b=$('rec-bar');if(b)b.style.width=Math.min(100,s/30*100)+'%';if(s>=30)stopVoice(true)},200);
 }
 function stopVoice(send){if(!rec)return;rec.send=send;try{rec.mr.stop()}catch(e){}}
@@ -3193,7 +3299,7 @@ async function renderChat(){
  topEl.innerHTML=`<button class="icon-btn" data-act="back" aria-label="Retour">${I.back}</button><button data-act="profile" data-u="${uid}" style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;text-align:left">${av(uid,36)}<span style="min-width:0"><b style="display:block">${esc(u.name)}</b><small style="color:var(--muted)">@${esc(u.handle)} · ${esc(u.sport)}</small></span></button><span class="chat-r"><button class="icon-btn" data-act="user-menu" data-u="${uid}" aria-label="Options">•••</button>${streakHTML(uid)}</span>`;
  main.innerHTML=`<div class="chat"><div class="thread gutter" id="th">${c.length?c.map(msgHTML).join(''):`<div class="empty" id="chat-empty">Lance la discussion avec ${esc(u.name)}.</div>`}</div>
   <form class="composer gutter" id="cp">${c.length?'':`<div class="quick">${['On s’entraîne ensemble ?','Tu as un programme à conseiller ?','Ton dernier post est propre'].map(t=>`<button type="button" data-act="quick" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>`}
-  ${blocked.has(uid)?`<div class="blk-note">Tu as bloqué ce compte. <button type="button" data-act="unblock" data-u="${uid}">Débloquer</button></div>`:`<div class="dm-busy" id="dm-busy" hidden>Envoi…</div><div class="line" id="cp-line"><label class="cp-ic" for="dm-file" aria-label="Envoyer une photo ou une vidéo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="3.5"/><circle cx="9" cy="10" r="1.6"/><path d="m20.5 15.5-4.6-4.4-7.4 7.9"/></svg></label><input type="file" id="dm-file" accept="image/*,video/*" hidden><input id="mi" placeholder="Écris un message…" autocomplete="off" maxlength="1000" aria-label="Message"><button class="cp-ic cp-mic" type="button" id="cp-mic" aria-label="Enregistrer un message vocal (30 s max)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v2.5"/></svg></button><button class="send" type="submit" id="cp-send" aria-label="Envoyer" hidden>${I.send}</button></div><div class="line rec-line" id="cp-rec" hidden><button type="button" class="cp-ic rec-x" id="rec-x" aria-label="Annuler l’enregistrement"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/></svg></button><span class="rec-box"><i class="rec-dot"></i><span id="rec-t">0:00 / 0:30</span><span class="rec-track"><i id="rec-bar"></i></span></span><button class="send" type="button" id="rec-ok" aria-label="Envoyer le message vocal">${I.send}</button></div><p class="dm-note">Les vocaux, photos et vidéos disparaissent au bout de 24 h.</p>`}</form></div>`;
+  ${blocked.has(uid)?`<div class="blk-note">Tu as bloqué ce compte. <button type="button" data-act="unblock" data-u="${uid}">Débloquer</button></div>`:`<div class="dm-busy" id="dm-busy" hidden>Envoi…</div><div class="line" id="cp-line"><label class="cp-ic" for="dm-file" aria-label="Envoyer une photo ou une vidéo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="3.5"/><circle cx="9" cy="10" r="1.6"/><path d="m20.5 15.5-4.6-4.4-7.4 7.9"/></svg></label><input type="file" id="dm-file" accept="image/*,video/*" hidden><input id="mi" placeholder="Écris un message…" autocomplete="off" maxlength="1000" aria-label="Message"><button class="cp-ic cp-mic" type="button" id="cp-mic" aria-label="Enregistrer un message vocal (30 s max)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v2.5"/></svg></button><button class="send" type="submit" id="cp-send" aria-label="Envoyer" hidden>${I.send}</button></div><div class="line rec-line" id="cp-rec" hidden><button type="button" class="cp-ic rec-x" id="rec-x" aria-label="Annuler l’enregistrement"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/></svg></button><span class="rec-box"><span class="rec-mic" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v2.5"/></svg></span><canvas class="rec-cv" id="rec-cv" aria-hidden="true"></canvas><span class="rec-t" id="rec-t">0:00 / 0:30</span><span class="rec-track"><i id="rec-bar"></i></span></span><button class="send" type="button" id="rec-ok" aria-label="Envoyer le message vocal">${I.send}</button></div><p class="dm-note">Les vocaux, photos et vidéos disparaissent au bout de 24 h.</p>`}</form></div>`;
  const th=$('th');th.scrollTop=th.scrollHeight;
  {const ids=notifs.filter(n=>n.type==='message'&&n.actor_id===uid&&!n.read_at).map(n=>n.id);if(ids.length){const now=new Date().toISOString();notifs.forEach(n=>{if(ids.includes(n.id))n.read_at=now});unreadNotifs=notifs.filter(n=>!n.read_at).length;paintBadge();sb.from('notifications').update({read_at:now}).in('id',ids).then(()=>{})}}
  if(!$('mi'))return;
@@ -3203,7 +3309,7 @@ async function renderChat(){
  $('cp-mic').addEventListener('click',()=>startVoice(uid));
  $('rec-x').addEventListener('click',()=>stopVoice(false));
  $('rec-ok').addEventListener('click',()=>stopVoice(true));
- $('dm-file').addEventListener('change',async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const type=f.type.startsWith('video')?'video':f.type.startsWith('image')?'image':null;if(!type){toast('Format non pris en charge');return}await sendDmMedia(uid,f,type)});
+ $('dm-file').addEventListener('change',async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const type=f.type.startsWith('video')?'video':f.type.startsWith('image')?'image':null;if(!type){toast('Format non pris en charge');return}openDmPreview(uid,f,type)});
  markRead(uid);
 }
 function appendMsg(m){const th=$('th');if(!th)return;setTimeout(()=>{const o=document.querySelector('.chat-r .streak');if(o&&arg)o.outerHTML=streakHTML(arg)},0);$('chat-empty')?.remove();document.querySelector('.quick')?.remove();th.insertAdjacentHTML('beforeend',msgHTML(m));th.scrollTop=th.scrollHeight}
@@ -3636,7 +3742,8 @@ document.addEventListener('click',async e=>{
   case 'react':addReaction(id,a);break;
   case 'save':toggleSave(id,a);break;
   case 'vm-play':vmToggle(a);break;
-  case 'dm-photo':window.open(a.getAttribute('src'),'_blank','noopener');break;
+  case 'dm-photo':openDmViewer(id);break;
+  case 'dm-keep':dmKeep(id);break;
   case 'ex-sport':{const k=a.dataset.k||null;
    // « Tout » est exclusif ; les sports se cumulent ; plus rien de coché = « Tout »
    if(!k){if(!exploreSports.size)break;exploreSports.clear()}else if(exploreSports.has(k))exploreSports.delete(k);else exploreSports.add(k);
