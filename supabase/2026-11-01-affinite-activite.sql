@@ -25,7 +25,7 @@ begin
 
   -- jours où les deux se sont écrit
   create temporary table if not exists _fs_days(day date primary key) on commit drop;
-  delete from _fs_days;
+  delete from _fs_days where true;
   insert into _fs_days
     select (created_at at time zone tz)::date from messages where sender_id = a and recipient_id = b
     intersect
