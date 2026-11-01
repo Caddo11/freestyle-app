@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793556007">
+<meta name="fs-build" content="1793556184">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1902,6 +1902,16 @@ html:not([data-theme="dark"]) .cr-ring{background:conic-gradient(from var(--crA)
 .pp-line.max .pl-bar i::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.9),transparent);animation:affShine 2.2s ease-in-out infinite}
 .pl-aff b{font-size:12px;font-weight:800;color:var(--c);font-variant-numeric:tabular-nums;min-width:30px;text-align:right}
 .pl-more{flex:0 0 auto;width:24px;height:24px;color:#a3a29d;font-size:12px;letter-spacing:-.14em}
+
+/* v43 : pseudo centré en haut, partage à côté de la coche */
+.top{position:relative}
+.top .ptitle{position:absolute!important;left:50%;top:50%;transform:translate(-50%,-50%);max-width:58%;flex:none!important;margin:0;pointer-events:none}
+.top .ptitle *{pointer-events:auto}
+.pname{display:flex!important;align-items:center;gap:4px;flex-wrap:wrap}
+.pn-share{display:inline-grid;place-items:center;width:26px;height:26px;margin-left:2px;border-radius:8px;color:#8e8e8a;transition:background .2s,color .2s}
+.pn-share:hover{background:var(--paper);color:var(--ink)}
+.pn-share svg{width:16px;height:16px}
+.g-views .fs-ic{color:#fff}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -2460,6 +2470,8 @@ html[data-theme="dark"] .pl-bar{background:var(--paper-line)}
 html[data-theme="dark"] .pl-bar i{background:var(--c)}
 html[data-theme="dark"] .pl-aff b{color:var(--c)}
 html[data-theme="dark"] .pl-more{color:#686868}
+html[data-theme="dark"] .pn-share{color:#7B7B7B}
+html[data-theme="dark"] .pn-share:hover{background:var(--paper);color:var(--ink)}
 
 /* retouches manuelles */
 html[data-theme="dark"]{color-scheme:dark}
@@ -3709,13 +3721,13 @@ async function renderSearch(q){
 }
 // ================= PROFIL =================
 let profilePosts=[],profTab='all',profTabUid=null;const PTAB_X={all:'0',clips:'100%',saved:'200%'};
-const pgridHTML=(mine)=>{if(profTab==='saved'&&!savedLoaded)return loadingHTML();const l=profTab==='saved'?savedPosts:profTab==='clips'?profilePosts.filter(p=>p.kind==='clip'):profilePosts;return l.length?`<div class="grid">${l.map(p=>`<button data-act="open-item" data-id="${p.id}" aria-label="Ouvrir">${profTab==='all'&&pinnedSet.has(p.id)?`<span class="g-pin" aria-label="Épinglée">${PIN_IC}</span>`:''}${mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}${p.kind==='clip'?`<span class="g-views">${I.playV}${fmt(p.view_count||0)}</span>`:''}</button>`).join('')}</div>`:`<div class="empty">${profTab==='saved'?'<span class="sv-empty">'+I.tabSaved+'<b>Aucune publication enregistrée</b>Touche le signet sous une publication pour la retrouver ici. Toi seul vois cet onglet.</span>':profTab==='clips'?(mine?'Aucun clip pour l’instant. Publie ton premier clip avec le +.':'Aucun clip.'):(mine?'Rien publié pour l’instant. Montre ta première séance.':'Aucune publication.')}</div>`};
+const pgridHTML=(mine)=>{if(profTab==='saved'&&!savedLoaded)return loadingHTML();const l=profTab==='saved'?savedPosts:profTab==='clips'?profilePosts.filter(p=>p.kind==='clip'):profilePosts;return l.length?`<div class="grid">${l.map(p=>`<button data-act="open-item" data-id="${p.id}" aria-label="Ouvrir">${profTab==='all'&&pinnedSet.has(p.id)?`<span class="g-pin" aria-label="Épinglée">${PIN_IC}</span>`:''}${mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}<span class="g-views">${p.kind==='clip'?I.playV:I.eyeV}${fmt(p.view_count||0)}</span></button>`).join('')}</div>`:`<div class="empty">${profTab==='saved'?'<span class="sv-empty">'+I.tabSaved+'<b>Aucune publication enregistrée</b>Touche le signet sous une publication pour la retrouver ici. Toi seul vois cet onglet.</span>':profTab==='clips'?(mine?'Aucun clip pour l’instant. Publie ton premier clip avec le +.':'Aucun clip.'):(mine?'Rien publié pour l’instant. Montre ta première séance.':'Aucune publication.')}</div>`};
 const prsOf=p=>(p.prs||[]).filter(x=>x&&x.t&&x.t.trim());
 async function renderProfile(){
  const uid=arg||me.id,mine=uid===me.id;
  await loadProfiles([uid]);
  const u=prof(uid);
- topEl.innerHTML=mine?`<button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><h1 class="ptitle"><span class="pt-in">${esc(u.handle)}${vb(uid)}<button class="pt-share" data-act="share-profile" data-u="${uid}" aria-label="Partager le profil">${I.link}</button></span></h1><span class="top-r"><button class="icon-btn" data-act="notifs" aria-label="Notifications">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" data-act="settings" aria-label="Menu">•••</button></span>`:`<button class="icon-btn" data-act="back" aria-label="Retour">${I.back}</button><h1 class="ptitle">${esc(u.handle)}${vb(uid)}</h1><span class="top-r"><button class="icon-btn" data-act="user-menu" data-u="${uid}" aria-label="Options">•••</button></span>`;
+ topEl.innerHTML=mine?`<button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><h1 class="ptitle"><span class="pt-in">${esc(u.handle)}${vb(uid)}</span></h1><span class="top-r"><button class="icon-btn" data-act="notifs" aria-label="Notifications">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" data-act="settings" aria-label="Menu">•••</button></span>`:`<button class="icon-btn" data-act="back" aria-label="Retour">${I.back}</button><h1 class="ptitle">${esc(u.handle)}${vb(uid)}</h1><span class="top-r"><button class="icon-btn" data-act="user-menu" data-u="${uid}" aria-label="Options">•••</button></span>`;
  main.innerHTML=loadingHTML();
  if(!mine&&!P[uid]){main.innerHTML=`<div class="gutter"><div class="empty">Ce profil n’est pas disponible.</div></div>`;return}
  if(blocked.has(uid)){main.innerHTML=`<div class="gutter"><div class="blk-card"><span class="pav-sm">${av(uid,64)}</span><b>${esc(u.name)}</b><p>Tu as bloqué ce compte. Il ne peut plus voir ton profil, tes publications ni t’écrire.</p><button class="pbtn primary" data-act="unblock" data-u="${uid}">Débloquer</button></div></div>`;return}
@@ -3728,7 +3740,7 @@ async function renderProfile(){
  main.innerHTML=`<div class="gutter ${creator?'creator':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>${creator?'</div>':''}
  <section class="phead">
   <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
-  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
+  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}<button type="button" class="pn-share" data-act="share-profile" data-u="${uid}" aria-label="Partager le profil">${I.link}</button>${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pp-box" id="pp-box" data-u="${uid}"></div>
   
