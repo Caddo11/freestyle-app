@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793554609">
+<meta name="fs-build" content="1793554779">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1748,6 +1748,34 @@ html[data-theme="dark"] .sk-alert small{color:#E3B77A}
 .aff-day{font-style:normal;font-size:11px;font-weight:700;margin-top:2px}
 .aff-day.ok{color:#22A55C}
 .aff-day.ko{color:#E8862A}
+
+/* ================= v37 : profil administrateur premium ================= */
+@property --crA{syntax:'<angle>';inherits:false;initial-value:0deg}
+.creator .pbanner{animation:crIn .8s cubic-bezier(.22,.9,.25,1) both!important;box-shadow:none!important;overflow:hidden}
+.creator .pbanner::before{display:none}
+.cr-frame{position:relative;margin-top:6px;border-radius:18px;isolation:isolate}
+.cr-frame .pbanner{position:relative;z-index:1;margin-top:0;border-radius:16px}
+.cr-ring,.cr-glow{position:absolute;pointer-events:none;border-radius:19px;--crA:0deg;
+ background:conic-gradient(from var(--crA),rgba(233,185,73,0) 0deg,rgba(233,185,73,0) 200deg,#B8862B 250deg,#F3D27C 300deg,#FFF6D8 330deg,#F3D27C 345deg,rgba(233,185,73,0) 360deg);
+ animation:crSpin 4.5s linear infinite}
+.cr-ring{inset:-2.5px;z-index:2;padding:2.5px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.cr-glow{inset:-7px;z-index:0;filter:blur(14px);opacity:.85}
+.cr-frame::before{content:"";position:absolute;inset:-2.5px;border-radius:19px;z-index:0;background:linear-gradient(135deg,rgba(233,185,73,.55),rgba(255,246,216,.35),rgba(184,134,43,.5));opacity:.55}
+@keyframes crSpin{to{--crA:360deg}}
+html:not([data-theme="dark"]) .cr-glow{opacity:1;filter:blur(12px) saturate(1.3)}
+html:not([data-theme="dark"]) .cr-frame{box-shadow:0 12px 34px rgba(184,134,43,.22)}
+/* avatar : anneau doré */
+.creator .pav{box-shadow:0 0 0 2px #E9B949,0 0 16px rgba(233,185,73,.55)!important}
+/* pseudo : dégradé or animé */
+.creator .pname{background:none!important;-webkit-text-fill-color:initial!important;animation:none!important;display:flex;align-items:center;gap:5px}
+.cr-name{background:linear-gradient(100deg,#A9761F 0%,#E9B949 22%,#FFF2C2 38%,#E9B949 52%,#A9761F 70%,#E9B949 86%,#FFF2C2 100%);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:crGold 4s linear infinite;filter:drop-shadow(0 0 10px rgba(233,185,73,.35));font-weight:900;letter-spacing:.005em}
+@keyframes crGold{to{background-position:-240% 0}}
+html:not([data-theme="dark"]) .cr-name{background-image:linear-gradient(100deg,#8C5E12 0%,#C9922E 22%,#F0C962 38%,#C9922E 52%,#8C5E12 70%,#C9922E 86%,#F0C962 100%);filter:drop-shadow(0 1px 0 rgba(255,255,255,.6))}
+.creator .pname .vbadge{filter:drop-shadow(0 0 6px rgba(34,197,94,.6))}
+.cr-chip{display:inline-flex;align-items:center;gap:5px;margin:6px 0 2px;padding:4px 10px 4px 8px;border-radius:999px;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6B4A12;background:linear-gradient(135deg,#FFF2C2,#E9B949 55%,#C9922E);box-shadow:0 2px 10px rgba(233,185,73,.35),inset 0 1px 0 rgba(255,255,255,.6);position:relative;overflow:hidden;animation:crUp .6s cubic-bezier(.22,.9,.25,1) .45s both}
+.cr-chip::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.8),transparent);transform:skewX(-20deg);animation:crChip 3.5s ease-in-out 1.2s infinite}
+@keyframes crChip{0%,70%{left:-60%}100%{left:130%}}
+@media (prefers-reduced-motion:reduce){.cr-ring,.cr-glow,.cr-name,.cr-chip::after{animation:none!important}}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -3547,10 +3575,10 @@ async function renderProfile(){
  profilePosts=posts||[];await loadPinned(uid);profilePosts=sortPinned(profilePosts);if(profTabUid!==uid||(profTab==='saved'&&!mine)){profTab='all';profTabUid=uid}if(mine&&profTab==='saved')loadSavedPosts().then(()=>{if(profTab==='saved'&&$('pgrid'))$('pgrid').innerHTML=pgridHTML(true)});
  const c=SPORTS[u.sport]||SPORTS.Autre,s=st||{followers:0,following:0,posts:0};
  const creator=ADMINS.has(uid);
- main.innerHTML=`<div class="gutter ${creator?'creator':''}"><div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>
+ main.innerHTML=`<div class="gutter ${creator?'creator':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>${creator?'</div>':''}
  <section class="phead">
   <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
-  <b class="pname">${esc(u.name)}${vb(uid)}${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
+  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${creator?'<span class="cr-chip"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.6 6.1 6.6.5-5 4.3 1.6 6.4L12 16.3l-5.8 3.5 1.6-6.4-5-4.3 6.6-.5z"/></svg>Administrateur</span>':''}${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pp-box" id="pp-box" data-u="${uid}"></div>
   ${mine?`<button class="pdash" data-act="insights">${I.stats}<span><b>Tableau de bord</b><small id="pdash-n">Vues et statistiques de ton compte</small></span><i>›</i></button>`:''}
