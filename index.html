@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793535156">
+<meta name="fs-build" content="1793535309">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1616,6 +1616,18 @@ html:not([data-theme="dark"]) .creator .pbanner{box-shadow:0 0 0 1px rgba(0,0,0,
 .chat-r{display:flex;flex-direction:column;align-items:center;gap:0;flex:0 0 auto}
 .chat-r .icon-btn{height:30px}
 .chat-r .streak{margin-top:-2px}
+
+/* ================= v31 : bulles de messages douces (clair & sombre) ================= */
+.thread .msg,.gm .msg,.msg{background:#EFEFF2;color:#16161a;border-radius:20px 20px 20px 6px;padding:9px 14px 8px;font-size:14.5px;line-height:1.38;box-shadow:none}
+.thread .msg.me,.gm .msg.me,.msg.me{background:linear-gradient(135deg,#6E7FF3 0%,#8C78EC 100%);color:#fff;border-radius:20px 20px 6px 20px;box-shadow:0 2px 10px rgba(110,127,243,.18)}
+.msg small{font-family:var(--body);font-size:10.5px;font-weight:500;opacity:.55;margin-top:3px;letter-spacing:.01em}
+.msg.me small{opacity:.75;text-align:right}
+.gm .msg .gh{color:#6E7FF3}
+html[data-theme="dark"] .thread .msg,html[data-theme="dark"] .gm .msg,html[data-theme="dark"] .msg{background:#232327;color:#ECECEF}
+html[data-theme="dark"] .thread .msg.me,html[data-theme="dark"] .gm .msg.me,html[data-theme="dark"] .msg.me{background:linear-gradient(135deg,#5B6BD8 0%,#7663CF 100%);color:#fff;box-shadow:0 2px 12px rgba(91,107,216,.18)}
+html[data-theme="dark"] .gm .msg .gh{color:#9AA6F7}
+.pp-wait{cursor:default;opacity:.8}
+.pp-wait .pp-add-ic{background:var(--paper-line);color:var(--ink)}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -1662,8 +1674,6 @@ html[data-theme="dark"] .room{background:var(--bevel);border:1px solid #CECECE;b
 html[data-theme="dark"] .room .meta span{color:var(--muted)}
 html[data-theme="dark"] .room-ic{background:linear-gradient(180deg,#0F0F0F,#3D3D3D 55%,#646464);color:#F1F1F1}
 html[data-theme="dark"] .gh{color:var(--muted)}
-html[data-theme="dark"] .msg{background:var(--raise)}
-html[data-theme="dark"] .msg.me{background:var(--chalk);color:#F1F1F1}
 html[data-theme="dark"] .typing{color:var(--muted)}
 html[data-theme="dark"] .composer{border-top:1px solid rgba(15,15,15,0.12);background:linear-gradient(180deg,rgba(40,40,42,.55),rgba(15,15,15,.75))}
 html[data-theme="dark"] .composer input{border:1px solid var(--line);background:var(--card);color:var(--fg)}
@@ -1780,8 +1790,6 @@ html[data-theme="dark"] .sheet{background:#0F0F0F;box-shadow:0 -10px 40px rgba(0
 html[data-theme="dark"] .sheet .composer,html[data-theme="dark"] .composer{background:#0F0F0F;border-top:1px solid #1E1E1E}
 html[data-theme="dark"] .composer input{background:#1B1B1B;border-color:#1B1B1B;color:#F1F1F1}
 html[data-theme="dark"] .send{background:#F1F1F1;color:#0F0F0F}
-html[data-theme="dark"] .msg{background:#1E1E1E;color:#F1F1F1}
-html[data-theme="dark"] .msg.me{background:#F1F1F1;color:#0F0F0F}
 html[data-theme="dark"] .search{background:#1E1E1E;color:#939393}
 html[data-theme="dark"] .room{background:#141414;border:1px solid #1E1E1E;box-shadow:none}
 html[data-theme="dark"] .room-ic{background:#F1F1F1;color:#0F0F0F;box-shadow:none}
@@ -1846,7 +1854,7 @@ html[data-theme="dark"] .mini-menu.light button:hover{background:var(--paper)}
 html[data-theme="dark"] .mini-menu.light button.active{color:#F1F1F1}
 html[data-theme="dark"] .mini-menu.light button.active::after{background:#D4D4D4}
 html[data-theme="dark"] .mm-head{color:#7B7B7B}
-html[data-theme="dark"] .auth-btn,html[data-theme="dark"] .send,html[data-theme="dark"] .msg.me,html[data-theme="dark"] .tile.mine .plus-big,html[data-theme="dark"] .ulist .mini,html[data-theme="dark"] .btn.primary,html[data-theme="dark"] .pbtn.primary,html[data-theme="dark"] .pbtns .pbtn.primary,html[data-theme="dark"] .c-opt[aria-pressed="true"],html[data-theme="dark"] .c-add,html[data-theme="dark"] .publish{background:var(--ink)}
+html[data-theme="dark"] .auth-btn,html[data-theme="dark"] .send,html[data-theme="dark"] .tile.mine .plus-big,html[data-theme="dark"] .ulist .mini,html[data-theme="dark"] .btn.primary,html[data-theme="dark"] .pbtn.primary,html[data-theme="dark"] .pbtns .pbtn.primary,html[data-theme="dark"] .c-opt[aria-pressed="true"],html[data-theme="dark"] .c-add,html[data-theme="dark"] .publish{background:var(--ink)}
 html[data-theme="dark"] .c-add{background:var(--paper);color:var(--ink);border:1px solid var(--paper-line)}
 html[data-theme="dark"] .publish{color:var(--paper)}
 html[data-theme="dark"] .publish .ps-t b{color:var(--paper)}
@@ -2131,6 +2139,7 @@ html[data-theme="dark"] .pp-add b{color:var(--ink)}
 html[data-theme="dark"] .pp-add small{color:#7E7E7E}
 html[data-theme="dark"] .pp-add i{color:var(--ink)}
 html[data-theme="dark"] .pp-add-ic{background:var(--ink);color:var(--bg)}
+html[data-theme="dark"] .pp-wait .pp-add-ic{background:var(--paper-line);color:var(--ink)}
 
 /* retouches manuelles */
 html[data-theme="dark"]{color-scheme:dark}
@@ -3044,7 +3053,11 @@ let curQuery='',searchTimer,searchResults=null;
 // La série s'arrête si un jour passe sans échange des deux côtés (aujourd'hui peut encore être complété).
 const dayKey=d=>new Date(d).toLocaleDateString('fr-CA',{timeZone:'Europe/Paris'});
 const streakHTML=uid=>{const st=dmStreak(uid);return `<span class="streak ${st?'':'zero'}" title="${st} jour${st>1?'s':''} d’affilée où vous vous êtes écrit tous les deux"><i aria-hidden="true">⭐</i>${st}</span>`};
-function dmStreak(uid){
+// Démonstration demandée : la conversation @caddo / @chloe affiche au moins 7 étoiles.
+// Retirer cette ligne pour revenir au calcul réel uniquement.
+const STREAK_DEMO={'a5124ac2-5eba-4c71-b4bd-52e5ca7e7138|d95af5f8-8d87-4b76-86a9-8ae8001edef2':7};
+function dmStreak(uid){const real=dmStreakReal(uid);const k=[me.id,uid].sort().join('|');return Math.max(real,STREAK_DEMO[k]||0)}
+function dmStreakReal(uid){
  const c=convs[uid]||[];if(!c.length)return 0;
  const mine=new Set(),his=new Set();c.forEach(m=>(m.sender_id===me.id?mine:his).add(dayKey(m.created_at)));
  const both=d=>mine.has(d)&&his.has(d);
@@ -3765,21 +3778,22 @@ async function paintPartner(uid,mine){
   return;
  }
  if(!mine){box.innerHTML='';return}
+ let cool=null;try{const {data:cd}=await sb.from('partner_cooldowns').select('until').eq('user_id',uid).maybeSingle();if(cd&&new Date(cd.until)>new Date())cool=new Date(cd.until)}catch(e){}
  const inc=rows.filter(r=>r.status==='pending'&&r.addressee===uid),out=rows.find(r=>r.status==='pending'&&r.requester===uid);
  await loadProfiles([...inc.map(r=>r.requester),...(out?[out.addressee]:[])]);
  if(!box.isConnected)return;
  box.innerHTML=inc.map(r=>`<div class="pp-req"><button class="pp-req-u" data-act="profile" data-u="${r.requester}">${av(r.requester,36)}<span class="pp-tx"><b>@${esc(prof(r.requester).handle)}</b><small>veut être ton partenaire d’entraînement</small></span></button><span class="pp-req-b"><button class="pp-yes" data-act="pp-yes" data-id="${r.id}">Accepter</button><button class="pp-no" data-act="pp-no" data-id="${r.id}">Refuser</button></span></div>`).join('')
   +(out?`<div class="pp-pend">${av(out.addressee,28)}<span class="pp-tx">Demande envoyée à <b>@${esc(prof(out.addressee).handle)}</b></span><button data-act="pp-cancel" data-id="${out.id}">Annuler</button></div>`
-  :`<button class="pp-add" data-act="pp-add"><span class="pp-add-ic">${ppIc}</span><span><b>Ajouter un partenaire d’entraînement</b><small>Il reçoit ta demande et la valide</small></span><i aria-hidden="true">›</i></button>`);
+  :cool?`<div class="pp-add pp-wait"><span class="pp-add-ic">${ppIc}</span><span><b>Nouveau partenaire possible le ${cool.toLocaleDateString('fr-FR',{day:'numeric',month:'long'})}</b><small>7 jours d’attente après la fin d’un partenariat</small></span></div>`:`<button class="pp-add" data-act="pp-add"><span class="pp-add-ic">${ppIc}</span><span><b>Ajouter un partenaire d’entraînement</b><small>Il reçoit ta demande et la valide</small></span><i aria-hidden="true">›</i></button>`);
 }
-const PP_MSG={sent:'Demande envoyée',accepted:'Vous êtes maintenant partenaires d’entraînement',me_taken:'Tu as déjà un partenaire d’entraînement',target_taken:'Ce membre a déjà un partenaire d’entraînement',exists:'Une demande existe déjà avec ce membre',blocked:'Action impossible avec ce membre',banned:'Action impossible',invalid:'Action impossible',taken:'L’un de vous a déjà un partenaire',declined:'Demande refusée',ended:'C’est fait'};
+const PP_MSG={cooldown:'Tu pourras choisir un nouveau partenaire 7 jours après la fin du précédent',target_cooldown:'Ce membre ne peut pas encore prendre de nouveau partenaire (délai de 7 jours)',sent:'Demande envoyée',accepted:'Vous êtes maintenant partenaires d’entraînement',me_taken:'Tu as déjà un partenaire d’entraînement',target_taken:'Ce membre a déjà un partenaire d’entraînement',exists:'Une demande existe déjà avec ce membre',blocked:'Action impossible avec ce membre',banned:'Action impossible',invalid:'Action impossible',taken:'L’un de vous a déjà un partenaire',declined:'Demande refusée',ended:'C’est fait'};
 async function partnerRequest(uid){const {data,error}=await sb.rpc('fs_partner_request',{target:uid});if(error)return dbError(error,'Demande impossible');toast(PP_MSG[data]||'Demande envoyée');if(view==='profile')paintPartner(arg||me.id,(arg||me.id)===me.id)}
 async function partnerRespond(rid,ok,btn){if(btn)btn.disabled=true;const {data,error}=await sb.rpc('fs_partner_respond',{rid,accept:ok});if(error){if(btn)btn.disabled=false;return dbError(error,'Action impossible')}toast(PP_MSG[data]||'C’est fait');notifs=notifs.filter(n=>!(n.type==='partner_request'&&!ok));if(view==='profile')paintPartner(arg||me.id,(arg||me.id)===me.id)}
 function partnerEnd(rid,isPartner){
  const go=async()=>{const {data,error}=await sb.rpc('fs_partner_end',{rid});if(error)return dbError(error,'Action impossible');toast(isPartner?'Partenariat terminé':'Demande annulée');ppState.mine=null;if(view==='profile')paintPartner(arg||me.id,(arg||me.id)===me.id)};
  if(!isPartner){go();return}
  const d=document.createElement('div');d.className='layer warn-wrap';
- d.innerHTML=`<div class="warn" role="alertdialog"><div class="warn-head"><b>Mettre fin au partenariat ?</b></div><p>Vous ne serez plus affichés comme partenaires d’entraînement. Vous pourrez refaire une demande plus tard.</p><button class="c-add" type="button" data-w="yes" style="background:#d4142c;color:#fff">Mettre fin</button><button type="button" data-w="no" class="c-add">Annuler</button></div>`;
+ d.innerHTML=`<div class="warn" role="alertdialog"><div class="warn-head"><b>Mettre fin au partenariat ?</b></div><p>Vous ne serez plus affichés comme partenaires d’entraînement. Vous devrez ensuite attendre 7 jours avant de choisir un nouveau partenaire.</p><button class="c-add" type="button" data-w="yes" style="background:#d4142c;color:#fff">Mettre fin</button><button type="button" data-w="no" class="c-add">Annuler</button></div>`;
  document.body.appendChild(d);d.addEventListener('click',e=>{const b=e.target.closest('[data-w]');if(!b){if(e.target===d)d.remove();return}d.remove();if(b.dataset.w==='yes')go()});
 }
 function openPartnerPicker(){
