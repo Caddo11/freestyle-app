@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793556184">
+<meta name="fs-build" content="1793556379">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -2839,7 +2839,11 @@ function renderNewPw(){
 
 // ================= CRÉATION DU PROFIL =================
 let ob={handle:'',name:'',sport:'Calisthenics',bio:'',file:null,preview:null},obExisting=null;
-function handleLocalError(h){if(!h)return 'Choisis un nom d’utilisateur';if(h.length<3)return '3 caractères minimum';if(!/^[a-z0-9][a-z0-9._]{1,18}[a-z0-9]$/.test(h))return 'Lettres, chiffres, point ou tiret bas (pas au début ni à la fin)';if(moderate(h))return 'Ce nom d’utilisateur n’est pas autorisé';return null}
+// Pseudo affiché : lettres (accents compris), chiffres, espaces, point, tiret et tiret bas — rien d'autre.
+// Les lettres « stylisées » (𝖕𝖆𝖎𝖓…) sont ramenées à des lettres normales, les emojis et symboles sont retirés.
+const cleanName=v=>(v||'').normalize('NFKC').replace(/[^A-Za-z0-9À-ÖØ-öø-ÿŒœ ._-]/g,'').replace(/\s{2,}/g,' ').replace(/^\s+/,'');
+function bindCleanName(id){const i=$(id);if(!i)return;i.addEventListener('input',()=>{const c=cleanName(i.value);if(c!==i.value){const pos=i.selectionStart-(i.value.length-c.length);i.value=c;try{i.setSelectionRange(pos,pos)}catch(e){}}})}
+function handleLocalError(h){if(!h)return 'Choisis un nom d’utilisateur';if(h.length<3)return '3 caractères minimum';if(!/^[a-z0-9][a-z0-9._-]{1,18}[a-z0-9]$/.test(h))return 'Lettres, chiffres, point, tiret ou tiret bas (pas au début ni à la fin)';if(moderate(h))return 'Ce nom d’utilisateur n’est pas autorisé';return null}
 let handleTimer;
 function renderOnboard(){
  main.innerHTML=`<form class="ep ep-onb gutter" id="ob" novalidate>
@@ -2855,8 +2859,9 @@ function renderOnboard(){
  </form>`;
  const keepO=()=>{ob.handle=$('oh').value;ob.name=$('on').value;ob.sport=$('os').value;ob.bio=$('obb').value};
  $('oa').addEventListener('change',async e=>{const f0=e.target.files[0];if(!f0)return;keepO();const f=await openCropper(f0,1,640,640,'Photo de profil');if(!f)return;ob.file=f;ob.preview=URL.createObjectURL(f);renderOnboard()});
- if(!obExisting)$('oh').addEventListener('input',()=>{const v=$('oh').value.toLowerCase().replace(/[^a-z0-9._]/g,'');$('oh').value=v;const le=handleLocalError(v);$('oherr').textContent=le||'';clearTimeout(handleTimer);if(!le)handleTimer=setTimeout(async()=>{const {data}=await sb.from('profiles').select('id').eq('handle',v).maybeSingle();if($('oh')&&$('oh').value===v)$('oherr').textContent=data?'Ce nom d’utilisateur est déjà pris':''},400)});
- $('ob').addEventListener('submit',async e=>{e.preventDefault();keepO();
+ if(!obExisting)$('oh').addEventListener('input',()=>{const v=$('oh').value.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9._-]/g,'');$('oh').value=v;const le=handleLocalError(v);$('oherr').textContent=le||'';clearTimeout(handleTimer);if(!le)handleTimer=setTimeout(async()=>{const {data}=await sb.from('profiles').select('id').eq('handle',v).maybeSingle();if($('oh')&&$('oh').value===v)$('oherr').textContent=data?'Ce nom d’utilisateur est déjà pris':''},400)});
+ bindCleanName('on');
+ $('ob').addEventListener('submit',async e=>{e.preventDefault();keepO();ob.name=cleanName(ob.name).trim();
   const le=obExisting?null:handleLocalError(ob.handle);if(le){$('oherr').textContent=le;return}
   if(!ob.name.trim()){toast('Indique ton pseudo');return}
   if(!(await guard([ob.handle,ob.name,ob.bio].join(' \n '))))return;
@@ -3819,9 +3824,10 @@ function renderEditProfile(){
  </form>`;
  const pick=(id,key)=>$(id).addEventListener('change',async e=>{const f0=e.target.files[0];if(!f0)return;keepP();const f=key==='avatar'?await openCropper(f0,1,640,640,'Photo de profil'):await openCropper(f0,3,1500,500,'Bannière');if(!f)return;d[key+'File']=f;d[key+'Prev']=URL.createObjectURL(f);renderEditProfile()});
  pick('pb','banner');pick('pa','avatar');
+ bindCleanName('pn');
  $('pf').addEventListener('input',keepP);
  $('pf').addEventListener('submit',async e=>{e.preventDefault();keepP();
-  if(!d.name.trim()){toast('Indique ton nom');return}
+  if(!($('pn')&&$('pn').disabled))d.name=cleanName(d.name).trim();if(!d.name){toast('Indique ton pseudo (lettres, chiffres, espaces, . - _)');return}
   if(!(await guard([d.name,d.city,d.bio].join(' \n '),{noLinks:false})))return;if(d.city&&LINK_RE.test(d.city)){toast('Pas de lien dans la ville');return}
   $('pfs').disabled=true;$('pfs').textContent='Enregistrement…';
   try{
