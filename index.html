@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793555259">
+<meta name="fs-build" content="1793555681">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1840,6 +1840,51 @@ html:not([data-theme="dark"]) .creator .pav{box-shadow:0 4px 14px rgba(0,0,0,.18
 .cr-chip-t{background:linear-gradient(100deg,#C9922E 0%,#F3D27C 35%,#FFF6D8 50%,#F3D27C 65%,#C9922E 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:crGold 4.5s linear infinite}
 .cr-chip::after{background:linear-gradient(100deg,transparent,rgba(255,240,200,.25),transparent)}
 html[data-theme="dark"] .cr-chip{box-shadow:0 4px 18px rgba(0,0,0,.5),0 0 12px rgba(233,185,73,.12)}
+
+/* ================= v40 : carte duo des partenaires, traînée plus vive, sablier plus calme ================= */
+.pp-duo{--c:#E5484D;--c2:#F2555A;position:relative;margin-top:12px;padding:12px 14px 13px;border-radius:20px;background:var(--paper);border:1px solid var(--paper-line);overflow:hidden;animation:fadeIn .4s ease both}
+.pp-duo.mid{--c:#F08C2E;--c2:#F5A524}
+.pp-duo.hi,.pp-duo.max{--c:#2FB86A;--c2:#3DD47D}
+.pp-duo::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 90% at 50% 45%,color-mix(in srgb,var(--c) 10%,transparent),transparent 70%);pointer-events:none}
+.pd-head{position:relative;display:flex;align-items:center;justify-content:center;min-height:22px}
+.pd-k{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#a3a29d}
+.pd-head .pp-more{position:absolute;right:-6px;top:-4px}
+.pd-link{position:relative;display:flex;align-items:center;gap:6px;margin-top:8px}
+.pd-av{flex:0 0 auto;padding:2px;border-radius:15px;background:linear-gradient(140deg,var(--c2),var(--c));box-shadow:0 4px 14px color-mix(in srgb,var(--c) 30%,transparent);transition:transform .2s}
+.pd-av:active{transform:scale(.94)}
+.pd-av .av{display:block;border-radius:13px!important;box-shadow:0 0 0 2px var(--paper)}
+.pd-mid{position:relative;flex:1;min-width:0;height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:none;border:0;cursor:pointer}
+.pd-line{position:absolute;left:0;right:0;top:50%;height:3px;margin-top:-1.5px;border-radius:2px;background:var(--paper-line);overflow:hidden}
+.pd-fill{position:absolute;inset:0;background:linear-gradient(90deg,var(--c),var(--c2),var(--c));opacity:calc(.35 + var(--aff) / 160)}
+.pd-spark{position:absolute;top:-2px;bottom:-2px;width:26px;left:-30px;border-radius:3px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent);animation:pdSpark 2.8s ease-in-out infinite}
+@keyframes pdSpark{0%{left:-30px}70%,100%{left:calc(100% + 30px)}}
+.pd-pct{position:relative;z-index:1;display:inline-flex;align-items:baseline;gap:1px;padding:4px 11px;border-radius:999px;background:var(--bg);box-shadow:0 0 0 1.5px var(--c),0 4px 14px color-mix(in srgb,var(--c) 28%,transparent);font-size:16px;font-weight:900;letter-spacing:-.02em;color:var(--c);font-variant-numeric:tabular-nums}
+.pd-pct small{font-size:10px;font-weight:800}
+.pd-cap{position:relative;z-index:1;margin-top:3px;font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#a3a29d;background:var(--paper);padding:0 6px}
+.pd-names{position:relative;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:9px;font-size:14px;color:var(--ink)}
+.pd-names b{font-weight:800;display:inline-flex;align-items:center;gap:3px}
+.pd-names span{color:var(--c);font-weight:800}
+.pd-since{position:relative;text-align:center;font-size:11.5px;color:#8e8e8a;margin-top:2px}
+.pp-duo.max .pd-pct{animation:pdGlow 2.4s ease-in-out infinite}
+@keyframes pdGlow{50%{box-shadow:0 0 0 1.5px var(--c),0 0 18px color-mix(in srgb,var(--c) 60%,transparent)}}
+.pp-duo.max .pd-fill{background:linear-gradient(90deg,var(--c),#9BF2BE,var(--c));background-size:200% 100%;animation:crGold 2.5s linear infinite}
+/* traînée de la bannière administrateur plus éclatante */
+.cr-ring{inset:-2px!important;padding:2px!important;border-radius:18px!important;
+ background:conic-gradient(from var(--crA),transparent 0deg,transparent 235deg,rgba(233,185,73,.25) 280deg,#E9B949 318deg,#FFF6D8 345deg,#FFFFFF 352deg,transparent 360deg)!important;
+ filter:drop-shadow(0 0 3px rgba(255,214,120,.95)) drop-shadow(0 0 7px rgba(233,185,73,.55))!important}
+html:not([data-theme="dark"]) .cr-ring{background:conic-gradient(from var(--crA),transparent 0deg,transparent 235deg,rgba(201,146,46,.3) 280deg,#C9922E 318deg,#F3D27C 345deg,#FFF3C9 352deg,transparent 360deg)!important;filter:drop-shadow(0 0 3px rgba(233,185,73,.9)) drop-shadow(0 0 6px rgba(201,146,46,.45))!important}
+/* sablier : un seul demi-tour toutes les 6 secondes */
+.sk-ic,.streak.risk i{animation:skFlip 6s ease-in-out infinite!important}
+@keyframes skFlip{0%,88%{transform:rotate(0)}96%,100%{transform:rotate(180deg)}}
+
+/* v41 : badge certifié doré, badge Administrateur épuré */
+.vbadge{filter:drop-shadow(0 0 3px rgba(233,185,73,.45))}
+.creator .pname .vbadge{filter:drop-shadow(0 0 6px rgba(233,185,73,.6))!important}
+.cr-chip{padding:6px 14px!important;gap:0!important;border-radius:8px!important;font-size:9.5px!important;letter-spacing:.32em!important;font-weight:800;
+ background:linear-gradient(180deg,#1a1a1a,#0d0d0d) padding-box,linear-gradient(var(--crA,0deg),#7A5512,#F3D27C,#FFF6D8,#C9922E,#7A5512) border-box!important;
+ box-shadow:0 6px 16px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06)!important;animation:crUp .6s cubic-bezier(.22,.9,.25,1) .45s both,crSpin 6s linear infinite!important}
+.cr-chip-t{padding-right:0;margin-right:-.32em}
+.cr-chip::after{display:none}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -2426,6 +2471,7 @@ html[data-theme="dark"] .streak i{filter:drop-shadow(0 0 5px rgba(255,200,40,.55
     <button data-nav="profile" id="nav-me" aria-label="Profil"><span class="nav-av"></span></button>
   </div></nav>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+ <linearGradient id="vbGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1BF"/><stop offset=".45" stop-color="#E9B949"/><stop offset="1" stop-color="#A9761F"/></linearGradient>
  <linearGradient id="chr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".46" stop-color="#e2e3e7"/><stop offset=".5" stop-color="#b3b6be"/><stop offset="1" stop-color="#e9eaee"/></linearGradient>
  <linearGradient id="chrRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff98a2"/><stop offset=".46" stop-color="#ff4458"/><stop offset=".5" stop-color="#d4142c"/><stop offset="1" stop-color="#ff5a6c"/></linearGradient>
  <linearGradient id="chrFold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d7d9de"/><stop offset="1" stop-color="#8d919a"/></linearGradient>
@@ -2465,7 +2511,7 @@ const I={
  comment:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg>',
  send:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19.5V5M5.5 11.5 12 5l6.5 6.5"/></svg>',
  image:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="4"/><circle cx="9" cy="10" r="1.7"/><path d="m4.5 17.5 5-4.5 3.5 3 2.5-2 4 3.5"/></svg>',
- verified:'<svg class="vbadge" width="15" height="15" viewBox="0 0 24 24" aria-label="Compte vérifié" role="img"><path d="M12 1.6l2.7 2 3.3-.3 1 3.2 2.8 1.9-1.1 3.2 1.1 3.2-2.8 1.9-1 3.2-3.3-.3-2.7 2-2.7-2-3.3.3-1-3.2-2.8-1.9 1.1-3.2-1.1-3.2 2.8-1.9 1-3.2 3.3.3z" fill="#1FBF5B"/><path d="M7.8 12.3l2.8 2.8 5.6-5.8" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ verified:'<svg class="vbadge" width="15" height="15" viewBox="0 0 24 24" aria-label="Compte vérifié" role="img"><path d="M12 1.6l2.7 2 3.3-.3 1 3.2 2.8 1.9-1.1 3.2 1.1 3.2-2.8 1.9-1 3.2-3.3-.3-2.7 2-2.7-2-3.3.3-1-3.2-2.8-1.9 1.1-3.2-1.1-3.2 2.8-1.9 1-3.2 3.3.3z" fill="url(#vbGold)"/><path d="M7.8 12.3l2.8 2.8 5.6-5.8" fill="none" stroke="#3A2806" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
  psLink:'<svg class="ps-ic" width="27" height="27" viewBox="0 0 24 24"><g transform="rotate(-45 12 12)" fill="none" stroke-linecap="round"><rect x="1.6" y="8.3" width="11.6" height="7.4" rx="3.7" stroke="#2b2b2b" stroke-width="4.3"/><rect x="10.8" y="8.3" width="11.6" height="7.4" rx="3.7" stroke="#2b2b2b" stroke-width="4.3"/><rect x="1.6" y="8.3" width="11.6" height="7.4" rx="3.7" stroke="url(#chr)" stroke-width="2"/><rect x="10.8" y="8.3" width="11.6" height="7.4" rx="3.7" stroke="url(#chr)" stroke-width="2"/><path d="M3.6 9.6h4" stroke="#fff" stroke-width="1" opacity=".95"/><path d="M12.8 9.6h4" stroke="#fff" stroke-width="1" opacity=".95"/></g></svg>',
  back:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
  close:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
@@ -3655,10 +3701,10 @@ async function renderProfile(){
  main.innerHTML=`<div class="gutter ${creator?'creator':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>${creator?'</div>':''}
  <section class="phead">
   <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
-  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${creator?'<span class="cr-chip"><svg class="cr-chip-ic" width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><defs><linearGradient id="crg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1BF"/><stop offset=".5" stop-color="#E2B04A"/><stop offset="1" stop-color="#A9761F"/></linearGradient></defs><path d="M12 2.6 19.4 5.4v5.9c0 4.6-3.1 8.4-7.4 10.1-4.3-1.7-7.4-5.5-7.4-10.1V5.4z" fill="url(#crg)"/><path d="m8.6 12.1 2.4 2.4 4.6-4.8" stroke="#141414" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cr-chip-t">Administrateur</span></span>':''}${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
+  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${creator?'<span class="cr-chip"><span class="cr-chip-t">Administrateur</span></span>':''}${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pp-box" id="pp-box" data-u="${uid}"></div>
-  ${mine?`<button class="pdash" data-act="insights">${I.stats}<span><b>Tableau de bord</b><small id="pdash-n">Vues et statistiques de ton compte</small></span><i>›</i></button>`:''}
+  
   <div class="pbtns">${mine?`<button class="pbtn" data-act="edit-profile">Modifier le profil</button><button class="pbtn" data-act="go-messages">Messages${unreadCount||unreadInfo()?'<span class="pb-dot"></span>':''}</button>`:`<button class="pbtn ${following.has(uid)?'':'primary'}" data-act="follow-prof" data-u="${uid}">${following.has(uid)?'Abonné':'Suivre'}</button><button class="pbtn" data-act="chat" data-u="${uid}">Message</button>`}</div>
  </section>
  <div class="ptabs ${mine?'three':''}" role="tablist"><button role="tab" data-act="ptab" data-k="all" aria-selected="${profTab==='all'}">${I.tabGrid}<span>Publications</span></button><button role="tab" data-act="ptab" data-k="clips" aria-selected="${profTab==='clips'}">${I.tabClips}<span>Clips</span></button>${mine?`<button role="tab" data-act="ptab" data-k="saved" aria-selected="${profTab==='saved'}">${I.tabSaved}<span>Enregistrés</span></button>`:''}<i class="ptab-ind" style="transform:translateX(${PTAB_X[profTab]||'0'})"></i></div>
@@ -4151,7 +4197,16 @@ async function paintPartner(uid,mine){
   const pid=acc.requester===uid?acc.addressee:acc.requester;await loadProfiles([pid]);
   const d=ppDays(acc),aff=(await ppAffinity(uid,pid)).score||0,ph=prof(pid);
   if(!box.isConnected)return;
-  box.innerHTML=`<div class="pp-card"><button class="pp-main" data-act="profile" data-u="${pid}"><span class="pp-avs">${av(uid,36)}${av(pid,36)}</span><span class="pp-t"><small>Partenaire d’entraînement</small><b>@${esc(ph.handle)}${vb(pid)}</b><i>${d<1?'Duo formé aujourd’hui':'Ensemble depuis '+d+' jour'+(d>1?'s':'')}</i></span></button><button type="button" class="pp-aff ${affClass(aff)}" data-act="pp-aff" data-u="${pid}" data-k="${uid}" title="Voir le détail de l’affinité"><em>Affinité</em><b>${aff} %</b><span class="pp-bar"><i style="--w:${aff}%"></i></span></button>${mine?`<button class="pp-more" data-act="pp-menu" data-id="${acc.id}" data-u="${pid}" aria-label="Options du partenariat">•••</button>`:''}</div>`;
+  box.innerHTML=`<div class="pp-duo ${affClass(aff)}" style="--aff:${aff}">
+   <div class="pd-head"><span class="pd-k">Partenaires d’entraînement</span>${mine?`<button class="pp-more" data-act="pp-menu" data-id="${acc.id}" data-u="${pid}" aria-label="Options du partenariat">•••</button>`:''}</div>
+   <div class="pd-link">
+    <button class="pd-av" data-act="profile" data-u="${uid}" aria-label="Profil de @${esc(prof(uid).handle)}">${av(uid,46)}</button>
+    <button type="button" class="pd-mid" data-act="pp-aff" data-u="${pid}" data-k="${uid}" aria-label="Affinité ${aff} %, voir le détail"><span class="pd-line" aria-hidden="true"><i class="pd-fill"></i><i class="pd-spark"></i></span><span class="pd-pct">${aff}<small>%</small></span><span class="pd-cap">affinité</span></button>
+    <button class="pd-av" data-act="profile" data-u="${pid}" aria-label="Profil de @${esc(ph.handle)}">${av(pid,46)}</button>
+   </div>
+   <div class="pd-names"><b>@${esc(prof(uid).handle)}</b><span>&</span><b>@${esc(ph.handle)}${vb(pid)}</b></div>
+   <div class="pd-since">${d<1?'Duo formé aujourd’hui':'Ensemble depuis '+d+' jour'+(d>1?'s':'')}</div>
+  </div>`;
   requestAnimationFrame(()=>box.querySelector('.pp-bar i')?.classList.add('go'));
   return;
  }
