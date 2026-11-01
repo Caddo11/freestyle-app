@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793554909">
+<meta name="fs-build" content="1793555111">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -1784,6 +1784,40 @@ html:not([data-theme="dark"]) .cr-name{background-image:linear-gradient(100deg,#
 html:not([data-theme="dark"]) .cr-glow{filter:blur(13px) saturate(1.5) brightness(.95)}
 .cr-frame::before{opacity:.8}
 .creator .pname{font-size:18px}
+
+/* ================= v38 : dock du bas « Freestyle » ================= */
+/* Deux pièces flottantes : une capsule pour les onglets, une bulle à part pour le profil.
+   L'onglet actif se déplie en pastille encre avec son nom en petites capitales. */
+nav.tabs{display:flex;justify-content:center;background:none!important;padding-block:6px calc(10px + env(safe-area-inset-bottom,0px))}
+nav.tabs .pill{display:inline-flex!important;align-items:center;gap:2px;width:auto;height:56px!important;padding:6px!important;padding-right:72px!important;border-radius:22px!important;background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;transform-origin:50% 100%}
+nav.tabs .pill::before{content:"";position:absolute;left:0;top:0;bottom:0;right:66px;z-index:0;border-radius:22px;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);box-shadow:0 10px 30px rgba(0,0,0,.10),0 0 0 1px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.9)}
+nav.tabs .nav-ind{display:none!important}
+nav.tabs .pill button{position:relative;z-index:1;height:44px!important;min-width:50px;padding:0 13px;border-radius:16px!important;display:inline-flex!important;flex-direction:row!important;align-items:center;justify-content:center;gap:0;background:none!important;color:#8a8a86!important;transition:background .45s cubic-bezier(.22,.9,.25,1),color .3s ease,padding .45s cubic-bezier(.22,.9,.25,1),gap .45s cubic-bezier(.22,.9,.25,1)}
+nav.tabs .pill button:hover{color:var(--ink)!important}
+nav.tabs .pill button .fs-ic,nav.tabs .pill button svg{filter:none!important;width:22px!important;height:22px!important;flex:0 0 auto}
+nav.tabs .pill button .fs-ic *{stroke:currentColor!important}
+nav.tabs .pill button .fs-ic .ic-f{fill:none!important}
+nav.tabs .pill button .fs-ic .ic-dot{fill:currentColor!important}
+nav.tabs .pill button::after{display:none!important}
+nav.tabs .pill button::before{content:attr(data-l);order:2;max-width:0;overflow:hidden;white-space:nowrap;opacity:0;font-family:var(--body);font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;transition:max-width .45s cubic-bezier(.22,.9,.25,1),opacity .3s ease .05s}
+nav.tabs .pill button[data-l][aria-current="page"]{background:#141414!important;color:#fff!important;gap:8px;padding:0 16px 0 14px;box-shadow:0 6px 16px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.14)}
+nav.tabs .pill button[data-l][aria-current="page"]::before{max-width:90px;opacity:1}
+nav.tabs .pill button[aria-current="page"] svg{animation:dockPop .5s cubic-bezier(.3,1.5,.5,1)}
+@keyframes dockPop{0%{transform:scale(.8)}100%{transform:scale(1)}}
+/* bulle du profil, détachée */
+nav.tabs .pill [data-nav="profile"]{position:absolute!important;right:0;top:0;bottom:0;width:56px;height:56px!important;min-width:0;padding:0!important;border-radius:20px!important;background:rgba(255,255,255,.88)!important;-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);box-shadow:0 10px 30px rgba(0,0,0,.10),0 0 0 1px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.9)}
+nav.tabs .pill [data-nav="profile"] .nav-av{width:38px!important;height:38px!important;border-radius:13px!important;box-shadow:0 0 0 1.5px rgba(0,0,0,.08)!important;transition:box-shadow .35s ease,transform .35s cubic-bezier(.3,1.5,.5,1)}
+nav.tabs .pill [data-nav="profile"][aria-current="page"] .nav-av{box-shadow:0 0 0 2px #fff,0 0 0 3.5px #141414!important;transform:scale(1.03)}
+nav.tabs .pill [data-nav="profile"] .dot{top:5px!important;right:5px!important;left:auto!important}
+nav.tabs.mini .pill{transform:scale(.86)}
+/* sombre */
+html[data-theme="dark"] nav.tabs .pill::before,html[data-theme="dark"] nav.tabs .pill [data-nav="profile"]{background:rgba(26,26,28,.86)!important;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.07),inset 0 1px 0 rgba(255,255,255,.05)!important}
+html[data-theme="dark"] nav.tabs .pill button{color:#8f8f94!important}
+html[data-theme="dark"] nav.tabs .pill button:hover{color:#F1F1F1!important}
+html[data-theme="dark"] nav.tabs .pill button[data-l][aria-current="page"]{background:#F1F1F1!important;color:#0F0F0F!important;box-shadow:0 6px 18px rgba(0,0,0,.45),inset 0 -1px 0 rgba(0,0,0,.08)}
+html[data-theme="dark"] nav.tabs .pill [data-nav="profile"][aria-current="page"] .nav-av{box-shadow:0 0 0 2px #1A1A1C,0 0 0 3.5px #F1F1F1!important}
+html[data-theme="dark"] nav.tabs .pill [data-nav="profile"] .nav-av{box-shadow:0 0 0 1.5px rgba(255,255,255,.1)!important}
+@media (prefers-reduced-motion:reduce){nav.tabs .pill button,nav.tabs .pill button::before{transition:none}}
 </style>
 <style id="fs-dark">
 /* ===== Mode sombre (#0F0F0F) : généré à partir des couleurs du mode clair + retouches ===== */
@@ -2320,10 +2354,23 @@ html[data-theme="dark"] .aff-pt i{color:#686868}
 html[data-theme="dark"] .streak.risk{color:#E8862A}
 html[data-theme="dark"] .aff-day.ok{color:#22A55C}
 html[data-theme="dark"] .aff-day.ko{color:#E8862A}
+html[data-theme="dark"] nav.tabs{background:none!important}
+html[data-theme="dark"] nav.tabs .pill{background:none!important;border:0!important;box-shadow:none!important}
+html[data-theme="dark"] nav.tabs .pill::before{background:rgba(15,15,15,0.88);box-shadow:0 10px 30px rgba(0,0,0,.10),0 0 0 1px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.9)}
+html[data-theme="dark"] nav.tabs .pill button{background:none!important;color:#7E7E7E!important}
+html[data-theme="dark"] nav.tabs .pill button:hover{color:var(--ink)!important}
+html[data-theme="dark"] nav.tabs .pill button .fs-ic *{stroke:currentColor!important}
+html[data-theme="dark"] nav.tabs .pill button .fs-ic .ic-f{fill:none!important}
+html[data-theme="dark"] nav.tabs .pill button .fs-ic .ic-dot{fill:currentColor!important}
+html[data-theme="dark"] nav.tabs .pill button[data-l][aria-current="page"]{background:#ECECEC!important;color:#0F0F0F!important;box-shadow:0 6px 16px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.14)}
+html[data-theme="dark"] nav.tabs .pill [data-nav="profile"]{background:rgba(15,15,15,0.88)!important;box-shadow:0 10px 30px rgba(0,0,0,.10),0 0 0 1px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.9)}
+html[data-theme="dark"][data-theme="dark"] nav.tabs .pill::before,html[data-theme="dark"][data-theme="dark"] nav.tabs .pill [data-nav="profile"]{background:rgba(26,26,28,.86)!important;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.07),inset 0 1px 0 rgba(255,255,255,.05)!important}
+html[data-theme="dark"][data-theme="dark"] nav.tabs .pill button{color:#777777!important}
+html[data-theme="dark"][data-theme="dark"] nav.tabs .pill button:hover{color:#1C1C1C!important}
+html[data-theme="dark"][data-theme="dark"] nav.tabs .pill button[data-l][aria-current="page"]{background:#1C1C1C!important;color:#F1F1F1!important;box-shadow:0 6px 18px rgba(0,0,0,.45),inset 0 -1px 0 rgba(0,0,0,.08)}
 
 /* retouches manuelles */
 html[data-theme="dark"]{color-scheme:dark}
-html[data-theme="dark"] nav.tabs .pill,html[data-theme="dark"] .app:has(main.clips-mode) nav.tabs .pill{background:rgba(26,26,26,.88)!important;border-color:#2A2A2A!important;box-shadow:0 10px 30px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06)!important}
 html[data-theme="dark"] .pub-stage{background:linear-gradient(160deg,#1c1c1c,#141414)}
 html[data-theme="dark"] .pub-stage:not(.has) .pub-plus{color:#F1F1F1;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.16);box-shadow:0 8px 30px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1)}
 html[data-theme="dark"] .pub-stage:not(.has) .pub-plus-l{color:#939393}
@@ -2351,9 +2398,9 @@ html[data-theme="dark"] .streak i{filter:drop-shadow(0 0 5px rgba(255,200,40,.55
   <main id="main"></main>
   <nav class="tabs" id="tabs" aria-label="Navigation"><div class="pill"><span class="nav-ind" aria-hidden="true"></span>
     
-    <button data-nav="home" aria-label="Fil"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M3.5 10.5 12 3.5l8.5 7V20.5h-5.5v-6h-6v6H3.5z"/></svg></button>
-    <button data-nav="search" aria-label="Rechercher"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg></button>
-    <button data-nav="clips" aria-label="Clips"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><rect x="5" y="2.75" width="14" height="18.5" rx="4"/><path d="M10.5 9v6l4.5-3z"/></svg></button>
+    <button data-nav="home" aria-label="Fil" data-l="Fil"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><path d="M3.5 10.5 12 3.5l8.5 7V20.5h-5.5v-6h-6v6H3.5z"/></svg></button>
+    <button data-nav="search" aria-label="Rechercher" data-l="Explorer"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg></button>
+    <button data-nav="clips" aria-label="Clips" data-l="Clips"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"><rect x="5" y="2.75" width="14" height="18.5" rx="4"/><path d="M10.5 9v6l4.5-3z"/></svg></button>
     <button data-nav="profile" id="nav-me" aria-label="Profil"><span class="nav-av"></span></button>
   </div></nav>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
