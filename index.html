@@ -2725,6 +2725,23 @@ img{-webkit-user-drag:none}
 .ck2-rules{display:flex;gap:6px;margin:18px 0 20px;flex-wrap:wrap}
 .ck2-rules span{font-size:12px;font-weight:600;color:var(--ink);background:var(--paper);padding:6px 10px;border-radius:8px;white-space:nowrap}
 html[data-theme="dark"] .ck2-rules span{background:#1E1E1E;color:#d6d6d2}
+
+/* ================= v52 : annonces des membres ================= */
+.ann-pend{margin:4px 0 14px;padding:12px;border-radius:16px;background:var(--paper)}
+html[data-theme="dark"] .ann-pend{background:#161616}
+.ann-pend-h{font-size:12.5px;font-weight:800;color:var(--ink);margin:0 2px 10px;display:flex;align-items:center;gap:6px}
+.ann-pend-h i{font-style:normal;min-width:20px;height:20px;padding:0 6px;border-radius:6px;background:#E8862A;color:#fff;font-size:11px;display:inline-grid;place-items:center}
+.ann-pend .ann{margin-bottom:10px}.ann-pend .ann:last-child{margin-bottom:0}
+.ann-st{font-size:11px;font-weight:700;color:#22A55C;background:rgba(34,165,92,.1);padding:3px 7px;border-radius:6px;white-space:nowrap}
+.ann-st.wait{color:#D9822B;background:rgba(232,134,42,.12)}
+.ann-rev{display:grid;grid-template-columns:1fr 1.6fr;gap:8px;margin-top:12px}
+.ann-rev button{height:40px;border-radius:11px;border:0;font-weight:800;font-size:13.5px;cursor:pointer;white-space:nowrap;transition:transform .16s cubic-bezier(.3,1.4,.5,1),opacity .2s}
+.ann-rev button:active{transform:scale(.96)}
+.ann-rev button:disabled{opacity:.5}
+.ann-no{background:var(--paper);color:var(--ink)}
+html[data-theme="dark"] .ann-no{background:#232323;color:#F1F1F1}
+.ann-yes{background:#22A55C;color:#fff}
+.ann-note{margin:2px 0 12px;font-size:12.5px;line-height:1.45;color:#8e8e8a}
 </style>
 </head>
 <body>
@@ -2905,6 +2922,7 @@ async function dbError(error,fallback){
  if(m.includes('COMPTE_SUSPENDU')){await punish('muted');return}
  if(m.includes('NOM_14_JOURS')){warnBox('Nom bloqué 14 jours','Tu as déjà changé ton nom récemment. Tu pourras le modifier à nouveau 14 jours après le dernier changement.',false);return}
  if(m.includes('duplicate key')&&m.includes('handle')){toast('Ce nom d’utilisateur est déjà pris');return}
+ if(m.includes('ANNONCES_EN_ATTENTE')){toast('Tu as déjà 3 demandes en attente : patiente qu’elles soient validées');return}
  if(m.includes('PSEUDO_INVALIDE')){toast('Pseudo refusé : pas d’émoji, seulement lettres, chiffres, espaces, . - _');return}
  if(m.includes('profiles_handle_check')){toast('Nom d’utilisateur refusé : pas d’émoji ni de symbole');return}
  console.error('[Freestyle]',error);toast(fallback||'Une erreur est survenue, réessaie.');
@@ -3267,8 +3285,8 @@ async function loadGlobal(){
  globalMsgs=(data||[]).reverse();await loadProfiles(globalMsgs.map(m=>m.user_id));
 }
 async function loadNotifs(){const {data}=await sb.from('notifications').select('*').order('created_at',{ascending:false}).limit(80);notifs=data||[];unreadNotifs=notifs.filter(n=>!n.read_at).length;await loadProfiles(notifs.map(n=>n.actor_id))}
-const notifText=n=>({reaction:'a réagi « '+(n.text||'')+' » à ton post',story_like:'a aimé ton flash',like:'a aimé ton post',comment:'a commenté : '+(n.text||''),reply:'a répondu à ton commentaire : '+(n.text||''),comment_like:'a aimé ton commentaire'+(n.text?' : '+n.text:''),message:'t’a envoyé un message : '+(n.text||''),follow:'s’est abonné à toi',announcement:'a publié une annonce : '+(n.text||''),partner_request:'veut être ton partenaire d’entraînement',partner_accept:'a accepté d’être ton partenaire d’entraînement',respect:'t’a checké'})[n.type]||'';
-const NOTIF_IC={like:'heartSm',story_like:'heartSm',comment_like:'heartSm',reaction:'reactSm',comment:'cmtSm',reply:'cmtSm',message:'dmSm',follow:'personSm',announcement:'infoSm',partner_request:'personSm',partner_accept:'personSm',respect:'respectSm'};
+const notifText=n=>({reaction:'a réagi « '+(n.text||'')+' » à ton post',story_like:'a aimé ton flash',like:'a aimé ton post',comment:'a commenté : '+(n.text||''),reply:'a répondu à ton commentaire : '+(n.text||''),comment_like:'a aimé ton commentaire'+(n.text?' : '+n.text:''),message:'t’a envoyé un message : '+(n.text||''),follow:'s’est abonné à toi',announcement:'a publié une annonce : '+(n.text||''),partner_request:'veut être ton partenaire d’entraînement',partner_accept:'a accepté d’être ton partenaire d’entraînement',respect:'t’a checké',ann_request:'demande à publier une annonce : '+(n.text||''),ann_accept:'a accepté ton annonce : '+(n.text||'')+' · visible 7 jours',ann_refuse:'n’a pas retenu ton annonce : '+(n.text||'')})[n.type]||'';
+const NOTIF_IC={like:'heartSm',story_like:'heartSm',comment_like:'heartSm',reaction:'reactSm',comment:'cmtSm',reply:'cmtSm',message:'dmSm',follow:'personSm',announcement:'infoSm',partner_request:'personSm',partner_accept:'personSm',respect:'respectSm',ann_request:'infoSm',ann_accept:'infoSm',ann_refuse:'infoSm'};
 function notifRow(n){return `<div class="conv notif ${n.read_at?'':'unread-n'}"><span class="n-av">${av(n.actor_id,40)}<i class="n-ic n-${esc(n.type)}">${I[NOTIF_IC[n.type]]||''}</i></span><button class="meta" data-act="notif-open" data-id="${n.id}" style="text-align:left"><b>${esc(prof(n.actor_id).handle)}${vb(n.actor_id)}</b><span class="n-txt">${esc(notifText(n))} · ${ago(n.created_at)}</span></button>${n.type==='follow'&&!following.has(n.actor_id)?`<button class="mini" data-act="follow-list" data-u="${n.actor_id}">Suivre</button>`:''}</div>`}
 async function openNotifs(){
  const used=new Set(),secs=[['Aujourd’hui',n=>Date.now()-new Date(n.created_at)<864e5],['Cette semaine',n=>Date.now()-new Date(n.created_at)<6048e5],['Plus tôt',()=>true]];
@@ -3637,7 +3655,7 @@ async function adminDeleteUser(uid){
   const u=prof(uid);const urls=[...(ps||[]).flatMap(p=>(p.media||[]).map(m=>m.url)),...(ss||[]).map(x=>x.media&&x.media.url),u.avatar_url,u.banner_url].filter(Boolean);
   const {data:gone,error}=await sb.from('profiles').delete().eq('id',uid).select('id');
   d.remove();if(error)return dbError(error,'Suppression impossible');if(!gone||!gone.length){toast('Suppression refusée par le serveur');return}
-  removeFiles(urls);delete P[uid];feed=feed.filter(p=>p.user_id!==uid);clipsList=clipsList.filter(p=>p.user_id!==uid);delete storiesBy[uid];toast('Compte supprimé');hist=[];nav('home')});
+  removeFiles(urls);sb.storage.from('media').list(uid,{limit:1000}).then(({data:fl})=>{const ps=(fl||[]).filter(f=>f&&f.name&&f.id).map(f=>uid+'/'+f.name);if(ps.length)sb.storage.from('media').remove(ps)}).catch(()=>{});delete P[uid];feed=feed.filter(p=>p.user_id!==uid);clipsList=clipsList.filter(p=>p.user_id!==uid);delete storiesBy[uid];toast('Compte supprimé');hist=[];nav('home')});
 }
 
 // ================= MESSAGES =================
@@ -4286,12 +4304,13 @@ document.addEventListener('click',async e=>{
   case 'notif-open':{const nn=notifs.find(x=>x.id===id);if(!nn)break;layer.innerHTML='';hist.push([view,arg]);
    if(nn.type==='message')nav('chat',nn.actor_id);
    else if(nn.type==='partner_request')nav('profile',me.id);
-   else if(nn.type==='announcement'){msgTab='info';nav('messages');loadAnnouncements().then(()=>{if(view==='messages'&&msgTab==='info')renderInfos()})}
+   else if(['announcement','ann_request','ann_accept','ann_refuse'].includes(nn.type)){annLoaded=false;msgTab='info';nav('messages');loadAnnouncements().then(()=>{if(view==='messages'&&msgTab==='info')renderInfos()})}
    else if(nn.post_id)openPostById(nn.post_id,['comment','reply','comment_like'].includes(nn.type));
    else nav('profile',nn.actor_id);break}
   case 'mtab':{if(msgTab===a.dataset.k)break;msgTab=a.dataset.k;if(msgTab==='dm')loadConvs().then(()=>{if(view==='messages'&&msgTab==='dm')renderMessages(curQuery)});renderMessages(curQuery);break}
   case 'ann-new':openAnnForm();break;
-  case 'ann-menu':miniMenu(a,[{head:true,label:'Administrateur'},{label:'Supprimer l’annonce',danger:true,run:()=>deleteAnn(id)}],'right','light');break;
+  case 'ann-menu':{const an=annList.find(x=>x.id===id);const mineP=an&&an.status==='pending'&&an.author_id===me.id&&!isAdmin();miniMenu(a,[{head:true,label:mineP?'Ma demande':'Administrateur'},{label:mineP?'Annuler ma demande':'Supprimer l’annonce',danger:true,run:()=>deleteAnn(id)}],'right','light');break}
+  case 'ann-review':await reviewAnn(a,id,a.dataset.k==='1');break;
   case 'post-stats':openPostStats(id);break;
   case 'insights':hist.push([view,arg]);nav('insights');break;
   case 'ins-days':{const d=+a.dataset.k;if(d===insDays)break;insDays=d;renderInsights();break}
@@ -4355,22 +4374,37 @@ const unreadInfo=()=>!!me&&annList.some(a=>a.author_id!==me.id&&a.created_at>inf
 function markInfoSeen(){if(annList.length){try{localStorage.setItem('fs-info-seen',annList[0].created_at)}catch(e){}}paintBadge()}
 async function loadAnnouncements(){try{const {data,error}=await sb.from('announcements').select('*').order('created_at',{ascending:false}).limit(60);if(error)throw error;annList=data||[];annLoaded=true;await loadProfiles(annList.map(a=>a.author_id))}catch(e){console.error('[Freestyle]',e);annLoaded=true}}
 function mtabsHTML(){return `<div class="mtabs" role="tablist"><button role="tab" data-act="mtab" data-k="dm" aria-selected="${msgTab==='dm'}">${I.dm}<span>Messages</span>${unreadCount?'<i class="mt-dot"></i>':''}</button><button role="tab" data-act="mtab" data-k="info" aria-selected="${msgTab==='info'}">${I.info}<span>Infos</span>${unreadInfo()?'<i class="mt-dot"></i>':''}</button><i class="mt-ind" style="transform:translateX(${msgTab==='info'?'100%':'0'})"></i></div>`}
+function annLeft(t){const ms=new Date(t)-Date.now();if(ms<=0)return 'Expirée';const d=Math.ceil(ms/864e5);return d>1?`Encore ${d} jours`:`Dernier jour`}
+async function reviewAnn(btn,id,accept){
+ const row=btn.closest('.ann-rev');row&&row.querySelectorAll('button').forEach(x=>x.disabled=true);
+ const {data,error}=await sb.rpc('fs_review_announcement',{aid:id,accept});
+ if(error||data==='denied'){row&&row.querySelectorAll('button').forEach(x=>x.disabled=false);return dbError(error,'Action impossible')}
+ if(data==='published'){const a=annList.find(x=>x.id===id);if(a){a.status='published';a.published_at=new Date().toISOString();a.expires_at=new Date(Date.now()+7*864e5).toISOString()}toast('Annonce publiée pour 7 jours')}
+ else{annList=annList.filter(x=>x.id!==id);toast(data==='refused'?'Demande refusée':'Cette demande n’existe plus')}
+ if(view==='messages'&&msgTab==='info')renderInfos();
+}
 function annHTML(a){
  const k=ANN_KINDS[a.kind]||ANN_KINDS.info,d=a.event_at?new Date(a.event_at):null;
  return `<article class="ann ann-${esc(a.kind)}" data-aid="${a.id}">
-  <div class="ann-top"><span class="ann-chip">${I[k[1]]}${k[0]}</span><time>${ago(a.created_at)}</time>${isAdmin()?`<button class="ann-more" data-act="ann-menu" data-id="${a.id}" aria-label="Options de l’annonce">•••</button>`:''}</div>
+  <div class="ann-top"><span class="ann-chip">${I[k[1]]}${k[0]}</span>${a.status==='pending'?'<span class="ann-st wait">En attente</span>':a.expires_at?`<span class="ann-st">${annLeft(a.expires_at)}</span>`:''}<time>${ago(a.published_at||a.created_at)}</time>${isAdmin()||(a.status==='pending'&&me&&a.author_id===me.id)?`<button class="ann-more" data-act="ann-menu" data-id="${a.id}" aria-label="Options de l’annonce">•••</button>`:''}</div>
   <div class="ann-main">${d?`<div class="ann-date"><b>${d.getDate()}</b><span>${d.toLocaleDateString('fr-FR',{month:'short'}).replace('.','')}</span><small>${d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</small></div>`:''}<div class="ann-txt"><h3>${esc(a.title)}</h3>${a.body?`<p>${esc(a.body)}</p>`:''}</div></div>
   ${d||a.place?`<div class="ann-meta">${d?`<span>${I.cal}${esc(d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}))} à ${d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</span>`:''}${a.place?`<span>${I.pin}${esc(a.place)}</span>`:''}</div>`:''}
-  <div class="ann-by">${av(a.author_id,22)}<b>${esc(prof(a.author_id).handle)}${vb(a.author_id)}</b><span>· équipe Freestyle</span></div>
+  <div class="ann-by">${av(a.author_id,22)}<b>${esc(prof(a.author_id).handle)}${vb(a.author_id)}</b><span>· ${ADMINS.has(a.author_id)?'équipe Freestyle':'annonce membre'}</span></div>
+  ${a.status==='pending'&&isAdmin()?`<div class="ann-rev"><button type="button" class="ann-no" data-act="ann-review" data-id="${a.id}" data-k="0">Refuser</button><button type="button" class="ann-yes" data-act="ann-review" data-id="${a.id}" data-k="1">Accepter · 7 jours</button></div>`:''}
  </article>`;
+}
+const annPub=()=>annList.filter(a=>(a.status||'published')==='published'&&(!a.expires_at||new Date(a.expires_at)>new Date()));
+function annPendingHTML(){
+ const pend=annList.filter(a=>a.status==='pending');if(!annLoaded||!pend.length)return '';
+ return `<div class="ann-pend"><div class="ann-pend-h">${isAdmin()?`Demandes à valider <i>${pend.length}</i>`:'Ta demande est en attente de validation'}</div>${pend.map(annHTML).join('')}</div>`;
 }
 function renderInfos(){
  topEl.innerHTML=`<button class="icon-btn" data-act="back" aria-label="Retour">${I.back}</button><h1 class="ptitle">Messages</h1><span class="icon-btn"></span>`;
- main.innerHTML=`<div class="gutter">${mtabsHTML()}<div class="ann-list">${isAdmin()?`<button class="ann-new" data-act="ann-new">${I.plus}<span><b>Publier une annonce</b><small>Événement, rassemblement ou info visible par tout le monde</small></span></button>`:''}${!annLoaded?loadingHTML():annList.length?annList.map(annHTML).join(''):`<div class="empty ann-empty">${I.info}<b>Aucune annonce pour l’instant</b><span>Les événements, rassemblements et infos de Freestyle apparaîtront ici.</span></div>`}</div></div>`;
+ main.innerHTML=`<div class="gutter">${mtabsHTML()}<div class="ann-list"><button class="ann-new" data-act="ann-new">${I.plus}<span><b>Publier une annonce</b><small>${isAdmin()?'Événement, rassemblement ou info visible par tout le monde':'Propose ton événement : une fois validé, il est visible par tout le monde pendant 7 jours'}</small></span></button>${annPendingHTML()}${!annLoaded?loadingHTML():annPub().length?annPub().map(annHTML).join(''):`<div class="empty ann-empty">${I.info}<b>Aucune annonce pour l’instant</b><span>Les événements, rassemblements et infos de Freestyle apparaîtront ici.</span></div>`}</div></div>`;
  if(!annLoaded)loadAnnouncements().then(()=>{if(view==='messages'&&msgTab==='info')renderInfos()});else markInfoSeen();
 }
 function openAnnForm(){
- if(!isAdmin())return;let kind='event';
+ const adm=isAdmin();let kind='event';
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet ann-sheet" role="dialog" aria-label="Nouvelle annonce"><div class="sheet-head">Nouvelle annonce</div>
   <form class="gutter ann-form" id="anf" novalidate>
    <div class="seg ann-seg" role="group" aria-label="Type d’annonce">${Object.entries(ANN_KINDS).map(([k,[l]])=>`<button type="button" data-ak="${k}" aria-pressed="${k===kind}">${l}</button>`).join('')}</div>
@@ -4378,17 +4412,17 @@ function openAnnForm(){
    <label class="ep-f"><span>Texte <em>facultatif</em></span><textarea id="an-b" maxlength="1500" rows="4" placeholder="Programme, infos pratiques…"></textarea></label>
    <div class="ann-row2"><label class="ep-f"><span>Date et heure <em>facultatif</em></span><input id="an-d" type="datetime-local"></label><label class="ep-f"><span>Lieu <em>facultatif</em></span><input id="an-p" maxlength="120" placeholder="Ville, parc, salle…"></label></div>
    <p class="err" id="an-err"></p>
-   <button class="ep-save" type="submit" id="an-go">Publier pour tout le monde</button>
+   ${adm?'':'<p class="ann-note">Ta demande est envoyée à l’équipe Freestyle. Si elle est acceptée, ton annonce est visible par tout le monde pendant 7 jours.</p>'}<button class="ep-save" type="submit" id="an-go">${adm?'Publier pour tout le monde':'Envoyer la demande'}</button>
   </form></div></div>`;
  layer.querySelectorAll('[data-ak]').forEach(b=>b.addEventListener('click',()=>{kind=b.dataset.ak;layer.querySelectorAll('[data-ak]').forEach(x=>x.setAttribute('aria-pressed',x===b))}));
  $('anf').addEventListener('submit',async e=>{
   e.preventDefault();const title=$('an-t').value.trim(),body=$('an-b').value.trim(),dv=$('an-d').value,place=$('an-p').value.trim();
   if(!title){$('an-err').textContent='Donne un titre à ton annonce';return}
   if(!(await guard([title,body,place].join(' \n '))))return;
-  const b=$('an-go');b.disabled=true;b.textContent='Publication…';
+  const b=$('an-go');b.disabled=true;b.textContent=adm?'Publication…':'Envoi…';
   const {data,error}=await sb.from('announcements').insert({author_id:me.id,kind,title,body,event_at:dv?new Date(dv).toISOString():null,place:place||null}).select().single();
-  if(error){b.disabled=false;b.textContent='Publier pour tout le monde';return dbError(error,'Post impossible')}
-  if(!annList.some(x=>x.id===data.id))annList.unshift(data);annLoaded=true;markInfoSeen();layer.innerHTML='';toast('Annonce publiée : tout le monde est prévenu');if(view==='messages')renderMessages(curQuery);
+  if(error){b.disabled=false;b.textContent=adm?'Publier pour tout le monde':'Envoyer la demande';return dbError(error,'Envoi impossible')}
+  if(!annList.some(x=>x.id===data.id))annList.unshift(data);annLoaded=true;markInfoSeen();closeLayer();toast(adm?'Annonce publiée : tout le monde est prévenu':'Demande envoyée : tu recevras un ping dès qu’elle est validée');if(view==='messages')renderMessages(curQuery);
  });
 }
 async function deleteAnn(id){const {error}=await sb.from('announcements').delete().eq('id',id);if(error)return dbError(error,'Suppression impossible');annList=annList.filter(a=>a.id!==id);toast('Annonce supprimée');if(view==='messages')renderMessages(curQuery)}
