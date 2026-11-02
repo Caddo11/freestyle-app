@@ -2596,6 +2596,7 @@ html[data-theme="dark"] .resp-btn{border-color:#4a4a48;color:#6e6e6b}
 .af3-nums b{font-size:20px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
 .af3-nums span{font-size:11.5px;color:#8e8e8a}
 .af3-nums .off{opacity:.4}
+.af3-nums b small{font-size:12px;font-weight:600;color:#a3a29d}
 .af3-how{width:100%;margin-top:14px;display:flex;flex-direction:column;gap:12px;padding-top:14px;border-top:1px solid var(--paper-line)}
 .af3-how>div{display:flex;gap:12px;align-items:baseline}
 .af3-how em{font-style:normal;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;width:52px;flex:0 0 auto}
@@ -4372,7 +4373,9 @@ function openAffinity(a,b){
  const r=ppAffCache[[a,b].sort().join('|')];if(!r)return;
  const sc=Math.max(0,Math.min(100,r.score||0)),days=r.days||0,streak=r.streak||0,sup=r.support!=null?r.support:(r.likes||0)+(r.comments||0)+(r.reactions||0);
  const talked=r.talked_today!=null?r.talked_today:!!(r.today&&r.today.msg);
- const st=talked?['ok','Échange fait aujourd’hui']:streak>0?['risk',`Écrivez-vous avant minuit pour garder la série`]:['idle','Écrivez-vous pour lancer une série'];
+ const po=r.posts||null,meId=me&&me.id,inDuo=meId===a||meId===b;
+ const myPend=po&&inDuo&&po.pending_for?po.pending_for[meId]||0:0;
+ const st=streak>0&&!talked?['risk','Écrivez-vous avant minuit pour garder la série']:myPend?['risk',`Ton duo a posté : like ou commente sous 48 h`]:talked?['ok','Échange fait aujourd’hui']:['idle','Écrivez-vous pour lancer une série'];
  const C=2*Math.PI*52,off=C*(1-sc/100);
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet pp-sheet af3" role="dialog" aria-label="Affinité"><div class="stw-top"><b>Affinité</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
   <div class="af3-ring ${affClass(sc)}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="tr"/><circle cx="60" cy="60" r="52" class="fg" style="stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${C.toFixed(1)};--off:${off.toFixed(1)}"/></svg><div><b>${sc}<i>%</i></b><span>${affTier(sc)}</span></div></div>
@@ -4380,11 +4383,11 @@ function openAffinity(a,b){
   <div class="af3-nums">
    <div><b>${streak}</b><span>étoiles</span></div>
    <div><b>${days}</b><span>jours sur 30</span></div>
-   <div class="${r.support_counted===false?'off':''}"><b>${r.support_counted===false?'–':sup}</b><span>soutien</span></div>
+   ${po?`<div class="${po.total?'':'off'}"><b>${po.total?po.ok+'<small>/'+po.total+'</small>':'–'}</b><span>posts soutenus</span></div>`:`<div class="${r.support_counted===false?'off':''}"><b>${r.support_counted===false?'–':sup}</b><span>soutien</span></div>`}
   </div>
   <div class="af3-how">
-   <div><em class="up">Monte</em><p>Écrivez-vous tous les deux le même jour. Chaque jour d’affilée ajoute une étoile. Les likes et commentaires donnent un petit bonus.</p></div>
-   <div><em class="down">Baisse</em><p>Un jour sans échange remet les étoiles à zéro, et un jour d’échange compte seulement 30 jours.</p></div>
+   <div><em class="up">Monte</em><p>Écrivez-vous tous les deux le même jour : chaque jour d’affilée ajoute une étoile. Likez ou commentez chaque post et flash de l’autre.</p></div>
+   <div><em class="down">Baisse</em><p>Un jour sans échange remet les étoiles à zéro. Un post ou flash de l’autre laissé 48 h sans like ni commentaire fait baisser. Tout ne compte que 30 jours.</p></div>
   </div>
  </div></div></div>`;
  requestAnimationFrame(()=>requestAnimationFrame(()=>{const f=layer.querySelector('.af3-ring .fg');if(f)f.style.strokeDashoffset=off.toFixed(1)}));
