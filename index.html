@@ -2492,6 +2492,53 @@ html[data-theme="dark"] .boot .logo-wrap{filter:drop-shadow(0 0 18px rgba(255,25
 html[data-theme="dark"] .boot .load{background:#262626;box-shadow:none}
 html[data-theme="dark"] .boot .load i{background:linear-gradient(90deg,#8a8a8a,#fff)}
 html[data-theme="dark"] .streak i{filter:drop-shadow(0 0 5px rgba(255,200,40,.55))}
+
+/* ================= v44 : affinité plus simple ================= */
+.aff-sheet .sheet-list{padding-top:4px}
+.aff-head{padding:6px 2px 14px}
+.aff-score{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px}
+.aff-score b{font-size:34px;font-weight:800;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
+.aff-score b i{font-style:normal;font-size:16px;font-weight:700;margin-left:2px;color:#8e8e8a}
+.aff-score span{font-size:12.5px;font-weight:700}
+.aff-head.lo .aff-score span{color:#E5484D}.aff-head.mid .aff-score span{color:#E8862A}.aff-head.hi .aff-score span,.aff-head.max .aff-score span{color:#22A55C}
+.aff-head .aff-big{margin:0}
+.aff-list{border-top:1px solid var(--paper-line)}
+.aff-r{display:flex;gap:12px;align-items:flex-start;padding:11px 2px;border-bottom:1px solid var(--paper-line)}
+.aff-r.is-off{opacity:.45}
+.aff-i{width:30px;height:30px;border-radius:9px;background:var(--paper);display:grid;place-items:center;color:var(--ink);flex:0 0 auto;margin-top:1px}
+.aff-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.aff-l{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.aff-l b{font-size:13.5px;font-weight:700;color:var(--ink)}
+.aff-l em{font-style:normal;font-size:13.5px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+.aff-l em small{font-size:11px;font-weight:600;color:#a3a29d}
+.aff-mini{display:block;height:3px;border-radius:2px;background:var(--paper);overflow:hidden}
+.aff-mini i{display:block;height:100%;border-radius:2px;background:var(--ink);opacity:.75;transition:width .5s cubic-bezier(.22,.9,.25,1)}
+.aff-s{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.aff-s small{font-size:11.5px;color:#8e8e8a}
+.aff-st{text-decoration:none;font-size:11px;font-weight:700;white-space:nowrap}
+.aff-st.ok{color:#22A55C}.aff-st.todo{color:#E8862A}.aff-st.off{color:#8e8e8a}
+.aff-how{margin:12px 2px 4px;font-size:12px;color:#8e8e8a;line-height:1.45}
+.aff-how summary{cursor:pointer;font-weight:700;color:var(--ink);font-size:12.5px;list-style:none;padding:4px 0}
+.aff-how summary::-webkit-details-marker{display:none}
+.aff-how summary::after{content:" +";color:#8e8e8a}
+.aff-how[open] summary::after{content:" −"}
+.aff-how p{margin:6px 0 0}
+
+/* ================= v45 : Respect & validation par la communauté ================= */
+.pnums3.pnums4{grid-template-columns:repeat(4,1fr)}
+.pnums4 span{font-size:12px}
+.pbtns.with-resp{grid-template-columns:1fr 1fr auto}
+.pbtns .pbtn.resp-btn{width:auto;padding:0 12px;gap:5px;font-size:12.5px;color:var(--ink)}
+.pbtns .pbtn.resp-btn svg{opacity:.55;transition:opacity .2s}
+.pbtns .pbtn.resp-btn.on{box-shadow:inset 0 0 0 1px currentColor}
+.pbtns .pbtn.resp-btn.on svg{opacity:1}
+.pbtns .pbtn.resp-btn.pop svg{animation:respPop .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes respPop{0%{transform:scale(.6)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+.cv-tag{display:inline-flex;align-items:center;gap:4px;margin-top:5px;font-size:11.5px;font-weight:700;color:#8e8e8a;letter-spacing:.01em}
+.cv-tag svg{color:var(--ink);opacity:.8}
+.cv-on .pav{box-shadow:0 0 0 1.5px #C9C9C4,0 4px 14px rgba(0,0,0,.18)!important}
+html[data-theme="dark"] .cv-on .pav{box-shadow:0 0 0 1.5px #6b6b68,0 4px 14px rgba(0,0,0,.35)!important}
+.n-respect{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -2615,6 +2662,7 @@ Object.assign(I,{
  reactSm:cic(D.sticker,FACE,'react',16),
  dmSm:cic(D.bubble,'<path class="ic-in" d="m8.2 12.6 2.7-2.5 2.2 1.8 2.8-2.6"/>','',14),
  personSm:cic(D.person,'<path class="ic-d" d="M18.5 8v6M15.5 11h6"/>','',14),
+ respectSm:cic('M5 12.5l4.2 4.2L19 7','','',14),
  infoSm:cic(D.mega,'','',14),
  views:cic(D.eye,'<circle class="ic-in" cx="12" cy="12" r="2.6"/>','',20),
  playV:cic(D.play,'','',14),
@@ -2671,6 +2719,8 @@ async function dbError(error,fallback){
  if(m.includes('COMPTE_SUSPENDU')){await punish('muted');return}
  if(m.includes('NOM_14_JOURS')){warnBox('Nom bloqué 14 jours','Tu as déjà changé ton nom récemment. Tu pourras le modifier à nouveau 14 jours après le dernier changement.',false);return}
  if(m.includes('duplicate key')&&m.includes('handle')){toast('Ce nom d’utilisateur est déjà pris');return}
+ if(m.includes('PSEUDO_INVALIDE')){toast('Pseudo refusé : pas d’émoji, seulement lettres, chiffres, espaces, . - _');return}
+ if(m.includes('profiles_handle_check')){toast('Nom d’utilisateur refusé : pas d’émoji ni de symbole');return}
  console.error('[Freestyle]',error);toast(fallback||'Une erreur est survenue, réessaie.');
 }
 function warnBox(title,msg,danger){
@@ -2842,7 +2892,9 @@ let ob={handle:'',name:'',sport:'Calisthenics',bio:'',file:null,preview:null},ob
 // Pseudo affiché : lettres (accents compris), chiffres, espaces, point, tiret et tiret bas — rien d'autre.
 // Les lettres « stylisées » (𝖕𝖆𝖎𝖓…) sont ramenées à des lettres normales, les emojis et symboles sont retirés.
 const cleanName=v=>(v||'').normalize('NFKC').replace(/[^A-Za-z0-9À-ÖØ-öø-ÿŒœ ._-]/g,'').replace(/\s{2,}/g,' ').replace(/^\s+/,'');
-function bindCleanName(id){const i=$(id);if(!i)return;i.addEventListener('input',()=>{const c=cleanName(i.value);if(c!==i.value){const pos=i.selectionStart-(i.value.length-c.length);i.value=c;try{i.setSelectionRange(pos,pos)}catch(e){}}})}
+const hasEmoji=v=>/[\p{Extended_Pictographic}\p{Emoji_Presentation}\u200d\ufe0f]/u.test(v||'');
+let emojiWarnAt=0;
+function bindCleanName(id){const i=$(id);if(!i)return;i.addEventListener('input',()=>{const c=cleanName(i.value);if(c!==i.value){if(Date.now()-emojiWarnAt>2500){emojiWarnAt=Date.now();toast(hasEmoji(i.value)?'Les émojis ne sont pas autorisés dans le pseudo':'Seulement lettres, chiffres, espaces, . - _')}const pos=i.selectionStart-(i.value.length-c.length);i.value=c;try{i.setSelectionRange(pos,pos)}catch(e){}}})}
 function handleLocalError(h){if(!h)return 'Choisis un nom d’utilisateur';if(h.length<3)return '3 caractères minimum';if(!/^[a-z0-9][a-z0-9._-]{1,18}[a-z0-9]$/.test(h))return 'Lettres, chiffres, point, tiret ou tiret bas (pas au début ni à la fin)';if(moderate(h))return 'Ce nom d’utilisateur n’est pas autorisé';return null}
 let handleTimer;
 function renderOnboard(){
@@ -2859,7 +2911,7 @@ function renderOnboard(){
  </form>`;
  const keepO=()=>{ob.handle=$('oh').value;ob.name=$('on').value;ob.sport=$('os').value;ob.bio=$('obb').value};
  $('oa').addEventListener('change',async e=>{const f0=e.target.files[0];if(!f0)return;keepO();const f=await openCropper(f0,1,640,640,'Photo de profil');if(!f)return;ob.file=f;ob.preview=URL.createObjectURL(f);renderOnboard()});
- if(!obExisting)$('oh').addEventListener('input',()=>{const v=$('oh').value.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9._-]/g,'');$('oh').value=v;const le=handleLocalError(v);$('oherr').textContent=le||'';clearTimeout(handleTimer);if(!le)handleTimer=setTimeout(async()=>{const {data}=await sb.from('profiles').select('id').eq('handle',v).maybeSingle();if($('oh')&&$('oh').value===v)$('oherr').textContent=data?'Ce nom d’utilisateur est déjà pris':''},400)});
+ if(!obExisting)$('oh').addEventListener('input',()=>{if(hasEmoji($('oh').value)&&Date.now()-emojiWarnAt>2500){emojiWarnAt=Date.now();toast('Les émojis ne sont pas autorisés dans le nom d’utilisateur')}const v=$('oh').value.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9._-]/g,'');$('oh').value=v;const le=handleLocalError(v);$('oherr').textContent=le||'';clearTimeout(handleTimer);if(!le)handleTimer=setTimeout(async()=>{const {data}=await sb.from('profiles').select('id').eq('handle',v).maybeSingle();if($('oh')&&$('oh').value===v)$('oherr').textContent=data?'Ce nom d’utilisateur est déjà pris':''},400)});
  bindCleanName('on');
  $('ob').addEventListener('submit',async e=>{e.preventDefault();keepO();ob.name=cleanName(ob.name).trim();
   const le=obExisting?null:handleLocalError(ob.handle);if(le){$('oherr').textContent=le;return}
@@ -3012,8 +3064,8 @@ async function loadGlobal(){
  globalMsgs=(data||[]).reverse();await loadProfiles(globalMsgs.map(m=>m.user_id));
 }
 async function loadNotifs(){const {data}=await sb.from('notifications').select('*').order('created_at',{ascending:false}).limit(80);notifs=data||[];unreadNotifs=notifs.filter(n=>!n.read_at).length;await loadProfiles(notifs.map(n=>n.actor_id))}
-const notifText=n=>({reaction:'a réagi « '+(n.text||'')+' » à ta publication',story_like:'a aimé ta story',like:'a aimé ta publication',comment:'a commenté : '+(n.text||''),reply:'a répondu à ton commentaire : '+(n.text||''),comment_like:'a aimé ton commentaire'+(n.text?' : '+n.text:''),message:'t’a envoyé un message : '+(n.text||''),follow:'s’est abonné à toi',announcement:'a publié une annonce : '+(n.text||''),partner_request:'veut être ton partenaire d’entraînement',partner_accept:'a accepté d’être ton partenaire d’entraînement'})[n.type]||'';
-const NOTIF_IC={like:'heartSm',story_like:'heartSm',comment_like:'heartSm',reaction:'reactSm',comment:'cmtSm',reply:'cmtSm',message:'dmSm',follow:'personSm',announcement:'infoSm',partner_request:'personSm',partner_accept:'personSm'};
+const notifText=n=>({reaction:'a réagi « '+(n.text||'')+' » à ta publication',story_like:'a aimé ta story',like:'a aimé ta publication',comment:'a commenté : '+(n.text||''),reply:'a répondu à ton commentaire : '+(n.text||''),comment_like:'a aimé ton commentaire'+(n.text?' : '+n.text:''),message:'t’a envoyé un message : '+(n.text||''),follow:'s’est abonné à toi',announcement:'a publié une annonce : '+(n.text||''),partner_request:'veut être ton partenaire d’entraînement',partner_accept:'a accepté d’être ton partenaire d’entraînement',respect:'t’a donné son respect'})[n.type]||'';
+const NOTIF_IC={like:'heartSm',story_like:'heartSm',comment_like:'heartSm',reaction:'reactSm',comment:'cmtSm',reply:'cmtSm',message:'dmSm',follow:'personSm',announcement:'infoSm',partner_request:'personSm',partner_accept:'personSm',respect:'respectSm'};
 function notifRow(n){return `<div class="conv notif ${n.read_at?'':'unread-n'}"><span class="n-av">${av(n.actor_id,40)}<i class="n-ic n-${esc(n.type)}">${I[NOTIF_IC[n.type]]||''}</i></span><button class="meta" data-act="notif-open" data-id="${n.id}" style="text-align:left"><b>${esc(prof(n.actor_id).handle)}${vb(n.actor_id)}</b><span class="n-txt">${esc(notifText(n))} · ${ago(n.created_at)}</span></button>${n.type==='follow'&&!following.has(n.actor_id)?`<button class="mini" data-act="follow-list" data-u="${n.actor_id}">Suivre</button>`:''}</div>`}
 async function openNotifs(){
  const used=new Set(),secs=[['Aujourd’hui',n=>Date.now()-new Date(n.created_at)<864e5],['Cette semaine',n=>Date.now()-new Date(n.created_at)<6048e5],['Plus tôt',()=>true]];
@@ -3737,19 +3789,19 @@ async function renderProfile(){
  if(!mine&&!P[uid]){main.innerHTML=`<div class="gutter"><div class="empty">Ce profil n’est pas disponible.</div></div>`;return}
  if(blocked.has(uid)){main.innerHTML=`<div class="gutter"><div class="blk-card"><span class="pav-sm">${av(uid,64)}</span><b>${esc(u.name)}</b><p>Tu as bloqué ce compte. Il ne peut plus voir ton profil, tes publications ni t’écrire.</p><button class="pbtn primary" data-act="unblock" data-u="${uid}">Débloquer</button></div></div>`;return}
  if(!mine)sb.rpc('fs_visit_profile',{pid:uid}).then(()=>{},()=>{});
- const [{data:st},{data:posts}]=await Promise.all([sb.from('profile_stats').select('*').eq('id',uid).maybeSingle(),sb.from('feed').select('*').eq('user_id',uid).order('created_at',{ascending:false}).limit(60)]);
+ const [{data:st},{data:posts},ri]=await Promise.all([sb.from('profile_stats').select('*').eq('id',uid).maybeSingle(),sb.from('feed').select('*').eq('user_id',uid).order('created_at',{ascending:false}).limit(60),loadRespect(uid)]);
  if(view!=='profile'||(arg||me.id)!==uid)return;
  profilePosts=posts||[];await loadPinned(uid);profilePosts=sortPinned(profilePosts);if(profTabUid!==uid||(profTab==='saved'&&!mine)){profTab='all';profTabUid=uid}if(mine&&profTab==='saved')loadSavedPosts().then(()=>{if(profTab==='saved'&&$('pgrid'))$('pgrid').innerHTML=pgridHTML(true)});
  const c=SPORTS[u.sport]||SPORTS.Autre,s=st||{followers:0,following:0,posts:0};
  const creator=ADMINS.has(uid);
- main.innerHTML=`<div class="gutter ${creator?'creator':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>${creator?'</div>':''}
+ main.innerHTML=`<div class="gutter ${creator?'creator':''} ${ri&&ri.validated?'cv-on':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>${creator?'</div>':''}
  <section class="phead">
-  <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
-  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}<button type="button" class="pn-share" data-act="share-profile" data-u="${uid}" aria-label="Partager le profil">${I.link}</button>${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
+  <div class="pnums3 ${ri?'pnums4':''}"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button>${ri?`<div class="pn-resp"><b id="st-respects">${fmt(ri.count)}</b><span>respect${ri.count>1?'s':''}</span></div>`:''}</div>
+  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}<button type="button" class="pn-share" data-act="share-profile" data-u="${uid}" aria-label="Partager le profil">${I.link}</button>${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b><span id="cv-slot">${ri&&ri.validated?cvTag():''}</span>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pp-box" id="pp-box" data-u="${uid}"></div>
   
-  <div class="pbtns">${mine?`<button class="pbtn" data-act="edit-profile">Modifier le profil</button><button class="pbtn" data-act="go-messages">Messages${unreadCount||unreadInfo()?'<span class="pb-dot"></span>':''}</button>`:`<button class="pbtn ${following.has(uid)?'':'primary'}" data-act="follow-prof" data-u="${uid}">${following.has(uid)?'Abonné':'Suivre'}</button><button class="pbtn" data-act="chat" data-u="${uid}">Message</button>`}</div>
+  <div class="pbtns ${!mine&&ri?'with-resp':''}">${mine?`<button class="pbtn" data-act="edit-profile">Modifier le profil</button><button class="pbtn" data-act="go-messages">Messages${unreadCount||unreadInfo()?'<span class="pb-dot"></span>':''}</button>`:`<button class="pbtn ${following.has(uid)?'':'primary'}" data-act="follow-prof" data-u="${uid}">${following.has(uid)?'Abonné':'Suivre'}</button><button class="pbtn" data-act="chat" data-u="${uid}">Message</button>${ri?respBtn(uid,ri):''}`}</div>
  </section>
  <div class="ptabs ${mine?'three':''}" role="tablist"><button role="tab" data-act="ptab" data-k="all" aria-selected="${profTab==='all'}">${I.tabGrid}<span>Publications</span></button><button role="tab" data-act="ptab" data-k="clips" aria-selected="${profTab==='clips'}">${I.tabClips}<span>Clips</span></button>${mine?`<button role="tab" data-act="ptab" data-k="saved" aria-selected="${profTab==='saved'}">${I.tabSaved}<span>Enregistrés</span></button>`:''}<i class="ptab-ind" style="transform:translateX(${PTAB_X[profTab]||'0'})"></i></div>
  <div id="pgrid">${pgridHTML(mine)}</div></div>`;
@@ -4005,6 +4057,7 @@ document.addEventListener('click',async e=>{
   case 'pp-ask':partnerRequest(u);break;
   case 'comments':openComments(id);break;
   case 'follow':await toggleFollow(u);if(view==='home')renderHome();else if(view==='clips')renderClips();break;
+  case 'respect':{await toggleRespect(a,u);break}
   case 'follow-prof':{await toggleFollow(u);const b=a;const on=following.has(u);b.textContent=on?'Abonné':'Suivre';b.classList.toggle('primary',!on);const el=$('st-followers');if(el){const {data}=await sb.from('profile_stats').select('followers').eq('id',u).maybeSingle();if(data)el.textContent=fmt(data.followers)}break}
   case 'follow-list':{await toggleFollow(u);const on=following.has(u);a.textContent=on?'Abonné':'Suivre';a.classList.toggle('on',on);break}
   case 'ulist':openUserList(u,a.dataset.k);break;
@@ -4214,6 +4267,31 @@ function creatorIntro(){
   b.textContent='0';requestAnimationFrame(step);
  });
 }
+// ================= RESPECT & VALIDATION PAR LA COMMUNAUTÉ =================
+// Un respect par profil (retirable). 25 respects de membres différents = « Validé par la communauté ».
+// Seuls les comptes de plus de 7 jours qui ont déjà publié peuvent en donner (vérifié par le serveur).
+const respectCache={};
+async function loadRespect(uid){try{const {data,error}=await sb.rpc('fs_respect_info',{pid:uid});if(error||!data)return null;respectCache[uid]=data;return data}catch(e){return null}}
+const RESP_IC='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>';
+const cvTag=()=>`<span class="cv-tag" title="Au moins 25 membres différents ont donné leur respect"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.3l2.7 2.7L16.2 9.5"/></svg>Validé par la communauté</span>`;
+const respBtn=(uid,ri)=>`<button type="button" class="pbtn resp-btn ${ri.given?'on':''}" data-act="respect" data-u="${uid}" aria-pressed="${ri.given?'true':'false'}" aria-label="${ri.given?'Retirer ton respect':'Donner ton respect'}" title="${ri.given?'Respect donné · toucher pour retirer':'Donner ton respect à son travail'}">${RESP_IC}<span>Respect</span></button>`;
+const RESP_MSG={too_new:'Ton compte doit avoir plus de 7 jours pour donner ton respect',no_post:'Publie au moins une fois pour pouvoir donner ton respect',banned:'Ton compte ne peut pas donner de respect',blocked:'Impossible avec ce compte',slow:'Doucement : réessaie un peu plus tard',invalid:'Action impossible'};
+async function toggleRespect(btn,uid){
+ if(btn.dataset.busy)return;btn.dataset.busy='1';
+ try{
+  const {data,error}=await sb.rpc('fs_toggle_respect',{target:uid});
+  if(error||!data){toast('Le respect n’est pas encore disponible, réessaie plus tard.');return}
+  if(data.status!=='ok'){toast(RESP_MSG[data.status]||RESP_MSG.invalid);return}
+  respectCache[uid]=data;
+  btn.classList.toggle('on',!!data.given);btn.setAttribute('aria-pressed',data.given?'true':'false');
+  btn.setAttribute('aria-label',data.given?'Retirer ton respect':'Donner ton respect');
+  btn.title=data.given?'Respect donné · toucher pour retirer':'Donner ton respect à son travail';
+  if(data.given){btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop');toast('Respect donné')}
+  const n=$('st-respects');if(n){n.textContent=fmt(data.count);const l=n.nextElementSibling;if(l)l.textContent='respect'+(data.count>1?'s':'')}
+  const slot=$('cv-slot');if(slot)slot.innerHTML=data.validated?cvTag():'';
+  const g=main.querySelector('.gutter');if(g)g.classList.toggle('cv-on',!!data.validated);
+ }finally{delete btn.dataset.busy}
+}
 // ================= PARTENAIRE D'ENTRAÎNEMENT =================
 // Un partenaire par membre, validé par les deux. Affinité calculée à partir du sport, de la ville,
 // de l'abonnement mutuel et de l'ancienneté du duo.
@@ -4225,11 +4303,33 @@ function ppDays(r){return Math.max(0,Math.floor((Date.now()-new Date(r.accepted_
 const ppAffCache={};
 async function ppAffinity(a,b){try{const {data,error}=await sb.rpc('fs_partner_affinity',{a,b});if(error||!data)return {score:0};ppAffCache[[a,b].sort().join('|')]=data;return data}catch(e){return {score:0}}}
 const affClass=v=>v>=100?'max':v>=75?'hi':v>=40?'mid':'lo';
+const AFF_IC={
+ star:'<path d="M12 3.6l2.5 5.1 5.6.8-4 3.9.9 5.6-5-2.6-5 2.6.9-5.6-4-3.9 5.6-.8z"/>',
+ msg:'<path d="M4.5 5.5h15v10h-9l-4.5 3.5v-3.5h-1.5z"/>',
+ like:'<path d="M7.5 10.5v8.5h-3v-8.5zM7.5 18.5c1.2.4 2.6.5 4 .5h4.3c1 0 1.8-.7 2-1.6l1.1-5.2c.2-1.1-.6-2.2-1.8-2.2h-4.1l.6-3.2c.2-1-.6-1.8-1.5-1.8L7.5 10.5"/>',
+ cmt:'<path d="M20 11.5c0 3.9-3.6 7-8 7-1.1 0-2.1-.2-3-.5L5 19.5l1.2-3.3C4.8 15 4 13.3 4 11.5c0-3.9 3.6-7 8-7s8 3.1 8 7z"/>',
+ spark:'<path d="M12 4v4M12 16v4M4 12h4M16 12h4M7 7l2 2M15 15l2 2M17 7l-2 2M9 15l-2 2"/>',
+ duo:'<circle cx="9" cy="8.5" r="3"/><path d="M3.8 18.5c.6-2.7 2.7-4.3 5.2-4.3s4.6 1.6 5.2 4.3"/><path d="M15.5 5.7a3 3 0 0 1 0 5.6M17.2 14.4c1.5.6 2.5 2 2.8 4.1"/>',
+ cal:'<rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>'};
+const affSvg=k=>`<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${AFF_IC[k]}</svg>`;
+const affTier=v=>v>=100?'Affinité maximale':v>=75?'Très forte':v>=40?'Correcte':'À construire';
 function openAffinity(a,b){
- const r=ppAffCache[[a,b].sort().join('|')];if(!r)return;const p=r.parts||{};
- const td=r.today||{},tag=(done,txt)=>`<em class="aff-day ${done?'ok':'ko'}">${done?'✓ fait aujourd’hui':txt}</em>`;
- const rows=[['⭐','Étoiles de messages',`${r.streak} jour${r.streak>1?'s':''} d’affilée`,p.streak,30,tag(td.msg,'retombe à 0 si personne n’écrit')],['💬','Messages chaque jour',`${r.days} jour${r.days>1?'s':''} d’échange sur 30`,p.days,20,tag(td.msg,'−2 par jour sans échange')],['👍','Likes sur les publications de l’autre',`${r.likes} sur 30 jours`,p.likes,15,tag(td.like,'−1 par jour sans like')],['🗨️','Commentaires chez l’autre',`${r.comments} sur 30 jours`,p.comments,15,tag(td.cmt,'−1 par jour sans commentaire')],['✨','Stickers et likes de stories',`${r.reactions} sur 30 jours`,p.reactions,10,tag(td.misc,'−1 par jour sans')],['🤝','Abonnement',r.follow>=2?'Mutuel':r.follow?'À sens unique':'Aucun',p.follow,5,''],['📅','Ancienneté du duo',`${r.duo_days} jour${r.duo_days>1?'s':''}`,p.age,5,'']];
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet pp-sheet" role="dialog" aria-label="Affinité"><div class="stw-top"><b>Affinité · ${r.score} %</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter"><div class="aff-big ${affClass(r.score)}"><span class="pp-bar"><i class="go" style="--w:${r.score}%"></i></span></div><p class="pp-intro">Chaque jour où vous êtes actifs l’un envers l’autre, l’affinité monte. Chaque jour sans activité, chaque catégorie redescend.</p>${rows.map(([ic,t,v,pt,max,dy])=>`<div class="aff-row"><span class="aff-ic">${ic}</span><span class="aff-t"><b>${t}</b><small>${v}</small>${dy}</span><span class="aff-pt">${Math.round(pt||0)}<i>/${max}</i></span></div>`).join('')}</div></div></div>`;
+ const r=ppAffCache[[a,b].sort().join('|')];if(!r)return;const p=r.parts||{},td=r.today||{},ct=r.counted||{likes:true,comments:true,reactions:true};
+ const pl=(n,w)=>n+' '+w+(n>1?'s':'');
+ const st=(done,open,counted)=>counted===false?['off','Non compté']:done?['ok','Fait aujourd’hui']:open===false?['off','En pause']:['todo','À faire aujourd’hui'];
+ const rows=[
+  ['star','Série de messages',pl(r.streak,'jour')+' d’affilée',p.streak,30,st(td.msg)],
+  ['msg','Messages',pl(r.days,'jour')+' d’échange',p.days,20,st(td.msg)],
+  ['like','Likes',pl(r.likes,'like'),p.likes,15,st(td.like,td.post,ct.likes)],
+  ['cmt','Commentaires',pl(r.comments,'commentaire'),p.comments,15,st(td.cmt,td.post,ct.comments)],
+  ['spark','Stickers et stories',pl(r.reactions,'réaction'),p.reactions,10,st(td.misc,td.post===undefined?undefined:(td.post||td.story),ct.reactions)],
+  ['duo','Abonnement',r.follow>=2?'Mutuel':r.follow?'À sens unique':'Aucun',p.follow,5,null],
+  ['cal','Ancienneté',pl(r.duo_days,'jour'),p.age,5,null]];
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet pp-sheet aff-sheet" role="dialog" aria-label="Affinité"><div class="stw-top"><b>Affinité</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
+  <div class="aff-head ${affClass(r.score)}"><div class="aff-score"><b>${r.score}<i>%</i></b><span>${affTier(r.score)}</span></div><div class="aff-big ${affClass(r.score)}"><span class="pp-bar"><i class="go" style="--w:${r.score}%"></i></span></div></div>
+  <div class="aff-list">${rows.map(([ic,t,v,pt,max,s])=>{const off=s&&s[0]==='off'&&s[1]==='Non compté';return `<div class="aff-r ${off?'is-off':''}"><span class="aff-i">${affSvg(ic)}</span><span class="aff-m"><span class="aff-l"><b>${t}</b><em>${off?'—':Math.round(pt||0)+'<small>/'+max+'</small>'}</em></span><span class="aff-mini"><i style="width:${off?0:Math.min(100,Math.round((pt||0)/max*100))}%"></i></span><span class="aff-s"><small>${v}</small>${s?`<u class="aff-st ${s[0]}">${s[1]}</u>`:''}</span></span></div>`}).join('')}</div>
+  <details class="aff-how"><summary>Comment ça marche</summary><p>Chaque jour d’activité entre vous fait monter l’affinité. Un jour sans message fait baisser la série et les messages.</p><p>Les likes, commentaires et réactions ne baissent que si l’un de vous a publié quelque chose ce jour-là. Si personne ne publie, rien ne baisse et ces catégories ne sont pas comptées.</p></details>
+ </div></div></div>`;
 }
 const ppIc='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3 2.8-4.8 5.5-4.8s4.9 1.8 5.5 4.8"/><path d="M16 5.2a3.2 3.2 0 0 1 0 5.6M17.5 14.6c1.6.6 2.7 2.2 3 4.4"/></svg>';
 async function paintPartner(uid,mine){
