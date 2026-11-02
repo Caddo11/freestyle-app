@@ -2802,6 +2802,15 @@ html[data-theme="dark"] .sh-go{background:#F1F1F1;color:#0F0F0F}
 .ck2-left{margin:-8px 0 14px;font-size:12.5px;color:#8e8e8a}
 .ck2-left:empty{display:none}
 .ck2-left b{color:var(--ink)}
+
+/* ================= v54 : checks sur la bannière ================= */
+.pbanner{position:relative}
+.bn-chk{position:absolute;right:10px;bottom:10px;z-index:3;display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 10px 0 8px;border:0;border-radius:9px;background:rgba(15,15,15,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.18);transition:transform .16s cubic-bezier(.3,1.4,.5,1),background-color .25s}
+.bn-chk svg{width:14px;height:14px;stroke-width:2.8;color:#3DD47D}
+.bn-chk:active{transform:scale(.94)}
+.bn-chk.ok{background:#22A55C}
+.bn-chk.ok svg{color:#fff}
+.pnums3{grid-template-columns:repeat(3,1fr)}
 </style>
 </head>
 <body>
@@ -4095,9 +4104,9 @@ async function renderProfile(){
  profilePosts=posts||[];await loadPinned(uid);profilePosts=sortPinned(profilePosts);if(profTabUid!==uid||(profTab==='saved'&&!mine)){profTab='all';profTabUid=uid}if(mine&&profTab==='saved')loadSavedPosts().then(()=>{if(profTab==='saved'&&$('pgrid'))$('pgrid').innerHTML=pgridHTML(true)});
  const c=SPORTS[u.sport]||SPORTS.Autre,s=st||{followers:0,following:0,posts:0};
  const creator=ADMINS.has(uid);
- main.innerHTML=`<div class="gutter ${creator?'creator':''} ${ri&&ri.validated?'cv-on':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>${creator?'</div>':''}
+ main.innerHTML=`<div class="gutter ${creator?'creator':''} ${ri&&ri.validated?'cv-on':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span>${ri?`<button type="button" class="bn-chk ${ri.validated?'ok':''}" data-act="check-info" data-u="${uid}" aria-label="${ri.count} check${ri.count>1?'s':''}, voir le Check">${RESP_IC}<span id="st-respects">${fmt(ri.count)}</span></button>`:''}</div>${creator?'</div>':''}
  <section class="phead">
-  <div class="pnums3 ${ri?'pnums4':''}"><div><b>${fmt(s.posts)}</b><span>posts</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button>${ri?`<button type="button" class="pn-resp" data-act="check-info" data-u="${uid}" aria-label="${ri.count} checks, voir comment fonctionne le check"><b><span class="pr-ic">${RESP_IC}</span><span id="st-respects">${fmt(ri.count)}</span></b><span class="pr-l">check${ri.count>1?'s':''}</span></button>`:''}</div>
+  <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>posts</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
   <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}<button type="button" class="pn-share" data-act="share-profile" data-u="${uid}" aria-label="Partager le profil">${I.link}</button>${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b><span id="cv-slot">${ri&&ri.validated?cvTag():''}</span>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pp-box" id="pp-box" data-u="${uid}"></div>
@@ -4602,7 +4611,7 @@ function chkMarkSeen(){try{localStorage.setItem(CHK_SEEN,'1')}catch(e){}}
 function paintCheck(uid,data){
  const btn=main.querySelector(`.resp-btn[data-u="${uid}"]`);
  if(btn){btn.classList.toggle('on',!!data.given);btn.setAttribute('aria-pressed',data.given?'true':'false');btn.setAttribute('aria-label',data.given?'Retirer ton check':'Checker ce sportif');const t=btn.querySelector('.rb-t');if(t)t.textContent=data.given?'Checké':'Check';if(data.given){btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop')}}
- const n=$('st-respects');if(n){n.textContent=fmt(data.count);const l=n.parentElement.querySelector('.pr-l');if(l)l.textContent='check'+(data.count>1?'s':'')}
+ const n=$('st-respects');if(n){n.textContent=fmt(data.count);const bc=n.closest('.bn-chk');if(bc){bc.classList.toggle('ok',!!data.validated);bc.setAttribute('aria-label',data.count+' check'+(data.count>1?'s':'')+', voir le Check')}}
  const slot=$('cv-slot');if(slot)slot.innerHTML=data.validated?cvTag():'';
  const g=main.querySelector('.gutter');if(g)g.classList.toggle('cv-on',!!data.validated);
 }
