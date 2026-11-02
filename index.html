@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
-<meta name="description" content="Freestyle, le réseau social des sportifs : photos, clips, stories, stickers et discussions.">
+<meta name="description" content="Freestyle, le réseau social des sportifs : photos, clips, flashs, stickers et discussions.">
 <meta name="theme-color" content="#FFFFFF" id="meta-theme">
 <script>(function(){var t="light";try{t=localStorage.getItem("fs-theme")||"light"}catch(e){}var d=t==="dark"||(t==="system"&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");var m=document.getElementById("meta-theme");if(m)m.setAttribute("content",d?"#0F0F0F":"#FFFFFF")})()</script>
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -859,7 +859,7 @@ main{scroll-behavior:auto;overscroll-behavior-y:contain}
 .vbadge{display:inline-block;vertical-align:-2px;margin-left:4px;flex:0 0 auto}
 .ptitle .vbadge{width:17px;height:17px;vertical-align:-3px}
 .send{border-radius:50%}
-/* texte des stories vidéo */
+/* texte des flashs vidéo */
 .stk.st-plain,.stk.st-pill,.stk.st-dark,.stk.st-yellow{font-family:var(--body);font-weight:800;text-transform:none;letter-spacing:0;font-size:calc(clamp(20px,7vw,32px) * var(--sz,1));padding:.18em .45em;border-radius:.35em;box-shadow:none;white-space:pre;text-align:center;line-height:1.15}
 .stk.st-plain{background:none;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.55)}
 .stk.st-pill{background:#fff;color:#111}
@@ -1080,7 +1080,7 @@ main{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
 .ptabs button[aria-selected="true"] svg{transform:scale(1.06)}
 .ptab-ind{position:absolute;left:0;bottom:-1px;width:50%;height:1.5px;background:var(--ink);border-radius:2px;transition:transform .45s cubic-bezier(.3,1.2,.4,1)}
 #pgrid.swap{animation:viewIn .35s cubic-bezier(.22,.9,.25,1) both}
-/* v15 : pseudo sous la story + petit plus */
+/* v15 : pseudo sous le flash + petit plus */
 .st-it{flex:0 0 auto;width:78px;position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;animation:popIn .45s cubic-bezier(.22,.9,.25,1) both}
 .st-it:nth-child(2){animation-delay:.04s}.st-it:nth-child(3){animation-delay:.08s}.st-it:nth-child(4){animation-delay:.12s}.st-it:nth-child(5){animation-delay:.16s}
 .st-it .tile{animation:none}
@@ -2573,6 +2573,34 @@ html[data-theme="dark"] .resp-btn{border-color:#4a4a48;color:#6e6e6b}
 @keyframes chkPop{0%{transform:scale(.7)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
 @keyframes chkDraw{to{stroke-dashoffset:0}}
 .n-respect{color:#22A55C}
+
+/* ================= v47 : fiche affinité anneau ================= */
+.af3 .sheet-list{padding-top:4px;display:flex;flex-direction:column;align-items:center}
+.af3-ring{position:relative;width:148px;height:148px;margin:6px auto 2px}
+.af3-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.af3-ring circle{fill:none;stroke-width:7;stroke-linecap:round}
+.af3-ring .tr{stroke:var(--paper)}
+.af3-ring .fg{transition:stroke-dashoffset 1s cubic-bezier(.22,.9,.25,1)}
+.af3-ring.lo .fg{stroke:#E5484D}.af3-ring.mid .fg{stroke:#F09A2E}.af3-ring.hi .fg,.af3-ring.max .fg{stroke:#2FB86A}
+.af3-ring.max svg{filter:drop-shadow(0 0 8px rgba(61,212,125,.45))}
+.af3-ring>div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.af3-ring b{font-size:36px;font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.af3-ring b i{font-style:normal;font-size:15px;font-weight:700;color:#8e8e8a;margin-left:1px}
+.af3-ring span{margin-top:5px;font-size:11.5px;font-weight:700;color:#8e8e8a;letter-spacing:.02em}
+.af3-st{display:flex;align-items:center;gap:7px;margin:10px 0 0;font-size:12.5px;font-weight:600;color:#8e8e8a}
+.af3-st i{width:6px;height:6px;border-radius:50%;background:#a3a29d}
+.af3-st.ok{color:#22A55C}.af3-st.ok i{background:#22A55C}
+.af3-st.risk{color:#D9822B}.af3-st.risk i{background:#E8862A;animation:afPulse 1.6s ease-in-out infinite}
+.af3-nums{display:grid;grid-template-columns:repeat(3,1fr);width:100%;margin:20px 0 6px}
+.af3-nums>div{display:flex;flex-direction:column;align-items:center;gap:2px}
+.af3-nums b{font-size:20px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+.af3-nums span{font-size:11.5px;color:#8e8e8a}
+.af3-nums .off{opacity:.4}
+.af3-how{width:100%;margin-top:14px;display:flex;flex-direction:column;gap:12px;padding-top:14px;border-top:1px solid var(--paper-line)}
+.af3-how>div{display:flex;gap:12px;align-items:baseline}
+.af3-how em{font-style:normal;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;width:52px;flex:0 0 auto}
+.af3-how em.up{color:#22A55C}.af3-how em.down{color:#E5484D}
+.af3-how p{margin:0;font-size:12.5px;line-height:1.45;color:var(--ink);opacity:.8}
 </style>
 </head>
 <body>
@@ -3098,33 +3126,33 @@ async function loadGlobal(){
  globalMsgs=(data||[]).reverse();await loadProfiles(globalMsgs.map(m=>m.user_id));
 }
 async function loadNotifs(){const {data}=await sb.from('notifications').select('*').order('created_at',{ascending:false}).limit(80);notifs=data||[];unreadNotifs=notifs.filter(n=>!n.read_at).length;await loadProfiles(notifs.map(n=>n.actor_id))}
-const notifText=n=>({reaction:'a réagi « '+(n.text||'')+' » à ta publication',story_like:'a aimé ta story',like:'a aimé ta publication',comment:'a commenté : '+(n.text||''),reply:'a répondu à ton commentaire : '+(n.text||''),comment_like:'a aimé ton commentaire'+(n.text?' : '+n.text:''),message:'t’a envoyé un message : '+(n.text||''),follow:'s’est abonné à toi',announcement:'a publié une annonce : '+(n.text||''),partner_request:'veut être ton partenaire d’entraînement',partner_accept:'a accepté d’être ton partenaire d’entraînement',respect:'t’a checké'})[n.type]||'';
+const notifText=n=>({reaction:'a réagi « '+(n.text||'')+' » à ton post',story_like:'a aimé ton flash',like:'a aimé ton post',comment:'a commenté : '+(n.text||''),reply:'a répondu à ton commentaire : '+(n.text||''),comment_like:'a aimé ton commentaire'+(n.text?' : '+n.text:''),message:'t’a envoyé un message : '+(n.text||''),follow:'s’est abonné à toi',announcement:'a publié une annonce : '+(n.text||''),partner_request:'veut être ton partenaire d’entraînement',partner_accept:'a accepté d’être ton partenaire d’entraînement',respect:'t’a checké'})[n.type]||'';
 const NOTIF_IC={like:'heartSm',story_like:'heartSm',comment_like:'heartSm',reaction:'reactSm',comment:'cmtSm',reply:'cmtSm',message:'dmSm',follow:'personSm',announcement:'infoSm',partner_request:'personSm',partner_accept:'personSm',respect:'respectSm'};
 function notifRow(n){return `<div class="conv notif ${n.read_at?'':'unread-n'}"><span class="n-av">${av(n.actor_id,40)}<i class="n-ic n-${esc(n.type)}">${I[NOTIF_IC[n.type]]||''}</i></span><button class="meta" data-act="notif-open" data-id="${n.id}" style="text-align:left"><b>${esc(prof(n.actor_id).handle)}${vb(n.actor_id)}</b><span class="n-txt">${esc(notifText(n))} · ${ago(n.created_at)}</span></button>${n.type==='follow'&&!following.has(n.actor_id)?`<button class="mini" data-act="follow-list" data-u="${n.actor_id}">Suivre</button>`:''}</div>`}
 async function openNotifs(){
  const used=new Set(),secs=[['Aujourd’hui',n=>Date.now()-new Date(n.created_at)<864e5],['Cette semaine',n=>Date.now()-new Date(n.created_at)<6048e5],['Plus tôt',()=>true]];
  const html=secs.map(([t,f])=>{const l=notifs.filter(n=>!used.has(n.id)&&f(n));l.forEach(n=>used.add(n.id));return l.length?`<div class="label">${t}</div>`+l.map(notifRow).join(''):''}).join('');
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet notif-sheet" role="dialog" aria-label="Notifications"><div class="sheet-head">Notifications<button class="sh-gear" data-act="notif-prefs" aria-label="Réglages des notifications">${I.gear}</button></div><div class="sheet-list gutter">${notifs.length?html:'<div class="empty">Aucune notification pour l’instant.</div>'}</div></div></div>`;
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet notif-sheet" role="dialog" aria-label="Pings"><div class="sheet-head">Pings<button class="sh-gear" data-act="notif-prefs" aria-label="Réglages des pings">${I.gear}</button></div><div class="sheet-list gutter">${notifs.length?html:'<div class="empty">Aucun ping pour l’instant.</div>'}</div></div></div>`;
  const ids=notifs.filter(n=>!n.read_at).map(n=>n.id);if(ids.length){const now=new Date().toISOString();notifs.forEach(n=>{if(!n.read_at)n.read_at=now});unreadNotifs=0;paintBadge();document.querySelector('.bell-dot')?.remove();await sb.from('notifications').update({read_at:now}).in('id',ids)}
 }
-const PREF_ROWS=[['likes','J’aime','Publications, commentaires et stories'],['comments','Commentaires','Commentaires et réponses à tes commentaires'],['follows','Nouveaux abonnés','Quand quelqu’un s’abonne à toi'],['messages','Messages','Messages privés reçus'],['announcements','Annonces Freestyle','Événements, rassemblements et infos publiés par Freestyle']];
+const PREF_ROWS=[['likes','J’aime','Posts, commentaires et flashs'],['comments','Commentaires','Commentaires et réponses à tes commentaires'],['follows','Nouveaux abonnés','Quand quelqu’un s’abonne à toi'],['messages','Messages','Messages privés reçus'],['announcements','Annonces Freestyle','Événements, rassemblements et infos publiés par Freestyle']];
 let nPrefs=null;
 async function loadNotifPrefs(){try{const {data}=await sb.from('notification_prefs').select('*').eq('user_id',me.id).maybeSingle();nPrefs=data||{likes:true,comments:true,follows:true,messages:true,announcements:true}}catch(e){nPrefs={likes:true,comments:true,follows:true,messages:true,announcements:true}}}
 const prefOn=k=>!nPrefs||nPrefs[k]!==false;
 async function openNotifPrefs(){
  if(!nPrefs)await loadNotifPrefs();
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Réglages des notifications"><div class="sheet-head">Réglages des notifications</div><div class="sheet-list gutter"><p class="rp-sub">Active ou désactive chaque type de notification.</p>${PREF_ROWS.map(([k,l,d])=>`<label class="pref-row"><span><b>${l}</b><small>${d}</small></span><input type="checkbox" class="sw" data-pref="${k}" ${prefOn(k)?'checked':''}><i class="sw-ui" aria-hidden="true"></i></label>`).join('')}</div></div></div>`;
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Réglages des pings"><div class="sheet-head">Réglages des pings</div><div class="sheet-list gutter"><p class="rp-sub">Active ou désactive chaque type de ping.</p>${PREF_ROWS.map(([k,l,d])=>`<label class="pref-row"><span><b>${l}</b><small>${d}</small></span><input type="checkbox" class="sw" data-pref="${k}" ${prefOn(k)?'checked':''}><i class="sw-ui" aria-hidden="true"></i></label>`).join('')}</div></div></div>`;
  layer.querySelectorAll('[data-pref]').forEach(c=>c.addEventListener('change',async()=>{
   const k=c.dataset.pref;nPrefs[k]=c.checked;
   const row={user_id:me.id,likes:prefOn('likes'),comments:prefOn('comments'),follows:prefOn('follows'),messages:prefOn('messages'),announcements:prefOn('announcements'),updated_at:new Date().toISOString()};
   const {error}=await sb.from('notification_prefs').upsert(row,{onConflict:'user_id'});
   if(error){c.checked=!c.checked;nPrefs[k]=c.checked;return dbError(error,'Réglage non enregistré')}
-  toast(c.checked?'Notifications activées':'Notifications désactivées');
+  toast(c.checked?'Pings activés':'Pings désactivés');
  }));
 }
 async function openPostById(pid,withComments){
  let p=findPost(pid);
- if(!p){const {data}=await sb.from('feed').select('*').eq('id',pid).maybeSingle();if(!data){toast('Cette publication n’existe plus');return}p=data;await loadProfiles([p.user_id])}
+ if(!p){const {data}=await sb.from('feed').select('*').eq('id',pid).maybeSingle();if(!data){toast('Ce post n’existe plus');return}p=data;await loadProfiles([p.user_id])}
  if(p.kind==='clip'){clipsList=[p,...clipsList.filter(x=>x.id!==p.id)];nav('clips',p.id)}
  else{feed=[p,...feed.filter(x=>x.id!==p.id)];if(!commentsBy[p.id])await loadComments([p.id]);nav('home');setTimeout(()=>document.querySelector(`.card[data-id="${p.id}"]`)?.scrollIntoView({block:'start'}),60)}
  if(withComments){if(!commentsBy[p.id])await loadComments([p.id]);setTimeout(()=>openComments(p.id),150)}
@@ -3148,14 +3176,14 @@ function subscribeRealtime(){
 
 // ================= FIL =================
 async function renderHome(){
- topEl.innerHTML=`<button class="feed-pick" data-act="feed-pick" aria-haspopup="true"><span class="fp-l">Catégorie :</span><b class="fp-v">${esc(sportFilter||'Toutes les publications')}</b><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><span class="top-side r"><button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><button class="icon-btn" data-act="notifs" aria-label="Notifications">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount||unreadInfo()?'<span class="bell-dot"></span>':''}</button></span>`;
+ topEl.innerHTML=`<button class="feed-pick" data-act="feed-pick" aria-haspopup="true"><span class="fp-l">Catégorie :</span><b class="fp-v">${esc(sportFilter||'Tous les posts')}</b><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><span class="top-side r"><button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><button class="icon-btn" data-act="notifs" aria-label="Pings">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount||unreadInfo()?'<span class="bell-dot"></span>':''}</button></span>`;
  const order=Object.keys(storiesBy).filter(k=>k!==me.id).sort((a,b)=>(following.has(b)?1:0)-(following.has(a)?1:0));
  const mine=storiesBy[me.id]||[];
  const seenAll=uid=>(storiesBy[uid]||[]).every(s=>seenStories.has(s.id));
- const tiles=`<div class="st-it">${mine.length?`<button class="tile" data-act="story" data-u="${me.id}" aria-label="Voir ta story">${mediaHTML(mine[0].media?[mine[0].media]:[],mine[0].sport)}<span class="t-av">${av(me.id,24)}</span></button><button class="st-add" data-act="add-story" aria-label="Ajouter une story"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:`<button class="tile mine" data-act="add-story" aria-label="Ajouter une story"><span class="plus-big">+</span></button>`}<span class="st-n">Ta story</span></div>`+
-  order.map(uid=>{const it=storiesBy[uid][0];return `<div class="st-it"><button class="tile ${seenAll(uid)?'seen':''}" data-act="story" data-u="${uid}" aria-label="Story de ${esc(prof(uid).handle)}">${mediaHTML(it.media?[it.media]:[],it.sport)}<span class="t-av">${av(uid,24)}</span></button><span class="st-n">${esc(prof(uid).handle)}</span></div>`}).join('');
+ const tiles=`<div class="st-it">${mine.length?`<button class="tile" data-act="story" data-u="${me.id}" aria-label="Voir ton flash">${mediaHTML(mine[0].media?[mine[0].media]:[],mine[0].sport)}<span class="t-av">${av(me.id,24)}</span></button><button class="st-add" data-act="add-story" aria-label="Ajouter un flash"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>`:`<button class="tile mine" data-act="add-story" aria-label="Ajouter un flash"><span class="plus-big">+</span></button>`}<span class="st-n">Ton flash</span></div>`+
+  order.map(uid=>{const it=storiesBy[uid][0];return `<div class="st-it"><button class="tile ${seenAll(uid)?'seen':''}" data-act="story" data-u="${uid}" aria-label="Flash de ${esc(prof(uid).handle)}">${mediaHTML(it.media?[it.media]:[],it.sport)}<span class="t-av">${av(uid,24)}</span></button><span class="st-n">${esc(prof(uid).handle)}</span></div>`}).join('');
  main.innerHTML=`<div class="gutter"><div class="stories" style="padding-top:4px">${tiles}</div>
-  ${feed.length?feed.map(cardHTML).join(''):sportFilter?`<div class="empty">Aucune publication en ${esc(sportFilter)} pour l’instant.</div>`:`<div class="empty">Le fil est encore vide.<br>Publie ta première séance avec le bouton + en haut, ou invite des potes sportifs.</div>`}</div>`;
+  ${feed.length?feed.map(cardHTML).join(''):sportFilter?`<div class="empty">Aucun post en ${esc(sportFilter)} pour l’instant.</div>`:`<div class="empty">Le fil est encore vide.<br>Publie ta première séance avec le bouton + en haut, ou invite des potes sportifs.</div>`}</div>`;
 }
 const hasVideo=p=>(p.media||[]).some(m=>m.type==='video');
 function cardHTML(p){
@@ -3167,7 +3195,7 @@ function cardHTML(p){
    ${perfHTML(p.perf)}${hasVideo(p)?`<button class="snd" data-act="sound" aria-label="Activer le son">${soundOn?I.soundOn:I.soundOff}</button>`:''}
    ${nr?`<div class="cbub" data-cid="${p.id}"></div>`:''}<span class="stamp">${I.bigheart}</span>
   </div>
-  <div class="bar-actions ps-bar"><button class="respect ${p.liked?'on':''}" data-act="like" data-id="${p.id}" aria-label="J’aime">${I.psHeart}<span>${fmt(p.like_count)}</span></button><button class="round" data-act="comments" data-id="${p.id}" aria-label="Commentaires">${I.psComment}</button><button class="round" data-act="share-post" data-id="${p.id}" aria-label="Partager la publication">${I.psShare}</button><span class="sp"></span><button class="round save-btn ${savedSet.has(p.id)?'on':''}" data-act="save" data-id="${p.id}" aria-pressed="${savedSet.has(p.id)}" aria-label="${savedSet.has(p.id)?'Retirer des enregistrements':'Enregistrer'}">${I.psSave}</button><button class="react-btn ${myR?'on':''}" data-act="react" data-id="${p.id}" aria-label="Réagir avec un sticker">${I.psReact}</button></div>
+  <div class="bar-actions ps-bar"><button class="respect ${p.liked?'on':''}" data-act="like" data-id="${p.id}" aria-label="J’aime">${I.psHeart}<span>${fmt(p.like_count)}</span></button><button class="round" data-act="comments" data-id="${p.id}" aria-label="Commentaires">${I.psComment}</button><button class="round" data-act="share-post" data-id="${p.id}" aria-label="Partager le post">${I.psShare}</button><span class="sp"></span><button class="round save-btn ${savedSet.has(p.id)?'on':''}" data-act="save" data-id="${p.id}" aria-pressed="${savedSet.has(p.id)}" aria-label="${savedSet.has(p.id)?'Retirer des enregistrements':'Enregistrer'}">${I.psSave}</button><button class="react-btn ${myR?'on':''}" data-act="react" data-id="${p.id}" aria-label="Réagir avec un sticker">${I.psReact}</button></div>
   ${p.caption?`<div class="caption"><b>${esc(u.handle)}${vb(p.user_id)}</b>${esc(p.caption)}</div>`:''}
   <span class="views-l">${clip?I.playV:I.eyeV}${fmt(p.view_count||0)} vue${(p.view_count||0)>1?'s':''}</span>
   ${nc?`<button class="linkish" data-act="comments" data-id="${p.id}">${cmtLabel(nc)}</button>`:''}
@@ -3202,7 +3230,7 @@ async function addReaction(id,btn){
  reactBy[id]=list.filter(r=>r.user_id!==me.id);reactBy[id].push(row);if(reactBy[id].length>3)reactBy[id]=reactBy[id].slice(-3);
  boxes().forEach(m=>{let box=m.querySelector('.cbub');if(!box){m.querySelector('.stamp').insertAdjacentHTML('beforebegin',`<div class="cbub" data-cid="${id}"></div>`);box=m.querySelector('.cbub')}box.dataset.on='1';box.querySelectorAll(`.cb[data-u="${me.id}"]`).forEach(el=>el.remove());pushSticker(box,row,true)});
 }
-// Sticker : chacun écrit son mot (7 lettres max). Seuls les 3 derniers restent sur la publication.
+// Sticker : chacun écrit son mot (7 lettres max). Seuls les 3 derniers restent sur le post.
 const STK_STYLES=[['white','Blanc'],['black','Noir'],['grey','Verre'],['holo','Argent']];
 function askStickerWord(post){return new Promise(res=>{
  let col='white',done=false;
@@ -3213,7 +3241,7 @@ function askStickerWord(post){return new Promise(res=>{
   <form id="stw-f" class="stw-f" autocomplete="off"><input id="stw-i" maxlength="7" placeholder="Écris un mot" aria-label="Mot du sticker" autocapitalize="characters" spellcheck="false"><span class="stw-n" id="stw-n">0 / 7</span></form>
   <div class="stw-lab">Style</div>
   <div class="stw-cols" role="radiogroup" aria-label="Style du sticker">${STK_STYLES.map(([c,l])=>`<button type="button" role="radio" class="stw-c" data-c="${c}" aria-checked="${c===col}"><i class="sw-${c}" aria-hidden="true"></i><span>${l}</span></button>`).join('')}</div>
-  <p class="stw-hint">7 lettres maximum. Seuls les 3 derniers stickers restent sur la publication.</p>
+  <p class="stw-hint">7 lettres maximum. Seuls les 3 derniers stickers restent sur le post.</p>
   <button type="button" class="stw-go" id="stw-go" disabled>Publier</button>
  </div></div></div>`;
  const i=$('stw-i'),sv=$('stw-s'),go=$('stw-go');
@@ -3251,7 +3279,7 @@ async function toggleFollow(uid){
  const {error}=was?await sb.from('follows').delete().eq('follower_id',me.id).eq('following_id',uid):await sb.from('follows').insert({follower_id:me.id,following_id:uid});
  if(error&&!/duplicate/.test(error.message||'')){was?following.add(uid):following.delete(uid);return dbError(error,'Action impossible')}
  toast(was?'Tu ne suis plus @'+prof(uid).handle:'Tu suis @'+prof(uid).handle);
- loadStories().catch(()=>{}); // les stories suivent les abonnements
+ loadStories().catch(()=>{}); // les flashs suivent les abonnements
 }
 
 // ================= LECTURE AUTOMATIQUE =================
@@ -3304,7 +3332,7 @@ function renderCreate(){
  topEl.innerHTML=`<button class="icon-btn" data-act="back" aria-label="Fermer">${I.close}</button><h1 class="ptitle">Publier</h1><span class="icon-btn"></span>`;
  const accept=k==='photo'?'image/*':k==='clip'?'video/*':'image/*,video/*';
  main.innerHTML=`<form class="pub gutter" id="cf" novalidate>
-  <div class="seg pub-seg" role="group" aria-label="Format">${[['photo','Photo','1 à 5 photos'],['clip','Clip','30 s max'],['story','Story','24 h']].map(([v,l,d])=>`<button type="button" data-act="kind" data-k="${v}" aria-pressed="${k===v}">${l}<small>${d}</small></button>`).join('')}</div>
+  <div class="seg pub-seg" role="group" aria-label="Format">${[['photo','Photo','1 à 5 photos'],['clip','Clip','30 s max'],['story','Flash','24 h']].map(([v,l,d])=>`<button type="button" data-act="kind" data-k="${v}" aria-pressed="${k===v}">${l}<small>${d}</small></button>`).join('')}</div>
   <div class="pub-stage ${k} ${f.length?'has':''}">${f.length?(f[0].type==='video'?`<video src="${f[0].url}" muted loop playsinline autoplay></video>`:`<img src="${f[0].url}" alt="">`):''}${f.length<max?`<label class="pub-plus" for="file" aria-label="${k==='photo'?'Ajouter des photos':'Choisir une vidéo'}"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></label><span class="pub-plus-l">${k==='photo'?(f.length?'Ajouter une photo':'Ajouter 1 à 5 photos'):'Choisir une vidéo · 30 s max'}</span>`:''}<input type="file" id="file" accept="${accept}" ${k==='photo'?'multiple':''} hidden></div>
   ${f.length?`<div class="pub-strip">${f.map((x,i)=>`<div class="pub-th">${x.type==='video'?`<video src="${x.url}" muted playsinline preload="metadata"></video>`:`<img src="${x.url}" alt="">`}<button type="button" class="pub-rm" data-act="rm-file" data-i="${i}" aria-label="Retirer">✕</button></div>`).join('')}${k==='photo'?`<span class="pub-hint">${f.length}/5</span>`:''}</div>`:''}
   <label class="ep-f"><span>Catégorie</span><select id="sp">${SPORT_LIST.map(s=>`<option ${s===draft.sport?'selected':''}>${s}</option>`).join('')}</select></label>
@@ -3331,12 +3359,12 @@ function renderCreate(){
    for(let i=0;i<draft.files.length;i++){const x=draft.files[i],n=draft.files.length>1?` ${i+1}/${draft.files.length}`:'';const fx=await prepareFile(x,k,t=>st(t+n));st('Envoi'+n+'…');media.push({type:x.type,url:await upload(fx,k)})}
    if(k==='story'){
     const {error}=await sb.from('stories').insert({user_id:me.id,sport,text:cap,media:media[0]||null,stickers:[]});
-    if(error){btn.disabled=false;st('Partager');return dbError(error,'Story impossible')}
-    toast('Story en ligne pour 24 h');newDraft();await loadStories();nav('home');return;
+    if(error){btn.disabled=false;st('Partager');return dbError(error,'Flash impossible')}
+    toast('Flash en ligne pour 24 h');newDraft();await loadStories();nav('home');return;
    }
    const {error}=await sb.from('posts').insert({user_id:me.id,kind:k,sport,caption:cap,perf:'',media,stickers:[]});
-   if(error){btn.disabled=false;st('Partager');return dbError(error,'Publication impossible')}
-   toast(k==='clip'?'Clip publié':'Publication en ligne');newDraft();if(k==='clip'){await loadClips();nav('clips')}else{await loadFeed();nav('home')}
+   if(error){btn.disabled=false;st('Partager');return dbError(error,'Post impossible')}
+   toast(k==='clip'?'Clip publié':'Post en ligne');newDraft();if(k==='clip'){await loadClips();nav('clips')}else{await loadFeed();nav('home')}
   }catch(err){btn.disabled=false;st('Partager');toast((err&&err.message&&err.message.startsWith('Vidéo'))?err.message:'Échec de l’envoi, réessaie')}
  });
 }
@@ -3354,7 +3382,7 @@ function openStoryEditor(file){
  se={file,video,url:URL.createObjectURL(file),items:[],sel:-1};
  document.getElementById('se')?.remove();
  const d=document.createElement('div');d.className='se-wrap';d.id='se';
- d.innerHTML=`<div class="se" role="dialog" aria-label="Nouvelle story">
+ d.innerHTML=`<div class="se" role="dialog" aria-label="Nouveau flash">
   <div class="se-stage" id="se-stage">${video?`<video src="${se.url}" muted loop playsinline autoplay></video>`:`<img src="${se.url}" alt="">`}<div class="se-items" id="se-items"></div>
    <div class="se-top"><button type="button" class="se-ic" data-se="close" aria-label="Annuler">${I.close}</button><span class="sp"></span><button type="button" class="se-ic" data-se="text" aria-label="Ajouter du texte"><b>Aa</b></button>${video?'':`<button type="button" class="se-ic" data-se="img" aria-label="Ajouter une image">${I.image}</button>`}</div>
    <div class="se-tools" id="se-tools" hidden><button type="button" data-se="smaller" aria-label="Plus petit">A−</button><button type="button" data-se="bigger" aria-label="Plus grand">A+</button><button type="button" data-se="style" id="se-style">Style</button><button type="button" data-se="del" class="danger">Supprimer</button></div>
@@ -3399,7 +3427,7 @@ function seWireDrag(){
 function seTextEditor(i){
  const it=i!=null?se.items[i]:null;let style=it?it.st:'plain';
  const o=document.createElement('div');o.className='se-txt';
- o.innerHTML=`<div class="se-txt-top"><span class="sp"></span><button type="button" class="se-ok" data-t="ok">OK</button></div><textarea maxlength="120" rows="3" placeholder="Écris ton texte…" aria-label="Texte de la story">${esc(it?it.t:'')}</textarea><div class="se-st">${ST_STYLES.map(([k,l])=>`<button type="button" data-st="${k}" class="st-${k} ${k===style?'on':''}">${l}</button>`).join('')}</div>`;
+ o.innerHTML=`<div class="se-txt-top"><span class="sp"></span><button type="button" class="se-ok" data-t="ok">OK</button></div><textarea maxlength="120" rows="3" placeholder="Écris ton texte…" aria-label="Texte du flash">${esc(it?it.t:'')}</textarea><div class="se-st">${ST_STYLES.map(([k,l])=>`<button type="button" data-st="${k}" class="st-${k} ${k===style?'on':''}">${l}</button>`).join('')}</div>`;
  $('se').appendChild(o);const ta=o.querySelector('textarea');ta.className='st-'+style;setTimeout(()=>ta.focus(),30);
  o.addEventListener('click',async e=>{const b=e.target.closest('[data-st]');if(b){style=b.dataset.st;o.querySelectorAll('[data-st]').forEach(x=>x.classList.toggle('on',x===b));ta.className='st-'+style;ta.focus();return}
   if(e.target.closest('[data-t="ok"]')||e.target===o){const t=ta.value.trim();
@@ -3452,15 +3480,15 @@ async function seShare(){
    stickers=se.items.filter(x=>x.type==='text').map(x=>({t:x.t,c:'st-'+x.st,x:+x.x.toFixed(3),y:+x.y.toFixed(3),sz:+x.s.toFixed(2),r:0}))}
   else{st('Préparation…');const fx=await seCompose();st('Envoi…');media={type:'img',url:await upload(fx,'story')}}
   const {error}=await sb.from('stories').insert({user_id:me.id,sport:me.sport||'Autre',text:'',media,stickers});
-  if(error){btn.disabled=false;st('Partager');return dbError(error,'Story impossible')}
-  seClose();toast('Story en ligne pour 24 h');await loadStories();if(view==='home')renderHome();else{hist=[];nav('home')}
+  if(error){btn.disabled=false;st('Partager');return dbError(error,'Flash impossible')}
+  seClose();toast('Flash en ligne pour 24 h');await loadStories();if(view==='home')renderHome();else{hist=[];nav('home')}
  }catch(err){btn.disabled=false;st('Partager');toast((err&&err.message&&err.message.startsWith('Vidéo'))?err.message:'Échec de l’envoi, réessaie')}
 }
 // ================= ADMIN =================
 async function adminDeleteUser(uid){
  if(!isAdmin()||uid===me.id)return;
  const d=document.createElement('div');d.className='layer warn-wrap';
- d.innerHTML=`<div class="warn danger" role="alertdialog"><div class="warn-head"><span class="warn-ic">!</span><b>Supprimer @${esc(prof(uid).handle)} ?</b></div><p>Le profil, ses publications, ses stories et ses commentaires seront effacés définitivement.</p><button class="c-add" type="button" data-w="yes" style="background:#d4142c">Supprimer le compte</button><button type="button" data-w="no" style="margin-top:8px;width:100%;padding:10px;font-weight:700">Annuler</button></div>`;
+ d.innerHTML=`<div class="warn danger" role="alertdialog"><div class="warn-head"><span class="warn-ic">!</span><b>Supprimer @${esc(prof(uid).handle)} ?</b></div><p>Le profil, ses posts, ses flashs et ses commentaires seront effacés définitivement.</p><button class="c-add" type="button" data-w="yes" style="background:#d4142c">Supprimer le compte</button><button type="button" data-w="no" style="margin-top:8px;width:100%;padding:10px;font-weight:700">Annuler</button></div>`;
  document.body.appendChild(d);
  d.addEventListener('click',async e=>{const b=e.target.closest('[data-w]');if(!b)return;if(b.dataset.w==='no'){d.remove();return}
   b.disabled=true;b.textContent='Suppression…';
@@ -3736,7 +3764,7 @@ function openPeoplePicker({title,cta,exclude=[],withName=false,onDone}){
 async function copyLink(link){try{await navigator.clipboard.writeText(link);toast('Lien copié')}catch(e){warnBox('Lien',link,false)}}
 const REPORT_REASONS=['Spam ou arnaque','Harcèlement ou intimidation','Propos haineux ou discriminatoires','Nudité ou contenu sexuel','Violence ou menace','Usurpation d’identité','Fausse information','Contenu dangereux ou automutilation','Autre'];
 function openReport(type,targetId,targetUser){
- const what={user:'ce compte',post:'cette publication',comment:'ce commentaire',story:'cette story',message:'ce message',group:'ce groupe'}[type]||'ce contenu';
+ const what={user:'ce compte',post:'ce post',comment:'ce commentaire',story:'ce flash',message:'ce message',group:'ce groupe'}[type]||'ce contenu';
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Signaler"><div class="sheet-head">Signaler ${what}</div><div class="sheet-list gutter"><p class="rp-sub">Pourquoi signales-tu ${what} ? Ton signalement est anonyme.</p>${REPORT_REASONS.map((r,i)=>`<button type="button" class="rp-row" data-ri="${i}">${esc(r)}<span>›</span></button>`).join('')}</div></div></div>`;
  layer.querySelectorAll('[data-ri]').forEach(b=>b.addEventListener('click',async()=>{
   const reason=REPORT_REASONS[+b.dataset.ri];b.disabled=true;
@@ -3748,7 +3776,7 @@ function openReport(type,targetId,targetUser){
 }
 function confirmBlock(uid){
  const h=prof(uid).handle;
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Bloquer"><div class="sheet-list gutter rp-done"><span class="pav-sm">${av(uid,56)}</span><b>Bloquer @${esc(h)} ?</b><ul class="blk-list"><li>Il ne pourra plus voir ton profil, tes publications ni tes stories.</li><li>Il ne pourra plus t’écrire, commenter, réagir ou te suivre.</li><li>Vous ne vous suivrez plus mutuellement.</li><li>Il ne sera pas prévenu que tu l’as bloqué.</li></ul><button class="sheet-act danger" id="blk-yes">Bloquer</button><button class="sheet-act" data-act="close-sheet-btn">Annuler</button></div></div></div>`;
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Bloquer"><div class="sheet-list gutter rp-done"><span class="pav-sm">${av(uid,56)}</span><b>Bloquer @${esc(h)} ?</b><ul class="blk-list"><li>Il ne pourra plus voir ton profil, tes posts ni tes flashs.</li><li>Il ne pourra plus t’écrire, commenter, réagir ou te suivre.</li><li>Vous ne vous suivrez plus mutuellement.</li><li>Il ne sera pas prévenu que tu l’as bloqué.</li></ul><button class="sheet-act danger" id="blk-yes">Bloquer</button><button class="sheet-act" data-act="close-sheet-btn">Annuler</button></div></div></div>`;
  $('blk-yes').addEventListener('click',()=>doBlock(uid));
 }
 async function doBlock(uid){
@@ -3771,9 +3799,9 @@ async function openReports(){
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Signalements"><div class="sheet-head">Signalements</div><div class="sheet-list gutter">${loadingHTML()}</div></div></div>`;
  const {data}=await sb.from('reports').select('*').order('created_at',{ascending:false}).limit(100);const list=data||[];
  await loadProfiles(list.flatMap(r=>[r.reporter_id,r.target_user]).filter(Boolean));
- const T={user:'Compte',post:'Publication',comment:'Commentaire',story:'Story',message:'Message',group:'Groupe'};
+ const T={user:'Compte',post:'Post',comment:'Commentaire',story:'Flash',message:'Message',group:'Groupe'};
  const box=layer.querySelector('.sheet-list');if(!box)return;
- box.innerHTML=list.length?list.map(r=>`<div class="rp-item ${r.status==='traite'?'done':''}" data-rid="${r.id}"><div class="rp-h"><b>${T[r.target_type]||r.target_type}</b><span>${esc(r.reason)}</span><time>${ago(r.created_at)}</time></div><p>${r.target_user?`Visé : <button class="linkish" data-act="open-user" data-u="${r.target_user}">@${esc(prof(r.target_user).handle)}</button> · `:''}par @${esc(prof(r.reporter_id).handle)}</p><div class="rp-act">${r.target_type==='post'?`<button class="mini" data-rx="post" data-tid="${r.target_id}">Supprimer la publication</button>`:''}${r.target_type==='comment'?`<button class="mini" data-rx="comment" data-tid="${r.target_id}">Supprimer le commentaire</button>`:''}${r.target_user&&!bansMap[r.target_user]?`<button class="mini" data-ban="${r.target_user}">Bannir</button>`:''}${r.status!=='traite'?`<button class="mini on" data-rx="done">Marquer traité</button>`:'<span class="opt">Traité</span>'}</div></div>`).join(''):'<div class="empty">Aucun signalement. Tout est calme.</div>';
+ box.innerHTML=list.length?list.map(r=>`<div class="rp-item ${r.status==='traite'?'done':''}" data-rid="${r.id}"><div class="rp-h"><b>${T[r.target_type]||r.target_type}</b><span>${esc(r.reason)}</span><time>${ago(r.created_at)}</time></div><p>${r.target_user?`Visé : <button class="linkish" data-act="open-user" data-u="${r.target_user}">@${esc(prof(r.target_user).handle)}</button> · `:''}par @${esc(prof(r.reporter_id).handle)}</p><div class="rp-act">${r.target_type==='post'?`<button class="mini" data-rx="post" data-tid="${r.target_id}">Supprimer le post</button>`:''}${r.target_type==='comment'?`<button class="mini" data-rx="comment" data-tid="${r.target_id}">Supprimer le commentaire</button>`:''}${r.target_user&&!bansMap[r.target_user]?`<button class="mini" data-ban="${r.target_user}">Bannir</button>`:''}${r.status!=='traite'?`<button class="mini on" data-rx="done">Marquer traité</button>`:'<span class="opt">Traité</span>'}</div></div>`).join(''):'<div class="empty">Aucun signalement. Tout est calme.</div>';
  box.querySelectorAll('[data-ban]').forEach(b=>b.addEventListener('click',()=>openBan(b.dataset.ban)));
  box.querySelectorAll('[data-rx]').forEach(b=>b.addEventListener('click',async()=>{const rid=b.closest('[data-rid]').dataset.rid,k=b.dataset.rx,t=b.dataset.tid;let error;
   if(k==='post'){const {data:pp}=await sb.from('posts').select('media').eq('id',t).maybeSingle();({error}=await sb.from('posts').delete().eq('id',t));if(!error&&pp)removeFiles((pp.media||[]).map(m=>m.url));feed=feed.filter(p=>p.id!==t)}
@@ -3789,7 +3817,7 @@ async function loadExplore(){
  let q=sb.from('feed').select('*').order('created_at',{ascending:false}).limit(90);if(exploreSports.size)q=q.in('sport',sportMatch([...exploreSports]));
  const {data}=await q;explorePosts=shuffle((data||[]).filter(p=>!blocked.has(p.user_id)&&p.media&&p.media.length));
 }
-const exploreGridHTML=()=>explorePosts.length?`<div class="grid ex-grid">${explorePosts.map((p,n)=>`<button data-act="open-item" data-id="${p.id}" class="${n%10===2||n%10===5?'big':''}" aria-label="Ouvrir la publication de @${esc(prof(p.user_id).handle)}">${mediaHTML([p.media[0]],p.sport)}${p.kind==='clip'?`<span class="ex-multi" aria-label="Clip">${I.playV}</span>`:p.media.length>1?`<span class="ex-multi" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="3" width="13" height="13" rx="2.5"/><path d="M16 19.5a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 3 19.5v-10A1.5 1.5 0 0 1 4.5 8"/></svg></span>`:''}</button>`).join('')}</div>`:`<div class="empty">Aucune publication${exploreSports.size?' dans '+(exploreSports.size>1?'ces catégories':'cette catégorie'):''} pour l’instant.</div>`;
+const exploreGridHTML=()=>explorePosts.length?`<div class="grid ex-grid">${explorePosts.map((p,n)=>`<button data-act="open-item" data-id="${p.id}" class="${n%10===2||n%10===5?'big':''}" aria-label="Ouvrir le post de @${esc(prof(p.user_id).handle)}">${mediaHTML([p.media[0]],p.sport)}${p.kind==='clip'?`<span class="ex-multi" aria-label="Clip">${I.playV}</span>`:p.media.length>1?`<span class="ex-multi" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="3" width="13" height="13" rx="2.5"/><path d="M16 19.5a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 3 19.5v-10A1.5 1.5 0 0 1 4.5 8"/></svg></span>`:''}</button>`).join('')}</div>`:`<div class="empty">Aucun post${exploreSports.size?' dans '+(exploreSports.size>1?'ces catégories':'cette catégorie'):''} pour l’instant.</div>`;
 async function paintExplore(){const g=$('ex-g');if(!g)return;g.innerHTML=loadingHTML();await loadExplore();await loadProfiles(explorePosts.map(p=>p.user_id));if(view!=='search'||sQuery)return;const g2=$('ex-g');if(!g2)return;g2.innerHTML=exploreGridHTML();g2.querySelectorAll('video').forEach(v=>{v.dataset.w='1';v.muted=true;v.removeAttribute('autoplay');v.pause()})}
 async function renderSearch(q){
  sQuery=q||'';
@@ -3812,16 +3840,16 @@ async function renderSearch(q){
 }
 // ================= PROFIL =================
 let profilePosts=[],profTab='all',profTabUid=null;const PTAB_X={all:'0',clips:'100%',saved:'200%'};
-const pgridHTML=(mine)=>{if(profTab==='saved'&&!savedLoaded)return loadingHTML();const l=profTab==='saved'?savedPosts:profTab==='clips'?profilePosts.filter(p=>p.kind==='clip'):profilePosts;return l.length?`<div class="grid">${l.map(p=>`<button data-act="open-item" data-id="${p.id}" aria-label="Ouvrir">${profTab==='all'&&pinnedSet.has(p.id)?`<span class="g-pin" aria-label="Épinglée">${PIN_IC}</span>`:''}${mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}<span class="g-views">${p.kind==='clip'?I.playV:I.eyeV}${fmt(p.view_count||0)}</span></button>`).join('')}</div>`:`<div class="empty">${profTab==='saved'?'<span class="sv-empty">'+I.tabSaved+'<b>Aucune publication enregistrée</b>Touche le signet sous une publication pour la retrouver ici. Toi seul vois cet onglet.</span>':profTab==='clips'?(mine?'Aucun clip pour l’instant. Publie ton premier clip avec le +.':'Aucun clip.'):(mine?'Rien publié pour l’instant. Montre ta première séance.':'Aucune publication.')}</div>`};
+const pgridHTML=(mine)=>{if(profTab==='saved'&&!savedLoaded)return loadingHTML();const l=profTab==='saved'?savedPosts:profTab==='clips'?profilePosts.filter(p=>p.kind==='clip'):profilePosts;return l.length?`<div class="grid">${l.map(p=>`<button data-act="open-item" data-id="${p.id}" aria-label="Ouvrir">${profTab==='all'&&pinnedSet.has(p.id)?`<span class="g-pin" aria-label="Épinglée">${PIN_IC}</span>`:''}${mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}<span class="g-views">${p.kind==='clip'?I.playV:I.eyeV}${fmt(p.view_count||0)}</span></button>`).join('')}</div>`:`<div class="empty">${profTab==='saved'?'<span class="sv-empty">'+I.tabSaved+'<b>Aucun post enregistré</b>Touche le signet sous un post pour la retrouver ici. Toi seul vois cet onglet.</span>':profTab==='clips'?(mine?'Aucun clip pour l’instant. Publie ton premier clip avec le +.':'Aucun clip.'):(mine?'Rien publié pour l’instant. Montre ta première séance.':'Aucun post.')}</div>`};
 const prsOf=p=>(p.prs||[]).filter(x=>x&&x.t&&x.t.trim());
 async function renderProfile(){
  const uid=arg||me.id,mine=uid===me.id;
  await loadProfiles([uid]);
  const u=prof(uid);
- topEl.innerHTML=mine?`<button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><h1 class="ptitle"><span class="pt-in">${esc(u.handle)}${vb(uid)}</span></h1><span class="top-r"><button class="icon-btn" data-act="notifs" aria-label="Notifications">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" data-act="settings" aria-label="Menu">•••</button></span>`:`<button class="icon-btn" data-act="back" aria-label="Retour">${I.back}</button><h1 class="ptitle">${esc(u.handle)}${vb(uid)}</h1><span class="top-r"><button class="icon-btn" data-act="user-menu" data-u="${uid}" aria-label="Options">•••</button></span>`;
+ topEl.innerHTML=mine?`<button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><h1 class="ptitle"><span class="pt-in">${esc(u.handle)}${vb(uid)}</span></h1><span class="top-r"><button class="icon-btn" data-act="notifs" aria-label="Pings">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" data-act="settings" aria-label="Menu">•••</button></span>`:`<button class="icon-btn" data-act="back" aria-label="Retour">${I.back}</button><h1 class="ptitle">${esc(u.handle)}${vb(uid)}</h1><span class="top-r"><button class="icon-btn" data-act="user-menu" data-u="${uid}" aria-label="Options">•••</button></span>`;
  main.innerHTML=loadingHTML();
  if(!mine&&!P[uid]){main.innerHTML=`<div class="gutter"><div class="empty">Ce profil n’est pas disponible.</div></div>`;return}
- if(blocked.has(uid)){main.innerHTML=`<div class="gutter"><div class="blk-card"><span class="pav-sm">${av(uid,64)}</span><b>${esc(u.name)}</b><p>Tu as bloqué ce compte. Il ne peut plus voir ton profil, tes publications ni t’écrire.</p><button class="pbtn primary" data-act="unblock" data-u="${uid}">Débloquer</button></div></div>`;return}
+ if(blocked.has(uid)){main.innerHTML=`<div class="gutter"><div class="blk-card"><span class="pav-sm">${av(uid,64)}</span><b>${esc(u.name)}</b><p>Tu as bloqué ce compte. Il ne peut plus voir ton profil, tes posts ni t’écrire.</p><button class="pbtn primary" data-act="unblock" data-u="${uid}">Débloquer</button></div></div>`;return}
  if(!mine)sb.rpc('fs_visit_profile',{pid:uid}).then(()=>{},()=>{});
  const [{data:st},{data:posts},ri]=await Promise.all([sb.from('profile_stats').select('*').eq('id',uid).maybeSingle(),sb.from('feed').select('*').eq('user_id',uid).order('created_at',{ascending:false}).limit(60),loadRespect(uid)]);
  if(view!=='profile'||(arg||me.id)!==uid)return;
@@ -3830,14 +3858,14 @@ async function renderProfile(){
  const creator=ADMINS.has(uid);
  main.innerHTML=`<div class="gutter ${creator?'creator':''} ${ri&&ri.validated?'cv-on':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>${creator?'</div>':''}
  <section class="phead">
-  <div class="pnums3 ${ri?'pnums4':''}"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button>${ri?`<div class="pn-resp"><b id="st-respects">${fmt(ri.count)}</b><span>check${ri.count>1?'s':''}</span></div>`:''}</div>
+  <div class="pnums3 ${ri?'pnums4':''}"><div><b>${fmt(s.posts)}</b><span>posts</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button>${ri?`<div class="pn-resp"><b id="st-respects">${fmt(ri.count)}</b><span>check${ri.count>1?'s':''}</span></div>`:''}</div>
   <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}<button type="button" class="pn-share" data-act="share-profile" data-u="${uid}" aria-label="Partager le profil">${I.link}</button>${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b><span id="cv-slot">${ri&&ri.validated?cvTag():''}</span>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pp-box" id="pp-box" data-u="${uid}"></div>
   
   <div class="pbtns ${!mine&&ri?'with-resp':''}">${mine?`<button class="pbtn" data-act="edit-profile">Modifier le profil</button><button class="pbtn" data-act="go-messages">Messages${unreadCount||unreadInfo()?'<span class="pb-dot"></span>':''}</button>`:`<button class="pbtn ${following.has(uid)?'':'primary'}" data-act="follow-prof" data-u="${uid}">${following.has(uid)?'Abonné':'Suivre'}</button><button class="pbtn" data-act="chat" data-u="${uid}">Message</button>${ri?respBtn(uid,ri):''}`}</div>
  </section>
- <div class="ptabs ${mine?'three':''}" role="tablist"><button role="tab" data-act="ptab" data-k="all" aria-selected="${profTab==='all'}">${I.tabGrid}<span>Publications</span></button><button role="tab" data-act="ptab" data-k="clips" aria-selected="${profTab==='clips'}">${I.tabClips}<span>Clips</span></button>${mine?`<button role="tab" data-act="ptab" data-k="saved" aria-selected="${profTab==='saved'}">${I.tabSaved}<span>Enregistrés</span></button>`:''}<i class="ptab-ind" style="transform:translateX(${PTAB_X[profTab]||'0'})"></i></div>
+ <div class="ptabs ${mine?'three':''}" role="tablist"><button role="tab" data-act="ptab" data-k="all" aria-selected="${profTab==='all'}">${I.tabGrid}<span>Posts</span></button><button role="tab" data-act="ptab" data-k="clips" aria-selected="${profTab==='clips'}">${I.tabClips}<span>Clips</span></button>${mine?`<button role="tab" data-act="ptab" data-k="saved" aria-selected="${profTab==='saved'}">${I.tabSaved}<span>Enregistrés</span></button>`:''}<i class="ptab-ind" style="transform:translateX(${PTAB_X[profTab]||'0'})"></i></div>
  <div id="pgrid">${pgridHTML(mine)}</div></div>`;
  main.querySelectorAll('.grid video').forEach(v=>{v.dataset.w='1';v.muted=true;v.removeAttribute('autoplay');v.pause()});
  paintPartner(uid,mine);
@@ -3852,7 +3880,7 @@ async function openUserList(uid,k){
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Liste"><div class="sheet-head">${k==='following'?'Abonnements':'Abonnés'} · ${esc(prof(uid).handle)}</div>
   <div class="sheet-list gutter ulist" data-u="${uid}" data-k="${k}">${ids.length?ids.map(x=>`<div class="conv">${av(x,42)}<button class="meta" data-act="open-user" data-u="${x}" style="text-align:left"><b>${esc(prof(x).handle)}${vb(x)}</b><span>${esc(prof(x).name)}</span></button>${x===me.id?'':`<button class="mini ${following.has(x)?'on':''}" data-act="follow-list" data-u="${x}">${following.has(x)?'Abonné':'Suivre'}</button>`}</div>`).join(''):`<div class="empty">${k==='following'?'Aucun abonnement pour l’instant.':'Aucun abonné pour l’instant.'}</div>`}</div></div></div>`;
 }
-function openPostMenu(id){layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Options"><div class="sheet-head">Options</div><div class="sheet-list gutter"><button class="sheet-act danger" data-act="del-ask" data-id="${id}">Supprimer la publication</button><button class="sheet-act" data-act="close-sheet-btn">Annuler</button></div></div></div>`}
+function openPostMenu(id){layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Options"><div class="sheet-head">Options</div><div class="sheet-list gutter"><button class="sheet-act danger" data-act="del-ask" data-id="${id}">Supprimer le post</button><button class="sheet-act" data-act="close-sheet-btn">Annuler</button></div></div></div>`}
 // ================= RECADRAGE =================
 function openCropper(file,aspect,outW,outH,title){
  return new Promise(resolve=>{
@@ -3946,17 +3974,17 @@ function showStory(){
  const uid=sv.list[sv.ui],items=storiesBy[uid]||[],it=items[sv.si];if(!it)return closeStory();
  if(!seenStories.has(it.id)){seenStories.add(it.id);sb.from('story_views').upsert({story_id:it.id,user_id:me.id},{onConflict:'story_id,user_id',ignoreDuplicates:true}).then(()=>{})}
  const left=Math.max(1,Math.ceil((new Date(it.expires_at)-Date.now())/36e5)),own=uid===me.id;
- layer.innerHTML=`<div class="layer" style="background:#000"><div class="sv" role="dialog" aria-label="Story de ${esc(prof(uid).handle)}">
+ layer.innerHTML=`<div class="layer" style="background:#000"><div class="sv" role="dialog" aria-label="Flash de ${esc(prof(uid).handle)}">
   <div class="card-media">${mediaHTML(it.media?[it.media]:[],it.sport,'',it.media?'':it.text)}${(it.stickers||[]).map(s=>stkHTML(s)).join('')}</div>
   ${it.media&&it.text?`<div class="grad-cap" style="z-index:4">${esc(it.text)}</div>`:''}
   <div class="sv-bars">${items.map((_,i)=>`<span class="${i<sv.si?'done':i===sv.si?'run':''}"><i></i></span>`).join('')}</div>
   <div class="sv-head">${av(uid,32)}<b>${esc(prof(uid).handle)}${vb(uid)}<small style="display:block;font-size:12px;font-weight:500;opacity:.8">${ago(it.created_at)} · expire dans ${left} h</small></b>${own?`<span class="sv-likes">${I.heart}${myStoryLikes[it.id]||0}</span>`:''}<button class="icon-btn" data-act="story-menu" data-id="${it.id}" aria-label="Options" style="color:#fff;font-weight:900">•••</button><button class="icon-btn" data-act="close-story" aria-label="Fermer" style="color:#fff">${I.close}</button></div>
   <div class="sv-tap"><button data-act="sv-prev" aria-label="Précédent"></button><button data-act="sv-next" aria-label="Suivant"></button></div>
-  ${own?`<button class="sv-views" data-act="sv-viewers" data-id="${it.id}" aria-label="Voir qui a vu ta story">${I.views}<span id="svv-n">Vues</span></button>`:`<form class="sv-reply" id="svr"><input id="svi" placeholder="Commenter la story…" aria-label="Commenter la story" maxlength="300"><button type="button" class="sv-like ${likedStories.has(it.id)?'on':''}" data-act="story-like" data-id="${it.id}" aria-label="J’aime la story">${I.heart}</button><button class="send" type="submit" aria-label="Envoyer">${I.send}</button></form>`}
+  ${own?`<button class="sv-views" data-act="sv-viewers" data-id="${it.id}" aria-label="Voir qui a vu ton flash">${I.views}<span id="svv-n">Vues</span></button>`:`<form class="sv-reply" id="svr"><input id="svi" placeholder="Commenter le flash…" aria-label="Commenter le flash" maxlength="300"><button type="button" class="sv-like ${likedStories.has(it.id)?'on':''}" data-act="story-like" data-id="${it.id}" aria-label="J’aime le flash">${I.heart}</button><button class="send" type="submit" aria-label="Envoyer">${I.send}</button></form>`}
  </div></div>`;
  if(own)sb.from('story_views').select('user_id',{count:'exact',head:true}).eq('story_id',it.id).neq('user_id',me.id).then(({count})=>{const e=$('svv-n');if(e)e.textContent=(count||0)+' vue'+((count||0)>1?'s':'')});
  const f=$('svr');
- if(f){const i=$('svi');i.addEventListener('focus',svPause);i.addEventListener('blur',svResume);f.addEventListener('submit',async e=>{e.preventDefault();if(!i.value.trim())return;if(await sendMsg(uid,'💬 Story : '+i.value)){toast('Commentaire envoyé en message privé');closeStory()}})}
+ if(f){const i=$('svi');i.addEventListener('focus',svPause);i.addEventListener('blur',svResume);f.addEventListener('submit',async e=>{e.preventDefault();if(!i.value.trim())return;if(await sendMsg(uid,'💬 Flash : '+i.value)){toast('Commentaire envoyé en message privé');closeStory()}})}
  // appui long = pause (comme Instagram)
  const tap=layer.querySelector('.sv-tap');let ht;
  tap.addEventListener('contextmenu',e=>e.preventDefault());
@@ -3983,13 +4011,13 @@ function closeStory(){svStopTimers();sv=null;svPaused=false;layer.innerHTML='';d
 async function openStoryViewers(sid){
  svPause();
  const d=document.createElement('div');d.className='layer sheet-wrap svv-wrap';
- d.innerHTML=`<div class="sheet" role="dialog" aria-label="Vues de la story"><div class="sheet-head">Vues de ta story</div><div class="sheet-list gutter">${loadingHTML()}</div></div>`;
+ d.innerHTML=`<div class="sheet" role="dialog" aria-label="Vues du flash"><div class="sheet-head">Vues de ton flash</div><div class="sheet-list gutter">${loadingHTML()}</div></div>`;
  document.body.appendChild(d);
  d.addEventListener('click',e=>{if(e.target===d){d.remove();svResume();return}const u=e.target.closest('[data-svu]');if(u){d.remove();closeStory();hist.push([view,arg]);nav('profile',u.dataset.svu)}});
  const [{data:vs},{data:ls}]=await Promise.all([sb.from('story_views').select('user_id,created_at').eq('story_id',sid).neq('user_id',me.id).order('created_at',{ascending:false}).limit(500),sb.from('story_likes').select('user_id').eq('story_id',sid)]);
  const liked=new Set((ls||[]).map(x=>x.user_id)),ids=(vs||[]).map(x=>x.user_id);await loadProfiles(ids);
  const box=d.querySelector('.sheet-list');if(!box)return;
- box.innerHTML=`<div class="svv-sum"><span>${I.views}<b>${ids.length}</b> vue${ids.length>1?'s':''}</span><span class="on">${I.heartSm}<b>${liked.size}</b> j’aime</span></div>`+(ids.length?ids.map(x=>`<button class="conv" data-svu="${x}">${av(x,42)}<span class="meta"><b>${esc(prof(x).handle)}${vb(x)}</b><span>${esc(prof(x).name)}</span></span>${liked.has(x)?`<span class="svv-like on">${I.heartSm}</span>`:''}</button>`).join(''):'<div class="empty">Personne n’a encore vu ta story.</div>');
+ box.innerHTML=`<div class="svv-sum"><span>${I.views}<b>${ids.length}</b> vue${ids.length>1?'s':''}</span><span class="on">${I.heartSm}<b>${liked.size}</b> j’aime</span></div>`+(ids.length?ids.map(x=>`<button class="conv" data-svu="${x}">${av(x,42)}<span class="meta"><b>${esc(prof(x).handle)}${vb(x)}</b><span>${esc(prof(x).name)}</span></span>${liked.has(x)?`<span class="svv-like on">${I.heartSm}</span>`:''}</button>`).join(''):'<div class="empty">Personne n’a encore vu ton flash.</div>');
 }
 
 // ================= COMMENTAIRES =================
@@ -4045,8 +4073,8 @@ function openEditCaption(id){
   document.querySelectorAll(`.card[data-id="${id}"]`).forEach(card=>{const old=card.querySelector('.caption');const html=cap?`<div class="caption"><b>${esc(prof(p.user_id).handle)}</b>${esc(cap)}</div>`:'';if(old)old.outerHTML=html;else if(html)card.querySelector('.bar-actions').insertAdjacentHTML('afterend',html)});
  });
 }
-async function deletePost(id){const post=findPost(id);const {data:gone,error}=await sb.from('posts').delete().eq('id',id).select('id');if(error)return dbError(error,'Suppression impossible');if(!gone||!gone.length){toast('Suppression refusée');return}if(post)removeFiles((post.media||[]).map(m=>m.url));feed=feed.filter(p=>p.id!==id);profilePosts=profilePosts.filter(p=>p.id!==id);clipsList=clipsList.filter(p=>p.id!==id);toast('Publication supprimée');render()}
-async function deleteStory(id){clearTimeout(svT);const sto=Object.values(storiesBy).flat().find(x=>x.id===id);const {error}=await sb.from('stories').delete().eq('id',id);if(error)return dbError(error,'Suppression impossible');if(sto&&sto.media)removeFiles([sto.media.url]);toast('Story supprimée');await loadStories();closeStory()}
+async function deletePost(id){const post=findPost(id);const {data:gone,error}=await sb.from('posts').delete().eq('id',id).select('id');if(error)return dbError(error,'Suppression impossible');if(!gone||!gone.length){toast('Suppression refusée');return}if(post)removeFiles((post.media||[]).map(m=>m.url));feed=feed.filter(p=>p.id!==id);profilePosts=profilePosts.filter(p=>p.id!==id);clipsList=clipsList.filter(p=>p.id!==id);toast('Post supprimé');render()}
+async function deleteStory(id){clearTimeout(svT);const sto=Object.values(storiesBy).flat().find(x=>x.id===id);const {error}=await sb.from('stories').delete().eq('id',id);if(error)return dbError(error,'Suppression impossible');if(sto&&sto.media)removeFiles([sto.media.url]);toast('Flash supprimé');await loadStories();closeStory()}
 async function pickSport(sp){sportFilter=sp;main.innerHTML=loadingHTML();await loadFeed();if(view==='home')renderHome();main.scrollTop=0}
 let lastSY=0;
 document.addEventListener('scroll',e=>{const t=e.target;if(!(t===main||t.id==='clips'))return;const y=t.scrollTop,nt=$('tabs');if(y>lastSY+4&&y>60)nt.classList.add('mini');else if(y<lastSY-4||y<60)nt.classList.remove('mini');lastSY=y},true);
@@ -4068,7 +4096,7 @@ document.addEventListener('click',async e=>{
   case 'settings':hist.push([view,arg]);nav('settings');break;
   case 'set-theme':setTheme(a.dataset.k);break;
   case 'set-go':{const k=a.dataset.k;if(k==='edit'){pDraft=null;nav('editprofile')}else if(k==='insights'){hist.push([view,arg]);nav('insights')}else if(k==='saved'){profTab='saved';profTabUid=me.id;hist=[];nav('profile',me.id)}else if(k==='share')shareMyProfile();else if(k==='notifs')openNotifPrefs();else if(k==='blocked')openBlockedList();else if(k==='reports')openReports();else if(k==='bans')openBanList();else if(k==='logout')sb.auth.signOut({scope:'local'});break}
-  case 'settings-old':layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Paramètres"><div class="sheet-head">Paramètres</div><div class="sheet-list gutter"><p class="opt" style="margin:6px 0 4px">Connecté avec ${esc(session.user.email||'')}</p><button class="sheet-act" data-act="edit-profile">Modifier le profil</button><button class="sheet-act" data-act="add-story">Ajouter une story</button><button class="sheet-act danger" data-act="logout">Se déconnecter</button><button class="sheet-act" data-act="close-sheet-btn">Annuler</button></div></div></div>`;break;
+  case 'settings-old':layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Paramètres"><div class="sheet-head">Paramètres</div><div class="sheet-list gutter"><p class="opt" style="margin:6px 0 4px">Connecté avec ${esc(session.user.email||'')}</p><button class="sheet-act" data-act="edit-profile">Modifier le profil</button><button class="sheet-act" data-act="add-story">Ajouter un flash</button><button class="sheet-act danger" data-act="logout">Se déconnecter</button><button class="sheet-act" data-act="close-sheet-btn">Annuler</button></div></div></div>`;break;
   case 'close-sheet':if(e.target===a)layer.innerHTML='';break;
   case 'close-sheet-btn':layer.innerHTML='';break;
   case 'like':toggleLike(id);break;
@@ -4096,7 +4124,7 @@ document.addEventListener('click',async e=>{
   case 'follow-list':{await toggleFollow(u);const on=following.has(u);a.textContent=on?'Abonné':'Suivre';a.classList.toggle('on',on);break}
   case 'ulist':openUserList(u,a.dataset.k);break;
   case 'open-user':layer.innerHTML='';hist.push([view,arg]);nav('profile',u);break;
-  case 'post-menu':{const pp=findPost(id);if(!pp)break;const own=pp.user_id===me.id,h=prof(pp.user_id).handle;const items=own?[{label:pinnedSet.has(id)?'Retirer du haut du profil':'Épingler sur le profil',run:()=>togglePin(id)},{label:'Voir les statistiques',run:()=>openPostStats(id)},{label:'Modifier la description',run:()=>openEditCaption(id)},{label:'Supprimer',danger:true,run:()=>deletePost(id)}]:[{label:'Copier le lien',run:()=>copyLink(BASE_URL+'?p='+id)},{label:'Signaler',danger:true,run:()=>openReport('post',id,pp.user_id)},{label:'Bloquer @'+h,danger:true,run:()=>confirmBlock(pp.user_id)},...(isAdmin()?[{head:true,label:'Administrateur'},...(bansMap[pp.user_id]?[]:[{label:'Bannir @'+h,danger:true,run:()=>openBan(pp.user_id)}]),{label:'Voir les statistiques',run:()=>openPostStats(id)},{label:'Modifier la description',run:()=>openEditCaption(id)},{label:'Supprimer la publication',danger:true,run:()=>deletePost(id)}]:[])];miniMenu(a,items,'right','light');break}
+  case 'post-menu':{const pp=findPost(id);if(!pp)break;const own=pp.user_id===me.id,h=prof(pp.user_id).handle;const items=own?[{label:pinnedSet.has(id)?'Retirer du haut du profil':'Épingler sur le profil',run:()=>togglePin(id)},{label:'Voir les statistiques',run:()=>openPostStats(id)},{label:'Modifier la description',run:()=>openEditCaption(id)},{label:'Supprimer',danger:true,run:()=>deletePost(id)}]:[{label:'Copier le lien',run:()=>copyLink(BASE_URL+'?p='+id)},{label:'Signaler',danger:true,run:()=>openReport('post',id,pp.user_id)},{label:'Bloquer @'+h,danger:true,run:()=>confirmBlock(pp.user_id)},...(isAdmin()?[{head:true,label:'Administrateur'},...(bansMap[pp.user_id]?[]:[{label:'Bannir @'+h,danger:true,run:()=>openBan(pp.user_id)}]),{label:'Voir les statistiques',run:()=>openPostStats(id)},{label:'Modifier la description',run:()=>openEditCaption(id)},{label:'Supprimer le post',danger:true,run:()=>deletePost(id)}]:[])];miniMenu(a,items,'right','light');break}
   case 'user-menu':{const h=prof(u).handle,b=blocked.has(u);miniMenu(a,[...(!b&&!ppState.mine&&!ppState.of[u]?[{label:'Proposer d’être partenaires',run:()=>partnerRequest(u)}]:[]),{label:'Copier le lien du profil',run:()=>copyLink(BASE_URL+'?u='+encodeURIComponent(h))},{label:'Signaler',danger:true,run:()=>openReport('user',u,u)},{label:b?'Débloquer':'Bloquer',danger:!b,run:()=>b?doUnblock(u):confirmBlock(u)},...(isAdmin()?[{head:true,label:'Administrateur'},bansMap[u]?{label:'Lever le bannissement',run:()=>unban(u)}:{label:'Bannir',danger:true,run:()=>openBan(u)},{label:'Supprimer le compte',danger:true,run:()=>adminDeleteUser(u)}]:[])],'right','light');break}
   case 'unban':unban(u);break;
   case 'ptab':{if(profTab===a.dataset.k)break;profTab=a.dataset.k;const tabs=a.parentElement;tabs.querySelectorAll('[role=tab]').forEach(b=>b.setAttribute('aria-selected',b===a));tabs.querySelector('.ptab-ind').style.transform=`translateX(${PTAB_X[profTab]||'0'})`;const g=$('pgrid');if(profTab==='saved')loadSavedPosts().then(()=>{if(profTab==='saved'&&$('pgrid'))$('pgrid').innerHTML=pgridHTML(true)});if(g){g.innerHTML=pgridHTML((arg||me.id)===me.id);g.classList.remove('swap');void g.offsetWidth;g.classList.add('swap');g.querySelectorAll('video').forEach(v=>{v.dataset.w='1';v.muted=true;v.removeAttribute('autoplay');v.pause()})}break}
@@ -4106,7 +4134,7 @@ document.addEventListener('click',async e=>{
   case 'new-group':openPeoplePicker({title:'Nouveau groupe',cta:'Créer le groupe',withName:true,onDone:createGroup});break;
   case 'gchat':hist.push([view,arg]);nav('gchat',a.dataset.g);break;
   case 'g-menu':openGroupMenu(a,a.dataset.g);break;
-  case 'share-post':{const link=BASE_URL+'?p='+id;sb.rpc('fs_share_post',{pid:id}).then(()=>{},()=>{});try{if(navigator.share){await navigator.share({title:'Freestyle',text:'Regarde cette publication sur Freestyle',url:link});break}}catch(err){if(err&&err.name==='AbortError')break}try{await navigator.clipboard.writeText(link);toast('Lien de la publication copié')}catch(err){warnBox('Lien de la publication',link,false)}break}
+  case 'share-post':{const link=BASE_URL+'?p='+id;sb.rpc('fs_share_post',{pid:id}).then(()=>{},()=>{});try{if(navigator.share){await navigator.share({title:'Freestyle',text:'Regarde ce post sur Freestyle',url:link});break}}catch(err){if(err&&err.name==='AbortError')break}try{await navigator.clipboard.writeText(link);toast('Lien du post copié')}catch(err){warnBox('Lien du post',link,false)}break}
   case 'admin-user':miniMenu(a,[{head:true,label:'Administrateur'},{label:'Supprimer le compte',danger:true,run:()=>adminDeleteUser(u)}],'right','light');break;
   case 'story-menu':{svPause();{const owner=sv?sv.list[sv.ui]:null,own=owner===me.id;const stop=()=>{svStopTimers();sv=null};miniMenu(a,own?[{label:'Supprimer',danger:true,run:()=>deleteStory(id)}]:[{label:'Signaler',danger:true,run:()=>{stop();openReport('story',id,owner)}},{label:'Bloquer @'+prof(owner).handle,danger:true,run:()=>{stop();confirmBlock(owner)}},...(isAdmin()?[{label:'Supprimer (admin)',danger:true,run:()=>deleteStory(id)}]:[])],'right','light')}setTimeout(()=>{document.addEventListener('click',function resume(ev){if(!document.getElementById('mini-menu')&&sv&&layer.querySelector('.sv'))svResume()},{once:true})},0);break}
   case 'story-like':{const was=likedStories.has(id);was?likedStories.delete(id):likedStories.add(id);a.classList.toggle('on',!was);if(!was){a.classList.remove('pop-l');void a.offsetWidth;a.classList.add('pop-l')}const {error}=was?await sb.from('story_likes').delete().eq('story_id',id).eq('user_id',me.id):await sb.from('story_likes').insert({story_id:id,user_id:me.id});if(error&&!/duplicate/.test(error.message||'')){was?likedStories.add(id):likedStories.delete(id);a.classList.toggle('on',was)}break}
@@ -4130,14 +4158,14 @@ document.addEventListener('click',async e=>{
   case 'cmt-toggle':cmtOpen.has(id)?cmtOpen.delete(id):cmtOpen.add(id);paintComments(a.dataset.p);break;
   case 'cmt-like':toggleCmtLike(id,a);break;
   case 'go-messages':hist.push([view,arg]);loadConvs().then(()=>{if(view==='messages')renderMessages(curQuery)});nav('messages');break;
-  case 'feed-pick':miniMenu(a,[{head:true,label:'Catégorie'},{label:'Toutes les publications',active:!sportFilter,run:()=>pickSport(null)},...SPORT_LIST.map(sp=>({label:sp,active:sportFilter===sp,run:()=>pickSport(sp)}))],'left','light');break;
-  case 'plus-menu':miniMenu(a,[{head:true,label:'Publier'},{label:'Une story',run:()=>pickStory()},{label:'Une publication',run:()=>{hist=[];createKind='photo';newDraft();nav('create')}},{label:'Un clip',run:()=>{hist=[];createKind='clip';newDraft();nav('create')}}],a.closest('nav')?'center':view==='home'?'corner':'right','light');break;
+  case 'feed-pick':miniMenu(a,[{head:true,label:'Catégorie'},{label:'Tous les posts',active:!sportFilter,run:()=>pickSport(null)},...SPORT_LIST.map(sp=>({label:sp,active:sportFilter===sp,run:()=>pickSport(sp)}))],'left','light');break;
+  case 'plus-menu':miniMenu(a,[{head:true,label:'Publier'},{label:'Un flash',run:()=>pickStory()},{label:'Un post',run:()=>{hist=[];createKind='photo';newDraft();nav('create')}},{label:'Un clip',run:()=>{hist=[];createKind='clip';newDraft();nav('create')}}],a.closest('nav')?'center':view==='home'?'corner':'right','light');break;
   case 'share-profile':{const link=BASE_URL+'?u='+encodeURIComponent(prof(u).handle);try{if(navigator.share){await navigator.share({title:'Freestyle',text:'Mon profil Freestyle',url:link});break}}catch(err){if(err&&err.name==='AbortError')break}try{await navigator.clipboard.writeText(link);toast('Lien du profil copié')}catch(err){warnBox('Lien de ton profil',link,false)}break}
   case 'sound':{e.stopPropagation();setSound(!soundOn);break}
-  case 'del-ask':a.outerHTML=`<p style="margin:10px 0;color:var(--muted)">Supprimer définitivement cette publication ?</p><button class="sheet-act danger" data-act="del-yes" data-id="${id}">Oui, supprimer</button>`;break;
-  case 'del-yes':{const post=findPost(id);const {error}=await sb.from('posts').delete().eq('id',id);if(!error&&post)removeFiles((post.media||[]).map(m=>m.url));layer.innerHTML='';if(error)return dbError(error,'Suppression impossible');feed=feed.filter(p=>p.id!==id);profilePosts=profilePosts.filter(p=>p.id!==id);toast('Publication supprimée');render();break}
+  case 'del-ask':a.outerHTML=`<p style="margin:10px 0;color:var(--muted)">Supprimer définitivement ce post ?</p><button class="sheet-act danger" data-act="del-yes" data-id="${id}">Oui, supprimer</button>`;break;
+  case 'del-yes':{const post=findPost(id);const {error}=await sb.from('posts').delete().eq('id',id);if(!error&&post)removeFiles((post.media||[]).map(m=>m.url));layer.innerHTML='';if(error)return dbError(error,'Suppression impossible');feed=feed.filter(p=>p.id!==id);profilePosts=profilePosts.filter(p=>p.id!==id);toast('Post supprimé');render();break}
   case 'del-cmt':{const pp=a.dataset.p;const {error}=await sb.from('comments').delete().eq('id',id);if(error)return dbError(error,'Suppression impossible');const kill=new Set([id]);let ch=true;while(ch){ch=false;(commentsBy[pp]||[]).forEach(c=>{if(c.parent_id&&kill.has(c.parent_id)&&!kill.has(c.id)){kill.add(c.id);ch=true}})}commentsBy[pp]=(commentsBy[pp]||[]).filter(c=>!kill.has(c.id));if(cmtReply&&kill.has(cmtReply.id)){cmtReply=null;paintReplyBar()}paintComments(pp);const n=commentsBy[pp].length;document.querySelectorAll(`.card[data-id="${pp}"] .linkish[data-act="comments"]`).forEach(l=>{if(n)l.textContent=cmtLabel(n);else l.remove()});break}
-  case 'del-story':{clearTimeout(svT);const sto=Object.values(storiesBy).flat().find(x=>x.id===id);const {error}=await sb.from('stories').delete().eq('id',id);if(!error&&sto&&sto.media)removeFiles([sto.media.url]);if(error)return dbError(error,'Suppression impossible');toast('Story supprimée');await loadStories();closeStory();break}
+  case 'del-story':{clearTimeout(svT);const sto=Object.values(storiesBy).flat().find(x=>x.id===id);const {error}=await sb.from('stories').delete().eq('id',id);if(!error&&sto&&sto.media)removeFiles([sto.media.url]);if(error)return dbError(error,'Suppression impossible');toast('Flash supprimé');await loadStories();closeStory();break}
   case 'dm':case 'chat':layer.innerHTML='';hist.push([view,arg]);nav('chat',u);break;
   case 'profile':hist.push([view,arg]);nav('profile',u);break;
   case 'back':back();break;
@@ -4216,7 +4244,7 @@ function openAnnForm(){
   if(!(await guard([title,body,place].join(' \n '))))return;
   const b=$('an-go');b.disabled=true;b.textContent='Publication…';
   const {data,error}=await sb.from('announcements').insert({author_id:me.id,kind,title,body,event_at:dv?new Date(dv).toISOString():null,place:place||null}).select().single();
-  if(error){b.disabled=false;b.textContent='Publier pour tout le monde';return dbError(error,'Publication impossible')}
+  if(error){b.disabled=false;b.textContent='Publier pour tout le monde';return dbError(error,'Post impossible')}
   if(!annList.some(x=>x.id===data.id))annList.unshift(data);annLoaded=true;markInfoSeen();layer.innerHTML='';toast('Annonce publiée : tout le monde est prévenu');if(view==='messages')renderMessages(curQuery);
  });
 }
@@ -4239,14 +4267,14 @@ async function openPostStats(id){
  const {data:s,error}=await sb.rpc('fs_post_stats',{pid:id});const box=$('pst');if(!box)return;
  if(error||!s){box.innerHTML='<div class="empty">Statistiques indisponibles.</div>';return}
  const inter=s.likes+s.comments+s.shares+s.reactions,fol=pct(s.reach_followers,s.reach);
- box.innerHTML=`<div class="st-head">${p?`<span class="st-th">${statThumb(p)}</span>`:''}<span><b>${p&&p.kind==='clip'?'Clip':'Publication'}</b><small>Publiée le ${new Date(s.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}</small></span></div>
+ box.innerHTML=`<div class="st-head">${p?`<span class="st-th">${statThumb(p)}</span>`:''}<span><b>${p&&p.kind==='clip'?'Clip':'Post'}</b><small>Publié le ${new Date(s.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}</small></span></div>
   <div class="st-icons"><span>${I.heartSm}<b>${fmt(s.likes)}</b></span><span>${I.cmtSm}<b>${fmt(s.comments)}</b></span><span>${I.shareSm}<b>${fmt(s.shares)}</b></span><span>${I.reactSm}<b>${fmt(s.reactions)}</b></span></div>
   <div class="st-sec"><h4>Vues</h4><div class="st-big"><b>${fmt(s.views)}</b><span>vue${s.views>1?'s':''}</span></div>
    <div class="st-split"><i style="width:${fol}%"></i></div><div class="st-leg"><span><i class="a"></i>Abonnés ${fol} %</span><span><i class="b"></i>Non-abonnés ${s.reach?100-fol:0} %</span></div>
    <div class="st-row"><span>Comptes touchés</span><b>${fmt(s.reach)}</b></div></div>
   <div class="st-sec"><h4>Interactions</h4><div class="st-row"><span>J’aime</span><b>${fmt(s.likes)}</b></div><div class="st-row"><span>Commentaires</span><b>${fmt(s.comments)}</b></div><div class="st-row"><span>Partages</span><b>${fmt(s.shares)}</b></div><div class="st-row"><span>Réactions stickers</span><b>${fmt(s.reactions)}</b></div><div class="st-row tot"><span>Total</span><b>${fmt(inter)}</b></div></div>
   <div class="st-sec"><h4>Activité du profil</h4><div class="st-row"><span>Visites du profil</span><b>${fmt(s.profile_visits)}</b></div><div class="st-row"><span>Nouveaux abonnés</span><b>${fmt(s.follows)}</b></div></div>
-  <p class="st-note">Les vues comptent chaque affichage à l’écran. Les comptes touchés sont les personnes différentes qui ont vu la publication.</p>`;
+  <p class="st-note">Les vues comptent chaque affichage à l’écran. Les comptes touchés sont les personnes différentes qui ont vu le post.</p>`;
  box.querySelectorAll('video').forEach(v=>{v.dataset.w='1';v.pause()});
 }
 let insDays=30;
@@ -4268,9 +4296,9 @@ function renderSettings(){
   <h2 class="set-h">Apparence</h2>
   <div class="set-card set-theme"><div class="set-seg" role="radiogroup" aria-label="Thème">${[['light','Clair','<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>'],['dark','Sombre','<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>'],['system','Auto','<rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M9 20h6M12 16.5V20"/>']].map(([k,l,d])=>`<button type="button" data-act="set-theme" data-k="${k}" role="radio" aria-pressed="${t===k}">${svg(d)}<span>${l}</span></button>`).join('')}<i style="transform:translateX(${['light','dark','system'].indexOf(t)*100}%)" aria-hidden="true"></i></div><p class="set-note">« Auto » suit le réglage de ton téléphone.</p></div>
   <h2 class="set-h">Compte</h2>
-  <div class="set-card">${row('edit',IC.edit,'Modifier le profil','Photo, bannière, nom, bio')}${row('insights',IC.stats,'Tableau de bord','Vues et statistiques')}${row('saved',IC.saved,'Enregistrés','Les publications que tu as gardées')}${row('share',IC.share,'Partager mon profil','')}</div>
-  <h2 class="set-h">Notifications & confidentialité</h2>
-  <div class="set-card">${row('notifs',IC.bell,'Notifications','Choisis ce que tu reçois')}${row('blocked',IC.block,'Comptes bloqués','')}</div>
+  <div class="set-card">${row('edit',IC.edit,'Modifier le profil','Photo, bannière, nom, bio')}${row('insights',IC.stats,'Tableau de bord','Vues et statistiques')}${row('saved',IC.saved,'Enregistrés','Les posts que tu as gardés')}${row('share',IC.share,'Partager mon profil','')}</div>
+  <h2 class="set-h">Pings & confidentialité</h2>
+  <div class="set-card">${row('notifs',IC.bell,'Pings','Choisis ce que tu reçois')}${row('blocked',IC.block,'Comptes bloqués','')}</div>
   ${isAdmin()?`<h2 class="set-h">Administration</h2><div class="set-card">${row('reports',IC.flag,'Signalements','')}${row('bans',IC.ban,'Comptes bannis','')}</div>`:''}
   <div class="set-card">${row('logout',IC.out,'Se déconnecter','','danger')}</div>
   <p class="set-foot">Freestyle · le réseau social des sportifs</p>
@@ -4284,7 +4312,7 @@ const PIN_IC='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor
 async function loadPinned(uid){try{const {data}=await sb.from('posts').select('id,pinned_at').eq('user_id',uid).not('pinned_at','is',null);pinnedSet=new Set((data||[]).map(r=>r.id));pinnedAt={};(data||[]).forEach(r=>pinnedAt[r.id]=r.pinned_at)}catch(e){pinnedSet=new Set();pinnedAt={}}}
 function sortPinned(list){const pin=list.filter(p=>pinnedSet.has(p.id)).sort((a,b)=>new Date(pinnedAt[b.id])-new Date(pinnedAt[a.id]));return [...pin,...list.filter(p=>!pinnedSet.has(p.id))]}
 async function togglePin(id){const on=!pinnedSet.has(id);const {data,error}=await sb.rpc('fs_pin_post',{pid:id,pin:on});if(error)return dbError(error,'Action impossible');
- if(data==='full'){toast('3 publications épinglées maximum : retires-en une d’abord');return}
+ if(data==='full'){toast('3 posts épinglés maximum : retires-en un d’abord');return}
  if(data==='invalid'){toast('Action impossible');return}
  if(on){pinnedSet.add(id);pinnedAt[id]=new Date().toISOString()}else pinnedSet.delete(id);
  toast(on?'Épinglée en haut de ton profil':'Retirée du haut de ton profil');
@@ -4334,7 +4362,7 @@ const ppState={mine:null,of:{}};
 async function loadPartnerRows(uid){const {data}=await sb.from('training_partners').select('*').or(`requester.eq.${uid},addressee.eq.${uid}`);return data||[]}
 function ppDays(r){return Math.max(0,Math.floor((Date.now()-new Date(r.accepted_at||r.created_at))/864e5))}
 // Affinité calculée par le serveur à partir de l'activité commune des 30 derniers jours :
-// étoiles de messages, jours où les deux s'écrivent, likes, commentaires, stickers et likes de stories, abonnement, ancienneté.
+// étoiles de messages, jours où les deux s'écrivent, likes, commentaires, stickers et likes de flashs, abonnement, ancienneté.
 const ppAffCache={};
 async function ppAffinity(a,b){try{const {data,error}=await sb.rpc('fs_partner_affinity',{a,b});if(error||!data)return {score:0};ppAffCache[[a,b].sort().join('|')]=data;return data}catch(e){return {score:0}}}
 const affClass=v=>v>=100?'max':v>=75?'hi':v>=40?'mid':'lo';
@@ -4342,20 +4370,24 @@ const affTier=v=>v>=100?'Binôme parfait':v>=75?'Inséparables':v>=50?'Solide':v
 const AF_STAR='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3.6l2.5 5.1 5.6.8-4 3.9.9 5.6-5-2.6-5 2.6.9-5.6-4-3.9 5.6-.8z"/></svg>';
 function openAffinity(a,b){
  const r=ppAffCache[[a,b].sort().join('|')];if(!r)return;
- const days=r.days||0,streak=r.streak||0,sup=r.support!=null?r.support:(r.likes||0)+(r.comments||0)+(r.reactions||0);
+ const sc=Math.max(0,Math.min(100,r.score||0)),days=r.days||0,streak=r.streak||0,sup=r.support!=null?r.support:(r.likes||0)+(r.comments||0)+(r.reactions||0);
  const talked=r.talked_today!=null?r.talked_today:!!(r.today&&r.today.msg);
- const today=talked?['ok','Échange fait aujourd’hui']:streak>0?['risk',`Écrivez-vous avant minuit pour garder vos ${streak} étoile${streak>1?'s':''}`]:['idle','Écrivez-vous aujourd’hui pour lancer une série'];
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet pp-sheet af2" role="dialog" aria-label="Affinité"><div class="stw-top"><b>Affinité</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
-  <div class="af2-top ${affClass(r.score)}"><b>${r.score}<i>%</i></b><span>${affTier(r.score)}</span></div>
-  <div class="aff-big ${affClass(r.score)}"><span class="pp-bar"><i class="go" style="--w:${r.score}%"></i></span></div>
-  <div class="af2-today ${today[0]}"><i></i>${today[1]}</div>
-  <div class="af2-stats">
-   <div><b class="af2-star">${AF_STAR}${streak}</b><span>étoiles${r.best>streak?` · record ${r.best}`:''}</span></div>
-   <div><b>${days}<small>/30</small></b><span>jours d’échange</span></div>
-   <div class="${r.support_counted===false?'off':''}"><b>${r.support_counted===false?'—':sup}</b><span>soutien</span></div>
+ const st=talked?['ok','Échange fait aujourd’hui']:streak>0?['risk',`Écrivez-vous avant minuit pour garder la série`]:['idle','Écrivez-vous pour lancer une série'];
+ const C=2*Math.PI*52,off=C*(1-sc/100);
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet pp-sheet af3" role="dialog" aria-label="Affinité"><div class="stw-top"><b>Affinité</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
+  <div class="af3-ring ${affClass(sc)}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="tr"/><circle cx="60" cy="60" r="52" class="fg" style="stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${C.toFixed(1)};--off:${off.toFixed(1)}"/></svg><div><b>${sc}<i>%</i></b><span>${affTier(sc)}</span></div></div>
+  <p class="af3-st ${st[0]}"><i></i>${st[1]}</p>
+  <div class="af3-nums">
+   <div><b>${streak}</b><span>étoiles</span></div>
+   <div><b>${days}</b><span>jours sur 30</span></div>
+   <div class="${r.support_counted===false?'off':''}"><b>${r.support_counted===false?'–':sup}</b><span>soutien</span></div>
   </div>
-  <p class="af2-note">Parlez-vous chaque jour. Chaque jour d’échange compte, et plus votre série d’étoiles est longue, plus l’affinité grimpe.</p>
+  <div class="af3-how">
+   <div><em class="up">Monte</em><p>Écrivez-vous tous les deux le même jour. Chaque jour d’affilée ajoute une étoile. Les likes et commentaires donnent un petit bonus.</p></div>
+   <div><em class="down">Baisse</em><p>Un jour sans échange remet les étoiles à zéro, et un jour d’échange compte seulement 30 jours.</p></div>
+  </div>
  </div></div></div>`;
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{const f=layer.querySelector('.af3-ring .fg');if(f)f.style.strokeDashoffset=off.toFixed(1)}));
 }
 const ppIc='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3 2.8-4.8 5.5-4.8s4.9 1.8 5.5 4.8"/><path d="M16 5.2a3.2 3.2 0 0 1 0 5.6M17.5 14.6c1.6.6 2.7 2.2 3 4.4"/></svg>';
 async function paintPartner(uid,mine){
@@ -4415,7 +4447,7 @@ async function renderInsights(){
  const dd=x=>new Date(x+'T12:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
  main.innerHTML=`<div class="gutter ins">${chips}
   <div class="ins-grid">
-   <div class="ins-card big"><span>Vues</span><b>${fmt(s.views)}</b><small>sur tes publications et clips</small></div>
+   <div class="ins-card big"><span>Vues</span><b>${fmt(s.views)}</b><small>sur tes posts et clips</small></div>
    <div class="ins-card"><span>Comptes touchés</span><b>${fmt(s.reach)}</b>${delta!==null?`<small class="${delta>=0?'up':'down'}">${delta>=0?'+':''}${delta} % vs période précédente</small>`:'<small>personnes différentes</small>'}</div>
    <div class="ins-card"><span>Interactions</span><b>${fmt(s.interactions)}</b><small>${fmt(s.likes)} j’aime · ${fmt(s.comments)} comm.</small></div>
    <div class="ins-card"><span>Abonnés</span><b>${fmt(s.followers)}</b><small class="${s.new_followers?'up':''}">+${fmt(s.new_followers)} sur la période</small></div>
@@ -4442,7 +4474,7 @@ async function boot(){
  main.innerHTML=loadingHTML('Chargement du fil…');
  await Promise.all([refreshHome(),loadConvs(),loadNotifs(),loadClips(),loadAdmins(),loadBlocks(),loadGroups(),loadAnnouncements(),loadNotifPrefs(),loadSaved()]);recountUnread();loadBans();
  subscribeRealtime();
- const qpost=new URLSearchParams(location.search).get('p');if(qpost){history.replaceState(null,'',BASE_URL);const {data:pp}=await sb.from('feed').select('*').eq('id',qpost).maybeSingle();if(pp){await loadProfiles([pp.user_id]);if(pp.kind==='clip'){clipsList=[pp,...clipsList.filter(x=>x.id!==pp.id)];view='clips';arg=pp.id}else{feed=[pp,...feed.filter(x=>x.id!==pp.id)];await loadComments(feed.map(x=>x.id));view='home';setTimeout(()=>document.querySelector(`.card[data-id="${pp.id}"]`)?.scrollIntoView({block:'start'}),80)}}else toast('Cette publication n’existe plus')}
+ const qpost=new URLSearchParams(location.search).get('p');if(qpost){history.replaceState(null,'',BASE_URL);const {data:pp}=await sb.from('feed').select('*').eq('id',qpost).maybeSingle();if(pp){await loadProfiles([pp.user_id]);if(pp.kind==='clip'){clipsList=[pp,...clipsList.filter(x=>x.id!==pp.id)];view='clips';arg=pp.id}else{feed=[pp,...feed.filter(x=>x.id!==pp.id)];await loadComments(feed.map(x=>x.id));view='home';setTimeout(()=>document.querySelector(`.card[data-id="${pp.id}"]`)?.scrollIntoView({block:'start'}),80)}}else toast('Ce post n’existe plus')}
  const qu=new URLSearchParams(location.search).get('u');if(qu){history.replaceState(null,'',BASE_URL);const {data:tp}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').eq('handle',qu.toLowerCase()).maybeSingle();if(tp){P[tp.id]=tp;view='profile';arg=tp.id}}
  cleanExpiredStories();
  if(!['home','clips','messages','profile','create'].includes(view))view='home';
