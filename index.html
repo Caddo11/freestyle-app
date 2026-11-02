@@ -2798,6 +2798,10 @@ html[data-theme="dark"] .sh-sports button[aria-pressed="true"]{background:#F1F1F
 html[data-theme="dark"] .sh-go{background:#F1F1F1;color:#0F0F0F}
 .sh-go:disabled{opacity:.35;cursor:default}
 .sh-go:not(:disabled):active{transform:scale(.96)}
+
+.ck2-left{margin:-8px 0 14px;font-size:12.5px;color:#8e8e8a}
+.ck2-left:empty{display:none}
+.ck2-left b{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -4607,12 +4611,14 @@ function openCheckInfo(uid){
  const ri=respectCache[uid]||{count:0,given:false,threshold:100};const mine=me&&uid===me.id,h=prof(uid).handle||'';
  const th=ri.threshold||100,n=ri.count||0,pc=Math.min(100,Math.round(n/th*100)),left=Math.max(0,th-n);
  const line=mine?'Quand quelqu’un te checke, il te valide.':`Checker @${esc(h)}, c’est le valider.`;
- const act=mine?'':ri.given?`<button type="button" class="ck-go off" data-act="check-do" data-u="${uid}">Retirer mon check</button>`:ri.block?`<p class="ck-no">${esc(RESP_MSG[ri.block]||RESP_MSG.invalid)}</p>`:`<button type="button" class="ck-go" data-act="check-do" data-u="${uid}"><span class="ck-gi">${RESP_IC}</span><span class="ck-gt">Checker <b>@${esc(h)}</b></span></button>`;
+ const full=!mine&&!ri.given&&ri.max&&(ri.my_given||0)>=ri.max;
+ const act=mine?'':full?'':ri.given?`<button type="button" class="ck-go off" data-act="check-do" data-u="${uid}">Retirer mon check</button>`:ri.block?`<p class="ck-no">${esc(RESP_MSG[ri.block]||RESP_MSG.invalid)}</p>`:`<button type="button" class="ck-go" data-act="check-do" data-u="${uid}"><span class="ck-gi">${RESP_IC}</span><span class="ck-gt">Checker <b>@${esc(h)}</b></span></button>`;
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet ck-sheet ck2" role="dialog" aria-label="Check"><div class="stw-top"><b></b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
   <div class="ck2-head"><span class="ck2-ic">${RESP_IC}</span><div><b>Check</b><p>${line}</p></div></div>
   <div class="ck2-count"><b>${fmt(n)}</b><span>check${n>1?'s':''}</span><em class="${ri.validated?'ok':''}">${ri.validated?'Validé par la communauté':`${fmt(left)} avant d’être validé`}</em></div>
   <span class="ck-bar"><i style="width:${pc}%"></i></span>
-  <div class="ck2-rules"><span>1 par profil</span><span>Retirable</span><span>${th} = validé</span></div>
+  <div class="ck2-rules"><span>5 checks à donner</span><span>Retirable</span><span>${th} = validé</span></div>
+  ${!mine&&ri.max?`<p class="ck2-left">${ri.given?'':Math.max(0,ri.max-(ri.my_given||0))?`Il te reste <b>${Math.max(0,ri.max-(ri.my_given||0))}</b> check${ri.max-(ri.my_given||0)>1?'s':''} à donner`:'Tu as donné tes 5 checks : retires-en un pour checker ce profil'}</p>`:''}
   ${act}
  </div></div></div>`;
 }
@@ -4627,7 +4633,7 @@ async function doCheck(uid,fromSheet){
   toast(data.given?'Check envoyé à @'+(prof(uid).handle||''):'Check retiré');
  }finally{doCheck.busy=false}
 }
-const RESP_MSG={too_new:'Ton compte doit avoir plus de 7 jours pour checker',no_post:'Publie au moins une fois pour pouvoir checker',banned:'Ton compte ne peut pas checker',blocked:'Impossible avec ce compte',slow:'Doucement : réessaie un peu plus tard',invalid:'Action impossible'};
+const RESP_MSG={limit:'Tu as déjà donné tes 5 checks : retires-en un pour checker quelqu’un d’autre',too_new:'Ton compte doit avoir plus de 7 jours pour checker',no_post:'Publie au moins une fois pour pouvoir checker',banned:'Ton compte ne peut pas checker',blocked:'Impossible avec ce compte',slow:'Doucement : réessaie un peu plus tard',invalid:'Action impossible'};
 async function toggleRespect(btn,uid){
  if(!chkSeen()){chkMarkSeen();openCheckInfo(uid);return}
  await doCheck(uid,false);

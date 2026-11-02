@@ -1,0 +1,3 @@
+-- ===== Freestyle : chaque membre ne peut checker que 5 personnes (l'admin n'a pas de limite) =====
+-- fs_respect_info renvoie my_given / max ; fs_toggle_respect refuse avec le statut 'limit' au-delà de 5.
+-- (Même contenu que celui exécuté dans l'éditeur SQL de Supabase le 2 novembre 2026.)
