@@ -2811,6 +2811,9 @@ html[data-theme="dark"] .sh-go{background:#F1F1F1;color:#0F0F0F}
 .bn-chk.ok{background:#22A55C}
 .bn-chk.ok svg{color:#fff}
 .pnums3{grid-template-columns:repeat(3,1fr)}
+
+.streak i .st-emo{font-size:12px;line-height:1}
+.sk-ic{font-size:20px;line-height:1}
 </style>
 </head>
 <body>
@@ -3772,10 +3775,10 @@ const dayKey=d=>new Date(d).toLocaleDateString('fr-CA',{timeZone:'Europe/Paris'}
 // Série en danger : il y a une série, mais vous ne vous êtes pas encore écrit tous les deux aujourd'hui
 function streakRisk(uid){const st=dmStreak(uid);if(!st)return null;const c=convs[uid]||[],k=dayKey(new Date());const meT=c.some(m=>m.sender_id===me.id&&dayKey(m.created_at)===k),him=c.some(m=>m.sender_id===uid&&dayKey(m.created_at)===k);if(meT&&him)return null;return {st,meT,him}}
 function streakAlertHTML(uid){const r=streakRisk(uid);if(!r)return '';const n=prof(uid).name||prof(uid).handle;const miss=!r.meT&&!r.him?'Écrivez-vous tous les deux aujourd’hui':!r.meT?'Il manque ton message d’aujourd’hui':'Il manque le message de '+esc(n)+' aujourd’hui';
- return `<div class="sk-alert" role="status"><span class="sk-ic" aria-hidden="true">${HOUR_SVG}</span><span><b>Votre série de ${r.st} <span class="sk-star">${STAR_SVG}</span> est en danger</b><small>${miss}, sinon elle retombe à zéro à minuit.</small></span></div>`}
+ return `<div class="sk-alert" role="status"><span class="sk-ic" aria-hidden="true">⏳</span><span><b>Votre série de ${r.st} <span class="sk-star">${STAR_SVG}</span> est en danger</b><small>${miss}, sinon elle retombe à zéro à minuit.</small></span></div>`}
 const STAR_SVG='<svg class="st-svg" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.75 5.6 6.15.9-4.45 4.33 1.05 6.12L12 16.87l-5.5 2.88 1.05-6.12L3.1 9.3l6.15-.9z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>';
 const HOUR_SVG='<svg class="st-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10M7 21h10M8 3c0 4 8 5 8 9s-8 5-8 9M16 3c0 4-8 5-8 9s8 5 8 9"/></svg>';
-const streakHTML=uid=>{const st=dmStreak(uid);return `<span class="streak ${st?'':'zero'} ${streakRisk(uid)?'risk':''}" title="${st} jour${st>1?'s':''} d’affilée où vous vous êtes écrit tous les deux"><i aria-hidden="true">${streakRisk(uid)?HOUR_SVG:STAR_SVG}</i>${st}</span>`};
+const streakHTML=uid=>{const st=dmStreak(uid);return `<span class="streak ${st?'':'zero'} ${streakRisk(uid)?'risk':''}" title="${st} jour${st>1?'s':''} d’affilée où vous vous êtes écrit tous les deux"><i aria-hidden="true">${streakRisk(uid)?'<span class="st-emo">⏳</span>':STAR_SVG}</i>${st}</span>`};
 // Démonstration demandée : la conversation @caddo / @chloe affiche au moins 7 étoiles.
 // Retirer cette ligne pour revenir au calcul réel uniquement.
 const STREAK_DEMO={'a5124ac2-5eba-4c71-b4bd-52e5ca7e7138|d95af5f8-8d87-4b76-86a9-8ae8001edef2':7};
@@ -4463,7 +4466,7 @@ const infoSeen=()=>{try{return localStorage.getItem('fs-info-seen')||''}catch(e)
 const unreadInfo=()=>!!me&&annList.some(a=>a.author_id!==me.id&&a.created_at>infoSeen());
 function markInfoSeen(){if(annList.length){try{localStorage.setItem('fs-info-seen',annList[0].created_at)}catch(e){}}paintBadge()}
 async function loadAnnouncements(){try{const {data,error}=await sb.from('announcements').select('*').order('created_at',{ascending:false}).limit(60);if(error)throw error;annList=data||[];annLoaded=true;await loadProfiles(annList.map(a=>a.author_id))}catch(e){console.error('[Freestyle]',e);annLoaded=true}}
-function mtabsHTML(){return `<div class="mtabs" role="tablist"><button role="tab" data-act="mtab" data-k="dm" aria-selected="${msgTab==='dm'}">${I.dm}<span>Messages</span>${unreadCount?'<i class="mt-dot"></i>':''}</button><button role="tab" data-act="mtab" data-k="info" aria-selected="${msgTab==='info'}">${I.info}<span>Infos</span>${unreadInfo()?'<i class="mt-dot"></i>':''}</button><i class="mt-ind" style="transform:translateX(${msgTab==='info'?'100%':'0'})"></i></div>`}
+function mtabsHTML(){return `<div class="mtabs" role="tablist"><button role="tab" data-act="mtab" data-k="dm" aria-selected="${msgTab==='dm'}">${I.dm}<span>Messages</span>${unreadCount?'<i class="mt-dot"></i>':''}</button><button role="tab" data-act="mtab" data-k="info" aria-selected="${msgTab==='info'}">${I.info}<span>Événements</span>${unreadInfo()?'<i class="mt-dot"></i>':''}</button><i class="mt-ind" style="transform:translateX(${msgTab==='info'?'100%':'0'})"></i></div>`}
 function annLeft(t){const ms=new Date(t)-Date.now();if(ms<=0)return 'Expirée';const d=Math.ceil(ms/864e5);return d>1?`Encore ${d} jours`:`Dernier jour`}
 async function reviewAnn(btn,id,accept){
  const row=btn.closest('.ann-rev');row&&row.querySelectorAll('button').forEach(x=>x.disabled=true);
