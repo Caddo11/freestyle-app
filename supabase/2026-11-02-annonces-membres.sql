@@ -44,7 +44,7 @@ begin
   end if;
   if tg_op = 'UPDATE' then raise exception 'ACCES_REFUSE' using errcode = 'P0001'; end if;
   if public.fs_is_banned(auth.uid()) then raise exception 'COMPTE_BANNI' using errcode = 'P0001'; end if;
-  if (select count(*) from public.announcements where author_id = auth.uid() and status = 'pending') >= 3 then
+  if exists(select 1 from public.announcements where author_id = auth.uid() and status = 'pending') then
     raise exception 'ANNONCES_EN_ATTENTE' using errcode = 'P0001';
   end if;
   new.status := 'pending'; new.published_at := null; new.expires_at := null; new.created_at := now();

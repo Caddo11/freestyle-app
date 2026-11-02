@@ -2922,7 +2922,7 @@ async function dbError(error,fallback){
  if(m.includes('COMPTE_SUSPENDU')){await punish('muted');return}
  if(m.includes('NOM_14_JOURS')){warnBox('Nom bloqué 14 jours','Tu as déjà changé ton nom récemment. Tu pourras le modifier à nouveau 14 jours après le dernier changement.',false);return}
  if(m.includes('duplicate key')&&m.includes('handle')){toast('Ce nom d’utilisateur est déjà pris');return}
- if(m.includes('ANNONCES_EN_ATTENTE')){toast('Tu as déjà 3 demandes en attente : patiente qu’elles soient validées');return}
+ if(m.includes('ANNONCES_EN_ATTENTE')){toast('Tu as déjà une demande en attente : patiente qu’elle soit validée');return}
  if(m.includes('PSEUDO_INVALIDE')){toast('Pseudo refusé : pas d’émoji, seulement lettres, chiffres, espaces, . - _');return}
  if(m.includes('profiles_handle_check')){toast('Nom d’utilisateur refusé : pas d’émoji ni de symbole');return}
  console.error('[Freestyle]',error);toast(fallback||'Une erreur est survenue, réessaie.');
@@ -2939,7 +2939,7 @@ const P={};                        // cache des profils par id
 let following=new Set();
 let view='home',arg=null,hist=[],sportFilter=null;
 let feed=[],commentsBy={},storiesBy={},seenStories=new Set();
-let convs={},globalMsgs=[],unreadCount=0;
+let convs={},unreadCount=0;
 let reactBy={},clipsList=[],clipsLoading=false;
 const REACT_WORDS=['WAOUH','INCROYABLE','DINGUE','SUPER','TROP BEAU','JOLI','PROPRE','EN FEU','MONSTRE','LÉGENDAIRE','MALADE','RESPECT','CLEAN','STYLÉ'];
 let savedSet=new Set(),savedPosts=[],savedLoaded=false;
@@ -3033,14 +3033,14 @@ function closeLayer(){
 })();
 function back(){const h=hist.pop();h?nav(h[0],h[1]):nav('home')}
 function render(){
- const map={home:'home',clips:'clips',create:'',messages:'home',chat:'home',gchat:'home',global:'home',profile:'profile',editprofile:'profile',insights:'profile',settings:'profile',search:'search'};
+ const map={home:'home',clips:'clips',create:'',messages:'home',chat:'home',gchat:'home',profile:'profile',editprofile:'profile',insights:'profile',settings:'profile',search:'search'};
  document.querySelectorAll('nav.tabs button').forEach(b=>{b.removeAttribute('aria-current');if(map[view]===b.dataset.nav&&!(view==='profile'&&arg&&arg!==me?.id))b.setAttribute('aria-current','page')});
  paintBadge();$('tabs').classList.remove('mini');lastSY=0;requestAnimationFrame(moveInd);
- const bare=['banned','chat','gchat','global','onboard','auth','checkmail','newpw'].includes(view);
+ const bare=['banned','chat','gchat','onboard','auth','checkmail','newpw'].includes(view);
  $('tabs').hidden=bare;main.classList.toggle('no-nav',bare);
  main.classList.toggle('clips-mode',view==='clips');
  topEl.hidden=['banned','onboard','auth','checkmail','newpw','clips'].includes(view);
- ({home:renderHome,clips:renderClips,create:renderCreate,messages:()=>renderMessages(''),chat:renderChat,gchat:renderGChat,global:renderGlobal,profile:renderProfile,editprofile:renderEditProfile,insights:renderInsights,settings:renderSettings,search:()=>renderSearch(''),onboard:renderOnboard,banned:renderBanned,auth:renderAuth,checkmail:renderCheckMail,newpw:renderNewPw})[view]();
+ ({home:renderHome,clips:renderClips,create:renderCreate,messages:()=>renderMessages(''),chat:renderChat,gchat:renderGChat,profile:renderProfile,editprofile:renderEditProfile,insights:renderInsights,settings:renderSettings,search:()=>renderSearch(''),onboard:renderOnboard,banned:renderBanned,auth:renderAuth,checkmail:renderCheckMail,newpw:renderNewPw})[view]();
 }
 function moveInd(){const ind=document.querySelector('nav.tabs .nav-ind');if(!ind)return;const a=document.querySelector('nav.tabs button[aria-current="page"]');if(!a){ind.style.opacity='0';return}ind.style.opacity='1';ind.style.background=getComputedStyle(a).getPropertyValue('--acc-bg')||'';ind.style.width=a.offsetWidth+'px';ind.style.transform=`translateX(${a.offsetLeft}px)`}
 window.addEventListener('resize',()=>moveInd());
@@ -3279,10 +3279,6 @@ async function loadConvs(){
  cleanMyExpiredDm(data||[]);
  Object.values(convs).forEach(c=>{if(c.some(m=>m.recipient_id===me.id&&!m.read_at))unreadCount++});
  await loadProfiles(Object.keys(convs));
-}
-async function loadGlobal(){
- const {data}=await sb.from('global_messages').select('*').order('created_at',{ascending:false}).limit(100);
- globalMsgs=(data||[]).reverse();await loadProfiles(globalMsgs.map(m=>m.user_id));
 }
 async function loadNotifs(){const {data}=await sb.from('notifications').select('*').order('created_at',{ascending:false}).limit(80);notifs=data||[];unreadNotifs=notifs.filter(n=>!n.read_at).length;await loadProfiles(notifs.map(n=>n.actor_id))}
 const notifText=n=>({reaction:'a réagi « '+(n.text||'')+' » à ton post',story_like:'a aimé ton flash',like:'a aimé ton post',comment:'a commenté : '+(n.text||''),reply:'a répondu à ton commentaire : '+(n.text||''),comment_like:'a aimé ton commentaire'+(n.text?' : '+n.text:''),message:'t’a envoyé un message : '+(n.text||''),follow:'s’est abonné à toi',announcement:'a publié une annonce : '+(n.text||''),partner_request:'veut être ton partenaire d’entraînement',partner_accept:'a accepté d’être ton partenaire d’entraînement',respect:'t’a checké',ann_request:'demande à publier une annonce : '+(n.text||''),ann_accept:'a accepté ton annonce : '+(n.text||'')+' · visible 7 jours',ann_refuse:'n’a pas retenu ton annonce : '+(n.text||'')})[n.type]||'';
@@ -3838,23 +3834,6 @@ async function sendMsg(uid,t){
  if(error){if(/row-level security/i.test(error.message||'')){toast('Impossible d’écrire à ce compte');return false}await dbError(error,'Message non envoyé');return false}
  (convs[uid]=convs[uid]||[]).push(data);if(view==='chat'&&arg===uid)appendMsg(data);return true;
 }
-function gMsg(m){const mine=m.user_id===me.id;return `<div class="gm ${mine?'me':''}">${mine?'':av(m.user_id,28)}<div class="msg ${mine?'me':''}">${mine?'':`<b class="gh">${esc(prof(m.user_id).handle)}</b>`}${esc(m.text)}<small>${hhmm(m.created_at)}</small></div></div>`}
-function appendG(m){const th=$('th');if(!th)return;$('g-empty')?.remove();th.insertAdjacentHTML('beforeend',gMsg(m));th.scrollTop=th.scrollHeight}
-async function renderGlobal(){
- topEl.innerHTML=`<button class="icon-btn" data-act="back-msg" aria-label="Retour">${I.back}</button><span style="display:flex;align-items:center;gap:10px;flex:1;min-width:0"><span class="room-ic sm">${I.globe}</span><span><b style="display:block">Discussion globale</b><small style="color:var(--muted)">Toute la communauté Freestyle</small></span></span>`;
- main.innerHTML=`<div class="chat"><div class="rules">Texte uniquement · pas de liens, photos ni vidéos · propos haineux bloqués</div><div class="thread gutter" id="th">${globalMsgs.length?globalMsgs.map(gMsg).join(''):'<div class="empty" id="g-empty">Personne n’a encore écrit. Sois le premier !</div>'}</div>
-  <form class="composer gutter" id="gp"><div class="line"><input id="gi" placeholder="Écris à tout le monde…" autocomplete="off" maxlength="200" aria-label="Message à tous"><button class="send" type="submit" aria-label="Envoyer">${I.send}</button></div></form></div>`;
- const th=$('th');th.scrollTop=th.scrollHeight;
- $('gi').addEventListener('paste',e=>{if([...(e.clipboardData?.items||[])].some(x=>x.kind==='file')){e.preventDefault();warnBox('Fichier bloqué','Les photos et vidéos ne sont pas autorisées dans la discussion globale.',false)}});
- $('gp').addEventListener('submit',async e=>{e.preventDefault();const i=$('gi'),t=i.value.trim();if(!t)return;
-  if(me.muted_until&&new Date(me.muted_until)>new Date())return punish('muted');
-  if(!(await guard(t,{noLinks:true})))return;
-  i.value='';const {data,error}=await sb.from('global_messages').insert({user_id:me.id,text:t}).select().single();
-  if(error){i.value=t;return dbError(error,'Message non envoyé')}
-  if(!globalMsgs.some(x=>x.id===data.id)){globalMsgs.push(data);appendG(data)}
- });
-}
-
 // ================= GROUPES =================
 function gAv(gid,s){const m=(gMembers[gid]||[]).filter(x=>x!==me.id).slice(0,2);if(!m.length)return av(me.id,s);if(m.length===1)return av(m[0],s);const k=Math.round(s*.72);return `<span class="gav" style="width:${s}px;height:${s}px"><span class="ga1">${av(m[0],k)}</span><span class="ga2">${av(m[1],k)}</span></span>`}
 const gmHTML=m=>{const mine=m.sender_id===me.id;return mine?`<div class="msg me">${esc(m.text)}<small>${hhmm(m.created_at)}</small></div>`:`<div class="gm">${av(m.sender_id,28)}<div class="msg"><b class="gh">${esc(prof(m.sender_id).handle)}</b>${esc(m.text)}<small>${hhmm(m.created_at)}</small></div></div>`};
