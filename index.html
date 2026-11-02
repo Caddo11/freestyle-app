@@ -2602,6 +2602,43 @@ html[data-theme="dark"] .resp-btn{border-color:#4a4a48;color:#6e6e6b}
 .af3-how em{font-style:normal;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;width:52px;flex:0 0 auto}
 .af3-how em.up{color:#22A55C}.af3-how em.down{color:#E5484D}
 .af3-how p{margin:0;font-size:12.5px;line-height:1.45;color:var(--ink);opacity:.8}
+
+/* ================= v48 : Check plus visible + fiche explicative ================= */
+.pbtns.with-resp{grid-template-columns:1fr 1fr auto}
+.resp-btn{width:auto;height:36px;border-radius:10px;padding:0 14px 0 10px;display:inline-flex;align-items:center;gap:6px;border:1.6px solid #22A55C;background:rgba(34,165,92,.08);color:#1E9A55;font-weight:800;font-size:13.5px}
+html[data-theme="dark"] .resp-btn{border-color:#2FB86A;color:#3DD47D;background:rgba(47,184,106,.10)}
+.resp-btn .rb-ic{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#22A55C;color:#fff}
+.resp-btn .rb-ic svg{width:13px;height:13px}
+.resp-btn.on,html[data-theme="dark"] .resp-btn.on{background:#22A55C;border-color:#22A55C;color:#fff}
+.resp-btn.on .rb-ic{background:#fff;color:#22A55C}
+.pnums3 .pn-resp{position:relative;background:none;border:0;cursor:pointer;color:inherit;font:inherit;padding:0}
+.pnums3 .pn-resp::before{content:"";position:absolute;left:0;top:12%;bottom:12%;width:1px;background:var(--paper-line)}
+.pn-resp b{display:inline-flex;align-items:center;gap:4px;color:#1E9A55}
+html[data-theme="dark"] .pn-resp b{color:#3DD47D}
+.pn-resp .pr-ic{width:17px;height:17px;border-radius:50%;background:#22A55C;color:#fff;display:grid;place-items:center}
+.pn-resp .pr-ic svg{width:11px;height:11px}
+.pnums3 .pn-resp .pr-l{color:#1E9A55;font-weight:700}
+.pnums3 .pn-resp b>span{font-size:inherit;color:inherit;font-weight:800}
+.pnums3 .pn-resp b>.pr-ic{color:#fff}
+html[data-theme="dark"] .pnums3 .pn-resp .pr-l{color:#3DD47D}
+.ck-sheet .sheet-list{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+.ck-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;margin-top:-6px}
+.ck-big{width:58px;height:58px;border-radius:50%;background:#22A55C;color:#fff;display:grid;place-items:center;box-shadow:0 6px 20px rgba(34,165,92,.35)}
+.ck-big svg{width:30px;height:30px}
+.ck-hero b{font-size:19px;font-weight:800;color:var(--ink)}
+.ck-hero p{margin:0;font-size:13px;line-height:1.45;color:#8e8e8a;max-width:300px}
+.ck-prog{margin:18px 0 6px}
+.ck-pl{display:flex;justify-content:space-between;font-size:12.5px;color:#8e8e8a;margin-bottom:7px}
+.ck-pl b{color:var(--ink);font-size:14px}
+.ck-bar{display:block;height:6px;border-radius:3px;background:var(--paper);overflow:hidden}
+.ck-bar i{display:block;height:100%;border-radius:3px;background:#22A55C}
+.ck-rules{list-style:none;margin:14px 0 18px;padding:0;display:flex;flex-direction:column;gap:11px}
+.ck-rules li{display:flex;gap:10px;font-size:13px;line-height:1.4;color:var(--ink)}
+.ck-rules li i{font-style:normal;flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:var(--paper);font-size:11px;font-weight:800;display:grid;place-items:center;color:#8e8e8a}
+.ck-go{width:100%;height:46px;border:0;border-radius:13px;background:#22A55C;color:#fff;font-weight:800;font-size:14.5px;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
+.ck-go svg{width:18px;height:18px}
+.ck-go.off{background:var(--paper);color:var(--ink)}
+.ck-go:disabled{background:var(--paper);color:#8e8e8a;font-size:13px;font-weight:600;cursor:default}
 </style>
 </head>
 <body>
@@ -3859,7 +3896,7 @@ async function renderProfile(){
  const creator=ADMINS.has(uid);
  main.innerHTML=`<div class="gutter ${creator?'creator':''} ${ri&&ri.validated?'cv-on':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>${creator?'</div>':''}
  <section class="phead">
-  <div class="pnums3 ${ri?'pnums4':''}"><div><b>${fmt(s.posts)}</b><span>posts</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button>${ri?`<div class="pn-resp"><b id="st-respects">${fmt(ri.count)}</b><span>check${ri.count>1?'s':''}</span></div>`:''}</div>
+  <div class="pnums3 ${ri?'pnums4':''}"><div><b>${fmt(s.posts)}</b><span>posts</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button>${ri?`<button type="button" class="pn-resp" data-act="check-info" data-u="${uid}" aria-label="${ri.count} checks, voir comment fonctionne le check"><b><span class="pr-ic">${RESP_IC}</span><span id="st-respects">${fmt(ri.count)}</span></b><span class="pr-l">check${ri.count>1?'s':''}</span></button>`:''}</div>
   <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}<button type="button" class="pn-share" data-act="share-profile" data-u="${uid}" aria-label="Partager le profil">${I.link}</button>${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b><span id="cv-slot">${ri&&ri.validated?cvTag():''}</span>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pp-box" id="pp-box" data-u="${uid}"></div>
@@ -4121,6 +4158,8 @@ document.addEventListener('click',async e=>{
   case 'comments':openComments(id);break;
   case 'follow':await toggleFollow(u);if(view==='home')renderHome();else if(view==='clips')renderClips();break;
   case 'respect':{await toggleRespect(a,u);break}
+  case 'check-info':openCheckInfo(u);break;
+  case 'check-do':await doCheck(u,true);break;
   case 'follow-prof':{await toggleFollow(u);const b=a;const on=following.has(u);b.textContent=on?'Abonné':'Suivre';b.classList.toggle('primary',!on);const el=$('st-followers');if(el){const {data}=await sb.from('profile_stats').select('followers').eq('id',u).maybeSingle();if(data)el.textContent=fmt(data.followers)}break}
   case 'follow-list':{await toggleFollow(u);const on=following.has(u);a.textContent=on?'Abonné':'Suivre';a.classList.toggle('on',on);break}
   case 'ulist':openUserList(u,a.dataset.k);break;
@@ -4338,23 +4377,49 @@ const respectCache={};
 async function loadRespect(uid){try{const {data,error}=await sb.rpc('fs_respect_info',{pid:uid});if(error||!data)return null;respectCache[uid]=data;return data}catch(e){return null}}
 const RESP_IC='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12.5l4 4L18.5 8"/></svg>';
 const cvTag=()=>`<span class="cv-tag" title="Au moins 25 membres différents l’ont checké"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.3l2.7 2.7L16.2 9.5"/></svg>Validé par la communauté</span>`;
-const respBtn=(uid,ri)=>`<button type="button" class="resp-btn ${ri.given?'on':''}" data-act="respect" data-u="${uid}" aria-pressed="${ri.given?'true':'false'}" aria-label="${ri.given?'Retirer ton check':'Checker ce sportif'}" title="${ri.given?'Checké · toucher pour retirer':'Checker : je respecte son travail'}">${RESP_IC}</button>`;
-const RESP_MSG={too_new:'Ton compte doit avoir plus de 7 jours pour checker',no_post:'Publie au moins une fois pour pouvoir checker',banned:'Ton compte ne peut pas checker',blocked:'Impossible avec ce compte',slow:'Doucement : réessaie un peu plus tard',invalid:'Action impossible'};
-async function toggleRespect(btn,uid){
- if(btn.dataset.busy)return;btn.dataset.busy='1';
+const respBtn=(uid,ri)=>`<button type="button" class="resp-btn ${ri.given?'on':''}" data-act="respect" data-u="${uid}" aria-pressed="${ri.given?'true':'false'}" aria-label="${ri.given?'Retirer ton check':'Checker ce sportif'}"><span class="rb-ic">${RESP_IC}</span><span class="rb-t">${ri.given?'Checké':'Check'}</span></button>`;
+const CHK_SEEN='fs_check_info_seen';
+function chkSeen(){try{return localStorage.getItem(CHK_SEEN)==='1'}catch(e){return true}}
+function chkMarkSeen(){try{localStorage.setItem(CHK_SEEN,'1')}catch(e){}}
+function paintCheck(uid,data){
+ const btn=main.querySelector(`.resp-btn[data-u="${uid}"]`);
+ if(btn){btn.classList.toggle('on',!!data.given);btn.setAttribute('aria-pressed',data.given?'true':'false');btn.setAttribute('aria-label',data.given?'Retirer ton check':'Checker ce sportif');const t=btn.querySelector('.rb-t');if(t)t.textContent=data.given?'Checké':'Check';if(data.given){btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop')}}
+ const n=$('st-respects');if(n){n.textContent=fmt(data.count);const l=n.parentElement.querySelector('.pr-l');if(l)l.textContent='check'+(data.count>1?'s':'')}
+ const slot=$('cv-slot');if(slot)slot.innerHTML=data.validated?cvTag():'';
+ const g=main.querySelector('.gutter');if(g)g.classList.toggle('cv-on',!!data.validated);
+}
+// Fiche « Le Check » : explications + progression vers la validation + bouton d'action
+function openCheckInfo(uid){
+ const ri=respectCache[uid]||{count:0,given:false,threshold:25};const mine=me&&uid===me.id,h=prof(uid).handle||'';
+ const th=ri.threshold||25,n=ri.count||0,pc=Math.min(100,Math.round(n/th*100));
+ const act=mine?'':ri.given?`<button type="button" class="ck-go off" data-act="check-do" data-u="${uid}">Retirer mon check</button>`:ri.block?`<button type="button" class="ck-go" disabled>${esc(RESP_MSG[ri.block]||RESP_MSG.invalid)}</button>`:`<button type="button" class="ck-go" data-act="check-do" data-u="${uid}">${RESP_IC}Checker @${esc(h)}</button>`;
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet ck-sheet" role="dialog" aria-label="Le Check"><div class="stw-top"><b></b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
+  <div class="ck-hero"><span class="ck-big">${RESP_IC}</span><b>Le Check</b><p>Un check veut dire « je respecte ton travail » : ta progression, ta régularité, tes performances. Jamais le physique.</p></div>
+  <div class="ck-prog"><div class="ck-pl"><span><b>${fmt(n)}</b> check${n>1?'s':''}</span><span>${ri.validated?'Validé par la communauté':`${Math.max(0,th-n)} avant la validation`}</span></div><span class="ck-bar"><i style="width:${pc}%"></i></span></div>
+  <ul class="ck-rules">
+   <li><i>1</i>Un seul check par profil, et tu peux le retirer à tout moment.</li>
+   <li><i>2</i>Le membre reçoit un ping : « @toi t’a checké ».</li>
+   <li><i>3</i>À ${th} checks de membres différents, le profil devient « Validé par la communauté ». La pastille bleue s’achète, la validation se mérite.</li>
+   <li><i>4</i>Pour checker, ton compte doit avoir plus de 7 jours et au moins un post.</li>
+  </ul>
+  ${act}
+ </div></div></div>`;
+}
+async function doCheck(uid,fromSheet){
+ if(doCheck.busy)return;doCheck.busy=true;
  try{
   const {data,error}=await sb.rpc('fs_toggle_respect',{target:uid});
   if(error||!data){toast('Le check n’est pas encore disponible, réessaie plus tard.');return}
   if(data.status!=='ok'){toast(RESP_MSG[data.status]||RESP_MSG.invalid);return}
-  respectCache[uid]=data;
-  btn.classList.toggle('on',!!data.given);btn.setAttribute('aria-pressed',data.given?'true':'false');
-  btn.setAttribute('aria-label',data.given?'Retirer ton check':'Checker ce sportif');
-  btn.title=data.given?'Checké · toucher pour retirer':'Checker : je respecte son travail';
-  if(data.given){btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop')}
-  const n=$('st-respects');if(n){n.textContent=fmt(data.count);const l=n.nextElementSibling;if(l)l.textContent='check'+(data.count>1?'s':'')}
-  const slot=$('cv-slot');if(slot)slot.innerHTML=data.validated?cvTag():'';
-  const g=main.querySelector('.gutter');if(g)g.classList.toggle('cv-on',!!data.validated);
- }finally{delete btn.dataset.busy}
+  respectCache[uid]=data;paintCheck(uid,data);
+  if(fromSheet)layer.innerHTML='';
+  toast(data.given?'Check envoyé à @'+(prof(uid).handle||''):'Check retiré');
+ }finally{doCheck.busy=false}
+}
+const RESP_MSG={too_new:'Ton compte doit avoir plus de 7 jours pour checker',no_post:'Publie au moins une fois pour pouvoir checker',banned:'Ton compte ne peut pas checker',blocked:'Impossible avec ce compte',slow:'Doucement : réessaie un peu plus tard',invalid:'Action impossible'};
+async function toggleRespect(btn,uid){
+ if(!chkSeen()){chkMarkSeen();openCheckInfo(uid);return}
+ await doCheck(uid,false);
 }
 // ================= PARTENAIRE D'ENTRAÎNEMENT =================
 // Un partenaire par membre, validé par les deux. Affinité calculée à partir du sport, de la ville,
