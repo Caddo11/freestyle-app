@@ -2539,6 +2539,40 @@ html[data-theme="dark"] .streak i{filter:drop-shadow(0 0 5px rgba(255,200,40,.55
 .cv-on .pav{box-shadow:0 0 0 1.5px #C9C9C4,0 4px 14px rgba(0,0,0,.18)!important}
 html[data-theme="dark"] .cv-on .pav{box-shadow:0 0 0 1.5px #6b6b68,0 4px 14px rgba(0,0,0,.35)!important}
 .n-respect{color:var(--ink)}
+
+/* ================= v46 : affinité minimaliste + check vert ================= */
+.af2 .sheet-list{padding-top:6px}
+.af2-top{display:flex;align-items:baseline;gap:10px;margin:2px 0 10px}
+.af2-top b{font-size:40px;font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.af2-top b i{font-style:normal;font-size:18px;font-weight:700;color:#8e8e8a;margin-left:2px}
+.af2-top span{font-size:13px;font-weight:700}
+.af2-top.lo span{color:#E5484D}.af2-top.mid span{color:#E8862A}.af2-top.hi span,.af2-top.max span{color:#22A55C}
+.af2 .aff-big{margin:0}
+.af2-today{display:flex;align-items:center;gap:8px;margin:16px 0 4px;font-size:13px;font-weight:600;color:var(--ink)}
+.af2-today i{width:7px;height:7px;border-radius:50%;flex:0 0 auto;background:#a3a29d}
+.af2-today.ok i{background:#22A55C}.af2-today.risk i{background:#E8862A;animation:afPulse 1.6s ease-in-out infinite}
+.af2-today.risk{color:#C9701F}
+html[data-theme="dark"] .af2-today.risk{color:#F0A65A}
+@keyframes afPulse{50%{opacity:.35}}
+.af2-stats{display:grid;grid-template-columns:repeat(3,1fr);margin:14px 0 0;border-top:1px solid var(--paper-line);border-bottom:1px solid var(--paper-line)}
+.af2-stats>div{display:flex;flex-direction:column;align-items:center;gap:3px;padding:14px 4px;text-align:center}
+.af2-stats>div+div{border-left:1px solid var(--paper-line)}
+.af2-stats b{font-size:20px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;display:inline-flex;align-items:center;gap:4px}
+.af2-stats b small{font-size:12px;font-weight:600;color:#a3a29d}
+.af2-stats span{font-size:11.5px;color:#8e8e8a}
+.af2-stats .off{opacity:.45}
+.af2-star svg{color:#F5B301}
+.af2-note{margin:14px 2px 2px;font-size:12px;line-height:1.45;color:#8e8e8a}
+.pbtns.with-resp{grid-template-columns:1fr 1fr 36px;align-items:center}
+.resp-btn{width:36px;height:36px;border-radius:50%;border:1.6px solid #c4c4bf;background:transparent;color:#b1b1ac;display:grid;place-items:center;padding:0;cursor:pointer;transition:background .2s,border-color .2s,color .2s,transform .15s}
+html[data-theme="dark"] .resp-btn{border-color:#4a4a48;color:#6e6e6b}
+.resp-btn:active{transform:scale(.9)}
+.resp-btn.on,html[data-theme="dark"] .resp-btn.on{background:#22A55C;border-color:#22A55C;color:#fff}
+.resp-btn.pop{animation:chkPop .45s cubic-bezier(.3,1.6,.5,1)}
+.resp-btn.pop svg path{stroke-dasharray:20;stroke-dashoffset:20;animation:chkDraw .35s ease-out .05s forwards}
+@keyframes chkPop{0%{transform:scale(.7)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes chkDraw{to{stroke-dashoffset:0}}
+.n-respect{color:#22A55C}
 </style>
 </head>
 <body>
@@ -3064,7 +3098,7 @@ async function loadGlobal(){
  globalMsgs=(data||[]).reverse();await loadProfiles(globalMsgs.map(m=>m.user_id));
 }
 async function loadNotifs(){const {data}=await sb.from('notifications').select('*').order('created_at',{ascending:false}).limit(80);notifs=data||[];unreadNotifs=notifs.filter(n=>!n.read_at).length;await loadProfiles(notifs.map(n=>n.actor_id))}
-const notifText=n=>({reaction:'a réagi « '+(n.text||'')+' » à ta publication',story_like:'a aimé ta story',like:'a aimé ta publication',comment:'a commenté : '+(n.text||''),reply:'a répondu à ton commentaire : '+(n.text||''),comment_like:'a aimé ton commentaire'+(n.text?' : '+n.text:''),message:'t’a envoyé un message : '+(n.text||''),follow:'s’est abonné à toi',announcement:'a publié une annonce : '+(n.text||''),partner_request:'veut être ton partenaire d’entraînement',partner_accept:'a accepté d’être ton partenaire d’entraînement',respect:'t’a donné son respect'})[n.type]||'';
+const notifText=n=>({reaction:'a réagi « '+(n.text||'')+' » à ta publication',story_like:'a aimé ta story',like:'a aimé ta publication',comment:'a commenté : '+(n.text||''),reply:'a répondu à ton commentaire : '+(n.text||''),comment_like:'a aimé ton commentaire'+(n.text?' : '+n.text:''),message:'t’a envoyé un message : '+(n.text||''),follow:'s’est abonné à toi',announcement:'a publié une annonce : '+(n.text||''),partner_request:'veut être ton partenaire d’entraînement',partner_accept:'a accepté d’être ton partenaire d’entraînement',respect:'t’a checké'})[n.type]||'';
 const NOTIF_IC={like:'heartSm',story_like:'heartSm',comment_like:'heartSm',reaction:'reactSm',comment:'cmtSm',reply:'cmtSm',message:'dmSm',follow:'personSm',announcement:'infoSm',partner_request:'personSm',partner_accept:'personSm',respect:'respectSm'};
 function notifRow(n){return `<div class="conv notif ${n.read_at?'':'unread-n'}"><span class="n-av">${av(n.actor_id,40)}<i class="n-ic n-${esc(n.type)}">${I[NOTIF_IC[n.type]]||''}</i></span><button class="meta" data-act="notif-open" data-id="${n.id}" style="text-align:left"><b>${esc(prof(n.actor_id).handle)}${vb(n.actor_id)}</b><span class="n-txt">${esc(notifText(n))} · ${ago(n.created_at)}</span></button>${n.type==='follow'&&!following.has(n.actor_id)?`<button class="mini" data-act="follow-list" data-u="${n.actor_id}">Suivre</button>`:''}</div>`}
 async function openNotifs(){
@@ -3796,7 +3830,7 @@ async function renderProfile(){
  const creator=ADMINS.has(uid);
  main.innerHTML=`<div class="gutter ${creator?'creator':''} ${ri&&ri.validated?'cv-on':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span></div>${creator?'</div>':''}
  <section class="phead">
-  <div class="pnums3 ${ri?'pnums4':''}"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button>${ri?`<div class="pn-resp"><b id="st-respects">${fmt(ri.count)}</b><span>respect${ri.count>1?'s':''}</span></div>`:''}</div>
+  <div class="pnums3 ${ri?'pnums4':''}"><div><b>${fmt(s.posts)}</b><span>publications</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button>${ri?`<div class="pn-resp"><b id="st-respects">${fmt(ri.count)}</b><span>check${ri.count>1?'s':''}</span></div>`:''}</div>
   <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}<button type="button" class="pn-share" data-act="share-profile" data-u="${uid}" aria-label="Partager le profil">${I.link}</button>${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b><span id="cv-slot">${ri&&ri.validated?cvTag():''}</span>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pp-box" id="pp-box" data-u="${uid}"></div>
@@ -4267,27 +4301,28 @@ function creatorIntro(){
   b.textContent='0';requestAnimationFrame(step);
  });
 }
-// ================= RESPECT & VALIDATION PAR LA COMMUNAUTÉ =================
-// Un respect par profil (retirable). 25 respects de membres différents = « Validé par la communauté ».
-// Seuls les comptes de plus de 7 jours qui ont déjà publié peuvent en donner (vérifié par le serveur).
+// ================= CHECK & VALIDATION PAR LA COMMUNAUTÉ =================
+// Le « check » : petite coche verte qu'on coche sur un profil quand on respecte le travail du sportif.
+// Un check par profil (retirable). 25 checks de membres différents = « Validé par la communauté ».
+// Seuls les comptes de plus de 7 jours qui ont déjà publié peuvent checker (vérifié par le serveur).
 const respectCache={};
 async function loadRespect(uid){try{const {data,error}=await sb.rpc('fs_respect_info',{pid:uid});if(error||!data)return null;respectCache[uid]=data;return data}catch(e){return null}}
-const RESP_IC='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>';
-const cvTag=()=>`<span class="cv-tag" title="Au moins 25 membres différents ont donné leur respect"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.3l2.7 2.7L16.2 9.5"/></svg>Validé par la communauté</span>`;
-const respBtn=(uid,ri)=>`<button type="button" class="pbtn resp-btn ${ri.given?'on':''}" data-act="respect" data-u="${uid}" aria-pressed="${ri.given?'true':'false'}" aria-label="${ri.given?'Retirer ton respect':'Donner ton respect'}" title="${ri.given?'Respect donné · toucher pour retirer':'Donner ton respect à son travail'}">${RESP_IC}<span>Respect</span></button>`;
-const RESP_MSG={too_new:'Ton compte doit avoir plus de 7 jours pour donner ton respect',no_post:'Publie au moins une fois pour pouvoir donner ton respect',banned:'Ton compte ne peut pas donner de respect',blocked:'Impossible avec ce compte',slow:'Doucement : réessaie un peu plus tard',invalid:'Action impossible'};
+const RESP_IC='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12.5l4 4L18.5 8"/></svg>';
+const cvTag=()=>`<span class="cv-tag" title="Au moins 25 membres différents l’ont checké"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.3l2.7 2.7L16.2 9.5"/></svg>Validé par la communauté</span>`;
+const respBtn=(uid,ri)=>`<button type="button" class="resp-btn ${ri.given?'on':''}" data-act="respect" data-u="${uid}" aria-pressed="${ri.given?'true':'false'}" aria-label="${ri.given?'Retirer ton check':'Checker ce sportif'}" title="${ri.given?'Checké · toucher pour retirer':'Checker : je respecte son travail'}">${RESP_IC}</button>`;
+const RESP_MSG={too_new:'Ton compte doit avoir plus de 7 jours pour checker',no_post:'Publie au moins une fois pour pouvoir checker',banned:'Ton compte ne peut pas checker',blocked:'Impossible avec ce compte',slow:'Doucement : réessaie un peu plus tard',invalid:'Action impossible'};
 async function toggleRespect(btn,uid){
  if(btn.dataset.busy)return;btn.dataset.busy='1';
  try{
   const {data,error}=await sb.rpc('fs_toggle_respect',{target:uid});
-  if(error||!data){toast('Le respect n’est pas encore disponible, réessaie plus tard.');return}
+  if(error||!data){toast('Le check n’est pas encore disponible, réessaie plus tard.');return}
   if(data.status!=='ok'){toast(RESP_MSG[data.status]||RESP_MSG.invalid);return}
   respectCache[uid]=data;
   btn.classList.toggle('on',!!data.given);btn.setAttribute('aria-pressed',data.given?'true':'false');
-  btn.setAttribute('aria-label',data.given?'Retirer ton respect':'Donner ton respect');
-  btn.title=data.given?'Respect donné · toucher pour retirer':'Donner ton respect à son travail';
-  if(data.given){btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop');toast('Respect donné')}
-  const n=$('st-respects');if(n){n.textContent=fmt(data.count);const l=n.nextElementSibling;if(l)l.textContent='respect'+(data.count>1?'s':'')}
+  btn.setAttribute('aria-label',data.given?'Retirer ton check':'Checker ce sportif');
+  btn.title=data.given?'Checké · toucher pour retirer':'Checker : je respecte son travail';
+  if(data.given){btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop')}
+  const n=$('st-respects');if(n){n.textContent=fmt(data.count);const l=n.nextElementSibling;if(l)l.textContent='check'+(data.count>1?'s':'')}
   const slot=$('cv-slot');if(slot)slot.innerHTML=data.validated?cvTag():'';
   const g=main.querySelector('.gutter');if(g)g.classList.toggle('cv-on',!!data.validated);
  }finally{delete btn.dataset.busy}
@@ -4303,32 +4338,23 @@ function ppDays(r){return Math.max(0,Math.floor((Date.now()-new Date(r.accepted_
 const ppAffCache={};
 async function ppAffinity(a,b){try{const {data,error}=await sb.rpc('fs_partner_affinity',{a,b});if(error||!data)return {score:0};ppAffCache[[a,b].sort().join('|')]=data;return data}catch(e){return {score:0}}}
 const affClass=v=>v>=100?'max':v>=75?'hi':v>=40?'mid':'lo';
-const AFF_IC={
- star:'<path d="M12 3.6l2.5 5.1 5.6.8-4 3.9.9 5.6-5-2.6-5 2.6.9-5.6-4-3.9 5.6-.8z"/>',
- msg:'<path d="M4.5 5.5h15v10h-9l-4.5 3.5v-3.5h-1.5z"/>',
- like:'<path d="M7.5 10.5v8.5h-3v-8.5zM7.5 18.5c1.2.4 2.6.5 4 .5h4.3c1 0 1.8-.7 2-1.6l1.1-5.2c.2-1.1-.6-2.2-1.8-2.2h-4.1l.6-3.2c.2-1-.6-1.8-1.5-1.8L7.5 10.5"/>',
- cmt:'<path d="M20 11.5c0 3.9-3.6 7-8 7-1.1 0-2.1-.2-3-.5L5 19.5l1.2-3.3C4.8 15 4 13.3 4 11.5c0-3.9 3.6-7 8-7s8 3.1 8 7z"/>',
- spark:'<path d="M12 4v4M12 16v4M4 12h4M16 12h4M7 7l2 2M15 15l2 2M17 7l-2 2M9 15l-2 2"/>',
- duo:'<circle cx="9" cy="8.5" r="3"/><path d="M3.8 18.5c.6-2.7 2.7-4.3 5.2-4.3s4.6 1.6 5.2 4.3"/><path d="M15.5 5.7a3 3 0 0 1 0 5.6M17.2 14.4c1.5.6 2.5 2 2.8 4.1"/>',
- cal:'<rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>'};
-const affSvg=k=>`<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${AFF_IC[k]}</svg>`;
-const affTier=v=>v>=100?'Affinité maximale':v>=75?'Très forte':v>=40?'Correcte':'À construire';
+const affTier=v=>v>=100?'Binôme parfait':v>=75?'Inséparables':v>=50?'Solide':v>=25?'En rythme':'Début';
+const AF_STAR='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3.6l2.5 5.1 5.6.8-4 3.9.9 5.6-5-2.6-5 2.6.9-5.6-4-3.9 5.6-.8z"/></svg>';
 function openAffinity(a,b){
- const r=ppAffCache[[a,b].sort().join('|')];if(!r)return;const p=r.parts||{},td=r.today||{},ct=r.counted||{likes:true,comments:true,reactions:true};
- const pl=(n,w)=>n+' '+w+(n>1?'s':'');
- const st=(done,open,counted)=>counted===false?['off','Non compté']:done?['ok','Fait aujourd’hui']:open===false?['off','En pause']:['todo','À faire aujourd’hui'];
- const rows=[
-  ['star','Série de messages',pl(r.streak,'jour')+' d’affilée',p.streak,30,st(td.msg)],
-  ['msg','Messages',pl(r.days,'jour')+' d’échange',p.days,20,st(td.msg)],
-  ['like','Likes',pl(r.likes,'like'),p.likes,15,st(td.like,td.post,ct.likes)],
-  ['cmt','Commentaires',pl(r.comments,'commentaire'),p.comments,15,st(td.cmt,td.post,ct.comments)],
-  ['spark','Stickers et stories',pl(r.reactions,'réaction'),p.reactions,10,st(td.misc,td.post===undefined?undefined:(td.post||td.story),ct.reactions)],
-  ['duo','Abonnement',r.follow>=2?'Mutuel':r.follow?'À sens unique':'Aucun',p.follow,5,null],
-  ['cal','Ancienneté',pl(r.duo_days,'jour'),p.age,5,null]];
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet pp-sheet aff-sheet" role="dialog" aria-label="Affinité"><div class="stw-top"><b>Affinité</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
-  <div class="aff-head ${affClass(r.score)}"><div class="aff-score"><b>${r.score}<i>%</i></b><span>${affTier(r.score)}</span></div><div class="aff-big ${affClass(r.score)}"><span class="pp-bar"><i class="go" style="--w:${r.score}%"></i></span></div></div>
-  <div class="aff-list">${rows.map(([ic,t,v,pt,max,s])=>{const off=s&&s[0]==='off'&&s[1]==='Non compté';return `<div class="aff-r ${off?'is-off':''}"><span class="aff-i">${affSvg(ic)}</span><span class="aff-m"><span class="aff-l"><b>${t}</b><em>${off?'—':Math.round(pt||0)+'<small>/'+max+'</small>'}</em></span><span class="aff-mini"><i style="width:${off?0:Math.min(100,Math.round((pt||0)/max*100))}%"></i></span><span class="aff-s"><small>${v}</small>${s?`<u class="aff-st ${s[0]}">${s[1]}</u>`:''}</span></span></div>`}).join('')}</div>
-  <details class="aff-how"><summary>Comment ça marche</summary><p>Chaque jour d’activité entre vous fait monter l’affinité. Un jour sans message fait baisser la série et les messages.</p><p>Les likes, commentaires et réactions ne baissent que si l’un de vous a publié quelque chose ce jour-là. Si personne ne publie, rien ne baisse et ces catégories ne sont pas comptées.</p></details>
+ const r=ppAffCache[[a,b].sort().join('|')];if(!r)return;
+ const days=r.days||0,streak=r.streak||0,sup=r.support!=null?r.support:(r.likes||0)+(r.comments||0)+(r.reactions||0);
+ const talked=r.talked_today!=null?r.talked_today:!!(r.today&&r.today.msg);
+ const today=talked?['ok','Échange fait aujourd’hui']:streak>0?['risk',`Écrivez-vous avant minuit pour garder vos ${streak} étoile${streak>1?'s':''}`]:['idle','Écrivez-vous aujourd’hui pour lancer une série'];
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet pp-sheet af2" role="dialog" aria-label="Affinité"><div class="stw-top"><b>Affinité</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
+  <div class="af2-top ${affClass(r.score)}"><b>${r.score}<i>%</i></b><span>${affTier(r.score)}</span></div>
+  <div class="aff-big ${affClass(r.score)}"><span class="pp-bar"><i class="go" style="--w:${r.score}%"></i></span></div>
+  <div class="af2-today ${today[0]}"><i></i>${today[1]}</div>
+  <div class="af2-stats">
+   <div><b class="af2-star">${AF_STAR}${streak}</b><span>étoiles${r.best>streak?` · record ${r.best}`:''}</span></div>
+   <div><b>${days}<small>/30</small></b><span>jours d’échange</span></div>
+   <div class="${r.support_counted===false?'off':''}"><b>${r.support_counted===false?'—':sup}</b><span>soutien</span></div>
+  </div>
+  <p class="af2-note">Parlez-vous chaque jour. Chaque jour d’échange compte, et plus votre série d’étoiles est longue, plus l’affinité grimpe.</p>
  </div></div></div>`;
 }
 const ppIc='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3 2.8-4.8 5.5-4.8s4.9 1.8 5.5 4.8"/><path d="M16 5.2a3.2 3.2 0 0 1 0 5.6M17.5 14.6c1.6.6 2.7 2.2 3 4.4"/></svg>';
