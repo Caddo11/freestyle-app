@@ -2639,6 +2639,35 @@ html[data-theme="dark"] .pnums3 .pn-resp .pr-l{color:#3DD47D}
 .ck-go svg{width:18px;height:18px}
 .ck-go.off{background:var(--paper);color:var(--ink)}
 .ck-go:disabled{background:var(--paper);color:#8e8e8a;font-size:13px;font-weight:600;cursor:default}
+
+/* ================= v49 : Check carré, fiche épurée, rien de coupé ================= */
+.resp-btn{white-space:nowrap;flex-shrink:0;min-width:0}
+.resp-btn .rb-ic{border-radius:6px}
+.pn-resp .pr-ic{border-radius:5px}
+.pnums3>*{min-width:0}
+.pnums3 span{white-space:nowrap}
+.pbtns.with-resp .pbtn{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ck-sheet .stw-top b{font-size:15px}
+.ck-hero{gap:12px;margin:2px 0 0}
+.ck-big{width:52px;height:52px;border-radius:30%;box-shadow:none}
+.ck-big svg{width:26px;height:26px}
+.ck-hero p{font-size:14px;color:var(--ink);max-width:none;font-weight:600}
+.ck-prog{margin:22px 0 4px}
+.ck-pl{gap:10px}
+.ck-pl span{white-space:nowrap}
+.ck-rules{margin:16px 0 20px;gap:0;border-top:1px solid var(--paper-line)}
+.ck-rules li{display:block;padding:11px 0;border-bottom:1px solid var(--paper-line);font-size:13px;color:#6f6f6b;line-height:1.4}
+html[data-theme="dark"] .ck-rules li{color:#a3a29d}
+.ck-go{border-radius:12px;padding:0 16px;min-width:0}
+.ck-gi{display:inline-grid;flex:0 0 auto}
+.ck-gt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ck-gt b{font-weight:800}
+.ck-no{margin:0;text-align:center;font-size:12.5px;color:#8e8e8a}
+.cv-tag{white-space:nowrap}
+.ck-sheet .ck-go,html[data-theme="dark"] .ck-sheet .ck-go{background:#22A55C!important;color:#fff!important;border:0!important}
+.ck-sheet .ck-go.off,html[data-theme="dark"] .ck-sheet .ck-go.off{background:var(--paper)!important;color:var(--ink)!important}
+html[data-theme="dark"] .ck-sheet .ck-go.off{background:#1E1E1E!important;color:#F1F1F1!important}
+@media (max-width:360px){.pnums4 span{font-size:11px}.pnums3.pnums4 b{font-size:15px}.resp-btn{padding:0 10px 0 8px;font-size:12.5px}}
 </style>
 </head>
 <body>
@@ -4376,7 +4405,7 @@ function creatorIntro(){
 const respectCache={};
 async function loadRespect(uid){try{const {data,error}=await sb.rpc('fs_respect_info',{pid:uid});if(error||!data)return null;respectCache[uid]=data;return data}catch(e){return null}}
 const RESP_IC='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12.5l4 4L18.5 8"/></svg>';
-const cvTag=()=>`<span class="cv-tag" title="Au moins 25 membres différents l’ont checké"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.3l2.7 2.7L16.2 9.5"/></svg>Validé par la communauté</span>`;
+const cvTag=()=>`<span class="cv-tag" title="Au moins 25 membres différents l’ont checké"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M8 12.3l2.7 2.7L16.2 9.5"/></svg>Validé par la communauté</span>`;
 const respBtn=(uid,ri)=>`<button type="button" class="resp-btn ${ri.given?'on':''}" data-act="respect" data-u="${uid}" aria-pressed="${ri.given?'true':'false'}" aria-label="${ri.given?'Retirer ton check':'Checker ce sportif'}"><span class="rb-ic">${RESP_IC}</span><span class="rb-t">${ri.given?'Checké':'Check'}</span></button>`;
 const CHK_SEEN='fs_check_info_seen';
 function chkSeen(){try{return localStorage.getItem(CHK_SEEN)==='1'}catch(e){return true}}
@@ -4392,15 +4421,14 @@ function paintCheck(uid,data){
 function openCheckInfo(uid){
  const ri=respectCache[uid]||{count:0,given:false,threshold:25};const mine=me&&uid===me.id,h=prof(uid).handle||'';
  const th=ri.threshold||25,n=ri.count||0,pc=Math.min(100,Math.round(n/th*100));
- const act=mine?'':ri.given?`<button type="button" class="ck-go off" data-act="check-do" data-u="${uid}">Retirer mon check</button>`:ri.block?`<button type="button" class="ck-go" disabled>${esc(RESP_MSG[ri.block]||RESP_MSG.invalid)}</button>`:`<button type="button" class="ck-go" data-act="check-do" data-u="${uid}">${RESP_IC}Checker @${esc(h)}</button>`;
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet ck-sheet" role="dialog" aria-label="Le Check"><div class="stw-top"><b></b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
-  <div class="ck-hero"><span class="ck-big">${RESP_IC}</span><b>Le Check</b><p>Un check veut dire « je respecte ton travail » : ta progression, ta régularité, tes performances. Jamais le physique.</p></div>
-  <div class="ck-prog"><div class="ck-pl"><span><b>${fmt(n)}</b> check${n>1?'s':''}</span><span>${ri.validated?'Validé par la communauté':`${Math.max(0,th-n)} avant la validation`}</span></div><span class="ck-bar"><i style="width:${pc}%"></i></span></div>
+ const act=mine?'':ri.given?`<button type="button" class="ck-go off" data-act="check-do" data-u="${uid}">Retirer mon check</button>`:ri.block?`<p class="ck-no">${esc(RESP_MSG[ri.block]||RESP_MSG.invalid)}</p>`:`<button type="button" class="ck-go" data-act="check-do" data-u="${uid}"><span class="ck-gi">${RESP_IC}</span><span class="ck-gt">Checker <b>@${esc(h)}</b></span></button>`;
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet ck-sheet" role="dialog" aria-label="Le Check"><div class="stw-top"><b>Check</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
+  <div class="ck-hero"><span class="ck-big">${RESP_IC}</span><p>Un check, c’est dire « je respecte ton travail ».</p></div>
+  <div class="ck-prog"><div class="ck-pl"><span><b>${fmt(n)}</b> check${n>1?'s':''}</span><span>${ri.validated?'Validé':`${fmt(n)} / ${th}`}</span></div><span class="ck-bar"><i style="width:${pc}%"></i></span></div>
   <ul class="ck-rules">
-   <li><i>1</i>Un seul check par profil, et tu peux le retirer à tout moment.</li>
-   <li><i>2</i>Le membre reçoit un ping : « @toi t’a checké ».</li>
-   <li><i>3</i>À ${th} checks de membres différents, le profil devient « Validé par la communauté ». La pastille bleue s’achète, la validation se mérite.</li>
-   <li><i>4</i>Pour checker, ton compte doit avoir plus de 7 jours et au moins un post.</li>
+   <li>Un check par profil, retirable à tout moment</li>
+   <li>${th} checks pour être validé par la communauté</li>
+   <li>Possible après 7 jours et un premier post</li>
   </ul>
   ${act}
  </div></div></div>`;
