@@ -2742,6 +2742,62 @@ html[data-theme="dark"] .ann-pend{background:#161616}
 html[data-theme="dark"] .ann-no{background:#232323;color:#F1F1F1}
 .ann-yes{background:#22A55C;color:#fff}
 .ann-note{margin:2px 0 12px;font-size:12.5px;line-height:1.45;color:#8e8e8a}
+
+/* ================= v53 : Check épuré, étoile dessinée, Shouts ================= */
+.resp-btn,html[data-theme="dark"] .resp-btn{height:36px;padding:0 13px;gap:5px;border:0;border-radius:10px;background:var(--paper);color:var(--ink);font-size:13.5px;font-weight:700}
+html[data-theme="dark"] .resp-btn{background:#1E1E1E;color:#F1F1F1}
+.resp-btn .rb-ic,html[data-theme="dark"] .resp-btn .rb-ic{width:auto;height:auto;background:none;border-radius:0;color:#22A55C}
+.resp-btn .rb-ic svg{width:16px;height:16px;stroke-width:2.6}
+.resp-btn.on,html[data-theme="dark"] .resp-btn.on{background:rgba(34,165,92,.12);color:#1E9A55;border:0}
+html[data-theme="dark"] .resp-btn.on{background:rgba(47,184,106,.14);color:#3DD47D}
+.resp-btn.on .rb-ic{background:none;color:inherit}
+.pn-resp .pr-ic,html[data-theme="dark"] .pn-resp .pr-ic{width:auto;height:auto;background:none;color:#22A55C;border-radius:0}
+.pn-resp .pr-ic svg{width:14px;height:14px;stroke-width:2.8}
+.pnums3 .pn-resp b>.pr-ic{color:#22A55C}
+.pnums3 .pn-resp b>span:not(.pr-ic){color:var(--ink)}
+.pnums3 .pn-resp .pr-l{color:#737373;font-weight:400}
+html[data-theme="dark"] .pnums3 .pn-resp .pr-l{color:#939393}
+.pnums3 .pn-resp::before{display:none}
+/* étoile dessinée */
+.streak i{display:inline-grid;place-items:center;filter:none!important;color:#F5B301}
+.streak i .st-svg{width:12px;height:12px;display:block}
+.streak.zero i{color:#a3a29d}
+.streak.risk i{color:#E8862A}
+.sk-ic{display:grid;place-items:center;color:#E8862A}
+.sk-ic .st-svg{width:20px;height:20px}
+.sk-star{display:inline-grid;vertical-align:-1px;color:#F5B301}
+.sk-star .st-svg{width:12px;height:12px}
+/* shouts */
+.shout-btn{margin-right:2px}
+.shout-card .shout{position:relative;padding:12px 2px 6px}
+.sh-top{display:flex;align-items:center;gap:10px}
+.sh-top .who{flex:1;min-width:0;text-align:left;background:none;border:0;padding:0;color:var(--ink);display:flex;flex-direction:column}
+.sh-top .who b{font-size:14px;display:flex;align-items:center;gap:4px}
+.sh-top .who small{font-size:12px;color:#8e8e8a}
+.sh-top .ghost{color:var(--ink);border-color:var(--paper-line)}
+.sh-top .menu-btn{color:var(--ink)}
+.sh-txt{margin:10px 0 2px;font-size:16px;line-height:1.45;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.shout-card .stamp{color:#ED4956}
+.shout-card{padding-bottom:6px;border-bottom:1px solid var(--paper-line)}
+.g-shout{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:10px;background:var(--paper);color:var(--ink);font-size:12px;font-weight:600;line-height:1.35;text-align:center}
+html[data-theme="dark"] .g-shout{background:#161616}
+.g-shout span{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.sh-sheet .stw-top b{font-size:15px}
+.sh-me{display:flex;gap:10px;align-items:flex-start}
+.sh-me textarea{flex:1;min-width:0;border:0;background:none;resize:none;font:inherit;font-size:16px;line-height:1.45;color:var(--ink);outline:none;padding:6px 0}
+.sh-sports{display:flex;gap:6px;overflow-x:auto;margin:10px -16px 0;padding:2px 16px 4px;scrollbar-width:none}
+.sh-sports::-webkit-scrollbar{display:none}
+.sh-sports button{flex:0 0 auto;height:30px;padding:0 11px;border-radius:9px;border:0;background:var(--paper);color:var(--ink);font-size:12.5px;font-weight:600;white-space:nowrap;cursor:pointer}
+html[data-theme="dark"] .sh-sports button{background:#1E1E1E;color:#d6d6d2}
+.sh-sports button[aria-pressed="true"]{background:var(--ink);color:var(--card,#fff)}
+html[data-theme="dark"] .sh-sports button[aria-pressed="true"]{background:#F1F1F1;color:#0F0F0F}
+.sh-foot{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin:14px 0 calc(16px + env(safe-area-inset-bottom,0px))}
+.sh-n{font-size:12.5px;font-weight:700;color:#a3a29d;font-variant-numeric:tabular-nums}
+.sh-n.low{color:#E8862A}
+.sh-go{height:38px;padding:0 20px;border-radius:11px;border:0;background:var(--ink);color:var(--card,#fff);font-weight:800;font-size:14px;cursor:pointer;transition:opacity .2s,transform .16s cubic-bezier(.3,1.4,.5,1)}
+html[data-theme="dark"] .sh-go{background:#F1F1F1;color:#0F0F0F}
+.sh-go:disabled{opacity:.35;cursor:default}
+.sh-go:not(:disabled):active{transform:scale(.96)}
 </style>
 </head>
 <body>
@@ -2922,6 +2978,7 @@ async function dbError(error,fallback){
  if(m.includes('COMPTE_SUSPENDU')){await punish('muted');return}
  if(m.includes('NOM_14_JOURS')){warnBox('Nom bloqué 14 jours','Tu as déjà changé ton nom récemment. Tu pourras le modifier à nouveau 14 jours après le dernier changement.',false);return}
  if(m.includes('duplicate key')&&m.includes('handle')){toast('Ce nom d’utilisateur est déjà pris');return}
+ if(m.includes('SHOUT_TROP')){toast('Doucement : 10 shouts par heure maximum');return}
  if(m.includes('ANNONCES_EN_ATTENTE')){toast('Tu as déjà une demande en attente : patiente qu’elle soit validée');return}
  if(m.includes('PSEUDO_INVALIDE')){toast('Pseudo refusé : pas d’émoji, seulement lettres, chiffres, espaces, . - _');return}
  if(m.includes('profiles_handle_check')){toast('Nom d’utilisateur refusé : pas d’émoji ni de symbole');return}
@@ -3331,7 +3388,7 @@ function subscribeRealtime(){
 
 // ================= FIL =================
 async function renderHome(){
- topEl.innerHTML=`<button class="feed-pick" data-act="feed-pick" aria-haspopup="true"><span class="fp-l">Catégorie :</span><b class="fp-v">${esc(sportFilter||'Tous les posts')}</b><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><span class="top-side r"><button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><button class="icon-btn" data-act="notifs" aria-label="Pings">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount||unreadInfo()?'<span class="bell-dot"></span>':''}</button></span>`;
+ topEl.innerHTML=`<button class="icon-btn shout-btn" data-act="shout-new" aria-label="Écrire un shout" title="Shout">${SHOUT_IC}</button><button class="feed-pick" data-act="feed-pick" aria-haspopup="true"><span class="fp-l">Catégorie :</span><b class="fp-v">${esc(sportFilter||'Tous les posts')}</b><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><span class="top-side r"><button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><button class="icon-btn" data-act="notifs" aria-label="Pings">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount||unreadInfo()?'<span class="bell-dot"></span>':''}</button></span>`;
  const order=Object.keys(storiesBy).filter(k=>k!==me.id).sort((a,b)=>(following.has(b)?1:0)-(following.has(a)?1:0));
  const mine=storiesBy[me.id]||[];
  const seenAll=uid=>(storiesBy[uid]||[]).every(s=>seenStories.has(s.id));
@@ -3341,7 +3398,45 @@ async function renderHome(){
   ${feed.length?feed.map(cardHTML).join(''):sportFilter?`<div class="empty">Aucun post en ${esc(sportFilter)} pour l’instant.</div>`:`<div class="empty">Le fil est encore vide.<br>Publie ta première séance avec le bouton + en haut, ou invite des potes sportifs.</div>`}</div>`;
 }
 const hasVideo=p=>(p.media||[]).some(m=>m.type==='video');
+const SHOUT_IC='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 5.5h15a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H11l-4.5 3.5v-3.5h-2a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1z"/><path d="M8 10h8M8 13h5"/></svg>';
+function shoutCardHTML(p){
+ const u=prof(p.user_id),mine=p.user_id===me.id,nc=(commentsBy[p.id]||[]).length;
+ return `<article class="card shout-card" data-id="${p.id}">
+  <div class="shout" data-dbl="${p.id}">
+   <div class="sh-top">${av(p.user_id,34)}<button class="who" data-act="profile" data-u="${p.user_id}"><b>${esc(u.handle)}${vb(p.user_id)}</b><small>${esc(p.sport)} · ${ago(p.created_at)}</small></button>${!mine&&!following.has(p.user_id)?`<button class="ghost" data-act="follow" data-u="${p.user_id}">Suivre</button>`:''}<button class="menu-btn" data-act="post-menu" data-id="${p.id}" aria-label="Options">•••</button></div>
+   <p class="sh-txt">${esc(p.caption||'')}</p>
+   <span class="stamp">${I.bigheart}</span>
+  </div>
+  <div class="bar-actions ps-bar"><button class="respect ${p.liked?'on':''}" data-act="like" data-id="${p.id}" aria-label="J’aime">${I.psHeart}<span>${fmt(p.like_count)}</span></button><button class="round" data-act="comments" data-id="${p.id}" aria-label="Commentaires">${I.psComment}</button><button class="round" data-act="share-post" data-id="${p.id}" aria-label="Partager le shout">${I.psShare}</button><span class="sp"></span><button class="round save-btn ${savedSet.has(p.id)?'on':''}" data-act="save" data-id="${p.id}" aria-pressed="${savedSet.has(p.id)}" aria-label="${savedSet.has(p.id)?'Retirer des enregistrements':'Enregistrer'}">${I.psSave}</button></div>
+  <span class="views-l">${I.eyeV}${fmt(p.view_count||0)} vue${(p.view_count||0)>1?'s':''}</span>
+  ${nc?`<button class="linkish" data-act="comments" data-id="${p.id}">${cmtLabel(nc)}</button>`:''}
+  ${mine?`<button class="linkish st-link" data-act="post-stats" data-id="${p.id}">Voir les statistiques</button>`:''}
+  <form class="inline-cmt" data-id="${p.id}"><input placeholder="Répondre…" maxlength="2000" aria-label="Répondre au shout"><button type="submit">Envoyer</button></form>
+ </article>`;
+}
+function openShoutForm(){
+ let sport=me&&me.sport&&SPORT_LIST.includes(me.sport)?me.sport:SPORT_LIST[0];
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet sh-sheet" role="dialog" aria-label="Nouveau shout"><div class="stw-top"><b>Shout</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <form class="gutter sh-form" id="shf" novalidate>
+   <div class="sh-me">${av(me.id,36)}<textarea id="sh-t" maxlength="280" rows="4" placeholder="Quoi de neuf à l’entraînement ?" aria-label="Texte du shout"></textarea></div>
+   <div class="sh-sports" role="group" aria-label="Sport">${SPORT_LIST.map(sp=>`<button type="button" data-sp="${esc(sp)}" aria-pressed="${sp===sport}">${esc(sp)}</button>`).join('')}</div>
+   <div class="sh-foot"><span class="sh-n" id="sh-n">280</span><button class="sh-go" type="submit" id="sh-go" disabled>Shout</button></div>
+  </form></div></div>`;
+ const t=$('sh-t'),n=$('sh-n'),go=$('sh-go');setTimeout(()=>t.focus(),280);
+ t.addEventListener('input',()=>{const left=280-t.value.length;n.textContent=left;n.classList.toggle('low',left<=20);go.disabled=!t.value.trim()});
+ layer.querySelectorAll('[data-sp]').forEach(b=>b.addEventListener('click',()=>{sport=b.dataset.sp;layer.querySelectorAll('[data-sp]').forEach(x=>x.setAttribute('aria-pressed',x===b))}));
+ $('shf').addEventListener('submit',async e=>{
+  e.preventDefault();const txt=t.value.trim();if(!txt)return;
+  if(me.muted_until&&new Date(me.muted_until)>new Date())return punish('muted');
+  if(!(await guard(txt,{noLinks:true})))return;
+  go.disabled=true;go.textContent='Envoi…';
+  const {error}=await sb.from('posts').insert({user_id:me.id,kind:'shout',sport,caption:txt,media:[],stickers:[]});
+  if(error){go.disabled=false;go.textContent='Shout';return dbError(error,'Shout impossible')}
+  closeLayer();toast('Shout publié');await loadFeed();if(view==='home')renderHome();else{hist=[];nav('home')}main.scrollTop=0;
+ });
+}
 function cardHTML(p){
+ if(p.kind==='shout')return shoutCardHTML(p);
  const u=prof(p.user_id),clip=p.kind==='clip',mine=p.user_id===me.id,nc=(commentsBy[p.id]||[]).length,nr=(reactBy[p.id]||[]).length,myR=(reactBy[p.id]||[]).some(r=>r.user_id===me.id);
  return `<article class="card" data-id="${p.id}">
   <div class="card-media ${clip?'clip':''}" data-dbl="${p.id}">${mediaHTML(p.media,p.sport)}
@@ -3664,8 +3759,10 @@ const dayKey=d=>new Date(d).toLocaleDateString('fr-CA',{timeZone:'Europe/Paris'}
 // Série en danger : il y a une série, mais vous ne vous êtes pas encore écrit tous les deux aujourd'hui
 function streakRisk(uid){const st=dmStreak(uid);if(!st)return null;const c=convs[uid]||[],k=dayKey(new Date());const meT=c.some(m=>m.sender_id===me.id&&dayKey(m.created_at)===k),him=c.some(m=>m.sender_id===uid&&dayKey(m.created_at)===k);if(meT&&him)return null;return {st,meT,him}}
 function streakAlertHTML(uid){const r=streakRisk(uid);if(!r)return '';const n=prof(uid).name||prof(uid).handle;const miss=!r.meT&&!r.him?'Écrivez-vous tous les deux aujourd’hui':!r.meT?'Il manque ton message d’aujourd’hui':'Il manque le message de '+esc(n)+' aujourd’hui';
- return `<div class="sk-alert" role="status"><span class="sk-ic" aria-hidden="true">⏳</span><span><b>Votre série de ${r.st} ⭐ est en danger</b><small>${miss}, sinon elle retombe à zéro à minuit.</small></span></div>`}
-const streakHTML=uid=>{const st=dmStreak(uid);return `<span class="streak ${st?'':'zero'} ${streakRisk(uid)?'risk':''}" title="${st} jour${st>1?'s':''} d’affilée où vous vous êtes écrit tous les deux"><i aria-hidden="true">${streakRisk(uid)?'⏳':'⭐'}</i>${st}</span>`};
+ return `<div class="sk-alert" role="status"><span class="sk-ic" aria-hidden="true">${HOUR_SVG}</span><span><b>Votre série de ${r.st} <span class="sk-star">${STAR_SVG}</span> est en danger</b><small>${miss}, sinon elle retombe à zéro à minuit.</small></span></div>`}
+const STAR_SVG='<svg class="st-svg" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.75 5.6 6.15.9-4.45 4.33 1.05 6.12L12 16.87l-5.5 2.88 1.05-6.12L3.1 9.3l6.15-.9z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>';
+const HOUR_SVG='<svg class="st-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10M7 21h10M8 3c0 4 8 5 8 9s-8 5-8 9M16 3c0 4-8 5-8 9s8 5 8 9"/></svg>';
+const streakHTML=uid=>{const st=dmStreak(uid);return `<span class="streak ${st?'':'zero'} ${streakRisk(uid)?'risk':''}" title="${st} jour${st>1?'s':''} d’affilée où vous vous êtes écrit tous les deux"><i aria-hidden="true">${streakRisk(uid)?HOUR_SVG:STAR_SVG}</i>${st}</span>`};
 // Démonstration demandée : la conversation @caddo / @chloe affiche au moins 7 étoiles.
 // Retirer cette ligne pour revenir au calcul réel uniquement.
 const STREAK_DEMO={'a5124ac2-5eba-4c71-b4bd-52e5ca7e7138|d95af5f8-8d87-4b76-86a9-8ae8001edef2':7};
@@ -3978,7 +4075,7 @@ async function renderSearch(q){
 }
 // ================= PROFIL =================
 let profilePosts=[],profTab='all',profTabUid=null;const PTAB_X={all:'0',clips:'100%',saved:'200%'};
-const pgridHTML=(mine)=>{if(profTab==='saved'&&!savedLoaded)return loadingHTML();const l=profTab==='saved'?savedPosts:profTab==='clips'?profilePosts.filter(p=>p.kind==='clip'):profilePosts;return l.length?`<div class="grid">${l.map(p=>`<button data-act="open-item" data-id="${p.id}" aria-label="Ouvrir">${profTab==='all'&&pinnedSet.has(p.id)?`<span class="g-pin" aria-label="Épinglée">${PIN_IC}</span>`:''}${mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}<span class="g-views">${p.kind==='clip'?I.playV:I.eyeV}${fmt(p.view_count||0)}</span></button>`).join('')}</div>`:`<div class="empty">${profTab==='saved'?'<span class="sv-empty">'+I.tabSaved+'<b>Aucun post enregistré</b>Touche le signet sous un post pour la retrouver ici. Toi seul vois cet onglet.</span>':profTab==='clips'?(mine?'Aucun clip pour l’instant. Publie ton premier clip avec le +.':'Aucun clip.'):(mine?'Rien publié pour l’instant. Montre ta première séance.':'Aucun post.')}</div>`};
+const pgridHTML=(mine)=>{if(profTab==='saved'&&!savedLoaded)return loadingHTML();const l=profTab==='saved'?savedPosts:profTab==='clips'?profilePosts.filter(p=>p.kind==='clip'):profilePosts;return l.length?`<div class="grid">${l.map(p=>`<button data-act="open-item" data-id="${p.id}" aria-label="Ouvrir">${profTab==='all'&&pinnedSet.has(p.id)?`<span class="g-pin" aria-label="Épinglée">${PIN_IC}</span>`:''}${p.kind==='shout'?`<span class="g-shout"><span>${esc((p.caption||'').slice(0,90))}</span></span>`:mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}<span class="g-views">${p.kind==='clip'?I.playV:I.eyeV}${fmt(p.view_count||0)}</span></button>`).join('')}</div>`:`<div class="empty">${profTab==='saved'?'<span class="sv-empty">'+I.tabSaved+'<b>Aucun post enregistré</b>Touche le signet sous un post pour la retrouver ici. Toi seul vois cet onglet.</span>':profTab==='clips'?(mine?'Aucun clip pour l’instant. Publie ton premier clip avec le +.':'Aucun clip.'):(mine?'Rien publié pour l’instant. Montre ta première séance.':'Aucun post.')}</div>`};
 const prsOf=p=>(p.prs||[]).filter(x=>x&&x.t&&x.t.trim());
 async function renderProfile(){
  const uid=arg||me.id,mine=uid===me.id;
@@ -4258,6 +4355,7 @@ document.addEventListener('click',async e=>{
   case 'comments':openComments(id);break;
   case 'follow':await toggleFollow(u);if(view==='home')renderHome();else if(view==='clips')renderClips();break;
   case 'respect':{await toggleRespect(a,u);break}
+  case 'shout-new':openShoutForm();break;
   case 'check-info':openCheckInfo(u);break;
   case 'check-do':await doCheck(u,true);break;
   case 'follow-prof':{await toggleFollow(u);const b=a;const on=following.has(u);b.textContent=on?'Abonné':'Suivre';b.classList.toggle('primary',!on);const el=$('st-followers');if(el){const {data}=await sb.from('profile_stats').select('followers').eq('id',u).maybeSingle();if(data)el.textContent=fmt(data.followers)}break}
@@ -4300,7 +4398,7 @@ document.addEventListener('click',async e=>{
   case 'cmt-like':toggleCmtLike(id,a);break;
   case 'go-messages':hist.push([view,arg]);loadConvs().then(()=>{if(view==='messages')renderMessages(curQuery)});nav('messages');break;
   case 'feed-pick':miniMenu(a,[{head:true,label:'Catégorie'},{label:'Tous les posts',active:!sportFilter,run:()=>pickSport(null)},...SPORT_LIST.map(sp=>({label:sp,active:sportFilter===sp,run:()=>pickSport(sp)}))],'left','light');break;
-  case 'plus-menu':miniMenu(a,[{head:true,label:'Publier'},{label:'Un flash',run:()=>pickStory()},{label:'Un post',run:()=>{hist=[];createKind='photo';newDraft();nav('create')}},{label:'Un clip',run:()=>{hist=[];createKind='clip';newDraft();nav('create')}}],a.closest('nav')?'center':view==='home'?'corner':'right','light');break;
+  case 'plus-menu':miniMenu(a,[{head:true,label:'Publier'},{label:'Un shout',run:()=>openShoutForm()},{label:'Un flash',run:()=>pickStory()},{label:'Un post',run:()=>{hist=[];createKind='photo';newDraft();nav('create')}},{label:'Un clip',run:()=>{hist=[];createKind='clip';newDraft();nav('create')}}],a.closest('nav')?'center':view==='home'?'corner':'right','light');break;
   case 'share-profile':{const link=BASE_URL+'?u='+encodeURIComponent(prof(u).handle);try{if(navigator.share){await navigator.share({title:'Freestyle',text:'Mon profil Freestyle',url:link});break}}catch(err){if(err&&err.name==='AbortError')break}try{await navigator.clipboard.writeText(link);toast('Lien du profil copié')}catch(err){warnBox('Lien de ton profil',link,false)}break}
   case 'sound':{e.stopPropagation();setSound(!soundOn);break}
   case 'del-ask':a.outerHTML=`<p style="margin:10px 0;color:var(--muted)">Supprimer définitivement ce post ?</p><button class="sheet-act danger" data-act="del-yes" data-id="${id}">Oui, supprimer</button>`;break;
@@ -4636,7 +4734,7 @@ async function renderInsights(){
   </div>
   <div class="st-sec"><h4>Nouveaux comptes touchés par jour</h4><div class="ins-chart" role="img" aria-label="Comptes touchés par jour">${s.daily.map(x=>`<i style="height:${Math.max(3,x.v/mx*100)}%" title="${dd(x.d)} : ${x.v}"></i>`).join('')}</div><div class="ins-axis"><span>${s.daily.length?dd(s.daily[0].d):''}</span><span>Aujourd’hui</span></div></div>
   <div class="st-sec"><h4>Audience touchée</h4><div class="st-split"><i style="width:${fol}%"></i></div><div class="st-leg"><span><i class="a"></i>Abonnés ${fol} %</span><span><i class="b"></i>Non-abonnés ${s.reach?100-fol:0} %</span></div></div>
-  <div class="st-sec"><h4>Meilleurs contenus</h4>${s.top.length?`<div class="grid ins-top">${s.top.map(p=>`<button data-act="post-stats" data-id="${p.id}" aria-label="Statistiques de ce contenu">${mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}<span class="g-views">${I.playV}${fmt(p.views)}</span></button>`).join('')}</div>`:'<div class="empty">Publie pendant cette période pour voir tes meilleurs contenus.</div>'}</div>
+  <div class="st-sec"><h4>Meilleurs contenus</h4>${s.top.length?`<div class="grid ins-top">${s.top.map(p=>`<button data-act="post-stats" data-id="${p.id}" aria-label="Statistiques de ce contenu">${p.kind==='shout'?`<span class="g-shout"><span>${esc((p.caption||'').slice(0,90))}</span></span>`:mediaHTML(p.media&&p.media.length?[p.media[0]]:[],p.sport)}<span class="g-views">${I.playV}${fmt(p.views)}</span></button>`).join('')}</div>`:'<div class="empty">Publie pendant cette période pour voir tes meilleurs contenus.</div>'}</div>
  </div>`;
  main.querySelectorAll('.grid video').forEach(v=>{v.dataset.w='1';v.muted=true;v.removeAttribute('autoplay');v.pause()});
 }
