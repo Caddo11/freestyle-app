@@ -17,6 +17,9 @@
 <link rel="apple-touch-icon" href="icon-512.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://pamndgrrqpgqblrogznq.supabase.co" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Orbitron:wght@500;700;900&family=VT323&family=Manrope:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <style>
@@ -2668,6 +2671,43 @@ html[data-theme="dark"] .ck-rules li{color:#a3a29d}
 .ck-sheet .ck-go.off,html[data-theme="dark"] .ck-sheet .ck-go.off{background:var(--paper)!important;color:var(--ink)!important}
 html[data-theme="dark"] .ck-sheet .ck-go.off{background:#1E1E1E!important;color:#F1F1F1!important}
 @media (max-width:360px){.pnums4 span{font-size:11px}.pnums3.pnums4 b{font-size:15px}.resp-btn{padding:0 10px 0 8px;font-size:12.5px}}
+
+/* ================= v50 : fluidité & finitions ================= */
+*{-webkit-tap-highlight-color:transparent}
+html,body{text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+main{overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch}
+/* retour tactile : chaque bouton s'enfonce légèrement */
+.pbtn,.sheet-act,.mini,.icon-btn,.c-add,.publish,.ck-go,.resp-btn,.pn-resp,.stw-x,.feed-pick,.set-row,.pref-row,.conv,.tile,.round,.react-btn,nav.tabs button,.seg button,.chip,.c-opt{transition:transform .16s cubic-bezier(.3,1.4,.5,1),background-color .2s,color .2s,box-shadow .2s,opacity .2s}
+.pbtn:active,.sheet-act:active,.mini:active,.icon-btn:active,.c-add:active,.publish:active,.ck-go:active,.resp-btn:active,.stw-x:active,.feed-pick:active,.tile:active,.round:active,.seg button:active,.chip:active,.c-opt:active{transform:scale(.96)}
+.set-row:active,.pref-row:active,.conv:active{transform:scale(.985)}
+nav.tabs button:active{transform:scale(.9)}
+/* fiches : entrée ressort, sortie glissée */
+.sheet-wrap{animation:fsFade .24s ease-out both}
+.sheet-wrap>.sheet{animation:fsUp .44s cubic-bezier(.2,1,.3,1) both;will-change:transform}
+.sheet-wrap.closing{animation:fsFadeOut .26s ease-in both}
+.sheet-wrap.closing>.sheet{animation:fsDown .26s cubic-bezier(.4,0,.8,.4) both}
+.sheet .stw-top,.sheet .sheet-head{position:relative;touch-action:none}
+@keyframes fsFade{from{opacity:0}to{opacity:1}}
+@keyframes fsFadeOut{from{opacity:1}to{opacity:0}}
+@keyframes fsUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes fsDown{from{transform:translateY(0)}to{transform:translateY(105%)}}
+/* toasts : entrée et sortie */
+.toast{animation:fsToastIn .38s cubic-bezier(.2,1.2,.3,1) both;pointer-events:none}
+.toast.out{animation:fsToastOut .26s ease-in both}
+@keyframes fsToastIn{from{opacity:0;transform:translate(-50%,14px) scale(.96)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+@keyframes fsToastOut{to{opacity:0;transform:translate(-50%,8px) scale(.97)}}
+/* interrupteurs : ressort plus vivant */
+.sw-ui{transition:background-color .28s cubic-bezier(.22,.9,.25,1)}
+.sw-ui::after{transition:transform .38s cubic-bezier(.3,1.5,.45,1),width .2s}
+.pref-row:active .sw-ui::after{width:27px}
+.sw:checked+.sw-ui::after{transform:translateX(18px)}
+.pref-row:active .sw:checked+.sw-ui::after{transform:translateX(13px)}
+/* défilement plus léger : les posts hors écran ne sont pas dessinés */
+.card{content-visibility:auto;contain-intrinsic-size:auto 640px}
+img{-webkit-user-drag:none}
+.grid img,.card img,.tile img{background:var(--paper)}
+/* mouvement réduit : on coupe tout */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -2821,7 +2861,7 @@ const fmt=n=>{n=n||0;return n>=10000?Math.round(n/1000)+' k':n>=1000?(n/1000).to
 const hashCol=id=>{let h=0;for(const c of String(id))h=(h*31+c.charCodeAt(0))|0;return AV_COLORS[Math.abs(h)%AV_COLORS.length]};
 function ago(ts){const s=(Date.now()-new Date(ts))/1000;if(s<60)return 'à l’instant';if(s<3600)return Math.floor(s/60)+' min';if(s<86400)return Math.floor(s/3600)+' h';if(s<604800)return Math.floor(s/86400)+' j';return new Date(ts).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}
 const hhmm=ts=>new Date(ts).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2600)}
+function toast(t){document.querySelectorAll('.toast').forEach(x=>x.remove());const d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.textContent=t;document.body.appendChild(d);setTimeout(()=>{d.classList.add('out');setTimeout(()=>d.remove(),260)},2300)}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 const loadingHTML=t=>`<div class="empty">${esc(t||'Chargement…')}</div>`;
 function paintNavIcons(){const m={home:I.navHome,search:I.navSearch,clips:I.navClips};Object.entries(m).forEach(([k,v])=>{const b=document.querySelector(`nav.tabs [data-nav="${k}"]`);if(b)b.innerHTML=v})}
@@ -2928,8 +2968,8 @@ function av(uid,s){const u=prof(uid);return u.avatar_url?`<span class="av" style
 function mediaHTML(list,sport,extra='',text=''){
  list=list||[];
  if(!list.length){const c=SPORTS[sport]||SPORTS.Autre;return `<div class="grad" style="--a:${c[0]};--b:${c[1]}">${extra}${text?`<div class="grad-cap">${esc(text)}</div>`:''}<span class="grad-word">${esc(sport||'')}</span></div>`}
- if(list.length===1){const m=list[0];return m.type==='video'?`<video src="${esc(m.url)}" muted loop playsinline autoplay preload="metadata"></video>`:`<img src="${esc(m.url)}" alt="" loading="lazy">`}
- return `<div class="slides">${list.map(m=>`<img src="${esc(m.url)}" alt="" loading="lazy">`).join('')}</div><div class="dots">${list.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</div>`;
+ if(list.length===1){const m=list[0];return m.type==='video'?`<video src="${esc(m.url)}" muted loop playsinline autoplay preload="metadata"></video>`:`<img src="${esc(m.url)}" alt="" loading="lazy" decoding="async">`}
+ return `<div class="slides">${list.map(m=>`<img src="${esc(m.url)}" alt="" loading="lazy" decoding="async">`).join('')}</div><div class="dots">${list.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</div>`;
 }
 const fontOf=f=>(S_FONTS.find(x=>x[0]===f)||[])[2]||'';
 const stkStyle=s=>`--sz:${s.sz||1};${s.f?`font-family:${fontOf(s.f)};`:''}${s.w?`font-weight:${s.w};`:''}${s.f==='pixel'?'letter-spacing:.02em;':''}`;
@@ -2938,7 +2978,24 @@ const perfHTML=p=>p?`<span class="stk perf yellow" style="left:auto;right:12px;t
 function swatch(c){return {holo:'background:linear-gradient(115deg,#c8f1ff,#f3d2ff,#fff6c4,#c9ffe6)',white:'background:#fff',black:'background:#0F0F0F',grey:'background:#8a8a8a',yellow:'background:#FFD23F',pink:'background:#FF5FA2',mint:'background:#5BE3B5',red:'background:#FF4D5E'}[c]}
 
 // ================= NAVIGATION =================
-function nav(v,a=null){view=v;arg=a;render();main.scrollTop=0}
+function nav(v,a=null){const changed=v!==view||a!==arg;view=v;arg=a;render();main.scrollTop=0;if(changed)viewFade()}
+const RM=window.matchMedia?matchMedia('(prefers-reduced-motion: reduce)'):{matches:false};
+function viewFade(){if(RM.matches||!main.animate)return;try{main.getAnimations&&main.getAnimations().forEach(x=>x.cancel());main.animate([{opacity:.25},{opacity:1}],{duration:220,easing:'cubic-bezier(.22,.9,.25,1)'})}catch(e){}}
+// Ferme la fiche ouverte avec une animation (glisse vers le bas + fondu du fond)
+function closeLayer(){
+ const w=layer.firstElementChild;if(!w){return}
+ if(RM.matches||w.dataset.closing){layer.innerHTML='';return}
+ w.dataset.closing='1';w.classList.add('closing');
+ const sh=w.querySelector('.sheet');let done=false;const end=()=>{if(done)return;done=true;if(layer.firstElementChild===w)layer.innerHTML=''};
+ (sh||w).addEventListener('animationend',end,{once:true});setTimeout(end,320);
+}
+// Glisser une fiche vers le bas pour la fermer (comme sur Instagram)
+(function(){
+ let sh=null,y0=0,dy=0,t0=0,list=null;
+ document.addEventListener('touchstart',e=>{const s=e.target.closest&&e.target.closest('.layer.sheet-wrap .sheet');if(!s||e.target.closest('input,textarea,select,.slides,[data-nodrag]')){sh=null;return}list=s.querySelector('.sheet-list');if(list&&list.scrollTop>0&&!e.target.closest('.stw-top,.sheet-head')){sh=null;return}sh=s;y0=e.touches[0].clientY;dy=0;t0=performance.now()},{passive:true});
+ document.addEventListener('touchmove',e=>{if(!sh)return;dy=e.touches[0].clientY-y0;if(dy<=0){sh.style.transform='';return}if(list&&list.scrollTop>0){sh=null;return}sh.style.transition='none';sh.style.animation='none';sh.style.transform=`translateY(${dy}px)`;const w=sh.parentElement;if(w)w.style.backgroundColor=`rgba(0,0,0,${Math.max(.15,.6-dy/600)})`},{passive:true});
+ document.addEventListener('touchend',()=>{if(!sh)return;const s=sh;sh=null;const v=dy/Math.max(1,performance.now()-t0);s.style.transition='transform .28s cubic-bezier(.22,.9,.25,1)';if(dy>110||(dy>30&&v>.6)){s.style.transform='translateY(110%)';const w=s.parentElement;if(w){w.style.transition='background-color .28s';w.style.backgroundColor='rgba(0,0,0,0)'}setTimeout(()=>{if(s.isConnected)layer.innerHTML=''},260)}else{s.style.transform='';const w=s.parentElement;if(w)w.style.backgroundColor=''}},{passive:true});
+})();
 function back(){const h=hist.pop();h?nav(h[0],h[1]):nav('home')}
 function render(){
  const map={home:'home',clips:'clips',create:'',messages:'home',chat:'home',gchat:'home',global:'home',profile:'profile',editprofile:'profile',insights:'profile',settings:'profile',search:'search'};
@@ -4164,8 +4221,8 @@ document.addEventListener('click',async e=>{
   case 'set-theme':setTheme(a.dataset.k);break;
   case 'set-go':{const k=a.dataset.k;if(k==='edit'){pDraft=null;nav('editprofile')}else if(k==='insights'){hist.push([view,arg]);nav('insights')}else if(k==='saved'){profTab='saved';profTabUid=me.id;hist=[];nav('profile',me.id)}else if(k==='share')shareMyProfile();else if(k==='notifs')openNotifPrefs();else if(k==='blocked')openBlockedList();else if(k==='reports')openReports();else if(k==='bans')openBanList();else if(k==='logout')sb.auth.signOut({scope:'local'});break}
   case 'settings-old':layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Paramètres"><div class="sheet-head">Paramètres</div><div class="sheet-list gutter"><p class="opt" style="margin:6px 0 4px">Connecté avec ${esc(session.user.email||'')}</p><button class="sheet-act" data-act="edit-profile">Modifier le profil</button><button class="sheet-act" data-act="add-story">Ajouter un flash</button><button class="sheet-act danger" data-act="logout">Se déconnecter</button><button class="sheet-act" data-act="close-sheet-btn">Annuler</button></div></div></div>`;break;
-  case 'close-sheet':if(e.target===a)layer.innerHTML='';break;
-  case 'close-sheet-btn':layer.innerHTML='';break;
+  case 'close-sheet':if(e.target===a)closeLayer();break;
+  case 'close-sheet-btn':closeLayer();break;
   case 'like':toggleLike(id);break;
   case 'react':addReaction(id,a);break;
   case 'save':toggleSave(id,a);break;
@@ -4400,12 +4457,12 @@ function creatorIntro(){
 }
 // ================= CHECK & VALIDATION PAR LA COMMUNAUTÉ =================
 // Le « check » : petite coche verte qu'on coche sur un profil quand on respecte le travail du sportif.
-// Un check par profil (retirable). 25 checks de membres différents = « Validé par la communauté ».
+// Un check par profil (retirable). 100 checks de membres différents = « Validé par la communauté ».
 // Seuls les comptes de plus de 7 jours qui ont déjà publié peuvent checker (vérifié par le serveur).
 const respectCache={};
 async function loadRespect(uid){try{const {data,error}=await sb.rpc('fs_respect_info',{pid:uid});if(error||!data)return null;respectCache[uid]=data;return data}catch(e){return null}}
 const RESP_IC='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12.5l4 4L18.5 8"/></svg>';
-const cvTag=()=>`<span class="cv-tag" title="Au moins 25 membres différents l’ont checké"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M8 12.3l2.7 2.7L16.2 9.5"/></svg>Validé par la communauté</span>`;
+const cvTag=()=>`<span class="cv-tag" title="Au moins 100 membres différents l’ont checké"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M8 12.3l2.7 2.7L16.2 9.5"/></svg>Validé par la communauté</span>`;
 const respBtn=(uid,ri)=>`<button type="button" class="resp-btn ${ri.given?'on':''}" data-act="respect" data-u="${uid}" aria-pressed="${ri.given?'true':'false'}" aria-label="${ri.given?'Retirer ton check':'Checker ce sportif'}"><span class="rb-ic">${RESP_IC}</span><span class="rb-t">${ri.given?'Checké':'Check'}</span></button>`;
 const CHK_SEEN='fs_check_info_seen';
 function chkSeen(){try{return localStorage.getItem(CHK_SEEN)==='1'}catch(e){return true}}
@@ -4419,8 +4476,8 @@ function paintCheck(uid,data){
 }
 // Fiche « Le Check » : explications + progression vers la validation + bouton d'action
 function openCheckInfo(uid){
- const ri=respectCache[uid]||{count:0,given:false,threshold:25};const mine=me&&uid===me.id,h=prof(uid).handle||'';
- const th=ri.threshold||25,n=ri.count||0,pc=Math.min(100,Math.round(n/th*100));
+ const ri=respectCache[uid]||{count:0,given:false,threshold:100};const mine=me&&uid===me.id,h=prof(uid).handle||'';
+ const th=ri.threshold||100,n=ri.count||0,pc=Math.min(100,Math.round(n/th*100));
  const act=mine?'':ri.given?`<button type="button" class="ck-go off" data-act="check-do" data-u="${uid}">Retirer mon check</button>`:ri.block?`<p class="ck-no">${esc(RESP_MSG[ri.block]||RESP_MSG.invalid)}</p>`:`<button type="button" class="ck-go" data-act="check-do" data-u="${uid}"><span class="ck-gi">${RESP_IC}</span><span class="ck-gt">Checker <b>@${esc(h)}</b></span></button>`;
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet ck-sheet" role="dialog" aria-label="Le Check"><div class="stw-top"><b>Check</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
   <div class="ck-hero"><span class="ck-big">${RESP_IC}</span><p>Un check, c’est dire « je respecte ton travail ».</p></div>
@@ -4439,7 +4496,7 @@ async function doCheck(uid,fromSheet){
   const {data,error}=await sb.rpc('fs_toggle_respect',{target:uid});
   if(error||!data){toast('Le check n’est pas encore disponible, réessaie plus tard.');return}
   if(data.status!=='ok'){toast(RESP_MSG[data.status]||RESP_MSG.invalid);return}
-  respectCache[uid]=data;paintCheck(uid,data);
+  respectCache[uid]=data;paintCheck(uid,data);if(data.given&&navigator.vibrate)try{navigator.vibrate(12)}catch(e){}
   if(fromSheet)layer.innerHTML='';
   toast(data.given?'Check envoyé à @'+(prof(uid).handle||''):'Check retiré');
  }finally{doCheck.busy=false}
