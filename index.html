@@ -4607,13 +4607,13 @@ const respectCache={};
 async function loadRespect(uid){try{const {data,error}=await sb.rpc('fs_respect_info',{pid:uid});if(error||!data)return null;respectCache[uid]=data;return data}catch(e){return null}}
 const RESP_IC='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12.5l4 4L18.5 8"/></svg>';
 const cvTag=()=>`<span class="cv-tag" title="Au moins 100 membres différents l’ont checké"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M8 12.3l2.7 2.7L16.2 9.5"/></svg>Validé par la communauté</span>`;
-const respBtn=(uid,ri)=>`<button type="button" class="resp-btn ${ri.given?'on':''}" data-act="respect" data-u="${uid}" aria-pressed="${ri.given?'true':'false'}" aria-label="${ri.given?'Retirer ton check':'Checker ce sportif'}"><span class="rb-ic">${RESP_IC}</span><span class="rb-t">${ri.given?'Checké':'Check'}</span></button>`;
+const respBtn=(uid,ri)=>`<button type="button" class="resp-btn ${ri.given?'on':''}" data-act="respect" data-u="${uid}" aria-pressed="${ri.given?'true':'false'}" aria-label="${ri.given?'Retirer ton check':'Checker ce profil'}"><span class="rb-ic">${RESP_IC}</span><span class="rb-t">${ri.given?'Checké':'Check'}</span></button>`;
 const CHK_SEEN='fs_check_info_seen';
 function chkSeen(){try{return localStorage.getItem(CHK_SEEN)==='1'}catch(e){return true}}
 function chkMarkSeen(){try{localStorage.setItem(CHK_SEEN,'1')}catch(e){}}
 function paintCheck(uid,data){
  const btn=main.querySelector(`.resp-btn[data-u="${uid}"]`);
- if(btn){btn.classList.toggle('on',!!data.given);btn.setAttribute('aria-pressed',data.given?'true':'false');btn.setAttribute('aria-label',data.given?'Retirer ton check':'Checker ce sportif');const t=btn.querySelector('.rb-t');if(t)t.textContent=data.given?'Checké':'Check';if(data.given){btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop')}}
+ if(btn){btn.classList.toggle('on',!!data.given);btn.setAttribute('aria-pressed',data.given?'true':'false');btn.setAttribute('aria-label',data.given?'Retirer ton check':'Checker ce profil');const t=btn.querySelector('.rb-t');if(t)t.textContent=data.given?'Checké':'Check';if(data.given){btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop')}}
  const n=$('st-respects');if(n){n.textContent=fmt(data.count);const bc=n.closest('.bn-chk');if(bc){bc.classList.toggle('ok',!!data.validated);bc.setAttribute('aria-label',data.count+' check'+(data.count>1?'s':'')+', voir le Check')}}
  const slot=$('cv-slot');if(slot)slot.innerHTML=data.validated?cvTag():'';
  const g=main.querySelector('.gutter');if(g)g.classList.toggle('cv-on',!!data.validated);
@@ -4622,7 +4622,7 @@ function paintCheck(uid,data){
 function openCheckInfo(uid){
  const ri=respectCache[uid]||{count:0,given:false,threshold:100};const mine=me&&uid===me.id,h=prof(uid).handle||'';
  const th=ri.threshold||100,n=ri.count||0,pc=Math.min(100,Math.round(n/th*100)),left=Math.max(0,th-n);
- const line=mine?'Quand quelqu’un te checke, il te valide.':`Checker @${esc(h)}, c’est le valider.`;
+ const line=mine?'Quand on te checke, on te valide.':`Checker @${esc(h)}, c’est valider son travail.`;
  const full=!mine&&!ri.given&&ri.max&&(ri.my_given||0)>=ri.max;
  const act=mine?'':full?'':ri.given?`<button type="button" class="ck-go off" data-act="check-do" data-u="${uid}">Retirer mon check</button>`:ri.block?`<p class="ck-no">${esc(RESP_MSG[ri.block]||RESP_MSG.invalid)}</p>`:`<button type="button" class="ck-go" data-act="check-do" data-u="${uid}"><span class="ck-gi">${RESP_IC}</span><span class="ck-gt">Checker <b>@${esc(h)}</b></span></button>`;
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet ck-sheet ck2" role="dialog" aria-label="Check"><div class="stw-top"><b></b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
