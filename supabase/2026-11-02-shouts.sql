@@ -18,7 +18,7 @@ begin
         and created_at > now() - interval '1 hour') >= 10 then
     raise exception 'SHOUT_TROP' using errcode = 'P0001';
   end if;
-  new.media := '[]'::jsonb; new.stickers := coalesce(new.stickers, '[]'::jsonb); new.perf := null;
+  new.media := '[]'::jsonb; new.stickers := coalesce(new.stickers, '[]'::jsonb); new.perf := '';
   return new;
 end $$;
 drop trigger if exists fs_shout_guard_trg on public.posts;
