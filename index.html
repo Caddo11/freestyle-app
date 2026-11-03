@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793715361">
+<meta name="fs-build" content="1793715580">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3385,8 +3385,8 @@ function renderForgot(){
  topEl.innerHTML='';const st=forgotState||{};
  main.innerHTML=st.sent?`<div class="auth gutter pw-done">
   <span class="pw-ic">${PW_MAIL}</span>
-  <h2 class="pw-h">Vérifie tes e-mails</h2>
-  <p class="pw-p">Si un compte existe pour <b>${esc(st.email)}</b>, tu viens de recevoir un lien pour choisir un nouveau mot de passe.</p>
+  <h2 class="pw-h">E-mail envoyé</h2>
+  <p class="pw-p">Un e-mail a été envoyé à <b>${esc(st.email)}</b> avec un lien pour choisir un nouveau mot de passe.</p>
   <p class="pw-small">Pense à regarder dans les spams. Le lien fonctionne pendant 1 heure.</p>
   <button class="auth-btn" type="button" data-act="pw-back">Retour à la connexion</button>
   <button type="button" class="auth-link" data-act="pw-resend">Je n’ai rien reçu, renvoyer</button>
@@ -3402,7 +3402,12 @@ function renderForgot(){
  const f=$('fpf');if(!f)return;setTimeout(()=>$('fpe')&&$('fpe').focus(),200);
  f.addEventListener('submit',async e=>{e.preventDefault();const em=$('fpe').value.trim().toLowerCase();
   if(!EMAIL_RE.test(em)){$('fperr').textContent='Écris une adresse e-mail valide';return}
-  const b=$('fps');b.disabled=true;b.textContent='Envoi…';
+  const b=$('fps');b.disabled=true;b.textContent='Vérification…';
+  try{const {data:ex}=await sb.rpc('fs_email_exists',{em});
+   if(ex==='no'){forgotState={email:em,err:'Cet e-mail n’est pas enregistré sur Freestyle.'};renderForgot();return}
+   if(ex==='slow'){forgotState={email:em,err:'Trop de demandes en peu de temps : réessaie dans quelques minutes.'};renderForgot();return}
+  }catch(e){}
+  b.textContent='Envoi…';
   const r=await sendReset(em);
   if(r){forgotState={email:em,err:r};renderForgot();return}
   forgotState={email:em,sent:true};renderForgot()});
