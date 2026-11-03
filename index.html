@@ -3255,7 +3255,7 @@ function renderCheckMail(){
 }
 function renderNewPw(){
  main.innerHTML=`<form class="onb gutter" id="npf"><img class="onb-logo" src="${LOGO}" alt="Freestyle"><h2>Nouveau mot de passe</h2><label class="field"><span>Nouveau mot de passe</span><input id="np1" type="password" autocomplete="new-password" placeholder="8 caractères minimum"></label><label class="field"><span>Confirme</span><input id="np2" type="password" autocomplete="new-password"></label><p class="err" id="nperr"></p><button class="publish" type="submit"><span class="ps-x">✕</span><span class="ps-t"><b>ENREGISTRER</b><small>Ton mot de passe est changé</small></span><span class="ps-arrow">▶</span></button></form>`;
- $('npf').addEventListener('submit',async e=>{e.preventDefault();const a=$('np1').value,b=$('np2').value;if(a.length<8)return $('nperr').textContent='8 caractères minimum';if(a!==b)return $('nperr').textContent='Les deux mots de passe sont différents';const {error}=await sb.auth.updateUser({password:a});if(error)return $('nperr').textContent=error.message;toast('Mot de passe changé');boot()});
+ $('npf').addEventListener('submit',async e=>{e.preventDefault();const a=$('np1').value,b=$('np2').value;if(a.length<8)return $('nperr').textContent='8 caractères minimum';if(a!==b)return $('nperr').textContent='Les deux mots de passe sont différents';const {error}=await sb.auth.updateUser({password:a});if(error){const m=error.message||'';return $('nperr').textContent=/different from the old/i.test(m)?'Choisis un mot de passe différent de l’ancien':/weak|at least/i.test(m)?'Mot de passe trop faible : mélange lettres et chiffres':/session|expired|missing/i.test(m)?'Le lien a expiré : redemande un e-mail « Mot de passe oublié ? »':'Impossible de changer le mot de passe, réessaie'}toast('Mot de passe changé');boot()});
 }
 
 // ================= CRÉATION DU PROFIL =================
@@ -4438,7 +4438,7 @@ document.addEventListener('click',async e=>{
   case 'auth-mode':authMode=a.dataset.m;authErr='';renderAuth();break;
   case 'pw-toggle':{const i=$('apw');i.type=i.type==='password'?'text':'password';i.focus();break}
   case 'forgot':{const em=$('aem').value.trim().toLowerCase();if(!EMAIL_RE.test(em)){authErr='Écris ton adresse e-mail dans le premier champ, puis touche « Mot de passe oublié ? »';renderAuth({e:em});break}
-   const {error}=await sb.auth.resetPasswordForEmail(em,{redirectTo:BASE_URL});authErr='';authInfo=error?'Envoi impossible pour le moment, réessaie plus tard.':'Si un compte existe pour '+em+', un lien pour changer ton mot de passe a été envoyé.';renderAuth({e:em});break}
+   const {error}=await sb.auth.resetPasswordForEmail(em,{redirectTo:BASE_URL});authErr='';authInfo=error?(/rate limit|seconds|security purposes/i.test(error.message||'')?'Trop de demandes en peu de temps : réessaie dans quelques minutes.':'Envoi impossible pour le moment, réessaie plus tard.'):'Si un compte existe pour '+em+', un lien pour changer ton mot de passe a été envoyé.';renderAuth({e:em});break}
   case 'google':{const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:BASE_URL}});if(error)warnBox('Google pas encore activé','La connexion avec Google sera disponible très bientôt. En attendant, crée ton compte avec ton e-mail.',false);break}
   case 'resend':{const {error}=await sb.auth.resend({type:'signup',email:pendingEmail,options:{emailRedirectTo:BASE_URL}});toast(error?'Patiente quelques minutes avant de renvoyer':'E-mail renvoyé');break}
   case 'to-login':authMode='login';nav('auth');break;
