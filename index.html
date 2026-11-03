@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793719853">
+<meta name="fs-build" content="1793720504">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3368,6 +3368,113 @@ html[data-theme="dark"] .bd-pips i{background:#2a2a2a}
 .bo-row.dragging{z-index:5;cursor:grabbing;box-shadow:0 12px 28px rgba(0,0,0,.22);background:var(--bg)!important;outline:1.5px solid #22A55C}
 html[data-theme="dark"] .bo-row.dragging{background:#222!important}
 .bd-top b{white-space:nowrap}
+
+/* ================= v78 : badges 3 niveaux + menu clair + Freestyle+ dans Modifier le profil ================= */
+.bd-orbit{animation:bdRays 6s linear infinite}
+.bd-flk{animation:bdFlk 1.6s ease-in-out infinite alternate}
+@keyframes bdFlk{0%{transform:scale(.96);opacity:.85}100%{transform:scale(1.06);opacity:1}}
+.bd-rays{transform-box:view-box}
+.bd-i.bd-l3{animation:bdGlow 2.8s ease-in-out infinite}
+.bz-sheet .sheet-list{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+.bz-sum{display:flex;align-items:center;gap:14px;padding:4px 2px 14px}
+.bz-sum>b{font-size:38px;font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--ink)}
+.bz-sum>span{flex:1;display:flex;flex-direction:column;gap:8px}
+.bz-sum small{font-size:12.5px;color:#8e8e8a}
+.bz-bar{display:block;height:6px;border-radius:3px;background:var(--paper);overflow:hidden}
+html[data-theme="dark"] .bz-bar{background:#222}
+.bz-bar>i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,#22A55C,#7BE0A0)}
+.bz-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:var(--paper);margin-bottom:14px}
+html[data-theme="dark"] .bz-tabs{background:#1A1A1A}
+.bz-tabs button{height:36px;border:0;border-radius:9px;background:none;font:inherit;font-size:13.5px;font-weight:700;color:#8e8e8a;cursor:pointer;transition:background .2s,color .2s}
+.bz-tabs button[aria-selected="true"]{background:var(--bg);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+html[data-theme="dark"] .bz-tabs button[aria-selected="true"]{background:#2A2A2A}
+.bz-pane[hidden]{display:none}
+.bz-sec{margin-bottom:18px}
+.bz-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:6px 2px 8px}
+.bz-h b{font-size:14px;font-weight:800;color:var(--ink)}
+.bz-h span{font-size:11.5px;color:#8e8e8a;text-align:right}
+.bz-item{border-radius:14px;transition:background .2s}
+.bz-item.open{background:var(--paper)}
+html[data-theme="dark"] .bz-item.open{background:#171717}
+.bz-row{display:flex;align-items:center;gap:12px;width:100%;padding:8px 6px;border:0;background:none;font:inherit;color:inherit;text-align:left;cursor:pointer;border-radius:14px}
+div.bz-row{cursor:default}
+.bz-row .bd-i{flex:0 0 auto}
+.bz-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.bz-t b{font-size:14.5px;font-weight:700;color:var(--ink)}
+.bz-t small{font-size:12px;color:#8e8e8a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bz-steps{display:flex;gap:3px;flex:0 0 auto}
+.bz-steps i{width:14px;height:5px;border-radius:3px;background:var(--paper-line,rgba(0,0,0,.1))}
+html[data-theme="dark"] .bz-steps i{background:#2A2A2A}
+.bz-steps i.on{background:var(--c)}
+.bz-chev{color:#a3a29d;flex:0 0 auto;transition:transform .25s}
+.bz-item.open .bz-chev{transform:rotate(180deg)}
+.bz-st{font-style:normal;width:26px;height:26px;display:grid;place-items:center;border-radius:8px;flex:0 0 auto;color:#22A55C;background:rgba(34,165,92,.12)}
+.bz-item.off .bz-st{color:#a3a29d;background:var(--paper)}
+.bz-item.off .bz-row>.bd-i{filter:grayscale(1) brightness(1.3);opacity:.35}
+.bz-item.off .bz-t b{color:#8e8e8a}
+.bz-evo{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.3,1,.5,1)}
+.bz-item.open .bz-evo{grid-template-rows:1fr}
+.bz-evo-in{overflow:hidden}
+.bz-stages{display:flex;align-items:flex-start;justify-content:center;gap:4px;padding:10px 6px 4px}
+.bz-stage{flex:1;max-width:96px;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center}
+.bz-stage b{font-size:12px;font-weight:800;color:var(--ink);margin-top:4px}
+.bz-stage small{font-size:11px;color:#8e8e8a}
+.bz-stage em{font-style:normal;font-size:10.5px;font-weight:800;color:#22A55C;display:flex;align-items:center;height:16px}
+.bz-stage:not(.got) em{color:#a3a29d}
+.bz-stage:not(.got) .bd-i{filter:grayscale(1) brightness(1.25);opacity:.35}
+.bz-stage:not(.got) .bd-i *{animation:none!important}
+.bz-stage.cur .bd-i{transform:scale(1.08)}
+.bz-arrow{width:14px;height:56px;flex:0 0 auto;background:no-repeat center/10px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3a29d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E")}
+.bz-next{margin:4px 0 0;padding:0 10px 12px;font-size:12px;color:#8e8e8a;text-align:center}
+.bz-next b{color:var(--ink)}
+.bz-prev{display:flex;align-items:center;gap:8px;min-height:50px;padding:10px 14px;border-radius:14px;background:var(--paper);margin-bottom:16px}
+html[data-theme="dark"] .bz-prev{background:#1A1A1A}
+.bz-prev>b{font-size:15.5px;font-weight:800;color:var(--ink)}
+.bz-prev .mbd{gap:3px}
+.bz-empty{font-size:12.5px;color:#8e8e8a}
+.bz-pad{padding:6px 2px 4px;margin:0}
+.bz-pane .bo-list{margin-bottom:16px}
+.bz-chips{display:flex;flex-wrap:wrap;gap:8px}
+.bz-chip{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 10px 0 6px;border:0;border-radius:11px;background:var(--paper);font:inherit;font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer;transition:transform .15s}
+html[data-theme="dark"] .bz-chip{background:#1A1A1A}
+.bz-chip:active{transform:scale(.94)}
+.bz-chip>b{font-size:16px;color:#22A55C;font-weight:800;margin-left:2px}
+.bo-row .bo-n{display:none}
+/* Modifier le profil */
+.ep-cover.pbanner{height:120px!important;margin:0!important;border-radius:14px!important;overflow:hidden!important}
+.ep-cover>.ep-av{z-index:3}
+.ep-av.has-fx{background:transparent!important;padding:0!important;box-shadow:none!important}
+.ep-av.has-fx>.fx{margin:0}
+.epp-card{border-radius:16px;background:var(--paper);padding:14px;margin-top:4px}
+html[data-theme="dark"] .epp-card{background:#161616}
+.pp-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pp-head>span{display:flex;flex-direction:column}
+.pp-head b,.pp-hero b{font-size:15px;font-weight:800;color:var(--ink)}
+.pp-head small,.pp-hero small,.pp-sub{font-size:12px;color:#8e8e8a}
+.pp-free{text-decoration:none;font-size:10.5px;font-weight:800;padding:3px 7px;border-radius:6px;background:rgba(34,165,92,.14);color:#1E9A55}
+.pp-bd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;min-height:30px}
+.pp-bd .mbd{gap:3px;margin:0}
+.pp-link{height:34px;padding:0 14px;border:0;border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+html[data-theme="dark"] .pp-link{background:#262626}
+.pp-hero{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.pp-hero>span:nth-child(2){flex:1;display:flex;flex-direction:column}
+.pp-star{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#8B6CFF,#5B3FD6);box-shadow:0 6px 16px rgba(91,63,214,.35)}
+.pp-on,.pp-lk{font-style:normal;font-size:11px;font-weight:800;padding:4px 8px;border-radius:7px;display:inline-flex;align-items:center;gap:4px}
+.pp-on{background:rgba(34,165,92,.14);color:#1E9A55}
+.pp-lk{background:var(--bg);color:#8e8e8a}
+html[data-theme="dark"] .pp-lk{background:#262626}
+.pp-g{margin-top:12px}
+.pp-gh{display:flex;align-items:center;gap:6px;margin:0 2px 4px;color:#8e8e8a}
+.pp-gh b{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.pp-plus .cz-row{padding-bottom:6px}
+.pp-plus.locked .cz-row{filter:grayscale(1);opacity:.42;pointer-events:none}
+.pp-plus.locked .cz-row *{animation-play-state:paused!important}
+.cz-bc>i{width:40px!important;height:40px!important;border-radius:12px!important;padding:0!important;overflow:hidden}
+.cz-bc>i>u{display:block;width:100%;height:100%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1);border-radius:12px}
+.cz-bc>i>u.auto{background:linear-gradient(135deg,#fff 0 50%,#0F0F0F 50% 100%)}
+.cz-o[aria-pressed="true"]>i{box-shadow:0 0 0 2px var(--paper),0 0 0 3.5px #22A55C}
+.pp-cta{width:100%;height:46px;margin-top:14px;border:0;border-radius:12px;background:linear-gradient(135deg,#8B6CFF,#5B3FD6);color:#fff;font:inherit;font-size:14.5px;font-weight:800;opacity:.9}
+.pp-note{margin:8px 4px 2px;font-size:12px;color:#8e8e8a;text-align:center;line-height:1.4}
 </style>
 </head>
 <body>
@@ -4816,19 +4923,21 @@ function openCropper(file,aspect,outW,outH,title){
 }
 let pDraft=null;
 function renderEditProfile(){
- if(!pDraft)pDraft={name:me.name,bio:me.bio,city:me.city||'',sport:me.sport||'Calisthenics',avatar_url:me.avatar_url,banner_url:me.banner_url,prs:[0,1,2,3].map(i=>({t:(me.prs||[])[i]?.t||'',c:(me.prs||[])[i]?.c||['white','black','yellow','grey'][i]})),avatarFile:null,bannerFile:null,avatarPrev:null,bannerPrev:null};
+ if(!pDraft)pDraft={name:me.name,bio:me.bio,city:me.city||'',sport:me.sport||'Calisthenics',avatar_url:me.avatar_url,banner_url:me.banner_url,prs:[0,1,2,3].map(i=>({t:(me.prs||[])[i]?.t||'',c:(me.prs||[])[i]?.c||['white','black','yellow','grey'][i]})),avatarFile:null,bannerFile:null,avatarPrev:null,bannerPrev:null,fr:me.frame||'',bn:me.banner_style||'',bx:me.banner_fx||'',bc:me.bar_color||'auto'};
  const d=pDraft,c=SPORTS[me.sport]||SPORTS.Autre,ban=d.bannerPrev||d.banner_url,avs=d.avatarPrev||d.avatar_url;
  topEl.innerHTML=`<button class="icon-btn" data-act="cancel-edit" aria-label="Annuler">${I.back}</button><h1 class="ptitle">Modifier le profil</h1><span class="icon-btn"></span>`;
  main.innerHTML=`<form class="ep gutter" id="pf">
-  <div class="ep-cover" style="${ban?`background:#000 url('${esc(ban)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="ep-av">${avs?`<span class="av" style="width:64px;height:64px;background:#000 url('${esc(avs)}') center/cover"></span>`:av(me.id,64)}</span></div>
+  ${epCover()}
   <div class="ep-duo"><label class="ep-btn" for="pa">Changer la photo</label><label class="ep-btn" for="pb">Changer la bannière</label></div>
   <input type="file" id="pa" accept="image/*" hidden><input type="file" id="pb" accept="image/*" hidden>
   ${(()=>{const nx=me.name_changed_at?new Date(new Date(me.name_changed_at).getTime()+14*864e5):null,locked=nx&&nx>new Date();return `<label class="ep-f"><span>Nom <em>${locked?'modifiable à nouveau le '+nx.toLocaleDateString('fr-FR',{day:'numeric',month:'long'}):'modifiable une fois tous les 14 jours'}</em></span><input id="pn" maxlength="30" value="${esc(d.name)}" placeholder="Ton pseudo" ${locked?'disabled':''}></label>`})()}
   <label class="ep-f"><span>Sport principal</span><select id="psp">${(SPORT_LIST.includes(d.sport)?SPORT_LIST:[...SPORT_LIST,d.sport]).map(x=>`<option ${x===d.sport?'selected':''}>${x}</option>`).join('')}</select></label>
   <label class="ep-f"><span>Ville <em>facultatif</em></span><input id="pcy" maxlength="40" value="${esc(d.city||'')}" placeholder="Ex. Toulouse" autocomplete="address-level2"></label>
   <label class="ep-f"><span>Bio</span><textarea id="pd" maxlength="160" rows="3" placeholder="Ton sport, ta ville, tes objectifs…">${esc(d.bio)}</textarea></label>
+  ${epPersoHTML()}
   <button class="ep-save" type="submit" id="pfs">Enregistrer</button>
  </form>`;
+ bindEpPerso();
  const pick=(id,key)=>$(id).addEventListener('change',async e=>{const f0=e.target.files[0];if(!f0)return;keepP();const f=key==='avatar'?await openCropper(f0,1,640,640,'Photo de profil'):await openCropper(f0,3,1500,500,'Bannière');if(!f)return;d[key+'File']=f;d[key+'Prev']=URL.createObjectURL(f);renderEditProfile()});
  pick('pb','banner');pick('pa','avatar');
  bindCleanName('pn');
@@ -4840,16 +4949,40 @@ function renderEditProfile(){
   try{
    if(d.avatarFile)d.avatar_url=await upload(d.avatarFile,'avatar');
    if(d.bannerFile)d.banner_url=await upload(d.bannerFile,'banner');
-   const upd={bio:d.bio.trim(),city:(d.city||'').trim(),sport:d.sport,avatar_url:d.avatar_url||null,banner_url:d.banner_url||null};if(d.name.trim()!==me.name)upd.name=d.name.trim();
+   const upd={bio:d.bio.trim(),city:(d.city||'').trim(),sport:d.sport,avatar_url:d.avatar_url||null,banner_url:d.banner_url||null};
+   if(canPerso())Object.assign(upd,{frame:d.fr||null,banner_style:d.bn||null,banner_fx:d.bx||null,bar_color:d.bc==='auto'?null:d.bc});if(d.name.trim()!==me.name)upd.name=d.name.trim();
    const {data,error}=await sb.from('profiles').update(upd).eq('id',me.id).select().single();
    if(error){removeFiles([d.avatarFile?d.avatar_url:null,d.bannerFile?d.banner_url:null]);d.avatar_url=me.avatar_url;d.banner_url=me.banner_url;$('pfs').disabled=false;$('pfs').textContent='Enregistrer';return dbError(error,'Enregistrement impossible')}
    const oldA=me.avatar_url,oldB=me.banner_url;
-   me=data;P[me.id]=data;paintNavAv();pDraft=null;
+   me=data;P[me.id]=data;paintNavAv();pDraft=null;applyBarColor(me.bar_color||'auto');try{localStorage.setItem('fs-bar',me.bar_color||'auto')}catch(_){}
    // l'ancienne photo et l'ancienne bannière sont supprimées du stockage
    removeFiles([oldA&&oldA!==data.avatar_url?oldA:null,oldB&&oldB!==data.banner_url?oldB:null]);
    toast('Profil enregistré');nav('profile',me.id);
   }catch(err){$('pfs').disabled=false;$('pfs').textContent='Enregistrer'}
  });
+}
+function epCover(){const d=pDraft,c=SPORTS[me.sport]||SPORTS.Autre,ban=d.bannerPrev||d.banner_url,avs=d.avatarPrev||d.avatar_url;
+ const a=avs?`<span class="av" style="width:64px;height:64px;background:#000 url('${esc(avs)}') center/cover"></span>`:av(me.id,64);
+ return `<div class="ep-cover pbanner ${d.bn?'bn-'+d.bn:''}" id="ep-cover" style="${ban?`background:#000 url('${esc(ban)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}">${bfx(d.bx)}<span class="ep-av ${d.fr&&FX_KEYS.has(d.fr)?'has-fx':''}">${fxWrap(a,64,d.fr,10)}</span></div>`}
+function epPersoHTML(){const d=pDraft,ok=canPerso(),dis=ok?'':'disabled';
+ const tiles=(list,cur,key,inner)=>list.map(([k,l,h])=>`<button type="button" class="cz-o cz-${key} ${key==='bn'&&k?'bn-'+k:''}" data-ep="${key}" data-k="${k}" aria-pressed="${cur===k}" ${dis}><i>${inner(k,h)}</i><span>${l}</span></button>`).join('');
+ const grp=(t,body)=>`<div class="pp-g"><div class="pp-gh">${ok?'':LOCK_IC}<b>${t}</b></div><div class="cz-row">${body}</div></div>`;
+ return `<section class="epp-card">
+   <div class="pp-head"><span><b>Badges</b><small>Gagnés avec ton activité</small></span><u class="pp-free">Gratuit</u></div>
+   <div class="pp-bd"><span id="ep-bd">${epBadgesHTML()}</span><button type="button" class="pp-link" data-act="badges" data-u="${me.id}">Gérer</button></div>
+  </section>
+  <section class="epp-card pp-plus ${ok?'':'locked'}" id="ep-plus">
+   <div class="pp-hero"><span class="pp-star"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.8l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg></span><span><b>Freestyle+</b><small>Cadre, bannière et couleurs de l’app</small></span>${ok?'<em class="pp-on">Activé</em>':`<em class="pp-lk">${LOCK_IC}Verrouillé</em>`}</div>
+   ${grp('Cadre',tiles(FRAMES,d.fr,'fr',k=>fxAv(me.id,32,k,10)))}
+   ${grp('Effet de bannière',tiles(BANNER_FX,d.bx,'bx',k=>bfx(k)))}
+   ${grp('Fond de bannière',tiles(BANNERS,d.bn,'bn',()=>''))}
+   ${grp('Couleur de l’application',tiles(BAR_COLORS,d.bc,'bc',(k,h)=>`<u class="${h?'':'auto'}" style="${h?'background:'+h:''}"></u>`))}
+   ${ok?'':'<button type="button" class="pp-cta" disabled>Freestyle+ arrive bientôt</button><p class="pp-note">Tu vois tout ce qui sera débloqué. Les badges, eux, restent gratuits.</p>'}
+  </section>`}
+function bindEpPerso(){const box=$('ep-plus');if(!box||!canPerso())return;
+ box.addEventListener('click',e=>{const b=e.target.closest('[data-ep]');if(!b)return;const key=b.dataset.ep;pDraft[key]=b.dataset.k;
+  box.querySelectorAll(`[data-ep="${key}"]`).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+  if(key!=='bc'){const cv=$('ep-cover');if(cv)cv.outerHTML=epCover()}});
 }
 function keepP(){if(!pDraft||!$('pn'))return;pDraft.name=$('pn').value;pDraft.bio=$('pd').value;if($('pcy'))pDraft.city=$('pcy').value;if($('psp'))pDraft.sport=$('psp').value}
 
@@ -5019,9 +5152,9 @@ document.addEventListener('click',async e=>{
   case 'follow':await toggleFollow(u);if(view==='home')renderHome();else if(view==='clips')renderClips();break;
   case 'respect':{await toggleRespect(a,u);break}
   case 'shout-new':openShoutForm();break;
-  case 'bar-color':await setBarColor(a.dataset.k);break;
+  case 'bar-color':if(canPerso())await setBarColor(a.dataset.k);break;
   case 'badges':openBadges(u);break;
-  case 'customize':openCustomize();break;
+  case 'customize':layer.innerHTML='';pDraft=null;nav('editprofile');setTimeout(()=>{const e=$('ep-plus');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},380);break;
   case 'wl-follow':{await toggleFollow(u);const on=following.has(u);a.classList.toggle('on',on);a.textContent=on?'Suivi':'Suivre';break}
   case 'wl-profile':closeLayer();hist.push([view,arg]);nav('profile',u);break;
   case 'wl-events':closeLayer();msgTab='info';nav('messages');break;
@@ -5222,8 +5355,7 @@ function renderSettings(){
   <button class="set-me" data-act="set-go" data-k="edit">${av(me.id,54)}<span><b>${esc(u.name||'')}</b><small>@${esc(u.handle||'')}${session?.user?.email?' · '+esc(session.user.email):''}</small></span><i aria-hidden="true">›</i></button>
   <h2 class="set-h">Apparence</h2>
   <div class="set-card set-theme"><div class="set-seg" role="radiogroup" aria-label="Thème">${[['light','Clair','<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>'],['dark','Sombre','<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>'],['system','Auto','<rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M9 20h6M12 16.5V20"/>']].map(([k,l,d])=>`<button type="button" data-act="set-theme" data-k="${k}" role="radio" aria-pressed="${t===k}">${svg(d)}<span>${l}</span></button>`).join('')}<i style="transform:translateX(${['light','dark','system'].indexOf(t)*100}%)" aria-hidden="true"></i></div><p class="set-note">« Auto » suit le réglage de ton téléphone.</p></div>
-  <button type="button" class="set-card cz-entry" data-act="customize"><span class="cz-e-ic">${av(me.id,34)}</span><span class="cz-e-t"><b>Cadre et bannière</b><small>Personnalise ton profil</small></span><u class="cz-plus">Freestyle+</u><i aria-hidden="true">›</i></button>
-  <div class="set-card bc-card"><div class="bc-h"><b>Couleur des barres</b><em id="bc-name">${(BAR_COLORS.find(x=>x[0]===barColorNow())||BAR_COLORS[0])[1]}</em></div><div class="bc-row" role="radiogroup" aria-label="Couleur des barres">${BAR_COLORS.map(([k,l,h])=>`<button type="button" class="bc-sw" data-act="bar-color" data-k="${k}" role="radio" aria-pressed="${barColorNow()===k}" aria-label="${l}" title="${l}"><i style="${h?`background:${h}`:''}" class="${h?'':'auto'}"></i></button>`).join('')}</div></div>
+  <button type="button" class="set-card cz-entry" data-act="customize"><span class="cz-e-ic">${fxAv(me.id,34)}</span><span class="cz-e-t"><b>Personnalisation</b><small>Cadre, bannière, couleurs, badges</small></span><u class="cz-plus">Freestyle+</u><i aria-hidden="true">›</i></button>
   <h2 class="set-h">Compte</h2>
   <div class="set-card">${row('edit',IC.edit,'Modifier le profil','Photo, bannière, nom, bio')}${row('insights',IC.stats,'Tableau de bord','Vues et statistiques')}${row('saved',IC.saved,'Enregistrés','Les posts que tu as gardés')}${row('share',IC.share,'Partager mon profil','')}${row('invite',IC.share,'Inviter des potes','Ton lien d’invitation')}</div>
   <h2 class="set-h">Pings & confidentialité</h2>
@@ -5494,31 +5626,65 @@ const BD_SINGLE=[
  ['organisateur','Organisateur','A organisé un événement validé','#84CC16','hexa',0]
 ];
 // badges évolutifs : [clé, nom, unité (1), unité (n), paliers, icône]
+// badges évolutifs : [clé, nom, unité (1), unité (n), paliers, icône, niveaux[nom, couleurs, forme, ornements, options]]
 const BD_FAM=[
- ['followers','Followers','follower','followers',[100,500,1000,10000,100000],'populaire'],
- ['posts','Posts','post publié','posts publiés',[1,10,50,200,1000],'posts10'],
- ['clips','Clips','clip publié','clips publiés',[1,10,50,200,500],'clip'],
- ['checks','Checks','check reçu','checks reçus',[10,50,100,500,1000],'checke10'],
- ['likes','J’aime','j’aime reçu','j’aime reçus',[100,1000,10000,100000,1000000],'aime'],
- ['vues','Viral','vue sur un post','vues sur un post',[500,5000,50000,500000,1000000],'viral'],
- ['serie','Série','jour d’affilée en duo','jours d’affilée en duo',[7,30,90,180,365],'posts50'],
- ['shouts','Shouts','shout','shouts',[10,50,200,500,1000],'shout10'],
- ['comments','Bavard','commentaire','commentaires',[50,250,1000,5000,10000],'bavard'],
- ['parrain','Ambassadeur','pote invité','potes invités',[3,10,25,50,100],'ambassadeur'],
- ['suivis','Sociable','sportif suivi','sportifs suivis',[50,200,500,1000,2000],'sociable']
+ ['followers','Followers','follower','followers',[100,1000,100000],'populaire',[
+  ['Repéré',['#FFC1DF','#EC4899','#9D174D'],'rond',[]],
+  ['Influent',['#E4D4FF','#8B5CF6','#4C1D95'],'hexa',['ring','stars']],
+  ['Icône',['#FFE9A8','#F472B6','#7C3AED'],'legende',['rays','wings','crown']]]],
+ ['posts','Posts','post publié','posts publiés',[1,50,500],'posts10',[
+  ['Lancé',['#B9F5EC','#14B8A6','#0F5E57'],'rond',[]],
+  ['Régulier',['#CFE0FF','#3B82F6','#1E3A8A'],'ecusson',['ribbon']],
+  ['Machine',['#E0E7FF','#4F46E5','#1E1B4B'],'sceau',['laurel','gems','stars']]]],
+ ['clips','Clips','clip publié','clips publiés',[1,25,200],'clip',[
+  ['Caméra',['#FFD6B0','#F97316','#9A3412'],'rond',[]],
+  ['Réal',['#FFC9C9','#EF4444','#7F1D1D'],'losange',['orbit']],
+  ['Cinéaste',['#5A5A63','#1F1F23','#050506'],'hexa',['rays','laurel','stars'],{s:'#E3B341'}]]],
+ ['checks','Checks','check reçu','checks reçus',[10,100,1000],'checke10',[
+  ['Reconnu',['#C8F7D6','#22C55E','#14532D'],'rond',[]],
+  ['Respecté',['#B7F0DA','#059669','#064E3B'],'ecusson',['laurel']],
+  ['Intouchable',['#F0FFF7','#34D399','#065F46'],'sceau',['rays','crown','gems']]]],
+ ['likes','J’aime','j’aime reçu','j’aime reçus',[100,10000,1000000],'aime',[
+  ['Apprécié',['#FFD1DA','#FB7185','#9F1239'],'rond',[]],
+  ['Adoré',['#FFC2CC','#E11D48','#881337'],'sceau',['wings']],
+  ['Culte',['#FFE1F1','#F43F5E','#7E22CE'],'etoile',['rays','stars','crown']]]],
+ ['vues','Viral','vue sur un post','vues sur un post',[500,50000,1000000],'viral',[
+  ['Remarqué',['#FFE7A3','#F59E0B','#92400E'],'rond',[]],
+  ['Viral',['#FFD0AE','#EA580C','#7C2D12'],'losange',['flames']],
+  ['Phénomène',['#FFF3B0','#F97316','#B91C1C'],'legende',['rays','flames','stars']]]],
+ ['serie','Série','jour d’affilée en duo','jours d’affilée en duo',[7,30,365],'posts50',[
+  ['Motivé',['#E2E8F0','#64748B','#1E293B'],'rond',[]],
+  ['Inarrêtable',['#DCE7F5','#475569','#0F172A'],'hexa',['ring']],
+  ['Acier',['#FFFFFF','#B8C2D0','#4B5563'],'sceau',['wings','crown']]]],
+ ['shouts','Shouts','shout','shouts',[10,100,1000],'shout10',[
+  ['Voix',['#EBD5FF','#A855F7','#581C87'],'rond',[]],
+  ['Porte-voix',['#FAD1FF','#C026D3','#701A75'],'losange',['ring']],
+  ['Tonnerre',['#C7F9FF','#8B5CF6','#1E1B4B'],'etoile',['rays','orbit','stars']]]],
+ ['comments','Commentaires','commentaire','commentaires',[50,500,5000],'bavard',[
+  ['Bavard',['#C9EDFF','#0EA5E9','#075985'],'rond',[]],
+  ['Animateur',['#C5F6FB','#06B6D4','#155E75'],'hexa',['ribbon']],
+  ['Orateur',['#DBEAFE','#1D4ED8','#0B1A4A'],'ecusson',['laurel','crown']]]],
+ ['parrain','Parrainage','pote invité','potes invités',[3,25,100],'ambassadeur',[
+  ['Recruteur',['#E6F9B8','#84CC16','#3F6212'],'rond',[]],
+  ['Ambassadeur',['#C9F5D5','#16A34A','#14532D'],'ecusson',['ribbon','stars']],
+  ['Bâtisseur',['#FFF3B8','#EAB308','#854D0E'],'sceau',['rays','wings','crown']]]],
+ ['suivis','Abonnements','sportif suivi','sportifs suivis',[50,500,2000],'sociable',[
+  ['Curieux',['#C2FBF1','#2DD4BF','#115E59'],'rond',[]],
+  ['Connecté',['#D2E3FF','#2563EB','#1E3A8A'],'hexa',['orbit']],
+  ['Réseau',['#BDF6FF','#0891B2','#0C1E3D'],'legende',['ring','orbit','stars']]]]
 ];
-const TIERS=[null,['Bronze','#C98A55','#F6D2B0','#7A4418','#4E2A0E'],['Argent','#B9C0CB','#FFFFFF','#7D8693','#4A515C'],['Or','#E3B341','#FFF1B8','#9C6B17','#634208'],['Platine','#7FDDE3','#F2FFFF','#2F8FA6','#1B5866'],['Légende','#9B6BFF','#FFC2F2','#4A23B8','#2A1470']];
 const BD_ORDER=['fondateur','plus','verifie','valide','followers','posts','clips','checks','likes','vues','serie','shouts','comments','parrain','suivis','pionnier','flash','genereux','duo','affinite','organisateur'];
-const BD_MAX=BD_SINGLE.length+BD_FAM.length*5;
+const BD_MAX=BD_SINGLE.length+BD_FAM.length*3;
 const OLD2NEW={premier_post:'posts',posts10:'posts',posts50:'posts',clip:'clips',shout10:'shouts',checke10:'checks',serie7:'serie',serie30:'serie',populaire:'followers',star:'followers',sociable:'suivis',bavard:'comments',aime:'likes',viral:'vues',ambassadeur:'parrain',recruteur:'parrain'};
 const bdNorm=k=>OLD2NEW[k]||k;
-function bdParse(got){const m={};(got||[]).forEach(x=>{let [k,t]=String(x).split(':');t=t?Math.max(1,Math.min(5,+t||1)):1;k=bdNorm(k);m[k]=Math.max(m[k]||0,t)});return m}
+function bdParse(got){const m={};(got||[]).forEach(x=>{let [k,t]=String(x).split(':');t=t?Math.max(1,Math.min(3,+t||1)):1;k=bdNorm(k);m[k]=Math.max(m[k]||0,t)});return m}
 const fmtN=n=>Number(n).toLocaleString('fr-FR');
+const famUnit=(f,n)=>n>1?f[3]:f[2];
 function bdItem(k,t){const sg=BD_SINGLE.find(x=>x[0]===k);
  if(sg)return {k,name:sg[1],desc:sg[2],color:sg[3],shape:sg[4],rare:!!sg[5],icon:BIC[k]||BIC.star,t:t?1:0};
- const f=BD_FAM.find(x=>x[0]===k);if(!f)return null;const th=f[4];
- const desc=t>0?`${fmtN(th[t-1])} ${th[t-1]>1?f[3]:f[2]}${t<5?` · prochain : ${fmtN(th[t])}`:' · niveau max'}`:`Dès ${fmtN(th[0])} ${th[0]>1?f[3]:f[2]}`;
- return {k,fam:f,name:f[1],desc,color:TIERS[Math.max(1,t)][1],icon:BIC[f[5]],t,rare:t>=4}}
+ const f=BD_FAM.find(x=>x[0]===k);if(!f)return null;const th=f[4],sp=f[6][Math.max(1,t)-1];
+ const desc=t>0?`${fmtN(th[t-1])} ${famUnit(f,th[t-1])}`:`Dès ${fmtN(th[0])} ${famUnit(f,th[0])}`;
+ return {k,fam:f,name:f[1],level:sp[0],desc,color:sp[1][1],icon:BIC[f[5]],t,rare:t>=3}}
 const hmix=(h,t,a)=>{const q=x=>[1,3,5].map(i=>parseInt(x.slice(i,i+2),16)),A=q(h),B=q(t);return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*a).toString(16).padStart(2,'0')).join('')};
 const bdBurst=(n,R,r)=>{let d='';for(let i=0;i<n*2;i++){const a=Math.PI*i/n-Math.PI/2,k=i%2?r:R;d+=(i?'L':'M')+(16+k*Math.cos(a)).toFixed(2)+' '+(16+k*Math.sin(a)).toFixed(2)}return d+'Z'};
 const BD_SHAPE={
@@ -5533,25 +5699,37 @@ const BD_SHAPE={
 let bdDefs=false;
 function bdEnsureDefs(){if(bdDefs||!document.body)return;bdDefs=true;
  const lg=(id,a,b,c)=>`<linearGradient id="${id}" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="${a}"/><stop offset=".5" stop-color="${b}"/><stop offset="1" stop-color="${c}"/></linearGradient>`;
- document.body.insertAdjacentHTML('beforeend',`<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>${BD_SINGLE.map(b=>lg('bdg-g-'+b[0],hmix(b[3],'#ffffff',.45),b[3],hmix(b[3],'#000000',.32))).join('')}${TIERS.slice(1).map((t,i)=>lg('bdg-m-'+(i+1),t[2],t[1],t[3])).join('')}<linearGradient id="bdg-m-leg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB8E8"/><stop offset=".35" stop-color="#A77BFF"/><stop offset=".7" stop-color="#5B8CFF"/><stop offset="1" stop-color="#3A1E9C"/></linearGradient><radialGradient id="bdg-hl" cx=".35" cy=".18" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset=".45" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>${Object.entries(BD_SHAPE).map(([k,d])=>`<clipPath id="bdg-c-${k}"><path d="${d}"/></clipPath>`).join('')}</defs></svg>`)}
+ document.body.insertAdjacentHTML('beforeend',`<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>${BD_SINGLE.map(b=>lg('bdg-g-'+b[0],hmix(b[3],'#ffffff',.45),b[3],hmix(b[3],'#000000',.32))).join('')}${BD_FAM.map(f=>f[6].map((sp,i)=>lg(`bdg-f-${f[0]}-${i+1}`,sp[1][0],sp[1][1],sp[1][2])).join('')).join('')}${lg('bdg-gold','#FFF1B8','#E3B341','#9C6B17')}<linearGradient id="bdg-fire" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FF3B2F"/><stop offset=".55" stop-color="#FF9F1C"/><stop offset="1" stop-color="#FFE66D"/></linearGradient><radialGradient id="bdg-hl" cx=".35" cy=".18" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset=".45" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>${Object.entries(BD_SHAPE).map(([k,d])=>`<clipPath id="bdg-c-${k}"><path d="${d}"/></clipPath>`).join('')}</defs></svg>`)}
 let bdSeq=0;
 const bdIco=(icon,tr)=>`<g transform="${tr}" fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="rgba(0,0,0,.32)" stroke-width="2.6" transform="translate(0 1.1)">${icon}</g><g stroke="#fff" stroke-width="2.6">${icon}</g></g>`;
 function bdShapeSVG(d,sh,fill,stroke,icon,tr){return `<path d="${d}" fill="${fill}" stroke="${stroke}" stroke-width="1.5" stroke-linejoin="round"/><path d="${d}" fill="url(#bdg-hl)"/><path d="${d}" fill="none" stroke="rgba(255,255,255,.55)" stroke-width=".9" stroke-linejoin="round" transform="translate(16 16) scale(.8) translate(-16 -16)"/><g clip-path="url(#bdg-c-${sh})"><rect class="bd-sh" x="-12" y="-6" width="6" height="44" fill="#fff"/></g>${bdIco(icon,tr)}`}
 function laurel(cx,cy,R,fill,stroke,n){let o='';for(const sd of [-1,1]){o+=`<path d="M${(cx+sd*R*Math.sin(.35)).toFixed(2)} ${(cy+R*Math.cos(.35)).toFixed(2)}A${R} ${R} 0 0 ${sd>0?0:1} ${(cx+sd*R*Math.sin(2.05)).toFixed(2)} ${(cy+R*Math.cos(2.05)).toFixed(2)}" fill="none" stroke="${stroke}" stroke-width=".7" opacity=".8"/>`;
  for(let i=0;i<n;i++){const th=.45+i*(1.55/(n-1)),x=cx+sd*(R+.6)*Math.sin(th),y=cy+(R+.6)*Math.cos(th),rot=Math.atan2(-Math.sin(th),sd*Math.cos(th))*180/Math.PI+(sd>0?-28:28);
   o+=`<ellipse cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" rx="2.3" ry="1.05" transform="rotate(${rot.toFixed(1)} ${x.toFixed(2)} ${y.toFixed(2)})" fill="${fill}" stroke="${stroke}" stroke-width=".45"/>`}}return o}
-function bdTierSVG(it){const t=Math.max(1,it.t),T=TIERS[t],sh=['','rond','hexa','ecusson','sceau','legende'][t],sc=[0,.62,.7,.74,.78,.82][t],cy=t>=4?21.6:t===3?20.6:20,R=16*sc;
- const fill=t===5?'url(#bdg-m-leg)':`url(#bdg-m-${t})`,stroke=T[4],tr=`translate(20 ${cy}) scale(${sc}) translate(-16 -16)`;
- let back='',front='';
- if(t>=5)back+=`<g class="bd-rays">${Array.from({length:12},(_,i)=>{const a=i*30*Math.PI/180,a1=a-.06,a2=a+.06;return `<path d="M20 ${cy}L${(20+19.5*Math.sin(a1)).toFixed(2)} ${(cy-19.5*Math.cos(a1)).toFixed(2)}L${(20+19.5*Math.sin(a2)).toFixed(2)} ${(cy-19.5*Math.cos(a2)).toFixed(2)}Z" fill="#FFE9A8" opacity=".3"/>`}).join('')}</g>`;
- if(t>=2)back+=`<circle cx="20" cy="${cy}" r="${(R+2.6).toFixed(2)}" fill="none" stroke="${T[1]}" stroke-width=".9" stroke-dasharray="${t>=4?'0.1 2.2':'1.4 1.6'}" stroke-linecap="round" opacity=".9"/>`;
- if(t>=3)back+=laurel(20,cy,R+3.2,t>=5?'url(#bdg-m-3)':fill,stroke,t>=4?5:4);
- if(t>=4){const y=cy-R-6.2;front+=`<path d="M14.6 ${y+5.4}L14.2 ${y+1.2}L17.2 ${y+3.4}L20 ${y}L22.8 ${y+3.4}L25.8 ${y+1.2}L25.4 ${y+5.4}Z" fill="url(#bdg-m-3)" stroke="#634208" stroke-width=".6" stroke-linejoin="round"/>`;
-  if(t>=5)front+=`<circle cx="20" cy="${y+3.3}" r="1.15" fill="#FF5FD2" stroke="#fff" stroke-width=".4"/><path class="bd-tw" d="M33 7l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" fill="#fff"/><path class="bd-tw bd-tw2" d="M6.5 30l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5z" fill="#fff"/>`}
- return `<svg viewBox="0 0 40 40" aria-hidden="true">${back}<g transform="${tr}">${bdShapeSVG(BD_SHAPE[sh],sh,fill,stroke,it.icon,'translate(8.6 9) scale(.615)')}</g>${front}</svg>`}
+const P2=n=>n.toFixed(2);
+function bdOrn(kind,cx,cy,R,c){
+ switch(kind){
+  case 'ring':return `<circle cx="${cx}" cy="${P2(cy)}" r="${P2(R+2.7)}" fill="none" stroke="${c.b}" stroke-width="1" stroke-dasharray="1.2 1.8" stroke-linecap="round"/>`;
+  case 'orbit':return `<circle cx="${cx}" cy="${P2(cy)}" r="${P2(R+3.1)}" fill="none" stroke="${c.b}" stroke-width=".6" opacity=".55"/><g class="bd-orbit" style="transform-origin:${cx}px ${P2(cy)}px"><circle cx="${cx}" cy="${P2(cy-R-3.1)}" r="1.6" fill="${c.a}" stroke="${c.s}" stroke-width=".45"/><circle cx="${cx}" cy="${P2(cy+R+3.1)}" r="1.1" fill="${c.b}"/></g>`;
+  case 'laurel':return laurel(cx,cy,R+3.1,c.g,c.s,4);
+  case 'wings':{const x=cx-R+.8,w=`M${P2(x)} ${P2(cy-2)}C${P2(x-3.2)} ${P2(cy-6)} ${P2(x-6.4)} ${P2(cy-5)} ${P2(x-7.6)} ${P2(cy-3.8)}C${P2(x-5.6)} ${P2(cy-2.9)} ${P2(x-6)} ${P2(cy-1.6)} ${P2(x-7.2)} ${P2(cy-.4)}C${P2(x-5.2)} ${P2(cy)} ${P2(x-5.2)} ${P2(cy+1.2)} ${P2(x-6.2)} ${P2(cy+2.4)}C${P2(x-3.6)} ${P2(cy+2.6)} ${P2(x-1.6)} ${P2(cy+2.1)} ${P2(x)} ${P2(cy+1.2)}Z`;
+   return `<path d="${w}" fill="${c.g}" stroke="${c.s}" stroke-width=".5" stroke-linejoin="round"/><path d="${w}" fill="${c.g}" stroke="${c.s}" stroke-width=".5" stroke-linejoin="round" transform="translate(${2*cx} 0) scale(-1 1)"/>`}
+  case 'ribbon':{const y=cy+R,r=`M${cx-2} ${P2(y-3)}L${cx-6.5} ${P2(y+5)}L${cx-4.3} ${P2(y+4.2)}L${cx-3.2} ${P2(y+6.6)}L${cx+.6} ${P2(y-2)}Z`;
+   return `<path d="${r}" fill="${c.g}" stroke="${c.s}" stroke-width=".5" stroke-linejoin="round"/><path d="${r}" fill="${c.g}" stroke="${c.s}" stroke-width=".5" stroke-linejoin="round" transform="translate(${2*cx} 0) scale(-1 1)"/>`}
+  case 'rays':return `<g class="bd-rays" style="transform-origin:${cx}px ${P2(cy)}px">${Array.from({length:12},(_,i)=>{const a=i*30*Math.PI/180,a1=a-.06,a2=a+.06;return `<path d="M${cx} ${P2(cy)}L${P2(cx+19.5*Math.sin(a1))} ${P2(cy-19.5*Math.cos(a1))}L${P2(cx+19.5*Math.sin(a2))} ${P2(cy-19.5*Math.cos(a2))}Z" fill="${c.a}" opacity=".4"/>`}).join('')}</g>`;
+  case 'flames':return `<g class="bd-flk" style="transform-origin:${cx}px ${P2(cy)}px">${[-64,-32,0,32,64].map((d,i)=>{const a=d*Math.PI/180,o=.2,h=R+(i%2?4.6:6.2),b=R-1.5,pt=(ang,rr)=>`${P2(cx+rr*Math.sin(ang))} ${P2(cy-rr*Math.cos(ang))}`;return `<path d="M${pt(a-o,b)}Q${pt(a-.12,R+2.4)} ${pt(a,h)}Q${pt(a+.12,R+2.4)} ${pt(a+o,b)}Z" fill="url(#bdg-fire)"/>`}).join('')}</g>`;
+  case 'crown':{const y=cy-R-6;return `<path d="M${cx-5.4} ${P2(y+5.4)}L${cx-5.8} ${P2(y+1.2)}L${cx-2.8} ${P2(y+3.4)}L${cx} ${P2(y)}L${cx+2.8} ${P2(y+3.4)}L${cx+5.8} ${P2(y+1.2)}L${cx+5.4} ${P2(y+5.4)}Z" fill="url(#bdg-gold)" stroke="#634208" stroke-width=".6" stroke-linejoin="round"/><circle cx="${cx}" cy="${P2(y+3.4)}" r="1.05" fill="${c.a}" stroke="#fff" stroke-width=".35"/>`}
+  case 'gems':{const y=cy+R+2.2,g=(x,z,col)=>`<path d="M${x} ${P2(y-z)}L${P2(x+z*.8)} ${P2(y)}L${x} ${P2(y+z)}L${P2(x-z*.8)} ${P2(y)}Z" fill="${col}" stroke="#fff" stroke-width=".4"/>`;return g(cx-5.2,1.6,c.a)+g(cx,2.2,'#7FE3FF')+g(cx+5.2,1.6,c.a)}
+  case 'stars':return `<path class="bd-tw" d="M33 7l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" fill="#fff"/><path class="bd-tw bd-tw2" d="M6.5 30l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5z" fill="#fff"/>`;
+ }return ''}
+const ORN_BACK=new Set(['rays','flames','wings','ribbon','laurel','ring']);
+function bdTierSVG(it){const t=Math.max(1,it.t),f=it.fam,sp=f[6][t-1],sh=sp[2],op=sp[4]||{},sc=[0,.62,.74,.84][t],orns=sp[3],cy=orns.includes('crown')?21.4:20,R=16*sc;
+ const c={a:sp[1][0],b:sp[1][1],d:sp[1][2],s:op.s||hmix(sp[1][2],'#000000',.35),g:`url(#bdg-f-${f[0]}-${t})`};
+ const back=orns.filter(o=>ORN_BACK.has(o)).map(o=>bdOrn(o,20,cy,R,c)).join(''),front=orns.filter(o=>!ORN_BACK.has(o)).map(o=>bdOrn(o,20,cy,R,c)).join('');
+ return `<svg viewBox="0 0 40 40" aria-hidden="true">${back}<g transform="translate(20 ${P2(cy)}) scale(${sc}) translate(-16 -16)">${bdShapeSVG(BD_SHAPE[sh],sh,c.g,c.s,it.icon,'translate(8.6 9) scale(.615)')}</g>${front}</svg>`}
 function bdgIcon(it,sz){bdEnsureDefs();if(!it)return '';const dl=((bdSeq++)%7)*.55;
  const svg=it.fam?bdTierSVG(it):`<svg viewBox="-2.5 -2.5 37 37" aria-hidden="true">${bdShapeSVG(BD_SHAPE[it.shape],it.shape,`url(#bdg-g-${it.k})`,hmix(it.color,'#000000',.5),it.icon,'translate(8.6 9) scale(.615)')}</svg>`;
- return `<i class="bd-i ${it.fam?'bd-t'+Math.max(1,it.t):''} ${it.rare?'rare':''}" style="--bd:${it.color};--dl:${dl}s;${sz?`--bs:${sz}px`:''}" title="${esc(it.name)}${it.fam&&it.t?' · '+TIERS[it.t][0]:''}">${svg}</i>`}
+ return `<i class="bd-i ${it.fam?'bd-l'+Math.max(1,it.t):''} ${it.rare?'rare':''}" style="--bd:${it.color};--dl:${dl}s;${sz?`--bs:${sz}px`:''}" title="${esc(it.name)}${it.fam&&it.t?' · '+esc(it.level):''}">${svg}</i>`}
 const bdEarnedItems=got=>{const m=bdParse(got);return BD_ORDER.filter(k=>m[k]).map(k=>bdItem(k,m[k]))};
 const badgesShown=(uid,got)=>{const u=P[uid]||{},m=bdParse(got);
  if(Array.isArray(u.badges_order)){const seen=new Set();return u.badges_order.map(bdNorm).filter(k=>{if(seen.has(k)||!m[k])return false;seen.add(k);return true}).map(k=>bdItem(k,m[k])).filter(Boolean)}
@@ -5569,10 +5747,9 @@ async function paintBadges(uid){
 }
 const X_IC='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 const GRIP_IC='<svg width="14" height="18" viewBox="0 0 14 18" fill="currentColor" aria-hidden="true"><circle cx="4" cy="3" r="1.6"/><circle cx="10" cy="3" r="1.6"/><circle cx="4" cy="9" r="1.6"/><circle cx="10" cy="9" r="1.6"/><circle cx="4" cy="15" r="1.6"/><circle cx="10" cy="15" r="1.6"/></svg>';
-const bdPips=t=>`<span class="bd-pips">${[1,2,3,4,5].map(i=>`<i class="${i<=t?'on':''}" style="--c:${TIERS[i][1]}"></i>`).join('')}</span>`;
 const bdPoints=m=>Object.entries(m).reduce((a,[k,t])=>a+(BD_FAM.some(f=>f[0]===k)?t:1),0);
-function bdCard(it,extra,tag){const lv=it.fam?`<em class="bd-lv" style="--c:${TIERS[Math.max(1,it.t)][1]}">${it.t?TIERS[it.t][0]:'Niveau 1'}</em>`:'';
- return `${bdgIcon(it,48)}<b>${esc(it.name)}</b>${lv}<small>${esc(it.desc)}</small>${it.fam?bdPips(it.t):''}${extra||''}`}
+const LOCK_IC='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+const CHEV_IC='<svg class="bz-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
 let bdSaveT=0;
 function bdDrag(wrap,getOrd,done){
  let st=null,pend=null;const sc=()=>wrap.closest('.sheet-list');
@@ -5597,43 +5774,50 @@ function bdDrag(wrap,getOrd,done){
  wrap.addEventListener('touchmove',e=>{if(st)e.preventDefault()},{passive:false});
  wrap.addEventListener('contextmenu',e=>{if(e.target.closest('.bo-row'))e.preventDefault()});
 }
+function bzEvoRow(k,t){const f=BD_FAM.find(x=>x[0]===k),it=bdItem(k,t),th=f[4];
+ return `<div class="bz-item ${t?'':'off'}"><button type="button" class="bz-row" data-evo="${k}" aria-expanded="false">${bdgIcon(it,44)}<span class="bz-t"><b>${esc(f[1])}</b><small>${t?`${esc(it.level)} · niveau ${t} sur 3`:`À débloquer · dès ${fmtN(th[0])} ${famUnit(f,th[0])}`}</small></span><span class="bz-steps">${f[6].map((sp,i)=>`<i class="${i<t?'on':''}" style="--c:${sp[1][1]}"></i>`).join('')}</span>${CHEV_IC}</button>
+ <div class="bz-evo"><div class="bz-evo-in"><div class="bz-stages">${f[6].map((sp,i)=>`${i?'<span class="bz-arrow" aria-hidden="true"></span>':''}<div class="bz-stage ${i<t?'got':''} ${i===t-1?'cur':''}">${bdgIcon(bdItem(k,i+1),56)}<b>${esc(sp[0])}</b><small>${fmtN(th[i])}</small><em>${i<t?'Obtenu':LOCK_IC}</em></div>`).join('')}</div>
+ <p class="bz-next">${t<3?`Prochain niveau : <b>${fmtN(th[t])} ${famUnit(f,th[t])}</b>`:'Niveau maximum atteint'}</p></div></div></div>`}
+function bzSingleRow(k,on){const it=bdItem(k,on?1:0);return `<div class="bz-item ${on?'':'off'}"><div class="bz-row">${bdgIcon(it,44)}<span class="bz-t"><b>${esc(it.name)}</b><small>${esc(it.desc)}</small></span><em class="bz-st">${on?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>':LOCK_IC}</em></div></div>`}
 async function openBadges(uid){
  const got=badgeCache[uid]||await loadBadges(uid),mine=me&&uid===me.id,m=bdParse(got),pts=bdPoints(m);
  const close=`<button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`;
- const top=`<div class="bd-top"><b>${pts}<small> / ${BD_MAX}</small></b><span>${mine?(pts>=BD_MAX?'Collection complète, tout au niveau Légende':'Chaque badge évolue : Bronze, Argent, Or, Platine, Légende'):'niveaux de badges de @'+esc(prof(uid).handle)}</span></div><span class="ck-bar"><i style="width:${Math.round(pts/BD_MAX*100)}%"></i></span>`;
- const all=BD_ORDER.map(k=>bdItem(k,m[k]||0));
- if(!mine){
-  const shown=badgesShown(uid,got),sk=shown.map(x=>x.k);
-  const order=[...shown,...all.filter(x=>x.t&&!sk.includes(x.k)),...all.filter(x=>!x.t)];
-  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet bd-sheet" role="dialog" aria-label="Badges"><div class="stw-top"><b>Badges</b>${close}</div><div class="sheet-list gutter">${top}
-  <div class="bd-grid">${order.map(it=>`<div class="bd-c ${it.t?'':'off'}">${bdCard(it)}</div>`).join('')}</div></div></div></div>`;
-  return;
- }
+ const fams=BD_FAM.map(f=>f[0]),sing=BD_ORDER.filter(k=>!fams.includes(k));
+ const col=`<div class="bz-sec"><div class="bz-h"><b>Évolutifs</b><span>3 niveaux · touche pour voir l’évolution</span></div>${[...fams.filter(k=>m[k]),...fams.filter(k=>!m[k])].map(k=>bzEvoRow(k,m[k]||0)).join('')}</div>
+  <div class="bz-sec"><div class="bz-h"><b>Spéciaux</b><span>Un seul niveau</span></div>${[...sing.filter(k=>m[k]),...sing.filter(k=>!m[k])].map(k=>bzSingleRow(k,!!m[k])).join('')}</div>`;
+ const sum=`<div class="bz-sum"><b>${pts}</b><span><small>sur ${BD_MAX} niveaux débloqués</small><i class="bz-bar"><i style="width:${Math.round(pts/BD_MAX*100)}%"></i></i></span></div>`;
  let ord=badgesShown(uid,got).map(x=>x.k);
- const save=()=>{me.badges_order=[...ord];P[me.id]=me;const row=$('bdg-row');if(row&&row.dataset.u===me.id)drawBadges(row,got);
+ const profPane=()=>{const rest=BD_ORDER.filter(k=>m[k]&&!ord.includes(k));
+  return `<div class="bz-prev">${ord.length?`<b>${esc(me.name||me.handle)}</b><span class="mbd">${ord.slice(0,6).map(k=>bdgIcon(bdItem(k,m[k]),22)).join('')}${ord.length>6?`<em>+${ord.length-6}</em>`:''}</span>`:'<span class="bz-empty">Aucun badge affiché</span>'}</div>
+  <div class="bz-h"><b>Affichés</b><span>Maintiens et glisse pour changer l’ordre</span></div>
+  <div class="bo-list">${ord.map((k,i)=>{const it=bdItem(k,m[k]);return `<div class="bo-row" data-k="${k}"><span class="bo-grip" aria-label="Glisser pour déplacer">${GRIP_IC}</span>${bdgIcon(it,32)}<span class="bo-t"><b>${esc(it.fam?it.level:it.name)}</b><small>${i<3?'Profil et fil':'Profil'}</small></span><button type="button" class="bo-b bo-x" data-bo="rm" data-k="${k}" aria-label="Retirer">${X_IC}</button></div>`}).join('')||'<p class="bz-empty bz-pad">Ajoute des badges ci-dessous.</p>'}</div>
+  <div class="bz-h"><b>Ajouter</b><span>${rest.length?'Touche pour l’afficher':'Tout est affiché'}</span></div>
+  <div class="bz-chips">${rest.map(k=>{const it=bdItem(k,m[k]);return `<button type="button" class="bz-chip" data-bo="add" data-k="${k}">${bdgIcon(it,24)}<span>${esc(it.fam?it.level:it.name)}</span><b>+</b></button>`}).join('')}</div>`};
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet bd-sheet bz-sheet" role="dialog" aria-label="Badges"><div class="stw-top"><b>${mine?'Mes badges':'Badges de @'+esc(prof(uid).handle)}</b>${close}</div><div class="sheet-list gutter">${sum}
+  ${mine?`<div class="bz-tabs" role="tablist"><button type="button" role="tab" data-tab="col" aria-selected="true">Collection</button><button type="button" role="tab" data-tab="prof" aria-selected="false">Sur mon profil</button></div>`:''}
+  <div class="bz-pane" data-pane="col">${col}</div>${mine?`<div class="bz-pane" data-pane="prof" hidden>${profPane()}</div>`:''}</div></div></div>`;
+ const sheet=layer.querySelector('.bz-sheet');
+ sheet.addEventListener('click',e=>{const tb=e.target.closest('[data-tab]');
+  if(tb){e.stopPropagation();sheet.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b===tb)));sheet.querySelectorAll('[data-pane]').forEach(pn=>pn.hidden=pn.dataset.pane!==tb.dataset.tab);return}
+  const ev=e.target.closest('[data-evo]');if(ev){e.stopPropagation();const it=ev.parentElement,o=!it.classList.contains('open');sheet.querySelectorAll('.bz-item.open').forEach(x=>{if(x!==it){x.classList.remove('open');x.querySelector('[data-evo]').setAttribute('aria-expanded','false')}});it.classList.toggle('open',o);ev.setAttribute('aria-expanded',String(o));return}});
+ if(!mine)return;
+ const wrap=sheet.querySelector('[data-pane="prof"]');
+ const save=()=>{me.badges_order=[...ord];P[me.id]=me;const row=$('bdg-row');if(row&&row.dataset.u===me.id)drawBadges(row,got);const ep=$('ep-bd');if(ep)ep.innerHTML=epBadgesHTML();
   clearTimeout(bdSaveT);bdSaveT=setTimeout(async()=>{const {error}=await sb.from('profiles').update({badges_order:me.badges_order}).eq('id',me.id);if(error)toast('Non enregistré, réessaie')},450)};
- const body=()=>`<div class="bo-h"><b>Sur ton profil</b><span>${ord.length} affiché${ord.length>1?'s':''}</span></div>
-  <p class="bo-sub">Maintiens un badge puis glisse-le vers le haut ou le bas pour changer l’ordre. Les 3 premiers apparaissent aussi dans le fil.</p>
-  <div class="bo-preview">${ord.length?`<b>${esc(me.name||me.handle)}</b><span class="mbd">${ord.slice(0,6).map(k=>bdgIcon(bdItem(k,m[k]),22)).join('')}${ord.length>6?`<em>+${ord.length-6}</em>`:''}</span>`:'<span class="bo-empty">Aucun badge affiché : ajoute-en depuis ta collection.</span>'}</div>
-  <div class="bo-list">${ord.map((k,i)=>{const it=bdItem(k,m[k]);return `<div class="bo-row" data-k="${k}"><span class="bo-grip" aria-label="Glisser pour déplacer">${GRIP_IC}</span><span class="bo-n">${i+1}</span>${bdgIcon(it,32)}<span class="bo-t"><b>${esc(it.name)}${it.fam?` <em class="bd-lv" style="--c:${TIERS[it.t][1]}">${TIERS[it.t][0]}</em>`:''}</b><small>${i<3?'Profil et fil':'Profil'}</small></span><button type="button" class="bo-b bo-x" data-bo="rm" data-k="${k}" aria-label="Retirer ${esc(it.name)}">${X_IC}</button></div>`}).join('')}</div>
-  <div class="bo-h bo-h2"><b>Ta collection</b><span>Touche un badge pour l’ajouter ou le retirer</span></div>
-  <div class="bd-grid">${[...all.filter(x=>x.t),...all.filter(x=>!x.t)].map(it=>{const sh=ord.includes(it.k);return it.t?`<button type="button" class="bd-c ${sh?'is-on':''}" data-bo="tog" data-k="${it.k}" aria-pressed="${sh}">${bdCard(it,`<span class="bd-tg">${sh?'✓ Affiché':'+ Ajouter'}</span>`)}</button>`:`<div class="bd-c off">${bdCard(it,'<span class="bd-lock">À débloquer</span>')}</div>`}).join('')}</div>`;
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet bd-sheet" role="dialog" aria-label="Mes badges"><div class="stw-top"><b>Mes badges</b>${close}</div><div class="sheet-list gutter">${top}<div class="bo-body">${body()}</div></div></div></div>`;
- const wrap=layer.querySelector('.bo-body');
- const rerender=k=>{wrap.innerHTML=body();save();if(k){const r=wrap.querySelector(`.bo-row[data-k="${k}"]`);if(r)r.classList.add('bo-flash')}};
+ const rerender=k=>{wrap.innerHTML=profPane();save();if(k){const r=wrap.querySelector(`.bo-row[data-k="${k}"]`);if(r)r.classList.add('bo-flash')}};
  bdDrag(wrap,()=>ord,(k,moved)=>{if(moved)rerender(k);else wrap.querySelectorAll('.bo-row').forEach(r=>{r.classList.remove('dragging');r.style.transform='';r.style.transition=''})});
  wrap.addEventListener('click',e=>{const t=e.target.closest('[data-bo]');if(!t)return;e.stopPropagation();const k=t.dataset.k,i=ord.indexOf(k);
-  if(t.dataset.bo==='rm'&&i>-1){ord.splice(i,1);rerender()}
-  else if(t.dataset.bo==='tog'){if(i>-1){ord.splice(i,1);rerender()}else{ord.push(k);rerender(k);const r=wrap.querySelector(`.bo-row[data-k="${k}"]`);if(r)r.scrollIntoView({block:'nearest',behavior:'smooth'})}}
+  if(t.dataset.bo==='rm'&&i>-1){ord.splice(i,1);rerender()}else if(t.dataset.bo==='add'&&i<0){ord.push(k);rerender(k)}
   if(navigator.vibrate)try{navigator.vibrate(8)}catch(_){}});
 }
+function epBadgesHTML(){const l=badgesShown(me.id,badgeCache[me.id]||me.badges||[]);return l.length?`<span class="mbd">${l.slice(0,7).map(b=>bdgIcon(b,24)).join('')}${l.length>7?`<em>+${l.length-7}</em>`:''}</span>`:'<span class="pp-sub">Aucun badge affiché</span>'}
 
 // ================= CADRE & BANNIÈRE (Freestyle+) =================
 const FRAMES=[['','Aucun'],['fin','Halo'],['double','Orbite'],['neon','Néon'],['or','Or'],['chrome','Chrome'],['glace','Givre'],['feu','Feu'],['holo','Holo'],['plasma','Plasma'],['foudre','Foudre'],['pixel','Arcade']];
 const FX_KEYS=new Set(FRAMES.map(f=>f[0]).filter(Boolean));
-function fxAv(uid,s,fr,r){if(fr===undefined)fr=(P[uid]&&P[uid].frame)||'';const a=av(uid,s);if(!fr||!FX_KEYS.has(fr))return a;
- const fw=Math.max(1.5,+(s*.048).toFixed(1));r=r==null?Math.round(s*.3):r;
+function fxWrap(a,s,fr,r){if(!fr||!FX_KEYS.has(fr))return a;const fw=Math.max(1.5,+(s*.048).toFixed(1));r=r==null?Math.round(s*.3):r;
  return `<span class="fx fx-${fr}" style="--fw:${fw}px;--r:${r}px">${a}<i class="fx-g"></i><i class="fx-r"></i><i class="fx-s"></i></span>`}
+function fxAv(uid,s,fr,r){if(fr===undefined)fr=(P[uid]&&P[uid].frame)||'';return fxWrap(av(uid,s),s,fr,r)}
 const BANNERS=[['','Ma photo'],['nuit','Nuit'],['sunset','Sunset'],['lave','Lave'],['menthe','Menthe'],['topo','Topo'],['beton','Béton'],['grille','Grille'],['scan','Scanlines'],['aurore','Aurore'],['carbone','Carbone'],['chrome','Chrome'],['braise','Braise'],['ocean','Océan'],['damier','Damier']];
 const BANNER_FX=[['','Aucun'],['contour','Contour'],['reflet','Reflet'],['scan','Scanner'],['particules','Particules'],['aurore','Aurore'],['bokeh','Bokeh'],['grain','Film'],['pluie','Pluie']];
 const BFX_KEYS=new Set(BANNER_FX.map(f=>f[0]).filter(Boolean));
