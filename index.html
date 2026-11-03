@@ -2845,6 +2845,20 @@ html[data-theme="dark"] .wl-go{background:#F1F1F1;color:#0F0F0F}
 .inv-txt{margin:14px 0 10px;font-size:13px;line-height:1.45;color:#8e8e8a}
 .inv-link{padding:11px 13px;border-radius:11px;background:var(--paper);font-size:12.5px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 html[data-theme="dark"] .inv-link{background:#161616;color:#d6d6d2}
+
+/* ================= v56 : notifications sur le téléphone ================= */
+.pu-ban{display:flex;align-items:center;gap:10px;margin:2px 0 12px;padding:11px 10px 11px 12px;border-radius:14px;background:var(--paper)}
+html[data-theme="dark"] .pu-ban{background:#161616}
+.pu-ic{width:34px;height:34px;border-radius:10px;background:var(--ink);color:var(--card,#fff);display:grid;place-items:center;flex:0 0 auto}
+html[data-theme="dark"] .pu-ic{background:#F1F1F1;color:#0F0F0F}
+.pu-ic svg{width:18px;height:18px}
+.pu-t{flex:1;min-width:0;display:flex;flex-direction:column}
+.pu-t b{font-size:13.5px;color:var(--ink)}
+.pu-t small{font-size:12px;color:#8e8e8a}
+.pu-go{flex:0 0 auto;height:32px;padding:0 13px;border:0;border-radius:9px;background:#22A55C;color:#fff;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap}
+.pu-go:disabled{opacity:.5}
+.pu-x{flex:0 0 auto;width:26px;height:26px;border:0;background:none;color:#8e8e8a;font-size:20px;line-height:1;cursor:pointer}
+.pu-row{border-bottom:1px solid var(--paper-line);padding-bottom:12px;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -2885,6 +2899,7 @@ const LOGO="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEBCAYAAADCT5idAA
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const BASE_URL=location.origin+location.pathname;
 try{const r0=new URLSearchParams(location.search).get('ref');if(r0&&/^[a-z0-9._-]{3,20}$/i.test(r0))localStorage.setItem('fs-ref',r0.toLowerCase())}catch(e){}
+setTimeout(()=>{try{swInit()}catch(e){}},0); // service worker dès l'ouverture : app installable + notifications
 
 // ================= CONSTANTES =================
 const SPORTS={'Calisthenics':['#5a5a5a','#121212'],'Musculation':['#6e6e6e','#161616'],'Powerlifting':['#4a4a4a','#0F0F0F'],'Strongman':['#626262','#141414'],'Hyrox':['#585858','#111111'],'Sport de combat':['#7a7a7a','#1a1a1a'],'Running':['#555555','#101010'],'Autre':['#5f5f5f','#111111'],'Vélo':['#5c5c5c','#121212'],'Running & vélo':['#555555','#101010']};
@@ -3406,7 +3421,7 @@ function notifRow(n){return `<div class="conv notif ${n.read_at?'':'unread-n'}">
 async function openNotifs(){
  const used=new Set(),secs=[['Aujourd’hui',n=>Date.now()-new Date(n.created_at)<864e5],['Cette semaine',n=>Date.now()-new Date(n.created_at)<6048e5],['Plus tôt',()=>true]];
  const html=secs.map(([t,f])=>{const l=notifs.filter(n=>!used.has(n.id)&&f(n));l.forEach(n=>used.add(n.id));return l.length?`<div class="label">${t}</div>`+l.map(notifRow).join(''):''}).join('');
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet notif-sheet" role="dialog" aria-label="Pings"><div class="sheet-head">Pings<button class="sh-gear" data-act="notif-prefs" aria-label="Réglages des pings">${I.gear}</button></div><div class="sheet-list gutter">${notifs.length?html:'<div class="empty">Aucun ping pour l’instant.</div>'}</div></div></div>`;
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet notif-sheet" role="dialog" aria-label="Pings"><div class="sheet-head">Pings<button class="sh-gear" data-act="notif-prefs" aria-label="Réglages des pings">${I.gear}</button></div><div class="sheet-list gutter">${pushBannerHTML()}${notifs.length?html:'<div class="empty">Aucun ping pour l’instant.</div>'}</div></div></div>`;
  const ids=notifs.filter(n=>!n.read_at).map(n=>n.id);if(ids.length){const now=new Date().toISOString();notifs.forEach(n=>{if(!n.read_at)n.read_at=now});unreadNotifs=0;paintBadge();document.querySelector('.bell-dot')?.remove();await sb.from('notifications').update({read_at:now}).in('id',ids)}
 }
 const PREF_ROWS=[['likes','J’aime','Posts, commentaires et flashs'],['comments','Commentaires','Commentaires et réponses à tes commentaires'],['follows','Nouveaux abonnés','Quand quelqu’un s’abonne à toi'],['messages','Messages','Messages privés reçus'],['announcements','Annonces Freestyle','Événements, rassemblements et infos publiés par Freestyle']];
@@ -3415,7 +3430,8 @@ async function loadNotifPrefs(){try{const {data}=await sb.from('notification_pre
 const prefOn=k=>!nPrefs||nPrefs[k]!==false;
 async function openNotifPrefs(){
  if(!nPrefs)await loadNotifPrefs();
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Réglages des pings"><div class="sheet-head">Réglages des pings</div><div class="sheet-list gutter"><p class="rp-sub">Active ou désactive chaque type de ping.</p>${PREF_ROWS.map(([k,l,d])=>`<label class="pref-row"><span><b>${l}</b><small>${d}</small></span><input type="checkbox" class="sw" data-pref="${k}" ${prefOn(k)?'checked':''}><i class="sw-ui" aria-hidden="true"></i></label>`).join('')}</div></div></div>`;
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet" role="dialog" aria-label="Réglages des pings"><div class="sheet-head">Réglages des pings</div><div class="sheet-list gutter"><label class="pref-row pu-row"><span><b>Sur ce téléphone</b><small>${pushState()==='ios-install'?'Ajoute d’abord Freestyle à l’écran d’accueil':pushState()==='unsupported'?'Non disponible sur ce navigateur':pushState()==='denied'?'Bloquées dans les réglages du téléphone':'Notifications même quand l’app est fermée'}</small></span><input type="checkbox" class="sw" id="pu-sw" ${pushOn()?'checked':''}><i class="sw-ui" aria-hidden="true"></i></label><p class="rp-sub">Active ou désactive chaque type de ping.</p>${PREF_ROWS.map(([k,l,d])=>`<label class="pref-row"><span><b>${l}</b><small>${d}</small></span><input type="checkbox" class="sw" data-pref="${k}" ${prefOn(k)?'checked':''}><i class="sw-ui" aria-hidden="true"></i></label>`).join('')}</div></div></div>`;
+ const psw=$('pu-sw');if(psw)psw.addEventListener('change',async()=>{psw.disabled=true;if(psw.checked){const ok=await pushEnable();psw.checked=ok}else await pushDisable();psw.disabled=false});
  layer.querySelectorAll('[data-pref]').forEach(c=>c.addEventListener('change',async()=>{
   const k=c.dataset.pref;nPrefs[k]=c.checked;
   const row={user_id:me.id,likes:prefOn('likes'),comments:prefOn('comments'),follows:prefOn('follows'),messages:prefOn('messages'),announcements:prefOn('announcements'),updated_at:new Date().toISOString()};
@@ -4422,6 +4438,8 @@ document.addEventListener('click',async e=>{
   case 'wl-profile':closeLayer();hist.push([view,arg]);nav('profile',u);break;
   case 'wl-events':closeLayer();msgTab='info';nav('messages');break;
   case 'invite':openInvite();break;
+  case 'push-on':{a.disabled=true;const ok=await pushEnable();if(ok)a.closest('.pu-ban')?.remove();else a.disabled=false;break}
+  case 'push-hide':{try{localStorage.setItem('fs-push-hide','1')}catch(e){}a.closest('.pu-ban')?.remove();break}
   case 'invite-share':await shareInvite();break;
   case 'check-info':openCheckInfo(u);break;
   case 'check-do':await doCheck(u,true);break;
@@ -4771,6 +4789,54 @@ function openShareMenu(btn,kind,id){
  miniMenu(btn,items,'right','light');
 }
 async function shareLink(link,text){try{if(navigator.share){await navigator.share({title:'Freestyle',text,url:link});return}}catch(e){if(e&&e.name==='AbortError')return}try{await navigator.clipboard.writeText(link);toast('Lien copié')}catch(e){warnBox('Lien',link,false)}}
+// ================= NOTIFICATIONS SUR LE TÉLÉPHONE (Web Push) =================
+// Chaque ping est aussi envoyé sur le téléphone, même app fermée (comme Instagram / TikTok).
+// Sur iPhone : il faut d'abord ajouter Freestyle à l'écran d'accueil (iOS 16.4 ou plus).
+const PUSH_OK=('serviceWorker' in navigator)&&('PushManager' in window)&&('Notification' in window);
+const IS_IOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const IS_STANDALONE=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
+let swReg=null;
+async function swInit(){
+ if(!('serviceWorker' in navigator))return null;
+ try{swReg=await navigator.serviceWorker.register('sw.js');
+  navigator.serviceWorker.addEventListener('message',e=>{const d=e.data||{};if(d.type==='open'&&d.url){try{const u=new URL(d.url);const c=u.searchParams.get('chat');if(c&&me){hist=[];nav('chat',c)}else if(me)openNotifs()}catch(_){}}});
+ }catch(e){swReg=null}
+ return swReg;
+}
+const pushState=()=>!PUSH_OK?(IS_IOS&&!IS_STANDALONE?'ios-install':'unsupported'):Notification.permission;
+function b64u8(b){const p='='.repeat((4-b.length%4)%4);const r=atob((b+p).replace(/-/g,'+').replace(/_/g,'/'));const o=new Uint8Array(r.length);for(let i=0;i<r.length;i++)o[i]=r.charCodeAt(i);return o}
+async function pushSubscribe(){
+ const reg=swReg||await swInit();if(!reg)throw new Error('sw');
+ const {data:key,error}=await sb.rpc('fs_push_public_key');if(error||!key)throw new Error('key');
+ let sub=await reg.pushManager.getSubscription();
+ if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u8(key)});
+ const j=sub.toJSON();await sb.rpc('fs_save_push',{ep:j.endpoint,k:j.keys.p256dh,a:j.keys.auth});
+ try{localStorage.setItem('fs-push','on')}catch(e){}
+ return true;
+}
+async function pushEnable(){
+ const st=pushState();
+ if(st==='ios-install'){warnBox('Installe d’abord Freestyle','Sur iPhone, touche le bouton Partager de Safari puis « Sur l’écran d’accueil ». Ouvre ensuite Freestyle depuis son icône et active les notifications ici.',false);return false}
+ if(st==='unsupported'){toast('Ce navigateur ne gère pas les notifications');return false}
+ if(st==='denied'){warnBox('Notifications bloquées','Tu as refusé les notifications pour Freestyle. Réactive-les dans les réglages de ton téléphone ou de ton navigateur (Notifications › Freestyle).',false);return false}
+ try{const perm=await Notification.requestPermission();if(perm!=='granted'){toast('Notifications non activées');return false}await pushSubscribe();toast('Notifications activées sur ce téléphone');return true}
+ catch(e){console.error('[Freestyle]',e);toast('Activation impossible pour le moment');return false}
+}
+async function pushDisable(){
+ try{const reg=swReg||await swInit();const sub=reg&&await reg.pushManager.getSubscription();if(sub){await sb.rpc('fs_remove_push',{ep:sub.endpoint});await sub.unsubscribe()}}catch(e){}
+ try{localStorage.setItem('fs-push','off')}catch(e){}
+ toast('Notifications désactivées sur ce téléphone');
+}
+async function pushSync(){ // à chaque ouverture : garde l'abonnement à jour si déjà autorisé
+ if(!PUSH_OK||Notification.permission!=='granted')return;let off=false;try{off=localStorage.getItem('fs-push')==='off'}catch(e){}if(off)return;
+ try{await pushSubscribe()}catch(e){}
+}
+function pushOn(){if(!PUSH_OK||Notification.permission!=='granted')return false;try{return localStorage.getItem('fs-push')!=='off'}catch(e){return true}}
+function pushBannerHTML(){
+ if(pushOn())return '';let hide=false;try{hide=localStorage.getItem('fs-push-hide')==='1'}catch(e){}if(hide)return '';
+ const st=pushState();if(st==='unsupported'||st==='denied')return '';
+ return `<div class="pu-ban"><span class="pu-ic">${I.bell}</span><span class="pu-t"><b>Reçois tes pings sur ton téléphone</b><small>${st==='ios-install'?'Ajoute d’abord Freestyle à l’écran d’accueil':'Même quand l’app est fermée'}</small></span><button type="button" class="pu-go" data-act="push-on">Activer</button><button type="button" class="pu-x" data-act="push-hide" aria-label="Masquer">×</button></div>`;
+}
 // ================= ACCUEIL DES NOUVEAUX & PARRAINAGE =================
 const inviteLink=()=>BASE_URL+'?ref='+encodeURIComponent(me.handle);
 async function openWelcome(){
@@ -4927,6 +4993,8 @@ async function boot(){
  cleanExpiredStories();
  if(!['home','clips','messages','profile','create'].includes(view))view='home';
  render();
+ swInit().then(pushSync);
+ {const qs=new URLSearchParams(location.search);if(qs.get('pings')){history.replaceState(null,'',BASE_URL);setTimeout(openNotifs,300)}else if(qs.get('chat')){const c=qs.get('chat');history.replaceState(null,'',BASE_URL);hist=[];nav('chat',c)}}
  let wel=false;try{wel=localStorage.getItem('fs-welcome')==='1'}catch(e){}
  if(wel){try{localStorage.removeItem('fs-welcome')}catch(e){}setTimeout(openWelcome,500)}
 }
