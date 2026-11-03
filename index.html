@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793719329">
+<meta name="fs-build" content="1793719853">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3345,6 +3345,29 @@ html[data-theme="dark"] .bd-c:not(.is-on):not(.off) .bd-tg{background:#222;color
 .pbanner.bn-menthe,.cz-o.bn-menthe>i{background:linear-gradient(135deg,#e8ffd9,#9be7b6 50%,#5cc8a6)!important}
 .pbanner.bn-topo,.cz-o.bn-topo>i{background:repeating-radial-gradient(circle at 28% 42%,transparent 0 10px,rgba(160,255,200,.14) 10px 11px),repeating-radial-gradient(circle at 78% 70%,transparent 0 12px,rgba(160,255,200,.1) 12px 13px),#12201a!important}
 .pbanner.bn-beton,.cz-o.bn-beton>i{background:radial-gradient(rgba(0,0,0,.12) 1px,transparent 1.5px) 0 0/7px 7px,radial-gradient(rgba(255,255,255,.18) 1px,transparent 1.5px) 3px 4px/9px 9px,linear-gradient(160deg,#a7a6a1,#7c7b77)!important}
+
+/* ================= v77 : badges évolutifs + glisser-déposer ================= */
+.bd-i.bd-t5 svg,.bd-i.bd-t4 svg{overflow:visible}
+.bd-rays{transform-box:view-box;transform-origin:50% 54%;animation:bdRays 14s linear infinite}
+@keyframes bdRays{to{transform:rotate(360deg)}}
+.bd-tw{transform-box:fill-box;transform-origin:center;animation:bdTw 2.8s ease-in-out infinite}
+.bd-tw2{animation-delay:1.4s}
+@keyframes bdTw{0%,100%{transform:scale(0);opacity:0}45%{transform:scale(1);opacity:1}70%{transform:scale(.2);opacity:0}}
+.bd-i.bd-t5{animation:bdGlow 2.6s ease-in-out infinite}
+.bd-lv{display:inline-block;margin:3px auto 0;font-style:normal;font-size:10px;font-weight:800;letter-spacing:.02em;padding:1px 6px;border-radius:5px;color:#fff;background:var(--c);text-shadow:0 1px 1px rgba(0,0,0,.2)}
+.bo-t .bd-lv{margin:0 0 0 4px;vertical-align:1px}
+.bd-c>b+.bd-lv{display:table}
+.bd-pips{display:flex;justify-content:center;gap:3px;margin-top:6px}
+.bd-pips i{width:12px;height:4px;border-radius:2px;background:var(--paper-line,rgba(0,0,0,.1))}
+html[data-theme="dark"] .bd-pips i{background:#2a2a2a}
+.bd-pips i.on{background:var(--c)}
+.bo-row{position:relative;touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;cursor:grab}
+.bo-grip{display:grid;place-items:center;width:22px;height:34px;margin-left:-4px;color:#a3a29d;touch-action:none;cursor:grab;flex:0 0 auto}
+.bo-row .bo-b{display:none}.bo-row .bo-x{display:grid}
+.is-drag .bo-row:not(.dragging){transition:transform .22s cubic-bezier(.3,1,.5,1)}
+.bo-row.dragging{z-index:5;cursor:grabbing;box-shadow:0 12px 28px rgba(0,0,0,.22);background:var(--bg)!important;outline:1.5px solid #22A55C}
+html[data-theme="dark"] .bo-row.dragging{background:#222!important}
+.bd-top b{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -5426,9 +5449,9 @@ async function setBarColor(k){
  if(error)toast('Couleur non enregistrée, réessaie');
 }
 setTimeout(()=>{try{applyBarColor(localStorage.getItem('fs-bar')||'auto')}catch(e){}},0);
-// ================= BADGES (façon Discord) =================
+// ================= BADGES (uniques + évolutifs) =================
 const BG=d=>d;
-const BADGES=[
+const BD_OLD=[
  ['fondateur','Créateur de Freestyle','Le compte qui a créé Freestyle','#C9A24A',BG('<path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 10H5z"/>')],
  ['plus','Freestyle+','Membre de l’offre Freestyle+','#7B5CFF',BG('<path d="M12 3l2.6 5.6L20 9.5l-4 4 1 5.5-5-2.8-5 2.8 1-5.5-4-4 5.4-.9z"/>')],
  ['verifie','Compte vérifié','Pastille bleue','#2F8BFF',BG('<path d="M5 12.5l4.5 4.5L19 7.5"/>')],
@@ -5456,7 +5479,46 @@ const BADGES=[
  ['recruteur','Recruteur','A invité 10 potes','#6366F1',BG('<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8.5 20h7"/>')],
  ['organisateur','Organisateur','A organisé un événement validé','#84CC16',BG('<rect x="4" y="5.5" width="16" height="14" rx="3"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>')]
 ];
-const badgeCache={};
+const BIC=Object.fromEntries(BD_OLD.map(b=>[b[0],b[4]]));
+// badges uniques : [clé, nom, description, couleur, forme, rare]
+const BD_SINGLE=[
+ ['fondateur','Créateur de Freestyle','Le compte qui a créé Freestyle','#C9A24A','sceau',1],
+ ['plus','Freestyle+','Membre de l’offre Freestyle+','#7B5CFF','losange',1],
+ ['verifie','Compte vérifié','Pastille bleue','#2F8BFF','sceau',0],
+ ['valide','Validé par la communauté','100 checks de membres différents','#22A55C','ecusson',1],
+ ['pionnier','Pionnier','Inscrit pendant la première année','#8C6A3E','ecusson',0],
+ ['flash','Premier flash','A publié son premier flash','#F5B301','losange',0],
+ ['genereux','Généreux','A donné ses 5 checks','#10B981','rond',0],
+ ['duo','En duo','A un partenaire d’entraînement','#EF4444','rond',0],
+ ['affinite','Binôme parfait','100 % d’affinité avec son duo','#16A34A','losange',1],
+ ['organisateur','Organisateur','A organisé un événement validé','#84CC16','hexa',0]
+];
+// badges évolutifs : [clé, nom, unité (1), unité (n), paliers, icône]
+const BD_FAM=[
+ ['followers','Followers','follower','followers',[100,500,1000,10000,100000],'populaire'],
+ ['posts','Posts','post publié','posts publiés',[1,10,50,200,1000],'posts10'],
+ ['clips','Clips','clip publié','clips publiés',[1,10,50,200,500],'clip'],
+ ['checks','Checks','check reçu','checks reçus',[10,50,100,500,1000],'checke10'],
+ ['likes','J’aime','j’aime reçu','j’aime reçus',[100,1000,10000,100000,1000000],'aime'],
+ ['vues','Viral','vue sur un post','vues sur un post',[500,5000,50000,500000,1000000],'viral'],
+ ['serie','Série','jour d’affilée en duo','jours d’affilée en duo',[7,30,90,180,365],'posts50'],
+ ['shouts','Shouts','shout','shouts',[10,50,200,500,1000],'shout10'],
+ ['comments','Bavard','commentaire','commentaires',[50,250,1000,5000,10000],'bavard'],
+ ['parrain','Ambassadeur','pote invité','potes invités',[3,10,25,50,100],'ambassadeur'],
+ ['suivis','Sociable','sportif suivi','sportifs suivis',[50,200,500,1000,2000],'sociable']
+];
+const TIERS=[null,['Bronze','#C98A55','#F6D2B0','#7A4418','#4E2A0E'],['Argent','#B9C0CB','#FFFFFF','#7D8693','#4A515C'],['Or','#E3B341','#FFF1B8','#9C6B17','#634208'],['Platine','#7FDDE3','#F2FFFF','#2F8FA6','#1B5866'],['Légende','#9B6BFF','#FFC2F2','#4A23B8','#2A1470']];
+const BD_ORDER=['fondateur','plus','verifie','valide','followers','posts','clips','checks','likes','vues','serie','shouts','comments','parrain','suivis','pionnier','flash','genereux','duo','affinite','organisateur'];
+const BD_MAX=BD_SINGLE.length+BD_FAM.length*5;
+const OLD2NEW={premier_post:'posts',posts10:'posts',posts50:'posts',clip:'clips',shout10:'shouts',checke10:'checks',serie7:'serie',serie30:'serie',populaire:'followers',star:'followers',sociable:'suivis',bavard:'comments',aime:'likes',viral:'vues',ambassadeur:'parrain',recruteur:'parrain'};
+const bdNorm=k=>OLD2NEW[k]||k;
+function bdParse(got){const m={};(got||[]).forEach(x=>{let [k,t]=String(x).split(':');t=t?Math.max(1,Math.min(5,+t||1)):1;k=bdNorm(k);m[k]=Math.max(m[k]||0,t)});return m}
+const fmtN=n=>Number(n).toLocaleString('fr-FR');
+function bdItem(k,t){const sg=BD_SINGLE.find(x=>x[0]===k);
+ if(sg)return {k,name:sg[1],desc:sg[2],color:sg[3],shape:sg[4],rare:!!sg[5],icon:BIC[k]||BIC.star,t:t?1:0};
+ const f=BD_FAM.find(x=>x[0]===k);if(!f)return null;const th=f[4];
+ const desc=t>0?`${fmtN(th[t-1])} ${th[t-1]>1?f[3]:f[2]}${t<5?` · prochain : ${fmtN(th[t])}`:' · niveau max'}`:`Dès ${fmtN(th[0])} ${th[0]>1?f[3]:f[2]}`;
+ return {k,fam:f,name:f[1],desc,color:TIERS[Math.max(1,t)][1],icon:BIC[f[5]],t,rare:t>=4}}
 const hmix=(h,t,a)=>{const q=x=>[1,3,5].map(i=>parseInt(x.slice(i,i+2),16)),A=q(h),B=q(t);return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*a).toString(16).padStart(2,'0')).join('')};
 const bdBurst=(n,R,r)=>{let d='';for(let i=0;i<n*2;i++){const a=Math.PI*i/n-Math.PI/2,k=i%2?r:R;d+=(i?'L':'M')+(16+k*Math.cos(a)).toFixed(2)+' '+(16+k*Math.sin(a)).toFixed(2)}return d+'Z'};
 const BD_SHAPE={
@@ -5465,69 +5527,105 @@ const BD_SHAPE={
  hexa:'M16 2.4l11.8 6.8v13.6L16 29.6 4.2 22.8V9.2z',
  rond:'M16 2.5a13.5 13.5 0 1 1 0 27a13.5 13.5 0 1 1 0-27z',
  losange:'M16 2.2L29.8 16 16 29.8 2.2 16z',
- etoile:bdBurst(5,15,7.6)
+ etoile:bdBurst(5,15,7.6),
+ legende:bdBurst(16,15,13.2)
 };
-const BD_KIND={fondateur:'sceau',plus:'losange',verifie:'sceau',valide:'ecusson',pionnier:'ecusson',premier_post:'hexa',posts10:'hexa',posts50:'hexa',clip:'rond',shout10:'rond',flash:'losange',checke10:'ecusson',genereux:'rond',duo:'rond',serie7:'sceau',serie30:'sceau',affinite:'losange',populaire:'hexa',star:'etoile',sociable:'rond',bavard:'rond',aime:'rond',viral:'losange',ambassadeur:'ecusson',recruteur:'ecusson',organisateur:'hexa'};
-const BD_RARE=new Set(['fondateur','plus','star','serie30','recruteur','affinite','valide','viral']);
 let bdDefs=false;
 function bdEnsureDefs(){if(bdDefs||!document.body)return;bdDefs=true;
- document.body.insertAdjacentHTML('beforeend',`<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>${BADGES.map(b=>`<linearGradient id="bdg-g-${b[0]}" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="${hmix(b[3],'#ffffff',.45)}"/><stop offset=".5" stop-color="${b[3]}"/><stop offset="1" stop-color="${hmix(b[3],'#000000',.32)}"/></linearGradient>`).join('')}<radialGradient id="bdg-hl" cx=".35" cy=".18" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset=".45" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>${Object.entries(BD_SHAPE).map(([k,d])=>`<clipPath id="bdg-c-${k}"><path d="${d}"/></clipPath>`).join('')}</defs></svg>`)}
+ const lg=(id,a,b,c)=>`<linearGradient id="${id}" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="${a}"/><stop offset=".5" stop-color="${b}"/><stop offset="1" stop-color="${c}"/></linearGradient>`;
+ document.body.insertAdjacentHTML('beforeend',`<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>${BD_SINGLE.map(b=>lg('bdg-g-'+b[0],hmix(b[3],'#ffffff',.45),b[3],hmix(b[3],'#000000',.32))).join('')}${TIERS.slice(1).map((t,i)=>lg('bdg-m-'+(i+1),t[2],t[1],t[3])).join('')}<linearGradient id="bdg-m-leg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB8E8"/><stop offset=".35" stop-color="#A77BFF"/><stop offset=".7" stop-color="#5B8CFF"/><stop offset="1" stop-color="#3A1E9C"/></linearGradient><radialGradient id="bdg-hl" cx=".35" cy=".18" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset=".45" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>${Object.entries(BD_SHAPE).map(([k,d])=>`<clipPath id="bdg-c-${k}"><path d="${d}"/></clipPath>`).join('')}</defs></svg>`)}
 let bdSeq=0;
-function bdgIcon(b,sz){bdEnsureDefs();const k=b[0],sh=BD_KIND[k]||'rond',d=BD_SHAPE[sh],c=b[3],dl=((bdSeq++)%7)*.55;
- return `<i class="bd-i bd-${sh} ${BD_RARE.has(k)?'rare':''}" style="--bd:${c};--dl:${dl}s;${sz?`--bs:${sz}px`:''}" title="${esc(b[1])}"><svg viewBox="0 0 32 32" aria-hidden="true">
- <path d="${d}" fill="url(#bdg-g-${k})" stroke="${hmix(c,'#000000',.5)}" stroke-width="1.5" stroke-linejoin="round"/>
- <path d="${d}" fill="url(#bdg-hl)"/>
- <path d="${d}" fill="none" stroke="rgba(255,255,255,.55)" stroke-width=".9" stroke-linejoin="round" transform="translate(16 16) scale(.8) translate(-16 -16)"/>
- <g clip-path="url(#bdg-c-${sh})"><rect class="bd-sh" x="-12" y="-6" width="6" height="44" fill="#fff"/></g>
- <g transform="translate(8.6 9) scale(.615)" fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="rgba(0,0,0,.32)" stroke-width="2.6" transform="translate(0 1.1)">${b[4]}</g><g stroke="#fff" stroke-width="2.6">${b[4]}</g></g></svg></i>`}
-const badgesShown=(uid,got)=>{const u=P[uid]||{};if(Array.isArray(u.badges_order))return u.badges_order.map(k=>BADGES.find(b=>b[0]===k)).filter(b=>b&&got.includes(b[0]));const h=u.badges_hidden||[];return BADGES.filter(b=>got.includes(b[0])&&!h.includes(b[0]))};
-function mb(uid){const u=P[uid];if(!u)return '';const got=badgeCache[uid]||u.badges||[];const l=badgesShown(uid,got);if(!l.length)return '';return `<span class="mbd">${l.slice(0,3).map(b=>bdgIcon(b,15)).join('')}${l.length>3?`<em>+${l.length-3}</em>`:''}</span>`}
+const bdIco=(icon,tr)=>`<g transform="${tr}" fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="rgba(0,0,0,.32)" stroke-width="2.6" transform="translate(0 1.1)">${icon}</g><g stroke="#fff" stroke-width="2.6">${icon}</g></g>`;
+function bdShapeSVG(d,sh,fill,stroke,icon,tr){return `<path d="${d}" fill="${fill}" stroke="${stroke}" stroke-width="1.5" stroke-linejoin="round"/><path d="${d}" fill="url(#bdg-hl)"/><path d="${d}" fill="none" stroke="rgba(255,255,255,.55)" stroke-width=".9" stroke-linejoin="round" transform="translate(16 16) scale(.8) translate(-16 -16)"/><g clip-path="url(#bdg-c-${sh})"><rect class="bd-sh" x="-12" y="-6" width="6" height="44" fill="#fff"/></g>${bdIco(icon,tr)}`}
+function laurel(cx,cy,R,fill,stroke,n){let o='';for(const sd of [-1,1]){o+=`<path d="M${(cx+sd*R*Math.sin(.35)).toFixed(2)} ${(cy+R*Math.cos(.35)).toFixed(2)}A${R} ${R} 0 0 ${sd>0?0:1} ${(cx+sd*R*Math.sin(2.05)).toFixed(2)} ${(cy+R*Math.cos(2.05)).toFixed(2)}" fill="none" stroke="${stroke}" stroke-width=".7" opacity=".8"/>`;
+ for(let i=0;i<n;i++){const th=.45+i*(1.55/(n-1)),x=cx+sd*(R+.6)*Math.sin(th),y=cy+(R+.6)*Math.cos(th),rot=Math.atan2(-Math.sin(th),sd*Math.cos(th))*180/Math.PI+(sd>0?-28:28);
+  o+=`<ellipse cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" rx="2.3" ry="1.05" transform="rotate(${rot.toFixed(1)} ${x.toFixed(2)} ${y.toFixed(2)})" fill="${fill}" stroke="${stroke}" stroke-width=".45"/>`}}return o}
+function bdTierSVG(it){const t=Math.max(1,it.t),T=TIERS[t],sh=['','rond','hexa','ecusson','sceau','legende'][t],sc=[0,.62,.7,.74,.78,.82][t],cy=t>=4?21.6:t===3?20.6:20,R=16*sc;
+ const fill=t===5?'url(#bdg-m-leg)':`url(#bdg-m-${t})`,stroke=T[4],tr=`translate(20 ${cy}) scale(${sc}) translate(-16 -16)`;
+ let back='',front='';
+ if(t>=5)back+=`<g class="bd-rays">${Array.from({length:12},(_,i)=>{const a=i*30*Math.PI/180,a1=a-.06,a2=a+.06;return `<path d="M20 ${cy}L${(20+19.5*Math.sin(a1)).toFixed(2)} ${(cy-19.5*Math.cos(a1)).toFixed(2)}L${(20+19.5*Math.sin(a2)).toFixed(2)} ${(cy-19.5*Math.cos(a2)).toFixed(2)}Z" fill="#FFE9A8" opacity=".3"/>`}).join('')}</g>`;
+ if(t>=2)back+=`<circle cx="20" cy="${cy}" r="${(R+2.6).toFixed(2)}" fill="none" stroke="${T[1]}" stroke-width=".9" stroke-dasharray="${t>=4?'0.1 2.2':'1.4 1.6'}" stroke-linecap="round" opacity=".9"/>`;
+ if(t>=3)back+=laurel(20,cy,R+3.2,t>=5?'url(#bdg-m-3)':fill,stroke,t>=4?5:4);
+ if(t>=4){const y=cy-R-6.2;front+=`<path d="M14.6 ${y+5.4}L14.2 ${y+1.2}L17.2 ${y+3.4}L20 ${y}L22.8 ${y+3.4}L25.8 ${y+1.2}L25.4 ${y+5.4}Z" fill="url(#bdg-m-3)" stroke="#634208" stroke-width=".6" stroke-linejoin="round"/>`;
+  if(t>=5)front+=`<circle cx="20" cy="${y+3.3}" r="1.15" fill="#FF5FD2" stroke="#fff" stroke-width=".4"/><path class="bd-tw" d="M33 7l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" fill="#fff"/><path class="bd-tw bd-tw2" d="M6.5 30l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5z" fill="#fff"/>`}
+ return `<svg viewBox="0 0 40 40" aria-hidden="true">${back}<g transform="${tr}">${bdShapeSVG(BD_SHAPE[sh],sh,fill,stroke,it.icon,'translate(8.6 9) scale(.615)')}</g>${front}</svg>`}
+function bdgIcon(it,sz){bdEnsureDefs();if(!it)return '';const dl=((bdSeq++)%7)*.55;
+ const svg=it.fam?bdTierSVG(it):`<svg viewBox="-2.5 -2.5 37 37" aria-hidden="true">${bdShapeSVG(BD_SHAPE[it.shape],it.shape,`url(#bdg-g-${it.k})`,hmix(it.color,'#000000',.5),it.icon,'translate(8.6 9) scale(.615)')}</svg>`;
+ return `<i class="bd-i ${it.fam?'bd-t'+Math.max(1,it.t):''} ${it.rare?'rare':''}" style="--bd:${it.color};--dl:${dl}s;${sz?`--bs:${sz}px`:''}" title="${esc(it.name)}${it.fam&&it.t?' · '+TIERS[it.t][0]:''}">${svg}</i>`}
+const bdEarnedItems=got=>{const m=bdParse(got);return BD_ORDER.filter(k=>m[k]).map(k=>bdItem(k,m[k]))};
+const badgesShown=(uid,got)=>{const u=P[uid]||{},m=bdParse(got);
+ if(Array.isArray(u.badges_order)){const seen=new Set();return u.badges_order.map(bdNorm).filter(k=>{if(seen.has(k)||!m[k])return false;seen.add(k);return true}).map(k=>bdItem(k,m[k])).filter(Boolean)}
+ const h=(u.badges_hidden||[]).map(bdNorm);return BD_ORDER.filter(k=>m[k]&&!h.includes(k)).map(k=>bdItem(k,m[k]))};
+const badgeCache={};
+function mb(uid){const u=P[uid];if(!u)return '';const got=badgeCache[uid]||u.badges||[];const l=badgesShown(uid,got);if(!l.length)return '';return `<span class="mbd">${l.slice(0,3).map(b=>bdgIcon(b,16)).join('')}${l.length>3?`<em>+${l.length-3}</em>`:''}</span>`}
 async function loadBadges(uid){try{const {data,error}=await sb.rpc('fs_badges',{pid:uid});if(error||!Array.isArray(data))return badgeCache[uid]||[];badgeCache[uid]=data;return badgeCache[uid]}catch(e){return badgeCache[uid]||[]}}
 function drawBadges(el,got){
  const uid=el.dataset.u,list=badgesShown(uid,got);if(!list.length){if(me&&uid===me.id&&got.length){el.innerHTML='<em class="bd-none">Badges</em>';el.hidden=false}else el.hidden=true;return}
- const shown=list.slice(0,6);el.innerHTML=shown.map(b=>bdgIcon(b)).join('')+(list.length>6?`<em>+${list.length-6}</em>`:'');el.hidden=false;
+ el.innerHTML=list.slice(0,6).map(b=>bdgIcon(b,22)).join('')+(list.length>6?`<em>+${list.length-6}</em>`:'');el.hidden=false;
 }
 async function paintBadges(uid){
  const el=$('bdg-row');if(!el)return;if(badgeCache[uid])drawBadges(el,badgeCache[uid]);
  const got=await loadBadges(uid);if(P[uid])P[uid].badges=got;if(el.isConnected)drawBadges(el,got);
 }
 const X_IC='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
-const UP_IC='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>';
-const DN_IC='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+const GRIP_IC='<svg width="14" height="18" viewBox="0 0 14 18" fill="currentColor" aria-hidden="true"><circle cx="4" cy="3" r="1.6"/><circle cx="10" cy="3" r="1.6"/><circle cx="4" cy="9" r="1.6"/><circle cx="10" cy="9" r="1.6"/><circle cx="4" cy="15" r="1.6"/><circle cx="10" cy="15" r="1.6"/></svg>';
+const bdPips=t=>`<span class="bd-pips">${[1,2,3,4,5].map(i=>`<i class="${i<=t?'on':''}" style="--c:${TIERS[i][1]}"></i>`).join('')}</span>`;
+const bdPoints=m=>Object.entries(m).reduce((a,[k,t])=>a+(BD_FAM.some(f=>f[0]===k)?t:1),0);
+function bdCard(it,extra,tag){const lv=it.fam?`<em class="bd-lv" style="--c:${TIERS[Math.max(1,it.t)][1]}">${it.t?TIERS[it.t][0]:'Niveau 1'}</em>`:'';
+ return `${bdgIcon(it,48)}<b>${esc(it.name)}</b>${lv}<small>${esc(it.desc)}</small>${it.fam?bdPips(it.t):''}${extra||''}`}
 let bdSaveT=0;
+function bdDrag(wrap,getOrd,done){
+ let st=null,pend=null;const sc=()=>wrap.closest('.sheet-list');
+ const begin=(row,y,pid)=>{const rows=[...wrap.querySelectorAll('.bo-row')],i=rows.indexOf(row);if(i<0)return;const s=sc();
+  st={row,rows,i,to:i,step:row.getBoundingClientRect().height+6,y0:y,s0:s?s.scrollTop:0};row.classList.add('dragging');wrap.classList.add('is-drag');
+  try{if(pid!=null)row.setPointerCapture(pid)}catch(_){}if(navigator.vibrate)try{navigator.vibrate(12)}catch(_){}};
+ wrap.addEventListener('pointerdown',e=>{const row=e.target.closest('.bo-row');if(!row||e.target.closest('.bo-x'))return;
+  if(e.target.closest('.bo-grip')){e.preventDefault();begin(row,e.clientY,e.pointerId);return}
+  const pid=e.pointerId,y=e.clientY,x=e.clientX;pend={x,y,t:setTimeout(()=>{if(pend){pend=null;begin(row,y,pid)}},240)}});
+ wrap.addEventListener('pointermove',e=>{
+  if(pend){if(Math.abs(e.clientY-pend.y)>7||Math.abs(e.clientX-pend.x)>7){clearTimeout(pend.t);pend=null}return}
+  if(!st)return;e.preventDefault();const s=sc();
+  if(s){const r=s.getBoundingClientRect();if(e.clientY<r.top+70)s.scrollTop-=9;else if(e.clientY>r.bottom-70)s.scrollTop+=9}
+  const dy=e.clientY-st.y0+(s?s.scrollTop-st.s0:0);st.row.style.transform=`translateY(${dy}px) scale(1.03)`;
+  const to=Math.max(0,Math.min(st.rows.length-1,st.i+Math.round(dy/st.step)));
+  if(to!==st.to){st.to=to;if(navigator.vibrate)try{navigator.vibrate(5)}catch(_){}}
+  st.rows.forEach((x,j)=>{if(x===st.row)return;let v=0;if(st.i<to&&j>st.i&&j<=to)v=-st.step;else if(st.i>to&&j<st.i&&j>=to)v=st.step;x.style.transform=v?`translateY(${v}px)`:''})},{passive:false});
+ const end=()=>{if(pend){clearTimeout(pend.t);pend=null}if(!st)return;const {i,to,row,rows,step}=st;st=null;
+  row.style.transition='transform .18s cubic-bezier(.3,1,.5,1)';row.style.transform=`translateY(${(to-i)*step}px)`;
+  setTimeout(()=>{wrap.classList.remove('is-drag');const o=getOrd();if(to!==i){const k=o.splice(i,1)[0];o.splice(to,0,k)}done(row.dataset.k,to!==i)},170)};
+ wrap.addEventListener('pointerup',end);wrap.addEventListener('pointercancel',end);
+ wrap.addEventListener('touchmove',e=>{if(st)e.preventDefault()},{passive:false});
+ wrap.addEventListener('contextmenu',e=>{if(e.target.closest('.bo-row'))e.preventDefault()});
+}
 async function openBadges(uid){
- const got=badgeCache[uid]||await loadBadges(uid),mine=me&&uid===me.id,n=BADGES.filter(b=>got.includes(b[0])).length;
+ const got=badgeCache[uid]||await loadBadges(uid),mine=me&&uid===me.id,m=bdParse(got),pts=bdPoints(m);
  const close=`<button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`;
- const top=`<div class="bd-top"><b>${n}<small> / ${BADGES.length}</small></b><span>${mine?(n===BADGES.length?'Collection complète':'Débloque-les tous en étant actif sur Freestyle'):'badges débloqués par @'+esc(prof(uid).handle)}</span></div><span class="ck-bar"><i style="width:${Math.round(n/BADGES.length*100)}%"></i></span>`;
+ const top=`<div class="bd-top"><b>${pts}<small> / ${BD_MAX}</small></b><span>${mine?(pts>=BD_MAX?'Collection complète, tout au niveau Légende':'Chaque badge évolue : Bronze, Argent, Or, Platine, Légende'):'niveaux de badges de @'+esc(prof(uid).handle)}</span></div><span class="ck-bar"><i style="width:${Math.round(pts/BD_MAX*100)}%"></i></span>`;
+ const all=BD_ORDER.map(k=>bdItem(k,m[k]||0));
  if(!mine){
-  const shown=badgesShown(uid,got).map(b=>b[0]);
-  const order=[...badgesShown(uid,got),...BADGES.filter(b=>got.includes(b[0])&&!shown.includes(b[0])),...BADGES.filter(b=>!got.includes(b[0]))];
+  const shown=badgesShown(uid,got),sk=shown.map(x=>x.k);
+  const order=[...shown,...all.filter(x=>x.t&&!sk.includes(x.k)),...all.filter(x=>!x.t)];
   layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet bd-sheet" role="dialog" aria-label="Badges"><div class="stw-top"><b>Badges</b>${close}</div><div class="sheet-list gutter">${top}
-  <div class="bd-grid">${order.map(b=>`<div class="bd-c ${got.includes(b[0])?'':'off'}">${bdgIcon(b,46)}<b>${esc(b[1])}</b><small>${esc(b[2])}</small></div>`).join('')}</div></div></div></div>`;
+  <div class="bd-grid">${order.map(it=>`<div class="bd-c ${it.t?'':'off'}">${bdCard(it)}</div>`).join('')}</div></div></div></div>`;
   return;
  }
- let ord=badgesShown(uid,got).map(b=>b[0]);
+ let ord=badgesShown(uid,got).map(x=>x.k);
  const save=()=>{me.badges_order=[...ord];P[me.id]=me;const row=$('bdg-row');if(row&&row.dataset.u===me.id)drawBadges(row,got);
   clearTimeout(bdSaveT);bdSaveT=setTimeout(async()=>{const {error}=await sb.from('profiles').update({badges_order:me.badges_order}).eq('id',me.id);if(error)toast('Non enregistré, réessaie')},450)};
- const body=()=>{const B=k=>BADGES.find(b=>b[0]===k);
-  return `<div class="bo-h"><b>Sur ton profil</b><span>${ord.length} affiché${ord.length>1?'s':''}</span></div>
-  <p class="bo-sub">Ils apparaissent dans cet ordre à côté de ton pseudo et dans le fil (les 3 premiers dans le fil).</p>
-  <div class="bo-preview">${ord.length?`<b>${esc(me.name||me.handle)}</b><span class="mbd">${ord.slice(0,6).map(k=>bdgIcon(B(k),20)).join('')}${ord.length>6?`<em>+${ord.length-6}</em>`:''}</span>`:'<span class="bo-empty">Aucun badge affiché : ajoute-en depuis ta collection.</span>'}</div>
-  <div class="bo-list">${ord.map((k,i)=>{const b=B(k);return `<div class="bo-row" data-k="${k}"><span class="bo-n">${i+1}</span>${bdgIcon(b,30)}<span class="bo-t"><b>${esc(b[1])}</b>${i<3?'<small>Visible dans le fil</small>':'<small>Visible sur le profil</small>'}</span><button type="button" class="bo-b" data-bo="up" data-k="${k}" aria-label="Monter ${esc(b[1])}" ${i?'':'disabled'}>${UP_IC}</button><button type="button" class="bo-b" data-bo="down" data-k="${k}" aria-label="Descendre ${esc(b[1])}" ${i<ord.length-1?'':'disabled'}>${DN_IC}</button><button type="button" class="bo-b bo-x" data-bo="rm" data-k="${k}" aria-label="Retirer ${esc(b[1])}">${X_IC}</button></div>`}).join('')}</div>
+ const body=()=>`<div class="bo-h"><b>Sur ton profil</b><span>${ord.length} affiché${ord.length>1?'s':''}</span></div>
+  <p class="bo-sub">Maintiens un badge puis glisse-le vers le haut ou le bas pour changer l’ordre. Les 3 premiers apparaissent aussi dans le fil.</p>
+  <div class="bo-preview">${ord.length?`<b>${esc(me.name||me.handle)}</b><span class="mbd">${ord.slice(0,6).map(k=>bdgIcon(bdItem(k,m[k]),22)).join('')}${ord.length>6?`<em>+${ord.length-6}</em>`:''}</span>`:'<span class="bo-empty">Aucun badge affiché : ajoute-en depuis ta collection.</span>'}</div>
+  <div class="bo-list">${ord.map((k,i)=>{const it=bdItem(k,m[k]);return `<div class="bo-row" data-k="${k}"><span class="bo-grip" aria-label="Glisser pour déplacer">${GRIP_IC}</span><span class="bo-n">${i+1}</span>${bdgIcon(it,32)}<span class="bo-t"><b>${esc(it.name)}${it.fam?` <em class="bd-lv" style="--c:${TIERS[it.t][1]}">${TIERS[it.t][0]}</em>`:''}</b><small>${i<3?'Profil et fil':'Profil'}</small></span><button type="button" class="bo-b bo-x" data-bo="rm" data-k="${k}" aria-label="Retirer ${esc(it.name)}">${X_IC}</button></div>`}).join('')}</div>
   <div class="bo-h bo-h2"><b>Ta collection</b><span>Touche un badge pour l’ajouter ou le retirer</span></div>
-  <div class="bd-grid">${[...BADGES.filter(b=>got.includes(b[0])),...BADGES.filter(b=>!got.includes(b[0]))].map(b=>{const on=got.includes(b[0]),sh=ord.includes(b[0]);return on?`<button type="button" class="bd-c ${sh?'is-on':''}" data-bo="tog" data-k="${b[0]}" aria-pressed="${sh}">${bdgIcon(b,46)}<b>${esc(b[1])}</b><small>${esc(b[2])}</small><span class="bd-tg">${sh?'✓ Affiché':'+ Ajouter'}</span></button>`:`<div class="bd-c off">${bdgIcon(b,46)}<b>${esc(b[1])}</b><small>${esc(b[2])}</small><span class="bd-lock">À débloquer</span></div>`}).join('')}</div>`};
+  <div class="bd-grid">${[...all.filter(x=>x.t),...all.filter(x=>!x.t)].map(it=>{const sh=ord.includes(it.k);return it.t?`<button type="button" class="bd-c ${sh?'is-on':''}" data-bo="tog" data-k="${it.k}" aria-pressed="${sh}">${bdCard(it,`<span class="bd-tg">${sh?'✓ Affiché':'+ Ajouter'}</span>`)}</button>`:`<div class="bd-c off">${bdCard(it,'<span class="bd-lock">À débloquer</span>')}</div>`}).join('')}</div>`;
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet bd-sheet" role="dialog" aria-label="Mes badges"><div class="stw-top"><b>Mes badges</b>${close}</div><div class="sheet-list gutter">${top}<div class="bo-body">${body()}</div></div></div></div>`;
  const wrap=layer.querySelector('.bo-body');
- wrap.addEventListener('click',e=>{const t=e.target.closest('[data-bo]');if(!t||t.disabled)return;e.stopPropagation();const k=t.dataset.k,i=ord.indexOf(k),a=t.dataset.bo;let moved=null;
-  if(a==='up'&&i>0){[ord[i-1],ord[i]]=[ord[i],ord[i-1]];moved=k}
-  else if(a==='down'&&i>-1&&i<ord.length-1){[ord[i+1],ord[i]]=[ord[i],ord[i+1]];moved=k}
-  else if(a==='rm'&&i>-1)ord.splice(i,1);
-  else if(a==='tog'){if(i>-1)ord.splice(i,1);else{ord.push(k);moved=k}}
-  else return;
-  wrap.innerHTML=body();save();
-  if(moved){const r=wrap.querySelector(`.bo-row[data-k="${moved}"]`);if(r){r.classList.add('bo-flash');if(a==='tog')r.scrollIntoView({block:'nearest',behavior:'smooth'})}}
-  if(navigator.vibrate)try{navigator.vibrate(8)}catch(_){}
- });
+ const rerender=k=>{wrap.innerHTML=body();save();if(k){const r=wrap.querySelector(`.bo-row[data-k="${k}"]`);if(r)r.classList.add('bo-flash')}};
+ bdDrag(wrap,()=>ord,(k,moved)=>{if(moved)rerender(k);else wrap.querySelectorAll('.bo-row').forEach(r=>{r.classList.remove('dragging');r.style.transform='';r.style.transition=''})});
+ wrap.addEventListener('click',e=>{const t=e.target.closest('[data-bo]');if(!t)return;e.stopPropagation();const k=t.dataset.k,i=ord.indexOf(k);
+  if(t.dataset.bo==='rm'&&i>-1){ord.splice(i,1);rerender()}
+  else if(t.dataset.bo==='tog'){if(i>-1){ord.splice(i,1);rerender()}else{ord.push(k);rerender(k);const r=wrap.querySelector(`.bo-row[data-k="${k}"]`);if(r)r.scrollIntoView({block:'nearest',behavior:'smooth'})}}
+  if(navigator.vibrate)try{navigator.vibrate(8)}catch(_){}});
 }
 
 // ================= CADRE & BANNIÈRE (Freestyle+) =================
