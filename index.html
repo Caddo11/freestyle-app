@@ -3313,7 +3313,21 @@ function removeFiles(urls){const mark='/object/public/media/';const paths=urls.f
 async function cleanExpiredStories(){try{const {data}=await sb.from('stories').select('id,media').eq('user_id',me.id).lte('expires_at',new Date().toISOString());if(!data||!data.length)return;removeFiles(data.map(s=>s.media&&s.media.url).filter(Boolean));await sb.from('stories').delete().in('id',data.map(s=>s.id)).eq('user_id',me.id)}catch(e){}}
 // ================= DONNÉES =================
 async function loadFollowing(){const {data}=await sb.from('follows').select('following_id').eq('follower_id',me.id);following=new Set((data||[]).map(r=>r.following_id))}
+// Algorithme du fil (serveur) : fraîcheur, engagement, lien avec l'auteur (duo, abonnement, interactions),
+// sport, déjà vu, un peu de hasard. Ici on évite juste deux posts du même auteur d'affilée.
+function spreadAuthors(list){const out=[],wait=[];for(const p of list){if(out.length&&out[out.length-1].user_id===p.user_id){wait.push(p);continue}out.push(p);for(let i=0;i<wait.length;i++){if(wait[i].user_id!==out[out.length-1].user_id){out.push(wait.splice(i,1)[0]);i=-1}}}return out.concat(wait)}
 async function loadFeed(){
+ try{
+  const {data:ranked,error:re}=await sb.rpc('fs_feed',{sports:sportFilter?sportMatch([sportFilter]):null,lim:80});
+  if(re)throw re;
+  const ids=(ranked||[]).map(r=>r.id);
+  if(!ids.length){feed=[]}else{
+   const {data:rows,error:e2}=await sb.from('feed').select('*').in('id',ids);if(e2)throw e2;
+   const by={};(rows||[]).forEach(r=>by[r.id]=r);
+   feed=spreadAuthors(ids.map(i=>by[i]).filter(p=>p&&!blocked.has(p.user_id)));
+  }
+  await loadProfiles(feed.map(p=>p.user_id));await loadComments(feed.map(p=>p.id));return;
+ }catch(e){console.warn('[Freestyle] algorithme indisponible, fil classique',e)}
  let q=sb.from('feed').select('*').order('created_at',{ascending:false}).limit(80);if(sportFilter)q=q.in('sport',sportMatch([sportFilter]));const {data,error}=await q;
  if(error){console.error(error);feed=[];return}
  // Algorithme : 1) mes posts récents, 2) abonnements pas encore vus (du plus récent au plus ancien),
