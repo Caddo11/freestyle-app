@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793716015">
+<meta name="fs-build" content="1793716206">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3030,6 +3030,16 @@ html:not([data-theme="dark"]) .hb{background:rgba(255,255,255,.72);-webkit-backd
 html:not([data-theme="dark"]) .hb .hb-cat{background:rgba(0,0,0,.045);box-shadow:none}
 html:not([data-theme="dark"]) .hb .hb-cat:active{background:rgba(0,0,0,.08)}
 html:not([data-theme="dark"]) .hb .isl-new{box-shadow:0 0 0 2px #fff}
+
+/* ================= v70 : barre du bas plus fine + barre du haut de la même couleur ================= */
+html nav.tabs .pill{height:46px!important;padding:3px 55px 3px 3px!important;min-height:0!important}
+html nav.tabs .pill::before{inset:0 54px 0 0!important;border-radius:18px!important}
+html nav.tabs .pill button[data-l]{height:40px!important;min-height:0!important;border-radius:15px!important}
+html nav.tabs .pill [data-nav="profile"]{width:46px!important;height:46px!important;border-radius:17px!important}
+html nav.tabs .pill [data-nav="profile"] .nav-av{width:34px!important;height:34px!important}
+html:not([data-theme="dark"]) .hb{background:rgba(255,255,255,.88);box-shadow:0 10px 30px rgba(0,0,0,.10),0 0 0 1px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.9)}
+html[data-theme="dark"] .hb{background:rgba(26,26,28,.86);-webkit-backdrop-filter:blur(16px) saturate(1.6);backdrop-filter:blur(16px) saturate(1.6);box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.07),inset 0 1px 0 rgba(255,255,255,.05)}
+html[data-theme="dark"] .hb .isl-new{box-shadow:0 0 0 2px #1A1A1C}
 </style>
 </head>
 <body>
