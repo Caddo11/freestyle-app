@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793717193">
+<meta name="fs-build" content="1793717363">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3076,6 +3076,26 @@ html[data-theme="dark"] .bc-sw[aria-pressed="true"] i{box-shadow:0 0 0 2px var(-
 .bc-sw{flex:0 0 auto;padding:0;gap:0}
 .bc-sw i{width:28px;height:28px;border-radius:9px}
 .bc-sw[aria-pressed="true"] i,html[data-theme="dark"] .bc-sw[aria-pressed="true"] i{box-shadow:0 0 0 2px var(--card,#fff),0 0 0 3.5px #22A55C;transform:none}
+
+/* ================= v73 : affinité plus compacte ================= */
+.pl-aff{display:inline-flex!important;align-items:center;gap:6px;padding:4px 8px 4px 5px!important;border-radius:10px!important;background:var(--paper)!important;border:0!important}
+html[data-theme="dark"] .pl-aff{background:#1B1B1B!important}
+.pl-ring{width:22px;height:22px;transform:rotate(-90deg);flex:0 0 auto}
+.pl-ring circle{fill:none;stroke-width:4.5;stroke-linecap:round}
+.pl-ring .tr{stroke:rgba(0,0,0,.10)}
+html[data-theme="dark"] .pl-ring .tr{stroke:rgba(255,255,255,.12)}
+.pp-line.lo .pl-ring .fg{stroke:#E5484D}.pp-line.mid .pl-ring .fg{stroke:#F09A2E}.pp-line.hi .pl-ring .fg,.pp-line.max .pl-ring .fg{stroke:#2FB86A}
+.pl-aff b{font-size:13px!important;font-weight:800;font-variant-numeric:tabular-nums}
+.af3-ring{width:96px!important;height:96px!important;margin:0 auto!important}
+.af3-ring circle{stroke-width:9!important}
+.af3-ring b{font-size:24px!important}
+.af3-ring b i{font-size:12px!important}
+.af3-ring span{font-size:10.5px!important;margin-top:3px!important}
+.af3-st{margin-top:8px!important}
+.af4{margin-top:10px}
+.af4-r{padding:11px 2px}
+.af4-h{margin-bottom:6px}
+.af4-s{margin-top:6px}
 </style>
 </head>
 <body>
@@ -5214,8 +5234,8 @@ function openAffinity(a,b){
     ['Les étoiles',pt.streak!=null?pt.streak:Math.min(30,streak*2),30,`${streak} jour${streak>1?'s':''} d’affilée`,'Chaque jour d’échange à la suite ajoute une étoile. Un seul jour sans message et la série repart de zéro.'],
     po&&!po.total?null:['Se soutenir',pt.posts!=null?pt.posts:0,20,po?`${po.ok} post${po.ok>1?'s':''} soutenu${po.ok>1?'s':''} sur ${po.total}`:'',
      'Like ou commente les posts et les flashs de ton duo. Un post laissé 48 h sans réaction fait baisser cette partie.']].filter(Boolean);
-   return `<div class="af4">${rows.map(([t,v,m,stat,txt])=>`<div class="af4-r"><div class="af4-h"><b>${t}</b><em>${Math.round(v)}<small> / ${m}</small></em></div><span class="af4-bar"><i style="width:${pc(v,m)}%"></i></span>${stat?`<small class="af4-s">${stat}</small>`:''}<p>${txt}</p></div>`).join('')}
-    <p class="af4-end">${po&&!po.total?'Aucun de vous deux n’a encore posté : la partie « Se soutenir » n’est pas comptée et le score est calculé sur le reste.':'Pour atteindre 100 % : écrivez-vous presque tous les jours et réagissez à chaque post de l’autre.'}</p></div>`})()}
+   return `<div class="af4">${rows.map(([t,v,m,stat,txt])=>`<div class="af4-r"><div class="af4-h"><b>${t}</b><em>${Math.round(v)}<small> / ${m}</small></em></div><span class="af4-bar"><i style="width:${pc(v,m)}%"></i></span>${stat?`<small class="af4-s">${stat}</small>`:''}</div>`).join('')}
+</div>`})()}
  </div></div></div>`;
  requestAnimationFrame(()=>requestAnimationFrame(()=>{const f=layer.querySelector('.af3-ring .fg');if(f)f.style.strokeDashoffset=off.toFixed(1)}));
 }
@@ -5232,7 +5252,7 @@ async function paintPartner(uid,mine){
   if(!box.isConnected)return;
   box.innerHTML=`<div class="pp-line ${affClass(aff)}">
    <button class="pl-who" data-act="profile" data-u="${pid}" aria-label="Profil de @${esc(ph.handle)}"><span class="pl-avs">${av(uid,22)}${av(pid,22)}</span><span class="pl-t">Partenaire · <b>@${esc(ph.handle)}</b>${vb(pid)}</span></button>
-   <button type="button" class="pl-aff" data-act="pp-aff" data-u="${pid}" data-k="${uid}" aria-label="Affinité ${aff} %, voir le détail" title="${d<1?'Duo formé aujourd’hui':'Ensemble depuis '+d+' jour'+(d>1?'s':'')}"><span class="pl-bar"><i style="width:${Math.max(3,aff)}%"></i></span><b>${aff}%</b></button>
+   <button type="button" class="pl-aff" data-act="pp-aff" data-u="${pid}" data-k="${uid}" aria-label="Affinité ${aff} %, voir le détail" title="${d<1?'Duo formé aujourd’hui':'Ensemble depuis '+d+' jour'+(d>1?'s':'')}"><svg class="pl-ring" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="14.5" class="tr"/><circle cx="18" cy="18" r="14.5" class="fg" style="stroke-dasharray:91.1;stroke-dashoffset:${(91.1*(1-Math.min(100,Math.max(0,aff))/100)).toFixed(1)}"/></svg><b>${aff}%</b></button>
    ${mine?`<button class="pl-more" data-act="pp-menu" data-id="${acc.id}" data-u="${pid}" aria-label="Options du partenariat">•••</button>`:''}
   </div>`;
   requestAnimationFrame(()=>box.querySelector('.pp-bar i')?.classList.add('go'));
