@@ -2981,6 +2981,18 @@ html[data-theme="dark"] .hb.glass{background:rgba(30,30,30,.58)}
 .hb-b svg{width:21px;height:21px}
 .hb .isl-new{top:8px;right:8px}
 @media (max-width:360px){.hb-b{width:36px}.hb-cat{font-size:13px;padding:0 10px}}
+
+/* ================= v66 : barre plus fine, bien à l'intérieur des bords ================= */
+#top.isl-float{padding:calc(6px + env(safe-area-inset-top,0px)) 16px 6px}
+main.isl-mode{padding-top:calc(58px + env(safe-area-inset-top,0px))}
+.hb{height:44px;padding:0 4px 0 5px;border-radius:13px;gap:0;box-shadow:0 4px 14px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.06)}
+html[data-theme="dark"] .hb{box-shadow:0 4px 14px rgba(0,0,0,.45),inset 0 0 0 1px #2A2A2A}
+.hb.glass{box-shadow:0 4px 16px rgba(0,0,0,.18),inset 0 0 0 1px rgba(255,255,255,.10)}
+.hb-cat{height:32px;padding:0 10px;border-radius:9px;font-size:13px;gap:6px}
+.hb-b{width:35px;height:35px;border-radius:9px}
+.hb-b svg,.hb .fs-ic{width:19px!important;height:19px!important}
+.hb .isl-new{top:6px;right:6px;width:6px;height:6px}
+@media (max-width:360px){#top.isl-float{padding-left:12px;padding-right:12px}.hb-b{width:32px}}
 </style>
 </head>
 <body>
