@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793721546">
+<meta name="fs-build" content="1793721671">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://pamndgrrqpgqblrogznq.supabase.co" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Orbitron:wght@500;700;900&family=VT323&family=Manrope:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&family=Bungee&family=Rubik+Mono+One&family=Cinzel:wght@900&family=Righteous&family=Bebas+Neue&family=Pacifico&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Orbitron:wght@500;700;900&family=VT323&family=Manrope:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&family=Syne:wght@500..800&family=Michroma&family=Archivo:ital,wdth,wght@1,100..125,700..900&family=Instrument+Serif:ital@1&family=Unbounded:wght@400..800&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Anton&family=Fraunces:ital,opsz,wght,SOFT,WONK@1,9..144,400..900,0..100,0..1&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <style>
 html{box-sizing:border-box}
@@ -3479,36 +3479,44 @@ html[data-theme="dark"] .pp-lk{background:#262626}
 /* ================= v79 : police animée du pseudo + barres de niveau vertes ================= */
 .bz-steps i.on{background:#22A55C!important}
 .bz-how{margin:0;padding:12px 14px 0;font-size:12.5px;color:var(--ink);text-align:center;font-weight:600}
-.nfx{display:inline-block;line-height:1.12;vertical-align:baseline}
-.nfx-neon{font-family:'Bungee',var(--display);font-weight:400;font-size:.92em;letter-spacing:.02em;color:#EFFFF5;text-shadow:0 0 3px #3DD47D,0 0 9px rgba(61,212,125,.9),0 0 18px rgba(61,212,125,.5);animation:nfNeon 5s ease-in-out infinite}
-html:not([data-theme="dark"]) .nfx-neon{color:#16934C;text-shadow:0 0 6px rgba(61,212,125,.55)}
-@keyframes nfNeon{0%,42%,58%,100%{opacity:1}46%{opacity:.6}50%{opacity:.95}54%{opacity:.7}}
-.nfx-glitch{position:relative;font-family:'Rubik Mono One',var(--display);font-weight:400;font-size:.86em;letter-spacing:.01em}
-.nfx-glitch::before,.nfx-glitch::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;overflow:hidden;pointer-events:none}
-.nfx-glitch::before{color:#00E5FF;mix-blend-mode:screen;animation:nfG1 3.2s steps(1) infinite}
-.nfx-glitch::after{color:#FF2E88;mix-blend-mode:screen;animation:nfG2 3.2s steps(1) infinite}
-html:not([data-theme="dark"]) .nfx-glitch::before,html:not([data-theme="dark"]) .nfx-glitch::after{mix-blend-mode:multiply}
-@keyframes nfG1{0%,86%,100%{clip-path:inset(0 0 100% 0);transform:none}88%{clip-path:inset(10% 0 55% 0);transform:translate(-2px,0)}91%{clip-path:inset(60% 0 8% 0);transform:translate(2px,0)}94%{clip-path:inset(30% 0 40% 0);transform:translate(-1px,0)}}
-@keyframes nfG2{0%,86%,100%{clip-path:inset(0 0 100% 0);transform:none}89%{clip-path:inset(55% 0 12% 0);transform:translate(2px,0)}92%{clip-path:inset(5% 0 70% 0);transform:translate(-2px,0)}95%{clip-path:inset(40% 0 35% 0);transform:translate(1px,0)}}
-.nfx-degrade,.nfx-or,.nfx-chrome,.nfx-feu,.nfx-script{-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
-.nfx-degrade{font-weight:900;background-image:linear-gradient(90deg,#FF5F6D,#FFC371,#6CF0A5,#5EC9FF,#A78BFA,#FF5F6D);background-size:300% 100%;animation:nfSlide 5s linear infinite}
-@keyframes nfSlide{to{background-position:300% 0}}
-.nfx-or{font-family:'Cinzel',serif;font-weight:900;letter-spacing:.02em;background-image:linear-gradient(100deg,#9C6B17 0%,#E9B949 25%,#FFF4C9 40%,#E9B949 55%,#9C6B17 75%,#E9B949 100%);background-size:250% 100%;animation:nfShine 3.6s ease-in-out infinite}
-.nfx-chrome{font-family:'Orbitron',var(--display);font-weight:900;font-size:.92em;letter-spacing:.03em;background-image:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.95) 48%,transparent 60%),linear-gradient(180deg,#FFFFFF 0%,#C9CDD4 45%,#6F737B 52%,#E6E7EA 100%);background-size:250% 100%,100% 100%;animation:nfShine 4s ease-in-out infinite}
-html:not([data-theme="dark"]) .nfx-chrome{background-image:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.95) 48%,transparent 60%),linear-gradient(180deg,#8D929B 0%,#4B4F57 45%,#1F2228 52%,#7D828B 100%)}
-@keyframes nfShine{0%{background-position:120% 0}60%,100%{background-position:-120% 0}}
-.nfx-vague{font-family:'Righteous',var(--display);font-weight:400}
-.nfx-vague>span{display:inline-block;animation:nfWave 2.4s ease-in-out infinite;animation-delay:calc(var(--i)*.08s)}
-@keyframes nfWave{0%,55%,100%{transform:translateY(0)}25%{transform:translateY(-.16em)}}
-.nfx-feu{font-family:'Bebas Neue',var(--display);font-weight:400;font-size:1.16em;letter-spacing:.03em;background-image:linear-gradient(0deg,#FF3B2F 0%,#FF8A1F 45%,#FFE08A 100%);background-size:100% 200%;animation:nfFire 1.6s ease-in-out infinite alternate;filter:drop-shadow(0 0 4px rgba(255,120,30,.45))}
-@keyframes nfFire{0%{background-position:0 0}100%{background-position:0 60%}}
-.nfx-script{font-family:'Pacifico',cursive;font-weight:400!important;font-size:1em;padding:0 .08em;background-image:linear-gradient(90deg,#FF6FB5,#A78BFA,#5EC9FF,#FF6FB5);background-size:300% 100%;animation:nfSlide 6s linear infinite}
-@media (prefers-reduced-motion:reduce){.nfx,.nfx *,.nfx::before,.nfx::after{animation:none!important}}
 .ep-cname{position:absolute;left:84px;bottom:14px;z-index:3;font-size:20px;font-weight:800;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.45);max-width:calc(100% - 96px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cz-nf>i{font-size:17px;font-weight:800;color:var(--ink);background:var(--bg)!important}
 html[data-theme="dark"] .cz-nf>i{background:#222!important}
 .bz-t small{white-space:normal!important;overflow:visible!important}
 .bd-i svg{overflow:visible}
+
+/* ================= v80 : polices du pseudo, couleur classique, typo travaillée ================= */
+.nfx{--nf:var(--ink);--nfh:#9A9A96;display:inline-block;line-height:1.12;vertical-align:baseline;color:var(--nf)}
+html[data-theme="dark"] .nfx{--nf:#ECECEC;--nfh:#FFFFFF}
+.overlay-top .nfx,.clip-info .nfx,.ep-cname .nfx{--nf:#F2F2F2;--nfh:#FFFFFF}
+.nfx-neon,.nfx-degrade,.nfx-feu,.nfx-or{background:linear-gradient(100deg,var(--nf) 0 40%,var(--nfh) 50%,var(--nf) 60% 100%);background-size:260% 100%;background-position:120% 0;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:nfShine 5s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes nfShine{0%,30%{background-position:120% 0}100%{background-position:-120% 0}}
+/* Éclat : géométrique large, reflet de lumière */
+.nfx-neon{font-family:'Syne',var(--display);font-weight:800;letter-spacing:.005em}
+html[data-theme="dark"] .nfx-neon{filter:drop-shadow(0 0 6px rgba(255,255,255,.18))}
+/* Revue : serif éditorial en italique, respiration lumineuse */
+.nfx-or{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400!important;font-size:1.24em;letter-spacing:.01em;line-height:1;animation-duration:6.5s}
+/* Vitesse : italique large très gras, reflet rapide */
+.nfx-degrade{font-family:'Archivo',var(--display);font-style:italic;font-weight:900;font-stretch:125%;font-variation-settings:'wdth' 125;letter-spacing:-.01em;animation-duration:3.4s}
+/* Doux : italique arrondi dont la graisse respire */
+.nfx-script{font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:1.06em;font-variation-settings:'wght' 520,'SOFT' 100,'WONK' 1,'opsz' 72;animation:nfBreathF 3.8s ease-in-out infinite}
+@keyframes nfBreathF{0%,100%{font-variation-settings:'wght' 480,'SOFT' 100,'WONK' 1,'opsz' 72}50%{font-variation-settings:'wght' 860,'SOFT' 100,'WONK' 1,'opsz' 72}}
+/* Rond : large et rond, graisse qui pulse doucement */
+.nfx-chrome{font-family:'Unbounded',var(--display);font-size:.88em;letter-spacing:.01em;font-variation-settings:'wght' 600;animation:nfBreathU 3.6s ease-in-out infinite}
+@keyframes nfBreathU{0%,100%{font-variation-settings:'wght' 500}50%{font-variation-settings:'wght' 800}}
+/* Stade : condensé majuscule façon maillot */
+.nfx-feu{font-family:'Anton',var(--display);font-weight:400!important;text-transform:uppercase;font-size:1.1em;letter-spacing:.045em;animation-duration:4.2s}
+/* Signal : techno large, léger dédoublement de temps en temps */
+.nfx-glitch{font-family:'Michroma',var(--display);font-weight:400!important;text-transform:uppercase;font-size:.74em;letter-spacing:.08em;animation:nfSig 4.8s steps(1) infinite}
+@keyframes nfSig{0%,88%,100%{text-shadow:none}90%{text-shadow:1.5px 0 rgba(255,255,255,.45),-1.5px 0 rgba(140,140,140,.55)}93%{text-shadow:-1px 0 rgba(255,255,255,.4),1px 0 rgba(140,140,140,.5)}96%{text-shadow:.6px 0 rgba(140,140,140,.4)}}
+html:not([data-theme="dark"]) .nfx-glitch{animation-name:nfSigL}
+@keyframes nfSigL{0%,88%,100%{text-shadow:none}90%{text-shadow:1.5px 0 rgba(0,0,0,.25),-1.5px 0 rgba(0,0,0,.15)}93%{text-shadow:-1px 0 rgba(0,0,0,.22),1px 0 rgba(0,0,0,.12)}96%{text-shadow:.6px 0 rgba(0,0,0,.15)}}
+/* Vague : grotesque gras, lettres qui ondulent */
+.nfx-vague{font-family:'Bricolage Grotesque',var(--display);font-weight:800;font-variation-settings:'opsz' 96;letter-spacing:-.01em}
+.nfx-vague>span{display:inline-block;animation:nfWave 2.8s cubic-bezier(.45,0,.55,1) infinite;animation-delay:calc(var(--i)*.07s)}
+@keyframes nfWave{0%,50%,100%{transform:translateY(0)}22%{transform:translateY(-.12em)}}
+@media (prefers-reduced-motion:reduce){.nfx,.nfx *{animation:none!important}}
+.cz-nf>i{font-size:18px!important}
 </style>
 </head>
 <body>
@@ -5841,7 +5849,7 @@ function fxWrap(a,s,fr,r){if(!fr||!FX_KEYS.has(fr))return a;const fw=Math.max(1.
 function fxAv(uid,s,fr,r){if(fr===undefined)fr=(P[uid]&&P[uid].frame)||'';return fxWrap(av(uid,s),s,fr,r)}
 const BANNERS=[['','Ma photo'],['nuit','Nuit'],['sunset','Sunset'],['lave','Lave'],['menthe','Menthe'],['topo','Topo'],['beton','Béton'],['grille','Grille'],['scan','Scanlines'],['aurore','Aurore'],['carbone','Carbone'],['chrome','Chrome'],['braise','Braise'],['ocean','Océan'],['damier','Damier']];
 const BANNER_FX=[['','Aucun'],['contour','Contour'],['reflet','Reflet'],['scan','Scanner'],['particules','Particules'],['aurore','Aurore'],['bokeh','Bokeh'],['grain','Film'],['pluie','Pluie']];
-const NAME_FX=[['','Classique'],['neon','Néon'],['glitch','Glitch'],['degrade','Dégradé'],['or','Or'],['chrome','Chrome'],['vague','Vague'],['feu','Feu'],['script','Script']];
+const NAME_FX=[['','Classique'],['neon','Éclat'],['or','Revue'],['degrade','Vitesse'],['script','Doux'],['chrome','Rond'],['feu','Stade'],['glitch','Signal'],['vague','Vague']];
 const NFX_KEYS=new Set(NAME_FX.map(f=>f[0]).filter(Boolean));
 function nameFx(t,k){t=String(t||'');if(!k||!NFX_KEYS.has(k))return esc(t);
  if(k==='vague')return `<span class="nfx nfx-vague">${[...t].map((c,i)=>`<span style="--i:${i}">${c===' '?'&nbsp;':esc(c)}</span>`).join('')}</span>`;
