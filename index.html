@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793715580">
+<meta name="fs-build" content="1793715729">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3012,6 +3012,18 @@ html[data-theme="dark"] .pw-p{color:#a3a29d}
 .pw-rules li.ok::before{background:#22A55C;border-color:#22A55C;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4L18.5 8'/%3E%3C/svg%3E");background-size:12px;background-position:center;background-repeat:no-repeat}
 html[data-theme="dark"] .pw-rules li.ok{color:#3DD47D}
 #nps:disabled{opacity:.4}
+
+/* ================= v68 : barre cachée dès qu'on défile, claire en mode clair ================= */
+.hb{transition:transform .32s cubic-bezier(.2,1,.3,1),opacity .25s ease,background-color .3s}
+.hb.hide{transform:translateY(calc(-100% - 14px - env(safe-area-inset-top,0px)));opacity:0;pointer-events:none}
+html:not([data-theme="dark"]) .hb{background:#F4F3EF;color:#0F0F0F;box-shadow:0 2px 10px rgba(0,0,0,.06),inset 0 0 0 1px #E7E6E1}
+html:not([data-theme="dark"]) .hb .hb-cat{background:#fff;color:#0F0F0F;box-shadow:inset 0 0 0 1px #E4E3DE}
+html:not([data-theme="dark"]) .hb .hb-cat:active{background:#ECEBE6}
+html:not([data-theme="dark"]) .hb .hb-b{color:#0F0F0F}
+html:not([data-theme="dark"]) .hb .hb-b:active{background:rgba(0,0,0,.06)}
+html:not([data-theme="dark"]) .hb .fs-ic .ic-f,html:not([data-theme="dark"]) .hb .fs-ic .ic-d,html:not([data-theme="dark"]) .hb .fs-ic .ic-in{stroke:#0F0F0F!important}
+html:not([data-theme="dark"]) .hb .fs-ic .ic-dot{fill:#0F0F0F!important}
+html:not([data-theme="dark"]) .hb .isl-new{box-shadow:0 0 0 2px #F4F3EF}
 </style>
 </head>
 <body>
@@ -4614,7 +4626,7 @@ async function deletePost(id){const post=findPost(id);const {data:gone,error}=aw
 async function deleteStory(id){clearTimeout(svT);const sto=Object.values(storiesBy).flat().find(x=>x.id===id);const {error}=await sb.from('stories').delete().eq('id',id);if(error)return dbError(error,'Suppression impossible');if(sto&&sto.media)removeFiles([sto.media.url]);toast('Flash supprimé');await loadStories();closeStory()}
 async function pickSport(sp){sportFilter=sp;main.innerHTML=loadingHTML();await loadFeed();if(view==='home')renderHome();main.scrollTop=0}
 let lastSY=0;
-document.addEventListener('scroll',e=>{const t=e.target;if(!(t===main||t.id==='clips'))return;const y=t.scrollTop,nt=$('tabs');if(y>lastSY+4&&y>60)nt.classList.add('mini');else if(y<lastSY-4||y<60)nt.classList.remove('mini');if(t===main){const hb=topEl.querySelector('.hb');if(hb)hb.classList.toggle('glass',y>6)}lastSY=y},true);
+document.addEventListener('scroll',e=>{const t=e.target;if(!(t===main||t.id==='clips'))return;const y=t.scrollTop,nt=$('tabs');if(y>lastSY+4&&y>60)nt.classList.add('mini');else if(y<lastSY-4||y<60)nt.classList.remove('mini');if(t===main){const hb=topEl.querySelector('.hb');if(hb)hb.classList.toggle('hide',y>12)}lastSY=y},true);
 // ================= ÉVÉNEMENTS =================
 document.addEventListener('click',async e=>{
  const n=e.target.closest('[data-nav]');
