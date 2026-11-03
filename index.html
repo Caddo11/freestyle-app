@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793721949">
+<meta name="fs-build" content="1793722290">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3529,6 +3529,97 @@ html[data-theme="dark"] .resp-info{background:#1A1A1A;color:#8a8a8a}
 .bz-cnt{display:inline-block;margin-left:8px;font-size:11px;font-weight:800;padding:2px 7px;border-radius:6px;background:rgba(34,165,92,.13);color:#1E9A55;vertical-align:2px}
 .bz-have{display:inline-block;margin-top:4px;font-weight:500;color:#8e8e8a}
 .bz-have b{color:var(--ink)}
+
+/* ================= v82 : 60 i/s : seules transform et opacity sont animées ================= */
+/* anneaux des cadres : le dégradé tourne via transform (plus de repeinture à chaque image) */
+.fx{animation:none!important}
+.fx-r{background:none!important}
+.fx-r::before,.fx-s::before{content:"";position:absolute;left:50%;top:50%;width:160%;aspect-ratio:1;translate:-50% -50%;background:var(--ring,#fff);animation:fxRot var(--sp,6s) linear infinite;will-change:transform}
+.fx-s{background:none!important}
+.fx-s::before{background:conic-gradient(from 0deg,transparent 0 70%,rgba(255,255,255,.72) 76%,transparent 82%);animation-duration:calc(var(--sp,6s)*.75);animation-direction:reverse}
+@keyframes fxRot{to{transform:rotate(360deg)}}
+@keyframes fxSpin{}
+.fx-double .fx-s::before{background:conic-gradient(from 0deg,transparent 0 72%,rgba(61,212,125,.15) 78%,#3DD47D 95%,#fff 98.5%,transparent 99%);animation-direction:normal;animation-duration:var(--sp)}
+.fx-double .fx-g{background:#3DD47D!important;opacity:.22!important}
+.fx-feu{--glow:#FF7A1A}
+.fx-neon .fx-r::before{animation:none}
+.fx-pixel .fx-r::before{animation-timing-function:steps(12)}
+.fx-foudre .fx-r{animation:none!important}
+@keyframes fxBoltR{}
+.fx-g,.fx::before,.fx::after{will-change:opacity,transform}
+/* contour de bannière : même principe */
+.bfx-contour{background:none!important;animation:none!important}
+.bfx-contour::before{content:"";position:absolute;left:50%;top:50%;width:125%;aspect-ratio:1;translate:-50% -50%;background:conic-gradient(from 0deg,transparent 0 62%,rgba(255,255,255,.15) 72%,rgba(255,255,255,.95) 84%,rgba(255,255,255,.15) 90%,transparent 94%);animation:fxRot 6s linear infinite;will-change:transform}
+@keyframes bfSpin{}
+.bfx::before,.bfx::after,.bfx-particules::before,.bfx-particules::after{will-change:transform}
+/* halo des badges rares : opacité au lieu d'un filtre animé */
+.bd-i{position:relative;isolation:isolate}
+@keyframes bdGlow{}
+.bd-i.rare::before{content:"";position:absolute;inset:-14%;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,var(--bd),transparent);opacity:0;animation:bdHalo 2.8s ease-in-out infinite;animation-delay:var(--dl,0s);will-change:opacity;pointer-events:none}
+@keyframes bdHalo{50%{opacity:.5}}
+.mbd .bd-sh,.mbd .bd-rays,.mbd .bd-orbit,.mbd .bd-flk,.mbd .bd-tw{animation:none!important}
+/* polices animées : pas de changement de graisse dans le fil (évite les recalculs de mise en page) */
+.overlay-top .nfx-script,.overlay-top .nfx-chrome,.sh-top .nfx-script,.sh-top .nfx-chrome,.clip-info .nfx-script,.clip-info .nfx-chrome{animation:none!important}
+/* divers : lueurs et barres converties */
+@keyframes stkGlow{}
+@keyframes crGlow{}
+@keyframes crGlowL{}
+@keyframes pdGlow{}
+@keyframes islLive{}
+.cr-ring{animation:none!important}
+@keyframes mmIn{from{opacity:0;transform:translateY(-6px) scale(.94)}to{opacity:1;transform:none}}
+.clipv .scan{top:0!important;animation:scanT 3.2s linear infinite!important;will-change:transform}
+@keyframes scanT{from{transform:translateY(-100%)}to{transform:translateY(286%)}}
+.progress{width:100%!important;transform-origin:left;animation:barT 9s linear infinite!important;will-change:transform}
+@keyframes barT{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.sv-bars span i{width:100%!important;transform-origin:left;transform:scaleX(0)}
+.sv-bars span.done i{transform:scaleX(1)}
+.sv-bars span.run i{animation-name:fillT;will-change:transform}
+@keyframes fillT{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.boot .load i{width:100%!important;transform-origin:left;transform:scaleX(0);animation:loadT 1.5s ease-in-out .3s forwards!important}
+@keyframes loadT{to{transform:scaleX(1)}}
+.sheet,.layer .sheet{will-change:transform}
+
+/* ================= v82 : Freestyle+ dans Modifier le profil ================= */
+.ppx-stage{position:relative;margin:14px 0 12px;padding:0 0 12px;border-radius:16px;background:var(--bg);box-shadow:0 1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.06);overflow:hidden}
+html[data-theme="dark"] .ppx-stage{background:#0F0F0F;box-shadow:0 0 0 1px rgba(255,255,255,.05)}
+.ppx-stage.swap>*{animation:ppxSwap .32s cubic-bezier(.2,.9,.3,1)}
+@keyframes ppxSwap{from{opacity:.55;transform:scale(.985)}to{opacity:1;transform:none}}
+.ppx-ban.pbanner{height:84px!important;margin:0!important;border-radius:0!important;overflow:hidden!important;box-shadow:none!important}
+.ppx-id{display:flex;align-items:flex-end;gap:12px;margin:-30px 14px 0;position:relative;z-index:2}
+.ppx-av{line-height:0;padding:2px;border-radius:16px;background:var(--bg)}
+html[data-theme="dark"] .ppx-av{background:#0F0F0F}
+.ppx-av.has-fx{background:transparent;padding:0}
+.ppx-av.has-fx>.fx{margin:0}
+.ppx-nm{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;padding-bottom:2px}
+.ppx-nm>b{font-size:18px;font-weight:800;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ppx-sub{display:flex;align-items:center;gap:6px;font-size:12px;color:#8e8e8a}
+.ppx-sub .mbd{margin:0;gap:2px}
+.ppx-nav{display:flex;justify-content:space-around;align-items:center;width:62%;height:30px;margin:12px auto 0;padding:0 10px;border-radius:10px;background:rgba(255,255,255,.9);box-shadow:0 4px 14px rgba(0,0,0,.1),0 0 0 1px rgba(0,0,0,.05);transition:background .3s}
+html[data-theme="dark"] .ppx-nav{background:rgba(30,30,32,.95);box-shadow:0 0 0 1px rgba(255,255,255,.06)}
+.ppx-nav.tint{background:var(--nb)!important}
+.ppx-nav i{width:16px;height:4px;border-radius:2px;background:currentColor;opacity:.25;color:var(--ink)}
+.ppx-nav.tint i{color:#fff}
+.ppx-nav i.on{opacity:.9;width:22px}
+.ppx-tabs{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:4px;border-radius:12px;background:var(--bg)}
+html[data-theme="dark"] .ppx-tabs{background:#0F0F0F}
+.ppx-tabs button{position:relative;z-index:1;height:34px;border:0;border-radius:9px;background:none;font:inherit;font-size:12.5px;font-weight:700;color:#8e8e8a;cursor:pointer;transition:color .25s}
+.ppx-tabs button[aria-selected="true"]{color:var(--ink)}
+.ppx-ind{position:absolute;left:0;top:4px;height:34px;border-radius:9px;background:var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.08);transition:transform .34s cubic-bezier(.3,1.25,.4,1),width .34s cubic-bezier(.3,1.25,.4,1);will-change:transform}
+html[data-theme="dark"] .ppx-ind{background:#262626}
+.ppx-pane{margin-top:10px}
+.ppx-pane.in .ppx-row{animation:ppxIn .3s cubic-bezier(.2,.9,.3,1)}
+@keyframes ppxIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+.ppx-row{scroll-snap-type:x proximity;padding:6px 2px 8px!important;gap:12px!important}
+.ppx-row .cz-o{scroll-snap-align:center}
+.ppx-row .cz-o>i{transition:transform .2s cubic-bezier(.3,1.4,.5,1),box-shadow .2s}
+.ppx-row .cz-o:active>i{transform:scale(.92)}
+.ppx-row .cz-fr>i{width:56px!important;height:56px!important}
+.ppx-row .cz-nf>i{width:auto!important;min-width:56px;height:46px!important;padding:0 14px!important;font-size:20px!important}
+.ppx-row .cz-bx>i,.ppx-row .cz-bn>i{width:70px!important;height:46px!important}
+.pp-plus.locked .ppx-row{filter:grayscale(1);opacity:.42}
+.pp-plus.locked .ppx-tabs button{color:#a3a29d}
+.ck2-sub{margin:10px 2px 0;font-size:12.5px;color:#8e8e8a;text-align:center}
 </style>
 </head>
 <body>
@@ -5017,26 +5108,43 @@ function renderEditProfile(){
 function epCover(){const d=pDraft,c=SPORTS[me.sport]||SPORTS.Autre,ban=d.bannerPrev||d.banner_url,avs=d.avatarPrev||d.avatar_url;
  const a=avs?`<span class="av" style="width:64px;height:64px;background:#000 url('${esc(avs)}') center/cover"></span>`:av(me.id,64);
  return `<div class="ep-cover pbanner ${d.bn?'bn-'+d.bn:''}" id="ep-cover" style="${ban?`background:#000 url('${esc(ban)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}">${bfx(d.bx)}<span class="ep-av ${d.fr&&FX_KEYS.has(d.fr)?'has-fx':''}">${fxWrap(a,64,d.fr,10)}</span><b class="ep-cname">${nameFx(d.name||me.name,d.nf)}</b></div>`}
-function epPersoHTML(){const d=pDraft,ok=canPerso(),dis=ok?'':'disabled';
+let epTab='fr';
+const EP_TABS=[['fr','Cadre'],['nf','Pseudo'],['bx','Effet'],['bn','Fond'],['bc','Couleur']];
+function ppxStage(){const d=pDraft,c=SPORTS[me.sport]||SPORTS.Autre,ban=d.bannerPrev||d.banner_url,avs=d.avatarPrev||d.avatar_url;
+ const a=avs?`<span class="av" style="width:58px;height:58px;background:#000 url('${esc(avs)}') center/cover"></span>`:av(me.id,58);
+ const h=(BAR_COLORS.find(x=>x[0]===d.bc)||[])[2],l=badgesShown(me.id,badgeCache[me.id]||me.badges||[]).slice(0,4);
+ return `<div class="ppx-ban pbanner ${d.bn?'bn-'+d.bn:''}" style="${ban?`background:#000 url('${esc(ban)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}">${bfx(d.bx)}</div>
+  <div class="ppx-id"><span class="ppx-av ${d.fr&&FX_KEYS.has(d.fr)?'has-fx':''}">${fxWrap(a,58,d.fr,13)}</span><span class="ppx-nm"><b>${nameFx(d.name||me.name,d.nf)}</b><span class="ppx-sub">@${esc(me.handle)}${l.length?`<span class="mbd">${l.map(b=>bdgIcon(b,16)).join('')}</span>`:''}</span></span></div>
+  <div class="ppx-nav ${h?'tint':''}" style="${h?`--nb:${h}`:''}"><i></i><i class="on"></i><i></i><i></i></div>`}
+function ppxPane(){const d=pDraft,ok=canPerso(),dis=ok?'':'disabled';
  const tiles=(list,cur,key,inner)=>list.map(([k,l,h])=>`<button type="button" class="cz-o cz-${key} ${key==='bn'&&k?'bn-'+k:''}" data-ep="${key}" data-k="${k}" aria-pressed="${cur===k}" ${dis}><i>${inner(k,h)}</i><span>${l}</span></button>`).join('');
- const grp=(t,body)=>`<div class="pp-g"><div class="pp-gh">${ok?'':LOCK_IC}<b>${t}</b></div><div class="cz-row">${body}</div></div>`;
+ const m={fr:()=>tiles(FRAMES,d.fr,'fr',k=>fxAv(me.id,36,k,11)),nf:()=>tiles(NAME_FX,d.nf,'nf',k=>nameFx('Aa',k)),bx:()=>tiles(BANNER_FX,d.bx,'bx',k=>bfx(k)),bn:()=>tiles(BANNERS,d.bn,'bn',()=>''),bc:()=>tiles(BAR_COLORS,d.bc,'bc',(k,h)=>`<u class="${h?'':'auto'}" style="${h?'background:'+h:''}"></u>`)};
+ return `<div class="cz-row ppx-row">${m[epTab]()}</div>`}
+function epPersoHTML(){const ok=canPerso();
  return `<section class="epp-card">
    <div class="pp-head"><span><b>Badges</b><small>Gagnés avec ton activité</small></span></div>
    <div class="pp-bd"><span id="ep-bd">${epBadgesHTML()}</span><button type="button" class="pp-link" data-act="badges" data-u="${me.id}">Gérer</button></div>
   </section>
   <section class="epp-card pp-plus ${ok?'':'locked'}" id="ep-plus">
-   <div class="pp-hero"><span class="pp-star"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.8l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg></span><span><b>Freestyle+</b><small>Cadre, bannière et couleurs de l’app</small></span>${ok?'<em class="pp-on">Activé</em>':`<em class="pp-lk">${LOCK_IC}Verrouillé</em>`}</div>
-   ${grp('Cadre',tiles(FRAMES,d.fr,'fr',k=>fxAv(me.id,32,k,10)))}
-   ${grp('Police du pseudo',tiles(NAME_FX,d.nf,'nf',k=>nameFx('Aa',k)))}
-   ${grp('Effet de bannière',tiles(BANNER_FX,d.bx,'bx',k=>bfx(k)))}
-   ${grp('Fond de bannière',tiles(BANNERS,d.bn,'bn',()=>''))}
-   ${grp('Couleur de l’application',tiles(BAR_COLORS,d.bc,'bc',(k,h)=>`<u class="${h?'':'auto'}" style="${h?'background:'+h:''}"></u>`))}
+   <div class="pp-hero"><span class="pp-star"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.8l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg></span><span><b>Freestyle+</b><small>Ton profil, à ton style</small></span>${ok?'<em class="pp-on">Activé</em>':`<em class="pp-lk">${LOCK_IC}Verrouillé</em>`}</div>
+   <div class="ppx-stage" id="ppx-stage">${ppxStage()}</div>
+   <div class="ppx-tabs" role="tablist">${EP_TABS.map(([k,l])=>`<button type="button" role="tab" data-eptab="${k}" aria-selected="${k===epTab}">${l}</button>`).join('')}<i class="ppx-ind"></i></div>
+   <div class="ppx-pane" id="ppx-pane">${ppxPane()}</div>
    ${ok?'':'<button type="button" class="pp-cta" disabled>Freestyle+ arrive bientôt</button><p class="pp-note">Tu vois tout ce qui sera débloqué avec Freestyle+.</p>'}
   </section>`}
-function bindEpPerso(){const box=$('ep-plus');if(!box||!canPerso())return;
- box.addEventListener('click',e=>{const b=e.target.closest('[data-ep]');if(!b)return;const key=b.dataset.ep;pDraft[key]=b.dataset.k;
+function ppxInd(box){const t=box.querySelector('[data-eptab][aria-selected="true"]'),ind=box.querySelector('.ppx-ind');if(!t||!ind)return;ind.style.width=t.offsetWidth+'px';ind.style.transform=`translateX(${t.offsetLeft}px)`}
+function bindEpPerso(){const box=$('ep-plus');if(!box)return;requestAnimationFrame(()=>ppxInd(box));
+ box.addEventListener('click',e=>{
+  const tb=e.target.closest('[data-eptab]');
+  if(tb){if(tb.dataset.eptab===epTab)return;epTab=tb.dataset.eptab;box.querySelectorAll('[data-eptab]').forEach(x=>x.setAttribute('aria-selected',String(x===tb)));ppxInd(box);
+   const pane=$('ppx-pane');pane.innerHTML=ppxPane();pane.classList.remove('in');void pane.offsetWidth;pane.classList.add('in');
+   const sel=pane.querySelector('[aria-pressed="true"]');if(sel)sel.scrollIntoView({block:'nearest',inline:'center'});return}
+  const b=e.target.closest('[data-ep]');if(!b||!canPerso())return;const key=b.dataset.ep;if(pDraft[key]===b.dataset.k)return;pDraft[key]=b.dataset.k;
   box.querySelectorAll(`[data-ep="${key}"]`).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
-  if(key!=='bc'){const cv=$('ep-cover');if(cv)cv.outerHTML=epCover()}});
+  const st=$('ppx-stage');st.innerHTML=ppxStage();st.classList.remove('swap');void st.offsetWidth;st.classList.add('swap');
+  if(key!=='bc'){const cv=$('ep-cover');if(cv)cv.outerHTML=epCover()}
+  b.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
+  if(navigator.vibrate)try{navigator.vibrate(6)}catch(_){}});
 }
 function keepP(){if(!pDraft||!$('pn'))return;pDraft.name=$('pn').value;pDraft.bio=$('pd').value;if($('pcy'))pDraft.city=$('pcy').value;if($('psp'))pDraft.sport=$('psp').value}
 
@@ -5075,11 +5183,11 @@ function showStory(){
  const v=layer.querySelector('.sv video'),bar=layer.querySelector('.sv-bars span.run i');svPaused=false;svHeld=false;
  if(v){
   v.dataset.w='1';v.loop=false;v.removeAttribute('loop');v.playsInline=true;v.muted=!soundOn;
-  if(bar){bar.style.animation='none';bar.style.width='0%'}
+  if(bar){bar.style.animation='none';bar.style.transform='scaleX(0)'}
   const cap=()=>Math.min(v.duration&&isFinite(v.duration)?v.duration:STORY_VIDEO_MAX,STORY_VIDEO_MAX);
-  const tick=()=>{if(!sv||!v.isConnected)return;const d=cap();if(bar)bar.style.width=Math.min(100,(v.currentTime/d)*100)+'%';if(d>0&&v.currentTime>=d-.04){nextStory();return}svRaf=requestAnimationFrame(tick)};
+  const tick=()=>{if(!sv||!v.isConnected)return;const d=cap();if(bar)bar.style.transform='scaleX('+Math.min(1,v.currentTime/d)+')';if(d>0&&v.currentTime>=d-.04){nextStory();return}svRaf=requestAnimationFrame(tick)};
   v.addEventListener('ended',()=>{if(v.isConnected&&sv)nextStory()},{once:true});
-  v.addEventListener('error',()=>{if(v.isConnected&&sv){if(bar){bar.style.width='';bar.style.animation=''}svStartImg(STORY_PHOTO_MS)}},{once:true});
+  v.addEventListener('error',()=>{if(v.isConnected&&sv){if(bar){bar.style.transform='';bar.style.animation=''}svStartImg(STORY_PHOTO_MS)}},{once:true});
   try{v.currentTime=0}catch(e){}
   v.play().catch(()=>{v.muted=true;v.play().catch(()=>{})});
   svRaf=requestAnimationFrame(tick);
@@ -5451,23 +5559,19 @@ function chkMarkSeen(){try{localStorage.setItem(CHK_SEEN,'1')}catch(e){}}
 function paintCheck(uid,data){
  const btn=main.querySelector(`.resp-btn[data-u="${uid}"]`);
  if(btn){btn.classList.toggle('on',!!data.given);btn.setAttribute('aria-pressed',data.given?'true':'false');btn.setAttribute('aria-label',data.given?'Tu as checké ce profil':'Checker ce profil');const t=btn.querySelector('.rb-t');if(t)t.textContent=data.given?'Checké':'Check';if(data.given){btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop')}}
- const n=$('st-respects');if(n){n.textContent=fmt(data.count);const bc=n.closest('.bn-chk');if(bc){bc.classList.toggle('ok',!!data.validated);bc.setAttribute('aria-label',data.count+' check'+(data.count>1?'s':'')+', voir le Check')}}
- const slot=$('cv-slot');if(slot)slot.innerHTML=data.validated?cvTag():'';
  const g=main.querySelector('.gutter');if(g)g.classList.toggle('cv-on',!!data.validated);
 }
 // Fiche « Le Check » : explications + progression vers la validation + bouton d'action
 function openCheckInfo(uid){
- const ri=respectCache[uid]||{count:0,given:false,threshold:100};const mine=me&&uid===me.id,h=prof(uid).handle||'';
- const th=ri.threshold||100,n=ri.count||0,pc=Math.min(100,Math.round(n/th*100)),left=Math.max(0,th-n);
+ const ri=respectCache[uid]||{given:false};const mine=me&&uid===me.id,h=prof(uid).handle||'',adm=isAdmin();
  const line=mine?'Quand on te checke, on te valide.':`Checker @${esc(h)}, c’est valider son travail.`;
- const full=!mine&&!ri.given&&ri.max&&(ri.my_given||0)>=ri.max;
- const act=mine?'':full?'':ri.given?`<p class="ck-done">${RESP_IC}Tu as checké @${esc(h)}</p>`:ri.block?`<p class="ck-no">${esc(RESP_MSG[ri.block]||RESP_MSG.invalid)}</p>`:`<button type="button" class="ck-go" data-act="check-do" data-u="${uid}"><span class="ck-gi">${RESP_IC}</span><span class="ck-gt">Checker <b>@${esc(h)}</b></span></button>`;
+ const left=ri.max?Math.max(0,ri.max-(ri.my_given||0)):null,full=!mine&&!adm&&!ri.given&&left===0;
+ const act=mine?'':ri.given?(adm?`<button type="button" class="ck-go off" data-act="check-do" data-u="${uid}">Retirer mon check</button>`:`<p class="ck-done">${RESP_IC}Tu as checké @${esc(h)}</p>`):full?'':ri.block&&!adm?`<p class="ck-no">${esc(RESP_MSG[ri.block]||RESP_MSG.invalid)}</p>`:`<button type="button" class="ck-go" data-act="check-do" data-u="${uid}"><span class="ck-gi">${RESP_IC}</span><span class="ck-gt">Checker <b>@${esc(h)}</b></span></button>`;
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet ck-sheet ck2" role="dialog" aria-label="Check"><div class="stw-top"><b></b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
   <div class="ck2-head"><span class="ck2-ic">${RESP_IC}</span><div><b>Check</b><p>${line}</p></div></div>
-  <div class="ck2-count"><b>${fmt(n)}</b><span>check${n>1?'s':''}</span><em class="${ri.validated?'ok':''}">${ri.validated?'Validé par la communauté':`${fmt(left)} avant d’être validé`}</em></div>
-  <span class="ck-bar"><i style="width:${pc}%"></i></span>
-  <div class="ck2-rules"><span>5 checks à donner</span><span>Définitif</span><span>${th} = validé</span></div>
-  ${!mine&&ri.max?`<p class="ck2-left">${ri.given?'':Math.max(0,ri.max-(ri.my_given||0))?`Il te reste <b>${Math.max(0,ri.max-(ri.my_given||0))}</b> check${ri.max-(ri.my_given||0)>1?'s':''} à donner`:'Tu as donné tes 5 checks'}</p>`:''}
+  <div class="ck2-rules"><span>${adm?'Illimité':'5 checks à donner'}</span><span>${adm?'Retirable':'Définitif'}</span><span>100 = validé</span></div>
+  <p class="ck2-sub">Le nombre de checks reçus se voit dans les badges.</p>
+  ${!mine&&!adm&&left!=null&&!ri.given?`<p class="ck2-left">${left?`Il te reste <b>${left}</b> check${left>1?'s':''} à donner`:'Tu as donné tes 5 checks'}</p>`:''}
   ${act}
  </div></div></div>`;
 }
@@ -5476,6 +5580,7 @@ async function doCheck(uid,fromSheet){
  try{
   const {data,error}=await sb.rpc('fs_toggle_respect',{target:uid});
   if(error||!data){toast('Le check n’est pas encore disponible, réessaie plus tard.');return}
+  if(data.status==='removed'){respectCache[uid]=data;paintCheck(uid,data);if(fromSheet)layer.innerHTML='';toast('Check retiré');return}
   if(data.status==='already'){respectCache[uid]=Object.assign({},respectCache[uid]||{},data,{given:true});paintCheck(uid,respectCache[uid]);toast(RESP_MSG.already);return}
   if(data.status!=='ok'){toast(RESP_MSG[data.status]||RESP_MSG.invalid);return}
   respectCache[uid]=data;paintCheck(uid,data);if(data.given&&navigator.vibrate)try{navigator.vibrate(12)}catch(e){}
@@ -5485,7 +5590,7 @@ async function doCheck(uid,fromSheet){
 }
 const RESP_MSG={limit:'Tu as déjà donné tes 5 checks',already:'Tu as déjà checké ce profil',too_new:'Ton compte doit avoir plus de 7 jours pour checker',no_post:'Publie au moins une fois pour pouvoir checker',banned:'Ton compte ne peut pas checker',blocked:'Impossible avec ce compte',slow:'Doucement : réessaie un peu plus tard',invalid:'Action impossible'};
 async function toggleRespect(btn,uid){
- if((respectCache[uid]||{}).given){openCheckInfo(uid);return}
+ if((respectCache[uid]||{}).given&&!isAdmin()){openCheckInfo(uid);return}
  if(!chkSeen()){chkMarkSeen();openCheckInfo(uid);return}
  await doCheck(uid,false);
 }
@@ -5525,10 +5630,6 @@ async function buildProfileCard(uid){
  await cvAvatar(ctx,uid,390,520,300);
  ctx.textAlign='center';ctx.fillStyle='#fff';ctx.font='800 72px '+CV_FONT;ctx.fillText(u.name||u.handle||'',540,940);
  ctx.fillStyle='#9a9a9a';ctx.font='600 40px '+CV_FONT;ctx.fillText('@'+(u.handle||'')+(u.sport?' · '+u.sport:''),540,1000);
- if(ri){const n=ri.count||0;ctx.fillStyle=ri.validated?'#22A55C':'rgba(255,255,255,.08)';cvRound(ctx,340,1090,400,130,34);ctx.fill();
-  ctx.strokeStyle=ri.validated?'#fff':'#3DD47D';ctx.lineWidth=12;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(400,1157);ctx.lineTo(430,1187);ctx.lineTo(485,1127);ctx.stroke();
-  ctx.fillStyle='#fff';ctx.font='800 64px '+CV_FONT;ctx.textAlign='left';ctx.fillText(fmt(n),515,1180);ctx.textAlign='center';
-  ctx.fillStyle=ri.validated?'#3DD47D':'#8a8a8a';ctx.font='700 38px '+CV_FONT;ctx.fillText(ri.validated?'Validé par la communauté':'check'+(n>1?'s':''),540,1290)}
  await cvFooter(ctx);return c;
 }
 async function shareCanvas(c,name,link){
