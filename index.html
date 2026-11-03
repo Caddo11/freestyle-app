@@ -2959,6 +2959,28 @@ html[data-theme="dark"] .sw-ui{background:#3A3A38}
 @keyframes islInL{from{opacity:0;transform:translateX(-14px) scale(.9)}to{opacity:1;transform:none}}
 @keyframes islInR{from{opacity:0;transform:translateX(14px) scale(.9)}to{opacity:1;transform:none}}
 @media (max-width:360px){.isl-wrap.duo .isl-cat{max-width:104px}.isl-wrap.duo .isl-b{width:34px}}
+
+/* ================= v65 : barre d'accueil fixe, rectangle arrondi ================= */
+#top.isl-float{position:fixed;top:0;left:50%;right:auto;width:100%;max-width:480px;transform:translateX(-50%);padding:calc(8px + env(safe-area-inset-top,0px)) 12px 8px;min-height:0}
+main.isl-mode{padding-top:calc(70px + env(safe-area-inset-top,0px))}
+.hb{display:flex;align-items:center;gap:2px;width:100%;height:52px;padding:0 6px 0 8px;border-radius:16px;background:#0F0F0F;color:#fff;pointer-events:auto;box-shadow:0 8px 24px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.07);transition:background-color .35s ease,box-shadow .35s ease}
+html[data-theme="dark"] .hb{background:#1B1B1B;box-shadow:0 8px 24px rgba(0,0,0,.5),inset 0 0 0 1px #2A2A2A}
+.hb.glass{background:rgba(15,15,15,.66);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);box-shadow:0 8px 26px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.10)}
+html[data-theme="dark"] .hb.glass{background:rgba(30,30,30,.58)}
+.hb-cat{display:inline-flex;align-items:center;gap:7px;min-width:0;max-width:52%;height:38px;padding:0 12px;border:0;border-radius:11px;background:rgba(255,255,255,.10);color:#fff;font-size:14px;font-weight:800;letter-spacing:-.01em;cursor:pointer;transition:transform .16s cubic-bezier(.3,1.4,.5,1),background-color .2s}
+.hb-cat span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hb-cat svg{flex:0 0 auto;opacity:.6}
+.hb-cat:active{transform:scale(.95);background:rgba(255,255,255,.16)}
+.hb-sp{flex:1}
+.hb-b{position:relative;flex:0 0 auto;width:40px;height:40px;border:0;border-radius:11px;background:transparent;color:#fff;display:grid;place-items:center;cursor:pointer;transition:transform .16s cubic-bezier(.3,1.4,.5,1),background-color .2s}
+.hb-b:active{transform:scale(.88);background:rgba(255,255,255,.1)}
+.hb .fs-ic{width:21px!important;height:21px!important;filter:none!important}
+.hb .fs-ic .ic-f{fill:none!important;stroke:#fff!important;stroke-width:1.6!important}
+.hb .fs-ic .ic-d,.hb .fs-ic .ic-in{stroke:#fff!important;stroke-width:1.6!important}
+.hb .fs-ic .ic-dot{fill:#fff!important}
+.hb-b svg{width:21px;height:21px}
+.hb .isl-new{top:8px;right:8px}
+@media (max-width:360px){.hb-b{width:36px}.hb-cat{font-size:13px;padding:0 10px}}
 </style>
 </head>
 <body>
@@ -3264,7 +3286,7 @@ function render(){
 function moveInd(){const ind=document.querySelector('nav.tabs .nav-ind');if(!ind)return;const a=document.querySelector('nav.tabs button[aria-current="page"]');if(!a){ind.style.opacity='0';return}ind.style.opacity='1';ind.style.background=getComputedStyle(a).getPropertyValue('--acc-bg')||'';ind.style.width=a.offsetWidth+'px';ind.style.transform=`translateX(${a.offsetLeft}px)`}
 window.addEventListener('resize',()=>moveInd());
 function paintNavAv(){const n=document.querySelector('#nav-me .nav-av');if(!n||!me)return;n.innerHTML=me.avatar_url?`<img src="${esc(me.avatar_url)}" alt="">`:`<span>${esc((me.name||me.handle||'?')[0])}</span>`}
-function paintBadge(){paintNavAv();const np=document.querySelector('nav.tabs [data-nav="profile"]');np.querySelector('.dot')?.remove();if(unreadNotifs)np.insertAdjacentHTML('beforeend','<span class="dot"></span>');const nm=$('top-msg');if(nm){nm.querySelector('.bell-dot')?.remove();nm.querySelector('.isl-new')?.remove();if(unreadCount||unreadInfo())nm.insertAdjacentHTML('beforeend',nm.classList.contains('isl-b')?'<i class="isl-new"></i>':'<span class="bell-dot"></span>')}}
+function paintBadge(){paintNavAv();const np=document.querySelector('nav.tabs [data-nav="profile"]');np.querySelector('.dot')?.remove();if(unreadNotifs)np.insertAdjacentHTML('beforeend','<span class="dot"></span>');const nm=$('top-msg');if(nm){nm.querySelector('.bell-dot')?.remove();nm.querySelector('.isl-new')?.remove();if(unreadCount||unreadInfo())nm.insertAdjacentHTML('beforeend',nm.classList.contains('isl-b')||nm.classList.contains('hb-b')?'<i class="isl-new"></i>':'<span class="bell-dot"></span>')}}
 
 // ================= CONNEXION =================
 let authMode='login',authErr='',authInfo='';
@@ -3566,16 +3588,14 @@ function subscribeRealtime(){
 
 // ================= FIL =================
 async function renderHome(){
- topEl.innerHTML=`<div class="isl-wrap duo">
-  <div class="isl isl-l" role="toolbar" aria-label="Fil">
-   <button class="isl-cat" data-act="feed-pick" aria-haspopup="true" aria-label="Catégorie : ${esc(sportFilter||'Tous les sports')}"><span>${esc(sportFilter||'Tous')}</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-   <button class="isl-b" data-act="shout-new" aria-label="Écrire un shout">${SHOUT_IC}</button>
-  </div>
-  <div class="isl isl-r" role="toolbar" aria-label="Actions">
-   <button class="isl-b" data-act="plus-menu" aria-label="Créer">${I.plus}</button>
-   <button class="isl-b" data-act="notifs" aria-label="Pings">${I.bell}${unreadNotifs?'<i class="isl-new"></i>':''}</button>
-   <button class="isl-b" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount||unreadInfo()?'<i class="isl-new"></i>':''}</button>
-  </div></div>`;
+ topEl.innerHTML=`<div class="hb" role="toolbar" aria-label="Fil">
+  <button class="hb-cat" data-act="feed-pick" aria-haspopup="true" aria-label="Catégorie : ${esc(sportFilter||'Tous les sports')}"><span>${esc(sportFilter||'Tous')}</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <span class="hb-sp"></span>
+  <button class="hb-b" data-act="shout-new" aria-label="Écrire un shout">${SHOUT_IC}</button>
+  <button class="hb-b" data-act="plus-menu" aria-label="Publier un post ou un clip">${I.plus}</button>
+  <button class="hb-b" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount||unreadInfo()?'<i class="isl-new"></i>':''}</button>
+  <button class="hb-b" data-act="notifs" aria-label="Pings">${I.bell}${unreadNotifs?'<i class="isl-new"></i>':''}</button>
+ </div>`;
  const order=Object.keys(storiesBy).filter(k=>k!==me.id).sort((a,b)=>(following.has(b)?1:0)-(following.has(a)?1:0));
  const mine=storiesBy[me.id]||[];
  const seenAll=uid=>(storiesBy[uid]||[]).every(s=>seenStories.has(s.id));
@@ -4499,7 +4519,7 @@ async function deletePost(id){const post=findPost(id);const {data:gone,error}=aw
 async function deleteStory(id){clearTimeout(svT);const sto=Object.values(storiesBy).flat().find(x=>x.id===id);const {error}=await sb.from('stories').delete().eq('id',id);if(error)return dbError(error,'Suppression impossible');if(sto&&sto.media)removeFiles([sto.media.url]);toast('Flash supprimé');await loadStories();closeStory()}
 async function pickSport(sp){sportFilter=sp;main.innerHTML=loadingHTML();await loadFeed();if(view==='home')renderHome();main.scrollTop=0}
 let lastSY=0;
-document.addEventListener('scroll',e=>{const t=e.target;if(!(t===main||t.id==='clips'))return;const y=t.scrollTop,nt=$('tabs');if(y>lastSY+4&&y>60)nt.classList.add('mini');else if(y<lastSY-4||y<60)nt.classList.remove('mini');if(t===main){topEl.querySelectorAll('.isl').forEach(il=>{il.classList.toggle('glass',y>6);il.classList.toggle('slim',y>lastSY+2&&y>120?true:y<lastSY-2?false:il.classList.contains('slim'))})}lastSY=y},true);
+document.addEventListener('scroll',e=>{const t=e.target;if(!(t===main||t.id==='clips'))return;const y=t.scrollTop,nt=$('tabs');if(y>lastSY+4&&y>60)nt.classList.add('mini');else if(y<lastSY-4||y<60)nt.classList.remove('mini');if(t===main){const hb=topEl.querySelector('.hb');if(hb)hb.classList.toggle('glass',y>6)}lastSY=y},true);
 // ================= ÉVÉNEMENTS =================
 document.addEventListener('click',async e=>{
  const n=e.target.closest('[data-nav]');
@@ -4592,7 +4612,7 @@ document.addEventListener('click',async e=>{
   case 'cmt-like':toggleCmtLike(id,a);break;
   case 'go-messages':hist.push([view,arg]);loadConvs().then(()=>{if(view==='messages')renderMessages(curQuery)});nav('messages');break;
   case 'feed-pick':miniMenu(a,[{head:true,label:'Catégorie'},{label:'Tous les posts',active:!sportFilter,run:()=>pickSport(null)},...SPORT_LIST.map(sp=>({label:sp,active:sportFilter===sp,run:()=>pickSport(sp)}))],'left','light');break;
-  case 'plus-menu':miniMenu(a,[{head:true,label:'Publier'},{label:'Un shout',run:()=>openShoutForm()},{label:'Un flash',run:()=>pickStory()},{label:'Un post',run:()=>{hist=[];createKind='photo';newDraft();nav('create')}},{label:'Un clip',run:()=>{hist=[];createKind='clip';newDraft();nav('create')}}],a.closest('nav')?'center':view==='home'?'corner':'right','light');break;
+  case 'plus-menu':miniMenu(a,[{head:true,label:'Publier'},{label:'Un post',run:()=>{hist=[];createKind='photo';newDraft();nav('create')}},{label:'Un clip',run:()=>{hist=[];createKind='clip';newDraft();nav('create')}}],a.closest('nav')?'center':view==='home'?'corner':'right','light');break;
   case 'share-profile':{if(a.isConnected&&!a.hidden&&prof(u).handle&&prof(u).handle!=='…'){openShareMenu(a,'profile',u);break}const link=BASE_URL+'?u='+encodeURIComponent(prof(u).handle);try{if(navigator.share){await navigator.share({title:'Freestyle',text:'Mon profil Freestyle',url:link});break}}catch(err){if(err&&err.name==='AbortError')break}try{await navigator.clipboard.writeText(link);toast('Lien du profil copié')}catch(err){warnBox('Lien de ton profil',link,false)}break}
   case 'sound':{e.stopPropagation();setSound(!soundOn);break}
   case 'del-ask':a.outerHTML=`<p style="margin:10px 0;color:var(--muted)">Supprimer définitivement ce post ?</p><button class="sheet-act danger" data-act="del-yes" data-id="${id}">Oui, supprimer</button>`;break;
