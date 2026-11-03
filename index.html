@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793717363">
+<meta name="fs-build" content="1793717952">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3096,6 +3096,67 @@ html[data-theme="dark"] .pl-ring .tr{stroke:rgba(255,255,255,.12)}
 .af4-r{padding:11px 2px}
 .af4-h{margin-bottom:6px}
 .af4-s{margin-top:6px}
+
+/* ================= v74 : badges ================= */
+.bdg{display:inline-flex;align-items:center;gap:3px;margin-left:4px;padding:2px 4px;border:0;border-radius:8px;background:var(--paper);cursor:pointer;vertical-align:middle;line-height:0}
+html[data-theme="dark"] .bdg{background:#1B1B1B}
+.bdg[hidden]{display:none}
+.bdg em{font-style:normal;font-size:10.5px;font-weight:800;color:#8e8e8a;padding:0 2px;line-height:1}
+.bd-i{--bs:18px;display:inline-grid;place-items:center;width:var(--bs);height:var(--bs);border-radius:calc(var(--bs)*.3);background:var(--bd);color:#fff;flex:0 0 auto;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),inset 0 -1px 0 rgba(0,0,0,.15)}
+.bd-i svg{width:62%;height:62%}
+.bd-top{display:flex;align-items:baseline;gap:10px;margin:2px 0 10px}
+.bd-top b{font-size:28px;font-weight:800;color:var(--ink);line-height:1}
+.bd-top b small{font-size:14px;color:#a3a29d;font-weight:700}
+.bd-top span{font-size:12.5px;color:#8e8e8a}
+.bd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 8px;margin:18px 0 calc(16px + env(safe-area-inset-bottom,0px))}
+.bd-c{display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px}
+.bd-c b{font-size:12px;font-weight:800;color:var(--ink);line-height:1.2}
+.bd-c small{font-size:10.5px;color:#8e8e8a;line-height:1.3}
+.bd-c.off .bd-i{background:var(--paper);color:#b5b4af;box-shadow:inset 0 0 0 1px var(--paper-line)}
+html[data-theme="dark"] .bd-c.off .bd-i{background:#1B1B1B;color:#4a4a48}
+.bd-c.off b{color:#a3a29d}
+/* ================= v74 : cadres ================= */
+.pav.fr-fin,.cz-o i.fr-fin{box-shadow:0 0 0 2px var(--ink)!important}
+.pav.fr-double,.cz-o i.fr-double{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink),0 0 0 6px var(--bg),0 0 0 7.5px var(--ink)!important}
+.pav.fr-neon,.cz-o i.fr-neon{box-shadow:0 0 0 2px #3DD47D,0 0 14px 3px rgba(61,212,125,.65)!important;animation:frNeon 2.4s ease-in-out infinite}
+.pav.fr-or,.cz-o i.fr-or{background:linear-gradient(135deg,#FFF1BF,#E9B949 35%,#A9761F 65%,#F3D27C)!important;padding:4px!important;box-shadow:0 4px 14px rgba(169,118,31,.35)!important}
+.pav.fr-chrome,.cz-o i.fr-chrome{background:linear-gradient(135deg,#ffffff,#b3b6be 35%,#f0f0f2 55%,#8a8d95)!important;padding:4px!important;box-shadow:0 4px 14px rgba(0,0,0,.2)!important}
+.pav.fr-pixel,.cz-o i.fr-pixel{outline:3px dashed var(--ink);outline-offset:2px;box-shadow:none!important}
+.pav.fr-feu,.cz-o i.fr-feu{background:linear-gradient(135deg,#FFB020,#FF4D2E 55%,#C2185B)!important;padding:4px!important;box-shadow:0 0 16px rgba(255,77,46,.55)!important}
+.pav.fr-glace,.cz-o i.fr-glace{background:linear-gradient(135deg,#FFFFFF,#BDE8F7 45%,#7CC7E8)!important;padding:4px!important;box-shadow:0 0 16px rgba(124,199,232,.6)!important}
+@keyframes frNeon{50%{box-shadow:0 0 0 2px #3DD47D,0 0 22px 6px rgba(61,212,125,.45)}}
+/* ================= v74 : bannières ================= */
+.pbanner.bn-grille,.cz-o.bn-grille i{background:linear-gradient(transparent 94%,rgba(61,212,125,.55) 94%) 0 0/22px 22px,linear-gradient(90deg,transparent 94%,rgba(61,212,125,.55) 94%) 0 0/22px 22px,radial-gradient(120% 120% at 50% 120%,#1f3b2c,#0F0F0F 70%)!important}
+.pbanner.bn-scan,.cz-o.bn-scan i{background:repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 2px,transparent 2px 4px),linear-gradient(135deg,#34343a,#0F0F0F)!important}
+.pbanner.bn-aurore,.cz-o.bn-aurore i{background:linear-gradient(120deg,#ff9a8b,#ff6a88 30%,#ff99ac 55%,#fcb69f 80%)!important}
+.pbanner.bn-carbone,.cz-o.bn-carbone i{background:radial-gradient(#2e2e2e 18%,transparent 19%) 0 0/8px 8px,radial-gradient(#2e2e2e 18%,transparent 19%) 4px 4px/8px 8px,#141414!important}
+.pbanner.bn-chrome,.cz-o.bn-chrome i{background:linear-gradient(180deg,#f7f7f9 0%,#c9ccd3 45%,#8d9099 52%,#e6e7ea 100%)!important}
+.pbanner.bn-braise,.cz-o.bn-braise i{background:radial-gradient(90% 120% at 15% 110%,#ff6a00,transparent 60%),radial-gradient(80% 100% at 85% -10%,#c2185b,transparent 60%),#1a0b0b!important}
+.pbanner.bn-ocean,.cz-o.bn-ocean i{background:linear-gradient(160deg,#0f2027,#203a43 50%,#2c5364)!important}
+.pbanner.bn-damier,.cz-o.bn-damier i{background:conic-gradient(#0F0F0F 25%,#F2F1EC 0 50%,#0F0F0F 0 75%,#F2F1EC 0) 0 0/28px 28px!important}
+/* ================= v74 : réglage cadre & bannière ================= */
+.cz-entry{display:flex!important;align-items:center;gap:12px;width:100%;padding:12px 14px!important;border:0;text-align:left;cursor:pointer;color:var(--ink)}
+.cz-e-ic{line-height:0}
+.cz-e-t{flex:1;min-width:0;display:flex;flex-direction:column}
+.cz-e-t b{font-size:14px;font-weight:700}
+.cz-e-t small{font-size:12px;color:#8e8e8a}
+.cz-entry>i{font-style:normal;color:#a3a29d;font-size:18px}
+.cz-plus{text-decoration:none;font-size:10.5px;font-weight:800;letter-spacing:.04em;padding:3px 7px;border-radius:6px;background:linear-gradient(135deg,#8B6CFF,#5B3FD6);color:#fff;white-space:nowrap;vertical-align:middle}
+.stw-top .cz-plus{margin-left:6px}
+.cz-prev .pbanner{height:110px;border-radius:14px;position:relative;margin:0}
+.cz-prev .pav{left:12px;bottom:-24px}
+.cz-pv{margin-bottom:34px}
+.cz-h{margin:6px 2px 8px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#8e8e8a}
+.cz-row{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none}
+.cz-row::-webkit-scrollbar{display:none}
+.cz-o{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:none;padding:0;cursor:pointer;color:var(--ink)}
+.cz-o i{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;padding:3px;background:var(--paper);line-height:0}
+.cz-bn i{width:62px;height:40px;border-radius:10px;padding:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.cz-o span{font-size:11px;font-weight:600;color:#8e8e8a;white-space:nowrap}
+.cz-o[aria-pressed="true"] span{color:var(--ink);font-weight:800}
+.cz-o[aria-pressed="true"]::after{content:"";width:16px;height:3px;border-radius:2px;background:#22A55C;margin-top:-2px}
+.cz-note{margin:8px 2px calc(14px + env(safe-area-inset-bottom,0px));font-size:12px;color:#8e8e8a;text-align:center}
+.cz-sheet .ck-go{margin-top:8px}
 </style>
 </head>
 <body>
@@ -3356,7 +3417,7 @@ let notifs=[],unreadNotifs=0,likedStories=new Set(),myStoryLikes={},soundOn=fals
 
 async function loadProfiles(ids){
  const need=[...new Set(ids)].filter(id=>id&&!P[id]);if(!need.length)return;
- const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').in('id',need);
+ const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified,frame,banner_style,premium').in('id',need);
  (data||[]).forEach(p=>P[p.id]=p);
 }
 const prof=id=>P[id]||{id,handle:'…',name:'…',sport:'Autre',bio:'',prs:[]};
@@ -4176,7 +4237,7 @@ function renderMessages(q){
   ${list.map(it=>{if(it.g){const g=groups[it.g],l=glast(it.g);return `<button class="conv ${gUnread(it.g)?'unread':''}" data-act="gchat" data-g="${it.g}">${gAv(it.g,48)}<span class="meta"><b>${esc(g.name)}</b><span>${l?(l.sender_id===me.id?'Toi':'@'+esc(prof(l.sender_id).handle))+' : '+esc(l.text):(gMembers[it.g]||[]).length+' membres'}</span></span>${l?`<time>${hhmm(l.created_at)}</time>`:''}</button>`}const uid=it.u;const p=prof(uid),l=last(uid),un=l&&convs[uid].some(m=>m.recipient_id===me.id&&!m.read_at);return `<button class="conv ${un?'unread':''}" data-act="chat" data-u="${uid}">${av(uid,48)}<span class="meta"><b>${esc(p.name)}</b><span>${l?(l.sender_id===me.id?'Toi : ':'')+esc(msgPreview(l)):'@'+esc(p.handle)+' · '+esc(p.sport)}</span></span><span class="conv-r">${streakHTML(uid)}${l?`<time>${hhmm(l.created_at)}</time>`:''}</span></button>`}).join('')||`<div class="empty">${curQuery?(searchResults?'Aucun sportif trouvé.':'Recherche…'):'Aucune discussion pour l’instant.<br>Cherche un sportif ci-dessus pour lui écrire.'}</div>`}
  </div>`;
  const s=$('ms');s.addEventListener('input',()=>{const v=s.value.trim(),pos=s.selectionStart;clearTimeout(searchTimer);searchResults=null;
-  searchTimer=setTimeout(async()=>{if(v){const safe=v.replace(/[%,()]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(20);(data||[]).forEach(p=>P[p.id]=p);searchResults=(data||[]).map(p=>p.id)}
+  searchTimer=setTimeout(async()=>{if(v){const safe=v.replace(/[%,()]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified,frame,banner_style,premium').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(20);(data||[]).forEach(p=>P[p.id]=p);searchResults=(data||[]).map(p=>p.id)}
    if(view!=='messages')return;renderMessages(v);const n=$('ms');n.focus();n.setSelectionRange(pos,pos)},300)});
 }
 async function markRead(uid){const c=convs[uid]||[];const ids=c.filter(m=>m.recipient_id===me.id&&!m.read_at).map(m=>m.id);if(!ids.length)return;const now=new Date().toISOString();c.forEach(m=>{if(ids.includes(m.id))m.read_at=now});await sb.from('messages').update({read_at:now}).in('id',ids);recountUnread()}
@@ -4378,7 +4439,7 @@ function openPeoplePicker({title,cta,exclude=[],withName=false,onDone}){
  paint();
  const toggle=e=>{const b=e.target.closest('[data-pk]');if(!b)return;const x=b.dataset.pk;sel.has(x)?sel.delete(x):sel.add(x);paint()};
  $('pk-list').addEventListener('click',toggle);$('pk-chips').addEventListener('click',toggle);
- let tm;$('pk-q').addEventListener('input',e=>{const v=e.target.value.trim();clearTimeout(tm);tm=setTimeout(async()=>{if(!v){shown=base;paint();return}const safe=v.replace(/[%,()*]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(20);(data||[]).forEach(p=>P[p.id]=p);shown=(data||[]).map(p=>p.id).filter(x=>!ex.has(x)&&!blocked.has(x));if(layer.querySelector('.pk'))paint()},250)});
+ let tm;$('pk-q').addEventListener('input',e=>{const v=e.target.value.trim();clearTimeout(tm);tm=setTimeout(async()=>{if(!v){shown=base;paint();return}const safe=v.replace(/[%,()*]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified,frame,banner_style,premium').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(20);(data||[]).forEach(p=>P[p.id]=p);shown=(data||[]).map(p=>p.id).filter(x=>!ex.has(x)&&!blocked.has(x));if(layer.querySelector('.pk'))paint()},250)});
  $('pk-go').addEventListener('click',async()=>{const b=$('pk-go');b.disabled=true;const ok=await onDone([...sel],withName?$('pk-name').value:'');if(!ok&&$('pk-go'))b.disabled=false});
 }
 // ================= PROTECTION : blocage, signalement =================
@@ -4450,7 +4511,7 @@ async function renderSearch(q){
   if(!v){b.hidden=true;ex.hidden=false;return}
   ex.hidden=true;b.hidden=false;
   const safe=v.replace(/[%,()*]/g,'');
-  const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').neq('id',me.id).or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).limit(30);(data||[]).forEach(p=>P[p.id]=p);
+  const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified,frame,banner_style,premium').neq('id',me.id).or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).limit(30);(data||[]).forEach(p=>P[p.id]=p);
   if(view!=='search'||sQuery!==v)return;
   b.innerHTML=((data||[]).filter(p=>!blocked.has(p.id)).map(p=>`<button class="conv" data-act="profile" data-u="${p.id}">${av(p.id,48)}<span class="meta"><b>${esc(p.handle)}${vb(p.id)}</b><span>${esc(p.name)} · ${esc(p.sport)}</span></span>${following.has(p.id)?'<span class="opt">Abonné</span>':''}</button>`).join('')||`<div class="empty">Aucun profil trouvé pour « ${esc(v)} ».</div>`);
  };
@@ -4477,10 +4538,10 @@ async function renderProfile(){
  profilePosts=posts||[];await loadPinned(uid);profilePosts=sortPinned(profilePosts);if(profTabUid!==uid||(profTab==='saved'&&!mine)){profTab='all';profTabUid=uid}if(mine&&profTab==='saved')loadSavedPosts().then(()=>{if(profTab==='saved'&&$('pgrid'))$('pgrid').innerHTML=pgridHTML(true)});
  const c=SPORTS[u.sport]||SPORTS.Autre,s=st||{followers:0,following:0,posts:0};
  const creator=ADMINS.has(uid);
- main.innerHTML=`<div class="gutter ${creator?'creator':''} ${ri&&ri.validated?'cv-on':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav">${av(uid,78)}</span>${ri?`<button type="button" class="bn-chk ${ri.validated?'ok':''}" data-act="check-info" data-u="${uid}" aria-label="${ri.count} check${ri.count>1?'s':''}, voir le Check">${RESP_IC}<span id="st-respects">${fmt(ri.count)}</span></button>`:''}</div>${creator?'</div>':''}
+ main.innerHTML=`<div class="gutter ${creator?'creator':''} ${ri&&ri.validated?'cv-on':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner ${u.banner_style?'bn-'+esc(u.banner_style):''}" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav ${u.frame?'fr-'+esc(u.frame):''}">${av(uid,78)}</span>${ri?`<button type="button" class="bn-chk ${ri.validated?'ok':''}" data-act="check-info" data-u="${uid}" aria-label="${ri.count} check${ri.count>1?'s':''}, voir le Check">${RESP_IC}<span id="st-respects">${fmt(ri.count)}</span></button>`:''}</div>${creator?'</div>':''}
  <section class="phead">
   <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>posts</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
-  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}<button type="button" class="pn-share" data-act="share-profile" data-u="${uid}" aria-label="Partager le profil">${I.link}</button>${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b><span id="cv-slot">${ri&&ri.validated?cvTag():''}</span>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
+  <b class="pname">${creator?`<span class="cr-name">${esc(u.name)}</span>`:esc(u.name)}${vb(uid)}<button type="button" class="bdg" id="bdg-row" data-act="badges" data-u="${uid}" aria-label="Badges" hidden></button><button type="button" class="pn-share" data-act="share-profile" data-u="${uid}" aria-label="Partager le profil">${I.link}</button>${bansMap[uid]?`<span class="ban-tag">${bansMap[uid].until?'Suspendu':'Banni'}</span>`:''}</b><span id="cv-slot">${ri&&ri.validated?cvTag():''}</span>${u.city?`<i class="pcity">${esc(u.city)}</i>`:''}
   ${u.bio?`<p class="pbio">${esc(u.bio)}</p>`:''}
   <div class="pp-box" id="pp-box" data-u="${uid}"></div>
   
@@ -4489,7 +4550,7 @@ async function renderProfile(){
  <div class="ptabs ${mine?'three':''}" role="tablist"><button role="tab" data-act="ptab" data-k="all" aria-selected="${profTab==='all'}">${I.tabGrid}<span>Posts</span></button><button role="tab" data-act="ptab" data-k="clips" aria-selected="${profTab==='clips'}">${I.tabClips}<span>Clips</span></button>${mine?`<button role="tab" data-act="ptab" data-k="saved" aria-selected="${profTab==='saved'}">${I.tabSaved}<span>Enregistrés</span></button>`:''}<i class="ptab-ind" style="transform:translateX(${PTAB_X[profTab]||'0'})"></i></div>
  <div id="pgrid">${pgridHTML(mine)}</div></div>`;
  main.querySelectorAll('.grid video').forEach(v=>{v.dataset.w='1';v.muted=true;v.removeAttribute('autoplay');v.pause()});
- paintPartner(uid,mine);
+ paintPartner(uid,mine);paintBadges(uid);
  if(creator)creatorIntro();
  if(mine)sb.rpc('fs_account_stats',{days:30}).then(({data})=>{const e=$('pdash-n');if(e&&data)e.textContent=fmt(data.views)+' vue'+(data.views>1?'s':'')+' ces 30 derniers jours'},()=>{});
 }
@@ -4748,6 +4809,8 @@ document.addEventListener('click',async e=>{
   case 'respect':{await toggleRespect(a,u);break}
   case 'shout-new':openShoutForm();break;
   case 'bar-color':await setBarColor(a.dataset.k);break;
+  case 'badges':openBadges(u);break;
+  case 'customize':openCustomize();break;
   case 'wl-follow':{await toggleFollow(u);const on=following.has(u);a.classList.toggle('on',on);a.textContent=on?'Suivi':'Suivre';break}
   case 'wl-profile':closeLayer();hist.push([view,arg]);nav('profile',u);break;
   case 'wl-events':closeLayer();msgTab='info';nav('messages');break;
@@ -4948,6 +5011,7 @@ function renderSettings(){
   <button class="set-me" data-act="set-go" data-k="edit">${av(me.id,54)}<span><b>${esc(u.name||'')}</b><small>@${esc(u.handle||'')}${session?.user?.email?' · '+esc(session.user.email):''}</small></span><i aria-hidden="true">›</i></button>
   <h2 class="set-h">Apparence</h2>
   <div class="set-card set-theme"><div class="set-seg" role="radiogroup" aria-label="Thème">${[['light','Clair','<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>'],['dark','Sombre','<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>'],['system','Auto','<rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M9 20h6M12 16.5V20"/>']].map(([k,l,d])=>`<button type="button" data-act="set-theme" data-k="${k}" role="radio" aria-pressed="${t===k}">${svg(d)}<span>${l}</span></button>`).join('')}<i style="transform:translateX(${['light','dark','system'].indexOf(t)*100}%)" aria-hidden="true"></i></div><p class="set-note">« Auto » suit le réglage de ton téléphone.</p></div>
+  <button type="button" class="set-card cz-entry" data-act="customize"><span class="cz-e-ic">${av(me.id,34)}</span><span class="cz-e-t"><b>Cadre et bannière</b><small>Personnalise ton profil</small></span><u class="cz-plus">Freestyle+</u><i aria-hidden="true">›</i></button>
   <div class="set-card bc-card"><div class="bc-h"><b>Couleur des barres</b><em id="bc-name">${(BAR_COLORS.find(x=>x[0]===barColorNow())||BAR_COLORS[0])[1]}</em></div><div class="bc-row" role="radiogroup" aria-label="Couleur des barres">${BAR_COLORS.map(([k,l,h])=>`<button type="button" class="bc-sw" data-act="bar-color" data-k="${k}" role="radio" aria-pressed="${barColorNow()===k}" aria-label="${l}" title="${l}"><i style="${h?`background:${h}`:''}" class="${h?'':'auto'}"></i></button>`).join('')}</div></div>
   <h2 class="set-h">Compte</h2>
   <div class="set-card">${row('edit',IC.edit,'Modifier le profil','Photo, bannière, nom, bio')}${row('insights',IC.stats,'Tableau de bord','Vues et statistiques')}${row('saved',IC.saved,'Enregistrés','Les posts que tu as gardés')}${row('share',IC.share,'Partager mon profil','')}${row('invite',IC.share,'Inviter des potes','Ton lien d’invitation')}</div>
@@ -5174,6 +5238,79 @@ async function setBarColor(k){
  if(error)toast('Couleur non enregistrée, réessaie');
 }
 setTimeout(()=>{try{applyBarColor(localStorage.getItem('fs-bar')||'auto')}catch(e){}},0);
+// ================= BADGES (façon Discord) =================
+const BG=d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const BADGES=[
+ ['fondateur','Créateur de Freestyle','Le compte qui a créé Freestyle','#C9A24A',BG('<path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 10H5z"/>')],
+ ['plus','Freestyle+','Membre de l’offre Freestyle+','#7B5CFF',BG('<path d="M12 3l2.6 5.6L20 9.5l-4 4 1 5.5-5-2.8-5 2.8 1-5.5-4-4 5.4-.9z"/>')],
+ ['verifie','Compte vérifié','Pastille bleue','#2F8BFF',BG('<path d="M5 12.5l4.5 4.5L19 7.5"/>')],
+ ['valide','Validé par la communauté','100 checks de membres différents','#22A55C',BG('<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8.5 12.2l2.5 2.5 4.5-5"/>')],
+ ['pionnier','Pionnier','Inscrit pendant la première année','#8C6A3E',BG('<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>')],
+ ['premier_post','Premier post','A publié son premier post','#6B7280',BG('<rect x="3.5" y="6.5" width="17" height="13" rx="3"/><circle cx="12" cy="13" r="3.2"/><path d="M8.5 6.5l1.5-2.5h4l1.5 2.5"/>')],
+ ['posts10','10 posts','A publié 10 posts','#0EA57A',BG('<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>')],
+ ['posts50','50 posts','A publié 50 posts','#E5484D',BG('<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-3 2-4 2-7 1.5 1 2.5 2.5 3 4 .5-2.5 0-5 0-7z"/>')],
+ ['clip','Premier clip','A publié son premier clip','#F08C2E',BG('<path d="M8 5.5v13l10-6.5z"/>')],
+ ['shout10','Grande gueule','A écrit 10 shouts','#A855F7',BG('<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>')],
+ ['flash','Premier flash','A publié son premier flash','#F5B301',BG('<path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/>')],
+ ['checke10','Respecté','A reçu 10 checks','#1E9A55',BG('<path d="M3 12.5l4 4L15 8.5"/><path d="M10 16.5l1 1L21 7.5"/>')],
+ ['genereux','Généreux','A donné ses 5 checks','#10B981',BG('<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>')],
+ ['duo','En duo','A un partenaire d’entraînement','#EF4444',BG('<circle cx="8.5" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M3 19c.6-3 2.8-4.8 5.5-4.8S13.4 16 14 19M13 14.6c.9-.3 1.9-.4 3-.4 2.7 0 4.9 1.8 5.5 4.8"/>')],
+ ['serie7','Série de 7','7 jours d’affilée avec son duo','#F59E0B',BG('<path d="M12 3.5l2.5 5.2 5.6.8-4 4 1 5.6-5.1-2.7-5.1 2.7 1-5.6-4-4 5.6-.8z"/>')],
+ ['serie30','Série de 30','30 jours d’affilée avec son duo','#F97316',BG('<path d="M8 3.5l1.6 3.3 3.6.5-2.6 2.5.6 3.6L8 11.7l-3.2 1.7.6-3.6L2.8 7.3l3.6-.5zM16.5 10.5l1.6 3.3 3.6.5-2.6 2.5.6 3.6-3.2-1.7-3.2 1.7.6-3.6-2.6-2.5 3.6-.5z"/>')],
+ ['affinite','Binôme parfait','100 % d’affinité avec son duo','#16A34A',BG('<path d="M6.5 8.5a3.5 3.5 0 1 0 0 7c2.5 0 3.5-2 5.5-3.5s3-3.5 5.5-3.5a3.5 3.5 0 1 1 0 7c-2.5 0-3.5-2-5.5-3.5S9 8.5 6.5 8.5z"/>')],
+ ['populaire','Populaire','100 followers','#EC4899',BG('<circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c.6-3.2 3-5 6-5s5.4 1.8 6 5"/><path d="M16 5a3.2 3.2 0 0 1 0 6.2M18 14.6c1.6.6 2.7 2.3 3 4.9"/>')],
+ ['star','Star','1 000 followers','#EAB308',BG('<path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/>')],
+ ['sociable','Sociable','Suit 50 sportifs','#14B8A6',BG('<circle cx="10" cy="8" r="3.2"/><path d="M4 19.5c.6-3.2 3-5 6-5 1.4 0 2.7.4 3.7 1.1M18 13v6M15 16h6"/>')],
+ ['bavard','Bavard','A écrit 50 commentaires','#64748B',BG('<path d="M20 11.5c0 3.9-3.6 7-8 7-1.1 0-2.1-.2-3-.5L5 19.5l1.2-3.3C4.8 15 4 13.3 4 11.5c0-3.9 3.6-7 8-7s8 3.1 8 7z"/>')],
+ ['aime','Adoré','A reçu 100 likes','#ED4956',BG('<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>')],
+ ['viral','Viral','Un post a dépassé 500 vues','#F97316',BG('<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>')],
+ ['ambassadeur','Ambassadeur','A invité 3 potes','#0EA5E9',BG('<path d="M4 10v4h3l6 4V6L7 10z"/><path d="M16.5 9a4 4 0 0 1 0 6"/>')],
+ ['recruteur','Recruteur','A invité 10 potes','#6366F1',BG('<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8.5 20h7"/>')],
+ ['organisateur','Organisateur','A organisé un événement validé','#84CC16',BG('<rect x="4" y="5.5" width="16" height="14" rx="3"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>')]
+];
+const badgeCache={};
+const bdgIcon=(b,sz)=>`<i class="bd-i" style="--bd:${b[3]};${sz?`--bs:${sz}px`:''}" title="${esc(b[1])}">${b[4]}</i>`;
+async function loadBadges(uid){try{const {data,error}=await sb.rpc('fs_badges',{pid:uid});if(error||!Array.isArray(data))return badgeCache[uid]||[];badgeCache[uid]=data;return badgeCache[uid]}catch(e){return badgeCache[uid]||[]}}
+function drawBadges(el,got){
+ const list=BADGES.filter(b=>got.includes(b[0]));if(!list.length){el.hidden=true;return}
+ const shown=list.slice(0,6);el.innerHTML=shown.map(b=>bdgIcon(b)).join('')+(list.length>6?`<em>+${list.length-6}</em>`:'');el.hidden=false;
+}
+async function paintBadges(uid){
+ const el=$('bdg-row');if(!el)return;if(badgeCache[uid])drawBadges(el,badgeCache[uid]);
+ const got=await loadBadges(uid);if(el.isConnected)drawBadges(el,got);
+}
+async function openBadges(uid){
+ const got=badgeCache[uid]||await loadBadges(uid),mine=me&&uid===me.id,n=BADGES.filter(b=>got.includes(b[0])).length;
+ const order=[...BADGES.filter(b=>got.includes(b[0])),...BADGES.filter(b=>!got.includes(b[0]))];
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet bd-sheet" role="dialog" aria-label="Badges"><div class="stw-top"><b>Badges</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
+  <div class="bd-top"><b>${n}<small> / ${BADGES.length}</small></b><span>${mine?'Débloque-les tous en étant actif sur Freestyle':'badges débloqués par @'+esc(prof(uid).handle)}</span></div>
+  <span class="ck-bar"><i style="width:${Math.round(n/BADGES.length*100)}%"></i></span>
+  <div class="bd-grid">${order.map(b=>{const on=got.includes(b[0]);return `<div class="bd-c ${on?'':'off'}">${bdgIcon(b,40)}<b>${esc(b[1])}</b><small>${esc(b[2])}</small></div>`}).join('')}</div>
+ </div></div></div>`;
+}
+
+// ================= CADRE & BANNIÈRE (Freestyle+) =================
+const FRAMES=[['','Aucun'],['fin','Fin'],['double','Double'],['neon','Néon'],['or','Or'],['chrome','Chrome'],['pixel','Pixel'],['feu','Feu'],['glace','Glace']];
+const BANNERS=[['','Ma photo'],['grille','Grille'],['scan','Scanlines'],['aurore','Aurore'],['carbone','Carbone'],['chrome','Chrome'],['braise','Braise'],['ocean','Océan'],['damier','Damier']];
+const canPerso=()=>!!(me&&(me.premium||isAdmin()));
+function openCustomize(){
+ let fr=me.frame||'',bn=me.banner_style||'';const c=SPORTS[me.sport]||SPORTS.Autre;
+ const prev=()=>`<div class="cz-prev"><div class="pbanner ${bn?'bn-'+bn:''}" style="${me.banner_url&&!bn?`background:#000 url('${esc(me.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}"><span class="pav ${fr?'fr-'+fr:''}">${av(me.id,58)}</span></div></div>`;
+ const opts=(list,cur,kind)=>list.map(([k,l])=>`<button type="button" class="cz-o cz-${kind} ${kind==='bn'&&k?'bn-'+k:''}" data-${kind}="${k}" aria-pressed="${cur===k}"><i class="${kind==='fr'&&k?'fr-'+k:''}">${kind==='fr'?av(me.id,30):''}</i><span>${l}</span></button>`).join('');
+ const paint=()=>{const w=layer.querySelector('.cz-wrap');if(!w)return;w.querySelector('.cz-pv').innerHTML=prev();w.querySelectorAll('[data-fr]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.fr===fr));w.querySelectorAll('[data-bn]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.bn===bn))};
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet cz-sheet" role="dialog" aria-label="Cadre et bannière"><div class="stw-top"><b>Cadre et bannière <u class="cz-plus">Freestyle+</u></b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter cz-wrap">
+  <div class="cz-pv">${prev()}</div>
+  <div class="cz-h">Cadre</div><div class="cz-row">${opts(FRAMES,fr,'fr')}</div>
+  <div class="cz-h">Bannière</div><div class="cz-row">${opts(BANNERS,bn,'bn')}</div>
+  ${canPerso()?`<button type="button" class="ck-go" id="cz-save">Enregistrer</button>`:`<button type="button" class="ck-go off" disabled>Bientôt avec Freestyle+</button><p class="cz-note">Essaie les styles librement : ils seront débloqués avec l’abonnement Freestyle+.</p>`}
+ </div></div></div>`;
+ layer.querySelectorAll('[data-fr]').forEach(b=>b.addEventListener('click',()=>{fr=b.dataset.fr;paint()}));
+ layer.querySelectorAll('[data-bn]').forEach(b=>b.addEventListener('click',()=>{bn=b.dataset.bn;paint()}));
+ const sv=$('cz-save');if(sv)sv.addEventListener('click',async()=>{sv.disabled=true;sv.textContent='Enregistrement…';
+  const {data,error}=await sb.from('profiles').update({frame:fr||null,banner_style:bn||null}).eq('id',me.id).select().single();
+  if(error){sv.disabled=false;sv.textContent='Enregistrer';return dbError(error,'Enregistrement impossible')}
+  me=data;P[me.id]=data;closeLayer();toast('Style enregistré');if(view==='profile')render()});
+}
 // ================= ACCUEIL DES NOUVEAUX & PARRAINAGE =================
 const inviteLink=()=>BASE_URL+'?ref='+encodeURIComponent(me.handle);
 async function openWelcome(){
@@ -5282,7 +5419,7 @@ function openPartnerPicker(){
  const res=$('pp-res'),q=$('pp-q');let tm;
  const paint=list=>{res.innerHTML=list.length?list.map(id=>`<button class="pp-pick" data-pp="${id}">${av(id,40)}<span class="pp-tx"><b>@${esc(prof(id).handle)}${vb(id)}</b><small>${esc(prof(id).name||'')}${prof(id).sport?' · '+esc(prof(id).sport):''}</small></span><i>Inviter</i></button>`).join(''):`<p class="pp-none">${q.value.trim()?'Aucun membre trouvé':'Commence à taper un pseudo'}</p>`};
  const base=[...following].filter(x=>!blocked.has(x)&&x!==me.id).slice(0,8);loadProfiles(base).then(()=>{if(!q.value.trim())paint(base)});
- q.addEventListener('input',()=>{clearTimeout(tm);tm=setTimeout(async()=>{const v=q.value.trim().replace(/^@/,'');if(!v){paint(base);return}const safe=v.replace(/[%,()*]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(15);(data||[]).forEach(x=>P[x.id]=x);if(q.value.trim().replace(/^@/,'')===v)paint((data||[]).map(x=>x.id).filter(x=>!blocked.has(x)))},250)});
+ q.addEventListener('input',()=>{clearTimeout(tm);tm=setTimeout(async()=>{const v=q.value.trim().replace(/^@/,'');if(!v){paint(base);return}const safe=v.replace(/[%,()*]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified,frame,banner_style,premium').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).neq('id',me.id).limit(15);(data||[]).forEach(x=>P[x.id]=x);if(q.value.trim().replace(/^@/,'')===v)paint((data||[]).map(x=>x.id).filter(x=>!blocked.has(x)))},250)});
  res.addEventListener('click',async e=>{const b=e.target.closest('[data-pp]');if(!b)return;b.disabled=true;b.querySelector('i').textContent='Envoi…';await partnerRequest(b.dataset.pp);layer.innerHTML=''});
  setTimeout(()=>q.focus(),250);
 }
@@ -5327,7 +5464,7 @@ async function boot(){
  await Promise.all([refreshHome(),loadConvs(),loadNotifs(),loadClips(),loadAdmins(),loadBlocks(),loadGroups(),loadAnnouncements(),loadNotifPrefs(),loadSaved()]);recountUnread();loadBans();
  subscribeRealtime();
  const qpost=new URLSearchParams(location.search).get('p');if(qpost){history.replaceState(null,'',BASE_URL);const {data:pp}=await sb.from('feed').select('*').eq('id',qpost).maybeSingle();if(pp){await loadProfiles([pp.user_id]);if(pp.kind==='clip'){clipsList=[pp,...clipsList.filter(x=>x.id!==pp.id)];view='clips';arg=pp.id}else{feed=[pp,...feed.filter(x=>x.id!==pp.id)];await loadComments(feed.map(x=>x.id));view='home';setTimeout(()=>document.querySelector(`.card[data-id="${pp.id}"]`)?.scrollIntoView({block:'start'}),80)}}else toast('Ce post n’existe plus')}
- const qu=new URLSearchParams(location.search).get('u');if(qu){history.replaceState(null,'',BASE_URL);const {data:tp}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified').eq('handle',qu.toLowerCase()).maybeSingle();if(tp){P[tp.id]=tp;view='profile';arg=tp.id}}
+ const qu=new URLSearchParams(location.search).get('u');if(qu){history.replaceState(null,'',BASE_URL);const {data:tp}=await sb.from('profiles').select('id,handle,name,sport,bio,city,avatar_url,banner_url,prs,verified,frame,banner_style,premium').eq('handle',qu.toLowerCase()).maybeSingle();if(tp){P[tp.id]=tp;view='profile';arg=tp.id}}
  cleanExpiredStories();
  if(!['home','clips','messages','profile','create'].includes(view))view='home';
  render();
