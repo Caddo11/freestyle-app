@@ -2934,6 +2934,18 @@ html[data-theme="dark"] .af4-bar i{background:#F1F1F1}
 .mini-menu button:nth-of-type(2){animation-delay:.03s}.mini-menu button:nth-of-type(3){animation-delay:.06s}.mini-menu button:nth-of-type(4){animation-delay:.09s}.mini-menu button:nth-of-type(5){animation-delay:.12s}.mini-menu button:nth-of-type(n+6){animation-delay:.15s}
 @keyframes mmIn{from{opacity:0;transform:translateY(-6px) scale(.9);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
 @keyframes mmItem{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+/* ================= v63 : engrenage des pings + interrupteurs verts ================= */
+.notif-sheet .pg-head .sh-gear{width:38px;height:38px;border-radius:12px;background:var(--paper);color:var(--ink)}
+html[data-theme="dark"] .notif-sheet .pg-head .sh-gear{background:#1E1E1E;color:#F1F1F1}
+.notif-sheet .pg-head .sh-gear svg{width:20px;height:20px;transition:transform .5s cubic-bezier(.2,1,.3,1)}
+.notif-sheet .pg-head .sh-gear:active{transform:scale(.92);background:var(--paper)}
+.notif-sheet .pg-head .sh-gear:active svg{transform:rotate(60deg)}
+.sw-ui,html[data-theme="dark"] .sw-ui{background:#D5D4CF}
+html[data-theme="dark"] .sw-ui{background:#3A3A38}
+.sw:checked+.sw-ui,html[data-theme="dark"] .sw:checked+.sw-ui{background:#22A55C}
+.sw:focus-visible+.sw-ui{outline-color:#22A55C}
+.pu-go,html[data-theme="dark"] .pu-go{background:#22A55C!important;color:#fff!important}
 </style>
 </head>
 <body>
@@ -3496,7 +3508,7 @@ function notifRow(n){return `<div class="conv notif ${n.read_at?'':'unread-n'}">
 async function openNotifs(){
  const used=new Set(),secs=[['Aujourd’hui',n=>Date.now()-new Date(n.created_at)<864e5],['Cette semaine',n=>Date.now()-new Date(n.created_at)<6048e5],['Plus tôt',()=>true]];
  const html=secs.map(([t,f])=>{const l=notifs.filter(n=>!used.has(n.id)&&f(n));l.forEach(n=>used.add(n.id));return l.length?`<div class="label">${t}</div>`+l.map(notifRow).join(''):''}).join('');
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet notif-sheet" role="dialog" aria-label="Pings"><div class="sheet-head pg-head"><span>Pings</span><button class="sh-gear" data-act="notif-prefs" aria-label="Réglages des pings">${I.gear}</button></div><div class="sheet-list gutter">${pushBannerHTML()}${notifs.length?html:'<div class="empty">Aucun ping pour l’instant.</div>'}</div></div></div>`;
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet notif-sheet" role="dialog" aria-label="Pings"><div class="sheet-head pg-head"><span>Pings</span><button class="sh-gear" data-act="notif-prefs" aria-label="Réglages des pings"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button></div><div class="sheet-list gutter">${pushBannerHTML()}${notifs.length?html:'<div class="empty">Aucun ping pour l’instant.</div>'}</div></div></div>`;
  const ids=notifs.filter(n=>!n.read_at).map(n=>n.id);if(ids.length){const now=new Date().toISOString();notifs.forEach(n=>{if(!n.read_at)n.read_at=now});unreadNotifs=0;paintBadge();document.querySelector('.bell-dot')?.remove();await sb.from('notifications').update({read_at:now}).in('id',ids)}
 }
 const PREF_ROWS=[['likes','J’aime','Posts, commentaires et flashs'],['comments','Commentaires','Commentaires et réponses à tes commentaires'],['follows','Nouveaux abonnés','Quand quelqu’un s’abonne à toi'],['messages','Messages','Messages privés reçus'],['announcements','Annonces Freestyle','Événements, rassemblements et infos publiés par Freestyle']];
