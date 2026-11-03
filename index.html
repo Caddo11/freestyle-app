@@ -2859,6 +2859,42 @@ html[data-theme="dark"] .pu-ic{background:#F1F1F1;color:#0F0F0F}
 .pu-go:disabled{opacity:.5}
 .pu-x{flex:0 0 auto;width:26px;height:26px;border:0;background:none;color:#8e8e8a;font-size:20px;line-height:1;cursor:pointer}
 .pu-row{border-bottom:1px solid var(--paper-line);padding-bottom:12px;margin-bottom:6px}
+
+/* ================= v57 : barre d'accueil « console » + en-tête des pings ================= */
+#top:has(.tb){padding-block:8px;min-height:62px}
+.tb{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-width:0}
+.tb-brand{display:flex;align-items:center;gap:9px;min-width:0;flex:1}
+.tb-logo{width:38px;height:38px;object-fit:contain;flex:0 0 auto;animation:tbIn .6s cubic-bezier(.2,1.2,.3,1) both}
+html[data-theme="dark"] .tb-logo{filter:invert(1)}
+.tb-id{display:flex;flex-direction:column;min-width:0;line-height:1}
+.tb-word{font-family:"Orbitron","Big Shoulders Display",sans-serif;font-weight:900;font-size:16px;letter-spacing:.14em;color:var(--ink);
+ background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 42%,#a9a9a4 50%,var(--ink) 58%,var(--ink) 100%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:tbShine 6s ease-in-out 1s infinite}
+html[data-theme="dark"] .tb-word{background-image:linear-gradient(100deg,#F1F1F1 0%,#F1F1F1 42%,#ffffff 47%,#7d7d7a 50%,#ffffff 53%,#F1F1F1 58%,#F1F1F1 100%)}
+.tb-cat{margin-top:5px;align-self:flex-start;display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px 0 7px;border:1px solid var(--paper-line);border-radius:7px;background:transparent;color:#7b7b77;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;max-width:100%;white-space:nowrap;transition:transform .16s cubic-bezier(.3,1.4,.5,1),border-color .2s,color .2s}
+html[data-theme="dark"] .tb-cat{border-color:#2a2a2a;color:#9a9a96}
+.tb-cat span{overflow:hidden;text-overflow:ellipsis}
+.tb-cat:active{transform:scale(.95)}
+.tb-live{width:6px;height:6px;border-radius:2px;background:#22A55C;flex:0 0 auto;box-shadow:0 0 0 0 rgba(34,165,92,.5);animation:tbLive 2.4s ease-out infinite}
+.tb-pad{display:flex;align-items:center;flex:0 0 auto;height:42px;padding:0 3px;border-radius:14px;background:var(--paper);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(0,0,0,.05)}
+html[data-theme="dark"] .tb-pad{background:#161616;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 -1px 0 rgba(0,0,0,.4)}
+.tb-b{position:relative;width:38px;height:36px;border:0;border-radius:11px;background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:transform .16s cubic-bezier(.3,1.4,.5,1),background-color .2s}
+.tb-b+.tb-b::before{content:"";position:absolute;left:0;top:11px;bottom:11px;width:1px;background:var(--paper-line)}
+html[data-theme="dark"] .tb-b+.tb-b::before{background:#262626}
+.tb-b svg{width:21px;height:21px}
+.tb-b:active{transform:scale(.88);background:rgba(0,0,0,.05)}
+html[data-theme="dark"] .tb-b:active{background:rgba(255,255,255,.06)}
+.tb-b .bell-dot{position:absolute;top:6px;right:7px;width:8px;height:8px;border-radius:3px;background:#ED4956;box-shadow:0 0 0 2px var(--paper)}
+html[data-theme="dark"] .tb-b .bell-dot{box-shadow:0 0 0 2px #161616}
+@keyframes tbShine{0%,70%{background-position:100% 0}100%{background-position:0 0}}
+@keyframes tbLive{0%{box-shadow:0 0 0 0 rgba(34,165,92,.5)}70%,100%{box-shadow:0 0 0 6px rgba(34,165,92,0)}}
+@keyframes tbIn{from{opacity:0;transform:scale(.7) rotate(-8deg)}to{opacity:1;transform:none}}
+@media (max-width:360px){.tb-logo{width:32px;height:32px}.tb-word{font-size:15px;letter-spacing:.12em}.tb-b{width:34px}.tb-b svg{width:19px;height:19px}}
+/* en-tête des pings : titre à gauche, engrenage tout à droite */
+.notif-sheet .pg-head{display:flex;align-items:center;justify-content:space-between;text-align:left;padding:16px 10px 8px 16px;font-size:18px;font-weight:800;letter-spacing:-.01em}
+.notif-sheet .pg-head span{line-height:1}
+.notif-sheet .pg-head .sh-gear{position:static;transform:none;margin:0;width:38px;height:38px;border:0;border-radius:11px;background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:transform .16s cubic-bezier(.3,1.4,.5,1),background-color .2s}
+.notif-sheet .pg-head .sh-gear svg{width:22px;height:22px;display:block}
+.notif-sheet .pg-head .sh-gear:active{transform:scale(.9) rotate(30deg);background:var(--paper)}
 </style>
 </head>
 <body>
@@ -3421,7 +3457,7 @@ function notifRow(n){return `<div class="conv notif ${n.read_at?'':'unread-n'}">
 async function openNotifs(){
  const used=new Set(),secs=[['Aujourd’hui',n=>Date.now()-new Date(n.created_at)<864e5],['Cette semaine',n=>Date.now()-new Date(n.created_at)<6048e5],['Plus tôt',()=>true]];
  const html=secs.map(([t,f])=>{const l=notifs.filter(n=>!used.has(n.id)&&f(n));l.forEach(n=>used.add(n.id));return l.length?`<div class="label">${t}</div>`+l.map(notifRow).join(''):''}).join('');
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet notif-sheet" role="dialog" aria-label="Pings"><div class="sheet-head">Pings<button class="sh-gear" data-act="notif-prefs" aria-label="Réglages des pings">${I.gear}</button></div><div class="sheet-list gutter">${pushBannerHTML()}${notifs.length?html:'<div class="empty">Aucun ping pour l’instant.</div>'}</div></div></div>`;
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet notif-sheet" role="dialog" aria-label="Pings"><div class="sheet-head pg-head"><span>Pings</span><button class="sh-gear" data-act="notif-prefs" aria-label="Réglages des pings">${I.gear}</button></div><div class="sheet-list gutter">${pushBannerHTML()}${notifs.length?html:'<div class="empty">Aucun ping pour l’instant.</div>'}</div></div></div>`;
  const ids=notifs.filter(n=>!n.read_at).map(n=>n.id);if(ids.length){const now=new Date().toISOString();notifs.forEach(n=>{if(!n.read_at)n.read_at=now});unreadNotifs=0;paintBadge();document.querySelector('.bell-dot')?.remove();await sb.from('notifications').update({read_at:now}).in('id',ids)}
 }
 const PREF_ROWS=[['likes','J’aime','Posts, commentaires et flashs'],['comments','Commentaires','Commentaires et réponses à tes commentaires'],['follows','Nouveaux abonnés','Quand quelqu’un s’abonne à toi'],['messages','Messages','Messages privés reçus'],['announcements','Annonces Freestyle','Événements, rassemblements et infos publiés par Freestyle']];
@@ -3466,7 +3502,14 @@ function subscribeRealtime(){
 
 // ================= FIL =================
 async function renderHome(){
- topEl.innerHTML=`<button class="icon-btn shout-btn" data-act="shout-new" aria-label="Écrire un shout" title="Shout">${SHOUT_IC}</button><button class="feed-pick" data-act="feed-pick" aria-haspopup="true"><span class="fp-l">Catégorie :</span><b class="fp-v">${esc(sportFilter||'Tous les posts')}</b><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button><span class="top-side r"><button class="icon-btn" data-act="plus-menu" aria-label="Créer">${I.plus}</button><button class="icon-btn" data-act="notifs" aria-label="Pings">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button><button class="icon-btn" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount||unreadInfo()?'<span class="bell-dot"></span>':''}</button></span>`;
+ topEl.innerHTML=`<div class="tb">
+  <div class="tb-brand"><img class="tb-logo" src="${LOGO}" alt="" aria-hidden="true"><span class="tb-id"><b class="tb-word" aria-label="Freestyle">FREESTYLE</b><button class="tb-cat" data-act="feed-pick" aria-haspopup="true" aria-label="Catégorie : ${esc(sportFilter||'Tous les posts')}"><i class="tb-live" aria-hidden="true"></i><span>${esc(sportFilter||'Tous les sports')}</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></span></div>
+  <div class="tb-pad" role="toolbar" aria-label="Actions">
+   <button class="tb-b" data-act="shout-new" aria-label="Écrire un shout">${SHOUT_IC}</button>
+   <button class="tb-b" data-act="plus-menu" aria-label="Créer">${I.plus}</button>
+   <button class="tb-b" data-act="notifs" aria-label="Pings">${I.bell}${unreadNotifs?'<span class="bell-dot"></span>':''}</button>
+   <button class="tb-b" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount||unreadInfo()?'<span class="bell-dot"></span>':''}</button>
+  </div></div>`;
  const order=Object.keys(storiesBy).filter(k=>k!==me.id).sort((a,b)=>(following.has(b)?1:0)-(following.has(a)?1:0));
  const mine=storiesBy[me.id]||[];
  const seenAll=uid=>(storiesBy[uid]||[]).every(s=>seenStories.has(s.id));
