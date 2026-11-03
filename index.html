@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793556510">
+<meta name="fs-build" content="1793715361">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -2993,6 +2993,25 @@ html[data-theme="dark"] .hb{box-shadow:0 4px 14px rgba(0,0,0,.45),inset 0 0 0 1p
 .hb-b svg,.hb .fs-ic{width:19px!important;height:19px!important}
 .hb .isl-new{top:6px;right:6px;width:6px;height:6px}
 @media (max-width:360px){#top.isl-float{padding-left:12px;padding-right:12px}.hb-b{width:32px}}
+
+/* ================= v67 : mot de passe oublié propre ================= */
+.pw-ic{display:grid;place-items:center;width:58px;height:58px;margin:8px auto 14px;border-radius:17px;background:var(--paper);color:var(--ink)}
+html[data-theme="dark"] .pw-ic{background:#1B1B1B;color:#F1F1F1}
+.pw-h{margin:0 0 8px;text-align:center;font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.pw-p{margin:0 0 18px;text-align:center;font-size:14px;line-height:1.5;color:#77776f}
+html[data-theme="dark"] .pw-p{color:#a3a29d}
+.pw-p b{color:var(--ink)}
+.pw-small{margin:-6px 0 18px;text-align:center;font-size:12.5px;color:#9a9a96}
+.pw-back{position:absolute;top:10px;left:4px;width:40px;height:40px;border:0;border-radius:12px;background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer}
+#fpf{position:relative;padding-top:44px}
+.pw-done{padding-top:44px}
+.pw-rules{list-style:none;margin:4px 2px 6px;padding:0;display:flex;flex-direction:column;gap:6px}
+.pw-rules li{position:relative;padding-left:22px;font-size:12.5px;color:#9a9a96;transition:color .2s}
+.pw-rules li::before{content:"";position:absolute;left:0;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:4px;border:1.5px solid #c9c9c4;transition:background-color .2s,border-color .2s}
+.pw-rules li.ok{color:#1E9A55}
+.pw-rules li.ok::before{background:#22A55C;border-color:#22A55C;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4L18.5 8'/%3E%3C/svg%3E");background-size:12px;background-position:center;background-repeat:no-repeat}
+html[data-theme="dark"] .pw-rules li.ok{color:#3DD47D}
+#nps:disabled{opacity:.4}
 </style>
 </head>
 <body>
@@ -3033,7 +3052,12 @@ const LOGO="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEBCAYAAADCT5idAA
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const BASE_URL=location.origin+location.pathname;
 try{const r0=new URLSearchParams(location.search).get('ref');if(r0&&/^[a-z0-9._-]{3,20}$/i.test(r0))localStorage.setItem('fs-ref',r0.toLowerCase())}catch(e){}
-setTimeout(()=>{try{swInit()}catch(e){}},0); // service worker dès l'ouverture : app installable + notifications
+setTimeout(()=>{try{swInit()}catch(e){}},0);
+try{const h=location.hash,q=new URLSearchParams(location.search);
+ if(/type=recovery/.test(h)||q.get('reset')==='1'||q.get('type')==='recovery')sessionStorage.setItem('fs-recovery','1');
+ if(/error_code=otp_expired|error=access_denied/.test(h)||q.get('error_code')==='otp_expired'){sessionStorage.setItem('fs-reset-expired','1');sessionStorage.removeItem('fs-recovery')}
+}catch(e){}
+const recoveryPending=()=>{try{return sessionStorage.getItem('fs-recovery')==='1'}catch(e){return false}}; // service worker dès l'ouverture : app installable + notifications
 
 // ================= CONSTANTES =================
 const SPORTS={'Calisthenics':['#5a5a5a','#121212'],'Musculation':['#6e6e6e','#161616'],'Powerlifting':['#4a4a4a','#0F0F0F'],'Strongman':['#626262','#141414'],'Hyrox':['#585858','#111111'],'Sport de combat':['#7a7a7a','#1a1a1a'],'Running':['#555555','#101010'],'Autre':['#5f5f5f','#111111'],'Vélo':['#5c5c5c','#121212'],'Running & vélo':['#555555','#101010']};
@@ -3289,11 +3313,11 @@ function render(){
  const map={home:'home',clips:'clips',create:'',messages:'home',chat:'home',gchat:'home',profile:'profile',editprofile:'profile',insights:'profile',settings:'profile',search:'search'};
  document.querySelectorAll('nav.tabs button').forEach(b=>{b.removeAttribute('aria-current');if(map[view]===b.dataset.nav&&!(view==='profile'&&arg&&arg!==me?.id))b.setAttribute('aria-current','page')});
  paintBadge();$('tabs').classList.remove('mini');lastSY=0;requestAnimationFrame(moveInd);
- const bare=['banned','chat','gchat','onboard','auth','checkmail','newpw'].includes(view);
+ const bare=['banned','chat','gchat','onboard','auth','checkmail','newpw','forgot'].includes(view);
  $('tabs').hidden=bare;main.classList.toggle('no-nav',bare);
  main.classList.toggle('clips-mode',view==='clips');topEl.classList.toggle('isl-float',view==='home');main.classList.toggle('isl-mode',view==='home');
- topEl.hidden=['banned','onboard','auth','checkmail','newpw','clips'].includes(view);
- ({home:renderHome,clips:renderClips,create:renderCreate,messages:()=>renderMessages(''),chat:renderChat,gchat:renderGChat,profile:renderProfile,editprofile:renderEditProfile,insights:renderInsights,settings:renderSettings,search:()=>renderSearch(''),onboard:renderOnboard,banned:renderBanned,auth:renderAuth,checkmail:renderCheckMail,newpw:renderNewPw})[view]();
+ topEl.hidden=['banned','onboard','auth','checkmail','newpw','forgot','clips'].includes(view);
+ ({home:renderHome,clips:renderClips,create:renderCreate,messages:()=>renderMessages(''),chat:renderChat,gchat:renderGChat,profile:renderProfile,editprofile:renderEditProfile,insights:renderInsights,settings:renderSettings,search:()=>renderSearch(''),onboard:renderOnboard,banned:renderBanned,auth:renderAuth,checkmail:renderCheckMail,newpw:renderNewPw,forgot:renderForgot})[view]();
 }
 function moveInd(){const ind=document.querySelector('nav.tabs .nav-ind');if(!ind)return;const a=document.querySelector('nav.tabs button[aria-current="page"]');if(!a){ind.style.opacity='0';return}ind.style.opacity='1';ind.style.background=getComputedStyle(a).getPropertyValue('--acc-bg')||'';ind.style.width=a.offsetWidth+'px';ind.style.transform=`translateX(${a.offsetLeft}px)`}
 window.addEventListener('resize',()=>moveInd());
@@ -3356,9 +3380,63 @@ function renderCheckMail(){
   <button class="cm-link" data-act="resend">Renvoyer l’e-mail</button>
  </div></div>`;
 }
+let forgotState={};
+function renderForgot(){
+ topEl.innerHTML='';const st=forgotState||{};
+ main.innerHTML=st.sent?`<div class="auth gutter pw-done">
+  <span class="pw-ic">${PW_MAIL}</span>
+  <h2 class="pw-h">Vérifie tes e-mails</h2>
+  <p class="pw-p">Si un compte existe pour <b>${esc(st.email)}</b>, tu viens de recevoir un lien pour choisir un nouveau mot de passe.</p>
+  <p class="pw-small">Pense à regarder dans les spams. Le lien fonctionne pendant 1 heure.</p>
+  <button class="auth-btn" type="button" data-act="pw-back">Retour à la connexion</button>
+  <button type="button" class="auth-link" data-act="pw-resend">Je n’ai rien reçu, renvoyer</button>
+ </div>`:`<form class="auth gutter" id="fpf" novalidate>
+  <button type="button" class="pw-back" data-act="pw-back" aria-label="Retour">${I.back}</button>
+  <span class="pw-ic">${PW_LOCK}</span>
+  <h2 class="pw-h">Mot de passe oublié</h2>
+  <p class="pw-p">${st.expired?'Ce lien a expiré ou a déjà servi. Indique ton adresse e-mail pour en recevoir un nouveau.':'Indique l’adresse e-mail de ton compte : on t’envoie un lien pour choisir un nouveau mot de passe.'}</p>
+  <input class="ain" id="fpe" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="Adresse e-mail" value="${esc(st.email||'')}" aria-label="Adresse e-mail">
+  <p class="err" id="fperr">${esc(st.err||'')}</p>
+  <button class="auth-btn" type="submit" id="fps">Envoyer le lien</button>
+ </form>`;
+ const f=$('fpf');if(!f)return;setTimeout(()=>$('fpe')&&$('fpe').focus(),200);
+ f.addEventListener('submit',async e=>{e.preventDefault();const em=$('fpe').value.trim().toLowerCase();
+  if(!EMAIL_RE.test(em)){$('fperr').textContent='Écris une adresse e-mail valide';return}
+  const b=$('fps');b.disabled=true;b.textContent='Envoi…';
+  const r=await sendReset(em);
+  if(r){forgotState={email:em,err:r};renderForgot();return}
+  forgotState={email:em,sent:true};renderForgot()});
+}
+async function sendReset(em){
+ const {error}=await sb.auth.resetPasswordForEmail(em,{redirectTo:BASE_URL+'?reset=1'});
+ if(!error)return null;const m=error.message||'';
+ return /rate limit|seconds|security purposes/i.test(m)?'Trop de demandes en peu de temps : réessaie dans quelques minutes.':'Envoi impossible pour le moment, réessaie plus tard.';
+}
+const PW_LOCK='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="3"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2"/></svg>';
+const PW_MAIL='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="3"/><path d="m4 7.5 8 6 8-6"/></svg>';
 function renderNewPw(){
- main.innerHTML=`<form class="onb gutter" id="npf"><img class="onb-logo" src="${LOGO}" alt="Freestyle"><h2>Nouveau mot de passe</h2><label class="field"><span>Nouveau mot de passe</span><input id="np1" type="password" autocomplete="new-password" placeholder="8 caractères minimum"></label><label class="field"><span>Confirme</span><input id="np2" type="password" autocomplete="new-password"></label><p class="err" id="nperr"></p><button class="publish" type="submit"><span class="ps-x">✕</span><span class="ps-t"><b>ENREGISTRER</b><small>Ton mot de passe est changé</small></span><span class="ps-arrow">▶</span></button></form>`;
- $('npf').addEventListener('submit',async e=>{e.preventDefault();const a=$('np1').value,b=$('np2').value;if(a.length<8)return $('nperr').textContent='8 caractères minimum';if(a!==b)return $('nperr').textContent='Les deux mots de passe sont différents';const {error}=await sb.auth.updateUser({password:a});if(error){const m=error.message||'';return $('nperr').textContent=/different from the old/i.test(m)?'Choisis un mot de passe différent de l’ancien':/weak|at least/i.test(m)?'Mot de passe trop faible : mélange lettres et chiffres':/session|expired|missing/i.test(m)?'Le lien a expiré : redemande un e-mail « Mot de passe oublié ? »':'Impossible de changer le mot de passe, réessaie'}toast('Mot de passe changé');boot()});
+ topEl.innerHTML='';const em=session&&session.user&&session.user.email||'';
+ main.innerHTML=`<form class="auth gutter" id="npf" novalidate>
+  <span class="pw-ic">${PW_LOCK}</span>
+  <h2 class="pw-h">Nouveau mot de passe</h2>
+  <p class="pw-p">${em?`Pour le compte <b>${esc(em)}</b>.`:'Choisis ton nouveau mot de passe.'}</p>
+  <div class="ain-wrap"><input class="ain" id="np1" type="password" autocomplete="new-password" placeholder="Nouveau mot de passe" aria-label="Nouveau mot de passe"><button type="button" class="ain-eye" data-act="np-toggle" aria-label="Afficher le mot de passe">${I.eye}</button></div>
+  <input class="ain" id="np2" type="password" autocomplete="new-password" placeholder="Confirme le mot de passe" aria-label="Confirme le mot de passe">
+  <ul class="pw-rules"><li id="pr-len">8 caractères minimum</li><li id="pr-mix">Des lettres et au moins un chiffre</li><li id="pr-eq">Les deux mots de passe sont identiques</li></ul>
+  <p class="err" id="nperr"></p>
+  <button class="auth-btn" type="submit" id="nps" disabled>Enregistrer</button>
+  <button type="button" class="auth-link" data-act="np-cancel">Annuler</button>
+ </form>`;
+ const a1=$('np1'),a2=$('np2'),btn=$('nps');setTimeout(()=>a1.focus(),200);
+ const chk=()=>{const a=a1.value,b=a2.value,len=a.length>=8,mix=/[a-z]/i.test(a)&&/\d/.test(a),eq=!!a&&a===b;
+  $('pr-len').classList.toggle('ok',len);$('pr-mix').classList.toggle('ok',mix);$('pr-eq').classList.toggle('ok',eq);btn.disabled=!(len&&mix&&eq);return len&&mix&&eq};
+ a1.addEventListener('input',chk);a2.addEventListener('input',chk);
+ $('npf').addEventListener('submit',async e=>{e.preventDefault();if(!chk())return;btn.disabled=true;btn.textContent='Enregistrement…';
+  const {error}=await sb.auth.updateUser({password:a1.value});
+  if(error){const m=error.message||'';btn.disabled=false;btn.textContent='Enregistrer';
+   $('nperr').textContent=/different from the old/i.test(m)?'Choisis un mot de passe différent de l’ancien':/weak|at least|characters/i.test(m)?'Mot de passe trop faible : mélange lettres et chiffres':/session|expired|missing|jwt/i.test(m)?'Le lien a expiré : redemande un e-mail « Mot de passe oublié ? »':'Impossible de changer le mot de passe, réessaie';return}
+  try{sessionStorage.removeItem('fs-recovery')}catch(e){}
+  toast('Mot de passe changé, tu es connecté');boot()});
 }
 
 // ================= CRÉATION DU PROFIL =================
@@ -4541,7 +4619,12 @@ document.addEventListener('click',async e=>{
  switch(act){
   case 'auth-mode':authMode=a.dataset.m;authErr='';renderAuth();break;
   case 'pw-toggle':{const i=$('apw');i.type=i.type==='password'?'text':'password';i.focus();break}
-  case 'forgot':{const em=$('aem').value.trim().toLowerCase();if(!EMAIL_RE.test(em)){authErr='Écris ton adresse e-mail dans le premier champ, puis touche « Mot de passe oublié ? »';renderAuth({e:em});break}
+  case 'forgot':{const v=($('aem')&&$('aem').value.trim().toLowerCase())||'';forgotState={email:EMAIL_RE.test(v)?v:''};view='forgot';render();break}
+  case 'pw-back':forgotState={};authMode='login';authErr='';view='auth';render();break;
+  case 'pw-resend':{const em=(forgotState||{}).email;if(!em)break;a.disabled=true;const r=await sendReset(em);toast(r||'Nouveau lien envoyé');a.disabled=false;break}
+  case 'np-toggle':{const i=$('np1'),j=$('np2');const t=i.type==='password'?'text':'password';i.type=t;if(j)j.type=t;break}
+  case 'np-cancel':{try{sessionStorage.removeItem('fs-recovery')}catch(e){}await sb.auth.signOut();break}
+  case 'forgot-old':{const em=$('aem').value.trim().toLowerCase();if(!EMAIL_RE.test(em)){authErr='Écris ton adresse e-mail dans le premier champ, puis touche « Mot de passe oublié ? »';renderAuth({e:em});break}
    const {error}=await sb.auth.resetPasswordForEmail(em,{redirectTo:BASE_URL});authErr='';authInfo=error?(/rate limit|seconds|security purposes/i.test(error.message||'')?'Trop de demandes en peu de temps : réessaie dans quelques minutes.':'Envoi impossible pour le moment, réessaie plus tard.'):'Si un compte existe pour '+em+', un lien pour changer ton mot de passe a été envoyé.';renderAuth({e:em});break}
   case 'google':{const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:BASE_URL}});if(error)warnBox('Google pas encore activé','La connexion avec Google sera disponible très bientôt. En attendant, crée ton compte avec ton e-mail.',false);break}
   case 'resend':{const {error}=await sb.auth.resend({type:'signup',email:pendingEmail,options:{emailRedirectTo:BASE_URL}});toast(error?'Patiente quelques minutes avant de renvoyer':'E-mail renvoyé');break}
@@ -5119,7 +5202,9 @@ async function refreshHome(){await Promise.all([loadFollowing(),loadBlocks()]);a
 let booted=false;
 async function boot(){
  const {data:{session:s}}=await sb.auth.getSession();session=s;
- if(!session){me=null;view='auth';render();return}
+ let expired=false;try{expired=sessionStorage.getItem('fs-reset-expired')==='1';if(expired)sessionStorage.removeItem('fs-reset-expired')}catch(e){}
+ if(session&&recoveryPending()){history.replaceState(null,'',BASE_URL);me=null;view='newpw';render();return}
+ if(!session){me=null;if(expired){authMode='login';authErr='';authInfo='';view='forgot';forgotState={expired:true};render();return}view='auth';render();return}
  if(await checkMyBan())return;
  const {data:p,error}=await sb.from('profiles').select('*').eq('id',session.user.id).maybeSingle();
  if(error){console.error(error);toast('Connexion au serveur impossible');}
@@ -5139,7 +5224,8 @@ async function boot(){
  if(wel){try{localStorage.removeItem('fs-welcome')}catch(e){}setTimeout(openWelcome,500)}
 }
 sb.auth.onAuthStateChange((evt,s)=>{
- if(evt==='PASSWORD_RECOVERY'){session=s;view='newpw';render();return}
+ if(evt==='PASSWORD_RECOVERY'){try{sessionStorage.setItem('fs-recovery','1')}catch(e){}session=s;history.replaceState(null,'',BASE_URL);me=null;view='newpw';render();return}
+ if(evt==='SIGNED_IN'&&recoveryPending()){session=s;if(view!=='newpw'){me=null;view='newpw';render()}return}
  if(evt==='SIGNED_IN'&&(!session||session.user.id!==s.user.id)){session=s;boot();return}
  if(evt==='SIGNED_OUT'){session=null;me=null;if(rtChannel)sb.removeChannel(rtChannel);layer.innerHTML='';authMode='login';view='auth';render();toast('Tu es déconnecté')}
 });
