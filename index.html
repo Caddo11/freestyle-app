@@ -2890,6 +2890,22 @@ html[data-theme="dark"] .isl-new{box-shadow:0 0 0 2px #1B1B1B}
 .notif-sheet .pg-head .sh-gear{position:static;transform:none;margin:0;width:38px;height:38px;border:0;border-radius:11px;background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:transform .16s cubic-bezier(.3,1.4,.5,1),background-color .2s}
 .notif-sheet .pg-head .sh-gear svg{width:22px;height:22px;display:block}
 .notif-sheet .pg-head .sh-gear:active{transform:scale(.9) rotate(30deg);background:var(--paper)}
+
+/* ================= v60 : menus centrés ================= */
+.mini-menu{min-width:220px;max-width:calc(100vw - 32px)}
+.mini-menu .mm-head{text-align:center}
+@keyframes menuIn{from{opacity:0;transform:translateY(-4px) scale(.96)}to{opacity:1;transform:none}}
+
+/* ================= v61 : îlot flottant au-dessus des posts, effet verre ================= */
+#top.isl-float{position:absolute;top:0;left:0;right:0;z-index:40;background:transparent!important;border:0!important;box-shadow:none!important;pointer-events:none}
+#top.isl-float .isl{pointer-events:auto}
+main.isl-mode{padding-top:66px}
+.isl{transition:background-color .35s ease,box-shadow .35s ease,transform .35s cubic-bezier(.2,1,.3,1),height .3s cubic-bezier(.2,1,.3,1)}
+.isl.glass{background:rgba(15,15,15,.62);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);box-shadow:0 10px 30px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.10)}
+html[data-theme="dark"] .isl.glass{background:rgba(30,30,30,.55);box-shadow:0 10px 30px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,.08)}
+.isl.glass .isl-cat{background:rgba(255,255,255,.12)}
+.isl.slim{transform:scale(.9)}
+@media (prefers-reduced-transparency:reduce){.isl.glass{background:#0F0F0F;-webkit-backdrop-filter:none;backdrop-filter:none}}
 </style>
 </head>
 <body>
@@ -3188,7 +3204,7 @@ function render(){
  paintBadge();$('tabs').classList.remove('mini');lastSY=0;requestAnimationFrame(moveInd);
  const bare=['banned','chat','gchat','onboard','auth','checkmail','newpw'].includes(view);
  $('tabs').hidden=bare;main.classList.toggle('no-nav',bare);
- main.classList.toggle('clips-mode',view==='clips');
+ main.classList.toggle('clips-mode',view==='clips');topEl.classList.toggle('isl-float',view==='home');main.classList.toggle('isl-mode',view==='home');
  topEl.hidden=['banned','onboard','auth','checkmail','newpw','clips'].includes(view);
  ({home:renderHome,clips:renderClips,create:renderCreate,messages:()=>renderMessages(''),chat:renderChat,gchat:renderGChat,profile:renderProfile,editprofile:renderEditProfile,insights:renderInsights,settings:renderSettings,search:()=>renderSearch(''),onboard:renderOnboard,banned:renderBanned,auth:renderAuth,checkmail:renderCheckMail,newpw:renderNewPw})[view]();
 }
@@ -3500,7 +3516,7 @@ async function renderHome(){
  topEl.innerHTML=`<div class="isl-wrap"><div class="isl" role="toolbar" aria-label="Fil">
   <button class="isl-b" data-act="shout-new" aria-label="Écrire un shout">${SHOUT_IC}</button>
   <button class="isl-b" data-act="plus-menu" aria-label="Créer">${I.plus}</button>
-  <button class="isl-cat" data-act="feed-pick" aria-haspopup="true" aria-label="Catégorie : ${esc(sportFilter||'Tous les sports')}"><i class="isl-sq" aria-hidden="true"></i><span>${esc(sportFilter||'Tous')}</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <button class="isl-cat" data-act="feed-pick" aria-haspopup="true" aria-label="Catégorie : ${esc(sportFilter||'Tous les sports')}"><span>${esc(sportFilter||'Tous')}</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
   <button class="isl-b" data-act="notifs" aria-label="Pings">${I.bell}${unreadNotifs?'<i class="isl-new"></i>':''}</button>
   <button class="isl-b" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount||unreadInfo()?'<i class="isl-new"></i>':''}</button>
  </div></div>`;
@@ -3662,7 +3678,7 @@ function miniMenu(btn,items,align,style){
  const m=document.createElement('div');m.className='mini-menu'+(style?' '+style:'');m.id='mini-menu';
  m.innerHTML=items.map((it,i)=>it.head?`<div class="mm-head">${esc(it.label)}</div>`:`<button type="button" data-i="${i}" class="${it.danger?'danger':''} ${it.active?'active':''}">${esc(it.label)}</button>`).join('');
  document.body.appendChild(m);
- const w=m.offsetWidth,h=m.offsetHeight;m.style.top=(r.bottom+6+h>innerHeight-8?Math.max(8,r.top-h-8):r.bottom+6)+'px';m.style.left=Math.max(8,Math.min(innerWidth-w-8,align==='corner'?(document.querySelector('.app')?.getBoundingClientRect().left||0)+12:align==='left'?r.left:align==='center'?r.left+r.width/2-w/2:r.right-w))+'px';if(align==='corner')m.style.transformOrigin='top left';if(items.length>6){m.style.maxHeight='60vh';m.style.overflowY='auto'}
+ const w=m.offsetWidth,h=m.offsetHeight;m.style.top=(r.bottom+6+h>innerHeight-8?Math.max(8,r.top-h-8):r.bottom+6)+'px';{const ap=document.querySelector('.app')?.getBoundingClientRect();const cx=ap&&ap.width?ap.left+ap.width/2:innerWidth/2;m.style.left=Math.round(Math.max(8,Math.min(innerWidth-w-8,cx-w/2)))+'px';m.style.transformOrigin=(r.bottom+6+h>innerHeight-8?'bottom':'top')+' center'}if(items.length>6){m.style.maxHeight='60vh';m.style.overflowY='auto'}
  m.addEventListener('click',e=>{const b=e.target.closest('button');if(!b){e.stopPropagation();return}e.stopPropagation();const it=items[+b.dataset.i];closeMini();it.run()});
  setTimeout(()=>{miniCloser=ev=>{if(!ev.target.closest('#mini-menu'))closeMini()};document.addEventListener('click',miniCloser)},0);
 }
@@ -4427,7 +4443,7 @@ async function deletePost(id){const post=findPost(id);const {data:gone,error}=aw
 async function deleteStory(id){clearTimeout(svT);const sto=Object.values(storiesBy).flat().find(x=>x.id===id);const {error}=await sb.from('stories').delete().eq('id',id);if(error)return dbError(error,'Suppression impossible');if(sto&&sto.media)removeFiles([sto.media.url]);toast('Flash supprimé');await loadStories();closeStory()}
 async function pickSport(sp){sportFilter=sp;main.innerHTML=loadingHTML();await loadFeed();if(view==='home')renderHome();main.scrollTop=0}
 let lastSY=0;
-document.addEventListener('scroll',e=>{const t=e.target;if(!(t===main||t.id==='clips'))return;const y=t.scrollTop,nt=$('tabs');if(y>lastSY+4&&y>60)nt.classList.add('mini');else if(y<lastSY-4||y<60)nt.classList.remove('mini');lastSY=y},true);
+document.addEventListener('scroll',e=>{const t=e.target;if(!(t===main||t.id==='clips'))return;const y=t.scrollTop,nt=$('tabs');if(y>lastSY+4&&y>60)nt.classList.add('mini');else if(y<lastSY-4||y<60)nt.classList.remove('mini');if(t===main){const il=topEl.querySelector('.isl');if(il){il.classList.toggle('glass',y>6);il.classList.toggle('slim',y>lastSY+2&&y>120?true:y<lastSY-2?false:il.classList.contains('slim'))}}lastSY=y},true);
 // ================= ÉVÉNEMENTS =================
 document.addEventListener('click',async e=>{
  const n=e.target.closest('[data-nav]');
