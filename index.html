@@ -2906,6 +2906,34 @@ html[data-theme="dark"] .isl.glass{background:rgba(30,30,30,.55);box-shadow:0 10
 .isl.glass .isl-cat{background:rgba(255,255,255,.12)}
 .isl.slim{transform:scale(.9)}
 @media (prefers-reduced-transparency:reduce){.isl.glass{background:#0F0F0F;-webkit-backdrop-filter:none;backdrop-filter:none}}
+
+/* ================= v62 : affinité expliquée simplement ================= */
+.af4{width:100%;margin-top:16px;border-top:1px solid var(--paper-line)}
+.af4-r{padding:14px 2px;border-bottom:1px solid var(--paper-line)}
+.af4-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
+.af4-h b{font-size:14.5px;font-weight:800;color:var(--ink)}
+.af4-h em{font-style:normal;font-size:14px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.af4-h em small{font-size:12px;font-weight:600;color:#a3a29d}
+.af4-bar{display:block;height:5px;border-radius:3px;background:var(--paper);overflow:hidden}
+html[data-theme="dark"] .af4-bar{background:#1E1E1E}
+.af4-bar i{display:block;height:100%;border-radius:3px;background:var(--ink);transition:width .8s cubic-bezier(.22,.9,.25,1)}
+html[data-theme="dark"] .af4-bar i{background:#F1F1F1}
+.af4-s{display:block;margin-top:7px;font-size:12px;font-weight:700;color:#8e8e8a}
+.af4-r p{margin:6px 0 0;font-size:13px;line-height:1.5;color:var(--ink);opacity:.75}
+.af4-end{margin:14px 2px 2px;font-size:12.5px;line-height:1.5;color:#8e8e8a;text-align:center}
+/* menus : texte centré, ouverture plus douce */
+.mini-menu,.mini-menu.light{min-width:230px;padding:6px;border-radius:18px;transform-origin:top center}
+.mini-menu button,.mini-menu.light button{justify-content:center!important;text-align:center!important;padding:12px 16px;font-size:14.5px;font-weight:600;border-radius:12px}
+.mini-menu button+button{position:relative}
+.mini-menu button+button::before{content:"";position:absolute;top:0;left:18%;right:18%;height:1px;background:var(--paper-line);opacity:.8}
+.mini-menu button:hover+button::before,.mini-menu button:hover::before{opacity:0}
+.mini-menu.light button.active{font-weight:800;color:var(--ink)}
+.mini-menu .mm-head{padding:8px 12px 6px;font-size:10.5px;letter-spacing:.12em}
+.mini-menu{animation:mmIn .34s cubic-bezier(.2,1.25,.3,1) both!important}
+.mini-menu button{animation:mmItem .32s cubic-bezier(.2,1,.3,1) both}
+.mini-menu button:nth-of-type(2){animation-delay:.03s}.mini-menu button:nth-of-type(3){animation-delay:.06s}.mini-menu button:nth-of-type(4){animation-delay:.09s}.mini-menu button:nth-of-type(5){animation-delay:.12s}.mini-menu button:nth-of-type(n+6){animation-delay:.15s}
+@keyframes mmIn{from{opacity:0;transform:translateY(-6px) scale(.9);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+@keyframes mmItem{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -4944,15 +4972,14 @@ function openAffinity(a,b){
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet pp-sheet af3" role="dialog" aria-label="Affinité"><div class="stw-top"><b>Affinité</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
   <div class="af3-ring ${affClass(sc)}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="tr"/><circle cx="60" cy="60" r="52" class="fg" style="stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${C.toFixed(1)};--off:${off.toFixed(1)}"/></svg><div><b>${sc}<i>%</i></b><span>${affTier(sc)}</span></div></div>
   <p class="af3-st ${st[0]}"><i></i>${st[1]}</p>
-  <div class="af3-nums">
-   <div><b>${streak}</b><span>étoiles</span></div>
-   <div><b>${days}</b><span>jours sur 30</span></div>
-   ${po?`<div class="${po.total?'':'off'}"><b>${po.total?po.ok+'<small>/'+po.total+'</small>':'–'}</b><span>posts soutenus</span></div>`:`<div class="${r.support_counted===false?'off':''}"><b>${r.support_counted===false?'–':sup}</b><span>soutien</span></div>`}
-  </div>
-  <div class="af3-how">
-   <div><em class="up">Monte</em><p>Écrivez-vous tous les deux le même jour : chaque jour d’affilée ajoute une étoile. Likez ou commentez chaque post et flash de l’autre.</p></div>
-   <div><em class="down">Baisse</em><p>Un jour sans échange remet les étoiles à zéro. Un post ou flash de l’autre laissé 48 h sans like ni commentaire fait baisser. Tout ne compte que 30 jours.</p></div>
-  </div>
+  ${(()=>{const pt=r.parts||{},pc=(v,m)=>Math.max(0,Math.min(100,Math.round((v||0)/m*100)));
+   const rows=[
+    ['Se parler',pt.regularity!=null?pt.regularity:Math.min(50,days*2),50,`${days} jour${days>1?'s':''} d’échange sur les 30 derniers`,'Chaque jour où vous vous écrivez tous les deux rapporte 2 points. Seuls les 30 derniers jours comptent : si vous arrêtez, les anciens jours sortent un par un.'],
+    ['Les étoiles',pt.streak!=null?pt.streak:Math.min(30,streak*2),30,`${streak} jour${streak>1?'s':''} d’affilée`,'Chaque jour d’échange à la suite ajoute une étoile. Un seul jour sans message et la série repart de zéro.'],
+    po&&!po.total?null:['Se soutenir',pt.posts!=null?pt.posts:0,20,po?`${po.ok} post${po.ok>1?'s':''} soutenu${po.ok>1?'s':''} sur ${po.total}`:'',
+     'Like ou commente les posts et les flashs de ton duo. Un post laissé 48 h sans réaction fait baisser cette partie.']].filter(Boolean);
+   return `<div class="af4">${rows.map(([t,v,m,stat,txt])=>`<div class="af4-r"><div class="af4-h"><b>${t}</b><em>${Math.round(v)}<small> / ${m}</small></em></div><span class="af4-bar"><i style="width:${pc(v,m)}%"></i></span>${stat?`<small class="af4-s">${stat}</small>`:''}<p>${txt}</p></div>`).join('')}
+    <p class="af4-end">${po&&!po.total?'Aucun de vous deux n’a encore posté : la partie « Se soutenir » n’est pas comptée et le score est calculé sur le reste.':'Pour atteindre 100 % : écrivez-vous presque tous les jours et réagissez à chaque post de l’autre.'}</p></div>`})()}
  </div></div></div>`;
  requestAnimationFrame(()=>requestAnimationFrame(()=>{const f=layer.querySelector('.af3-ring .fg');if(f)f.style.strokeDashoffset=off.toFixed(1)}));
 }
