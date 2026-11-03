@@ -2946,6 +2946,19 @@ html[data-theme="dark"] .sw-ui{background:#3A3A38}
 .sw:checked+.sw-ui,html[data-theme="dark"] .sw:checked+.sw-ui{background:#22A55C}
 .sw:focus-visible+.sw-ui{outline-color:#22A55C}
 .pu-go,html[data-theme="dark"] .pu-go{background:#22A55C!important;color:#fff!important}
+
+/* ================= v64 : deux îlots, gauche et droite (laisse la place à l'encoche) ================= */
+.isl-wrap.duo{justify-content:space-between;gap:10px}
+.isl-wrap.duo .isl{height:46px;padding:0 5px;border-radius:23px}
+.isl-wrap.duo .isl-l{padding-left:5px;animation:islInL .55s cubic-bezier(.2,1.25,.3,1) both}
+.isl-wrap.duo .isl-r{animation:islInR .55s cubic-bezier(.2,1.25,.3,1) both}
+.isl-wrap.duo .isl-cat{margin:0 2px 0 0;height:36px;max-width:140px}
+.isl-wrap.duo .isl-b{width:38px;height:38px}
+.isl-wrap.duo .isl-l.slim{transform-origin:left center}
+.isl-wrap.duo .isl-r.slim{transform-origin:right center}
+@keyframes islInL{from{opacity:0;transform:translateX(-14px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes islInR{from{opacity:0;transform:translateX(14px) scale(.9)}to{opacity:1;transform:none}}
+@media (max-width:360px){.isl-wrap.duo .isl-cat{max-width:104px}.isl-wrap.duo .isl-b{width:34px}}
 </style>
 </head>
 <body>
@@ -3553,13 +3566,16 @@ function subscribeRealtime(){
 
 // ================= FIL =================
 async function renderHome(){
- topEl.innerHTML=`<div class="isl-wrap"><div class="isl" role="toolbar" aria-label="Fil">
-  <button class="isl-b" data-act="shout-new" aria-label="Écrire un shout">${SHOUT_IC}</button>
-  <button class="isl-b" data-act="plus-menu" aria-label="Créer">${I.plus}</button>
-  <button class="isl-cat" data-act="feed-pick" aria-haspopup="true" aria-label="Catégorie : ${esc(sportFilter||'Tous les sports')}"><span>${esc(sportFilter||'Tous')}</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-  <button class="isl-b" data-act="notifs" aria-label="Pings">${I.bell}${unreadNotifs?'<i class="isl-new"></i>':''}</button>
-  <button class="isl-b" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount||unreadInfo()?'<i class="isl-new"></i>':''}</button>
- </div></div>`;
+ topEl.innerHTML=`<div class="isl-wrap duo">
+  <div class="isl isl-l" role="toolbar" aria-label="Fil">
+   <button class="isl-cat" data-act="feed-pick" aria-haspopup="true" aria-label="Catégorie : ${esc(sportFilter||'Tous les sports')}"><span>${esc(sportFilter||'Tous')}</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+   <button class="isl-b" data-act="shout-new" aria-label="Écrire un shout">${SHOUT_IC}</button>
+  </div>
+  <div class="isl isl-r" role="toolbar" aria-label="Actions">
+   <button class="isl-b" data-act="plus-menu" aria-label="Créer">${I.plus}</button>
+   <button class="isl-b" data-act="notifs" aria-label="Pings">${I.bell}${unreadNotifs?'<i class="isl-new"></i>':''}</button>
+   <button class="isl-b" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount||unreadInfo()?'<i class="isl-new"></i>':''}</button>
+  </div></div>`;
  const order=Object.keys(storiesBy).filter(k=>k!==me.id).sort((a,b)=>(following.has(b)?1:0)-(following.has(a)?1:0));
  const mine=storiesBy[me.id]||[];
  const seenAll=uid=>(storiesBy[uid]||[]).every(s=>seenStories.has(s.id));
@@ -4483,7 +4499,7 @@ async function deletePost(id){const post=findPost(id);const {data:gone,error}=aw
 async function deleteStory(id){clearTimeout(svT);const sto=Object.values(storiesBy).flat().find(x=>x.id===id);const {error}=await sb.from('stories').delete().eq('id',id);if(error)return dbError(error,'Suppression impossible');if(sto&&sto.media)removeFiles([sto.media.url]);toast('Flash supprimé');await loadStories();closeStory()}
 async function pickSport(sp){sportFilter=sp;main.innerHTML=loadingHTML();await loadFeed();if(view==='home')renderHome();main.scrollTop=0}
 let lastSY=0;
-document.addEventListener('scroll',e=>{const t=e.target;if(!(t===main||t.id==='clips'))return;const y=t.scrollTop,nt=$('tabs');if(y>lastSY+4&&y>60)nt.classList.add('mini');else if(y<lastSY-4||y<60)nt.classList.remove('mini');if(t===main){const il=topEl.querySelector('.isl');if(il){il.classList.toggle('glass',y>6);il.classList.toggle('slim',y>lastSY+2&&y>120?true:y<lastSY-2?false:il.classList.contains('slim'))}}lastSY=y},true);
+document.addEventListener('scroll',e=>{const t=e.target;if(!(t===main||t.id==='clips'))return;const y=t.scrollTop,nt=$('tabs');if(y>lastSY+4&&y>60)nt.classList.add('mini');else if(y<lastSY-4||y<60)nt.classList.remove('mini');if(t===main){topEl.querySelectorAll('.isl').forEach(il=>{il.classList.toggle('glass',y>6);il.classList.toggle('slim',y>lastSY+2&&y>120?true:y<lastSY-2?false:il.classList.contains('slim'))})}lastSY=y},true);
 // ================= ÉVÉNEMENTS =================
 document.addEventListener('click',async e=>{
  const n=e.target.closest('[data-nav]');
