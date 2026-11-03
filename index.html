@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793720504">
+<meta name="fs-build" content="1793720603">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -4968,7 +4968,7 @@ function epPersoHTML(){const d=pDraft,ok=canPerso(),dis=ok?'':'disabled';
  const tiles=(list,cur,key,inner)=>list.map(([k,l,h])=>`<button type="button" class="cz-o cz-${key} ${key==='bn'&&k?'bn-'+k:''}" data-ep="${key}" data-k="${k}" aria-pressed="${cur===k}" ${dis}><i>${inner(k,h)}</i><span>${l}</span></button>`).join('');
  const grp=(t,body)=>`<div class="pp-g"><div class="pp-gh">${ok?'':LOCK_IC}<b>${t}</b></div><div class="cz-row">${body}</div></div>`;
  return `<section class="epp-card">
-   <div class="pp-head"><span><b>Badges</b><small>Gagnés avec ton activité</small></span><u class="pp-free">Gratuit</u></div>
+   <div class="pp-head"><span><b>Badges</b><small>Gagnés avec ton activité</small></span></div>
    <div class="pp-bd"><span id="ep-bd">${epBadgesHTML()}</span><button type="button" class="pp-link" data-act="badges" data-u="${me.id}">Gérer</button></div>
   </section>
   <section class="epp-card pp-plus ${ok?'':'locked'}" id="ep-plus">
@@ -4977,7 +4977,7 @@ function epPersoHTML(){const d=pDraft,ok=canPerso(),dis=ok?'':'disabled';
    ${grp('Effet de bannière',tiles(BANNER_FX,d.bx,'bx',k=>bfx(k)))}
    ${grp('Fond de bannière',tiles(BANNERS,d.bn,'bn',()=>''))}
    ${grp('Couleur de l’application',tiles(BAR_COLORS,d.bc,'bc',(k,h)=>`<u class="${h?'':'auto'}" style="${h?'background:'+h:''}"></u>`))}
-   ${ok?'':'<button type="button" class="pp-cta" disabled>Freestyle+ arrive bientôt</button><p class="pp-note">Tu vois tout ce qui sera débloqué. Les badges, eux, restent gratuits.</p>'}
+   ${ok?'':'<button type="button" class="pp-cta" disabled>Freestyle+ arrive bientôt</button><p class="pp-note">Tu vois tout ce qui sera débloqué avec Freestyle+.</p>'}
   </section>`}
 function bindEpPerso(){const box=$('ep-plus');if(!box||!canPerso())return;
  box.addEventListener('click',e=>{const b=e.target.closest('[data-ep]');if(!b)return;const key=b.dataset.ep;pDraft[key]=b.dataset.k;
