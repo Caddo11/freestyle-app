@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793716463">
+<meta name="fs-build" content="1793717193">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3065,6 +3065,17 @@ html.bar-c.bar-c[class] nav.tabs .pill button .fs-ic *{stroke:currentColor!impor
 .bc-sw:active i{transform:scale(.92)}
 html[data-theme="dark"] .bc-sw i{box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
 html[data-theme="dark"] .bc-sw[aria-pressed="true"] i{box-shadow:0 0 0 2px var(--bg),0 0 0 4px #22A55C}
+
+/* ================= v72 : couleur des barres compacte ================= */
+.bc-card{padding:11px 14px 12px}
+.bc-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.bc-h b{font-size:14px}
+.bc-h em{font-style:normal;font-size:12.5px;font-weight:700;color:#8e8e8a}
+.bc-row{display:flex;flex-wrap:nowrap;gap:8px;margin-top:10px;overflow-x:auto;scrollbar-width:none;padding:3px 2px}
+.bc-row::-webkit-scrollbar{display:none}
+.bc-sw{flex:0 0 auto;padding:0;gap:0}
+.bc-sw i{width:28px;height:28px;border-radius:9px}
+.bc-sw[aria-pressed="true"] i,html[data-theme="dark"] .bc-sw[aria-pressed="true"] i{box-shadow:0 0 0 2px var(--card,#fff),0 0 0 3.5px #22A55C;transform:none}
 </style>
 </head>
 <body>
@@ -4917,7 +4928,7 @@ function renderSettings(){
   <button class="set-me" data-act="set-go" data-k="edit">${av(me.id,54)}<span><b>${esc(u.name||'')}</b><small>@${esc(u.handle||'')}${session?.user?.email?' · '+esc(session.user.email):''}</small></span><i aria-hidden="true">›</i></button>
   <h2 class="set-h">Apparence</h2>
   <div class="set-card set-theme"><div class="set-seg" role="radiogroup" aria-label="Thème">${[['light','Clair','<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>'],['dark','Sombre','<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>'],['system','Auto','<rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M9 20h6M12 16.5V20"/>']].map(([k,l,d])=>`<button type="button" data-act="set-theme" data-k="${k}" role="radio" aria-pressed="${t===k}">${svg(d)}<span>${l}</span></button>`).join('')}<i style="transform:translateX(${['light','dark','system'].indexOf(t)*100}%)" aria-hidden="true"></i></div><p class="set-note">« Auto » suit le réglage de ton téléphone.</p></div>
-  <div class="set-card bc-card"><div class="bc-h"><b>Couleur des barres</b><small>La barre du haut et la barre du bas du fil</small></div><div class="bc-row" role="radiogroup" aria-label="Couleur des barres">${BAR_COLORS.map(([k,l,h])=>`<button type="button" class="bc-sw" data-act="bar-color" data-k="${k}" role="radio" aria-pressed="${barColorNow()===k}" aria-label="${l}"><i style="${h?`background:${h}`:''}" class="${h?'':'auto'}"></i><span>${l}</span></button>`).join('')}</div></div>
+  <div class="set-card bc-card"><div class="bc-h"><b>Couleur des barres</b><em id="bc-name">${(BAR_COLORS.find(x=>x[0]===barColorNow())||BAR_COLORS[0])[1]}</em></div><div class="bc-row" role="radiogroup" aria-label="Couleur des barres">${BAR_COLORS.map(([k,l,h])=>`<button type="button" class="bc-sw" data-act="bar-color" data-k="${k}" role="radio" aria-pressed="${barColorNow()===k}" aria-label="${l}" title="${l}"><i style="${h?`background:${h}`:''}" class="${h?'':'auto'}"></i></button>`).join('')}</div></div>
   <h2 class="set-h">Compte</h2>
   <div class="set-card">${row('edit',IC.edit,'Modifier le profil','Photo, bannière, nom, bio')}${row('insights',IC.stats,'Tableau de bord','Vues et statistiques')}${row('saved',IC.saved,'Enregistrés','Les posts que tu as gardés')}${row('share',IC.share,'Partager mon profil','')}${row('invite',IC.share,'Inviter des potes','Ton lien d’invitation')}</div>
   <h2 class="set-h">Pings & confidentialité</h2>
@@ -5137,7 +5148,7 @@ function applyBarColor(k){
 const barColorNow=()=>{let k=me&&me.bar_color;if(!k){try{k=localStorage.getItem('fs-bar')}catch(e){}}return k||'auto'};
 async function setBarColor(k){
  applyBarColor(k);try{localStorage.setItem('fs-bar',k)}catch(e){}
- document.querySelectorAll('.bc-sw').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k?'true':'false'));
+ document.querySelectorAll('.bc-sw').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k?'true':'false'));{const n=$('bc-name');if(n)n.textContent=(BAR_COLORS.find(x=>x[0]===k)||BAR_COLORS[0])[1]}
  if(!me)return;me.bar_color=k==='auto'?null:k;
  const {error}=await sb.from('profiles').update({bar_color:me.bar_color}).eq('id',me.id);
  if(error)toast('Couleur non enregistrée, réessaie');
