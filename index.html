@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793801073">
+<meta name="fs-build" content="1793801164">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -5965,6 +5965,7 @@ function paintCheck(uid,data){
 }
 // Fiche « Le Check » : explications + progression vers la validation + bouton d'action
 // ================= ESPACE CRÉATEUR (visible uniquement par les créateurs) =================
+const FOUNDER_ID='a5124ac2-5eba-4c71-b4bd-52e5ca7e7138';
 const CREA_IC='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="crg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE7A3"/><stop offset=".55" stop-color="#F2B530"/><stop offset="1" stop-color="#B9770E"/></linearGradient></defs><path d="M3 8l4.5 3.5L12 4l4.5 7.5L21 8l-2 11H5z" fill="url(#crg)" stroke="#8A5A0B" stroke-width=".8" stroke-linejoin="round"/></svg>';
 const CREA_PERMS=[['plus','Freestyle Plus','Cadres, effets de pseudo et de bannière, couleurs'],['verifie','Compte vérifié','La pastille bleue à côté du pseudo'],['admin','Créateur','Tous les pouvoirs, dont cet espace']];
 let creaSel=null;
@@ -5973,7 +5974,7 @@ function creaHas(p,k){return k==='plus'?!!p.premium:k==='verifie'?!!p.verified:A
 function creaUserHTML(p){if(!p)return '';const self=p.id===me.id;
  return `<div class="crea-user"><div class="crea-uh">${fxAv(p.id,78,p.frame,23)}<span class="crea-ut"><b>${nm(p.id,p.name||p.handle)}</b><small>@${esc(p.handle)}</small></span><button type="button" class="crea-x" data-crea="clear" aria-label="Choisir quelqu’un d’autre"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   ${CREA_PERMS.map(([k,l,d])=>creaSw(k,l,self&&k==='admin'?'Tu ne peux pas te le retirer toi-même':d,creaHas(p,k),'data-perm',self&&k==='admin')).join('')}<div class="crea-bz" id="crea-bz">${loadingHTML()}</div></div>`}
-function creaBzHTML(uid,grants){const m=bdParse(badgeCache[uid]||[]);const row=(k,fam)=>{const g=grants[k],cur=m[k]||0,it=bdItem(k,fam?Math.max(1,cur):1),opts=fam?[['a','Auto'],['1','1'],['2','2'],['3','3'],['0','Non']]:[['a','Auto'],['1','Oui'],['0','Non']],sel=g==null?'a':String(g);
+function creaBzHTML(uid,grants){const m=bdParse(badgeCache[uid]||[]);const row=(k,fam)=>{if(k==='shiny'&&me.id!==FOUNDER_ID)return '';const g=grants[k],cur=m[k]||0,it=bdItem(k,fam?Math.max(1,cur):1),opts=fam?[['a','Auto'],['1','1'],['2','2'],['3','3'],['0','Non']]:[['a','Auto'],['1','Oui'],['0','Non']],sel=g==null?'a':String(g);
  return `<div class="crea-bzr">${bdgIcon(it,34)}<span><b>${esc(it.name)}</b><small>${cur?(fam?'Niveau '+cur:'Affiché'):'Pas affiché'}${g!=null?' · réglé à la main':''}</small></span><span class="crea-lv">${opts.map(([v,l])=>`<button type="button" class="${v==='0'?'no':''}" data-bz="${k}" data-v="${v}" aria-pressed="${sel===v}">${l}</button>`).join('')}</span></div>`};
  return `<div class="crea-bz-h">Badges uniques</div>${BD_SINGLE.map(x=>row(x[0],false)).join('')}<div class="crea-bz-h">Badges à niveaux</div>${BD_FAM.map(x=>row(x[0],true)).join('')}`}
 let creaGrants={};async function creaLoadBz(uid){const box=$('crea-bz');try{const [{data:g},b]=await Promise.all([sb.rpc('fs_admin_badge_grants',{target:uid}),loadBadges(uid)]);creaGrants=g||{};if(creaSel===uid&&$('crea-bz'))$('crea-bz').innerHTML=creaBzHTML(uid,creaGrants)}catch(e){if(box)box.innerHTML='<p class="crea-empty">Badges indisponibles</p>'}}
@@ -6209,7 +6210,7 @@ const BIC=Object.fromEntries(BD_OLD.map(b=>[b[0],b[4]]));
 const BD_SINGLE=[
  ['fondateur','Créateur de Freestyle','Le compte qui a créé Freestyle','#C9A24A','sceau',1],
  ['plus','Freestyle Plus','Membre de l’offre Freestyle Plus','#7B5CFF','losange',1],
- ['shiny','Shiny','Badge unique offert par Freestyle','#E3B341','sceau',1],
+ ['shiny','Shiny','Badge rare, offert uniquement par le fondateur de Freestyle','#E3B341','sceau',1],
  ['verifie','Compte vérifié','Pastille bleue','#2F8BFF','sceau',0],
  ['pionnier','Pionnier','Inscrit pendant la première année','#8C6A3E','ecusson',0],
  ['flash','Premier flash','A publié son premier flash','#F5B301','losange',0],
