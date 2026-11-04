@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793799755">
+<meta name="fs-build" content="1793799852">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3692,11 +3692,11 @@ html[data-theme="dark"] .nfx,.overlay-top .nfx,.clip-info .nfx,.ep-cname .nfx{--
 .nfx-degrade{font-family:'Archivo',var(--display);font-style:italic;font-stretch:112%;font-variation-settings:'wdth' 112,'wght' 900;font-weight:900!important;letter-spacing:-.01em;background:linear-gradient(180deg,#6D727B 0%,#2B2E34 46%,#0F1114 50%,#5C616A 70%,#2B2E34 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 html[data-theme="dark"] .nfx-degrade,.overlay-top .nfx-degrade,.clip-info .nfx-degrade,.ep-cname .nfx-degrade{background-image:linear-gradient(180deg,#FFFFFF 0%,#F1F2F4 34%,#AEB3BC 48%,#5B6068 50%,#C9CDD4 64%,#FFFFFF 100%);filter:drop-shadow(0 1px 0 rgba(0,0,0,.35))}
 /* Relief : lettres en volume */
-.nfx-chrome{font-family:'Bricolage Grotesque',var(--display);font-variation-settings:'opsz' 96,'wght' 800;font-weight:800!important;letter-spacing:-.01em;color:var(--nf);text-shadow:0 1px 0 #C9C9C6,0 2px 0 #B4B4B0,0 3px 0 #9E9E9A,0 4px 0 #8A8A86,0 6px 8px rgba(0,0,0,.35)}
-html[data-theme="dark"] .nfx-chrome,.overlay-top .nfx-chrome,.clip-info .nfx-chrome,.ep-cname .nfx-chrome{text-shadow:0 1px 0 #BDBDBA,0 2px 0 #9C9C99,0 3px 0 #7C7C79,0 4px 0 #5E5E5C,0 7px 10px rgba(0,0,0,.6)}
+.nfx-chrome{font-family:'Bricolage Grotesque',var(--display);font-variation-settings:'opsz' 96,'wght' 800;font-weight:800!important;letter-spacing:-.01em;color:var(--nf);text-shadow:0 1px 0 #C9C9C6,0 2px 0 #B4B4B0,0 3px 0 #9E9E9A,0 4px 0 #8A8A86}
+html[data-theme="dark"] .nfx-chrome,.overlay-top .nfx-chrome,.clip-info .nfx-chrome,.ep-cname .nfx-chrome{text-shadow:0 1px 0 #BDBDBA,0 2px 0 #9C9C99,0 3px 0 #7C7C79,0 4px 0 #5E5E5C}
 /* Brillant : éclat qui balaie les lettres */
 .nfx-or{font-family:'Bricolage Grotesque',var(--display);font-variation-settings:'opsz' 96,'wght' 800;font-weight:800!important;letter-spacing:-.005em}
-.nfx-or::after,.nfx-degrade::after,.nfx-chrome::after{content:attr(data-t);position:absolute;left:0;top:0;color:var(--nfh);-webkit-text-fill-color:var(--nfh);text-shadow:0 0 10px var(--ng);-webkit-mask-image:linear-gradient(105deg,transparent 0 42%,#000 50%,transparent 58% 100%);mask-image:linear-gradient(105deg,transparent 0 42%,#000 50%,transparent 58% 100%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;animation:nfSweep 4.8s cubic-bezier(.55,0,.25,1) infinite}
+.nfx-or::after,.nfx-degrade::after,.nfx-chrome::after{content:attr(data-t);position:absolute;left:0;top:0;color:var(--nfh);-webkit-text-fill-color:var(--nfh);text-shadow:none;-webkit-mask-image:linear-gradient(105deg,transparent 0 42%,#000 50%,transparent 58% 100%);mask-image:linear-gradient(105deg,transparent 0 42%,#000 50%,transparent 58% 100%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;animation:nfSweep 4.8s cubic-bezier(.55,0,.25,1) infinite}
 .nfx-degrade::after{animation-duration:4s;text-shadow:none}
 .nfx-chrome::after{animation-duration:5.6s;text-shadow:none}
 @keyframes nfSweep{0%,32%{-webkit-mask-position:100% 0;mask-position:100% 0}100%{-webkit-mask-position:0 0;mask-position:0 0}}
@@ -3706,8 +3706,12 @@ html[data-theme="dark"] .nfx-chrome,.overlay-top .nfx-chrome,.clip-info .nfx-chr
 @keyframes nfFill{0%,15%{-webkit-mask-position:100% 0;mask-position:100% 0}85%,100%{-webkit-mask-position:0 0;mask-position:0 0}}
 /* Lumière : serif italique, les lettres s'illuminent une à une */
 .nfx-script{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400!important;font-size:1.28em;line-height:1;letter-spacing:.015em}
-.nfx-script>span{animation:nfLum 3.6s ease-in-out infinite;animation-delay:calc(var(--i)*.13s)}
-@keyframes nfLum{0%,40%,100%{text-shadow:none}14%{text-shadow:0 0 3px var(--ng),0 0 14px var(--ng)}}
+/* effets uniquement sur les lettres : aucun halo autour */
+.nfx,.nfx::after{text-shadow:none}
+.nfx-chrome{text-shadow:0 1px 0 #C9C9C6,0 2px 0 #B4B4B0,0 3px 0 #9E9E9A,0 4px 0 #8A8A86}
+html[data-theme="dark"] .nfx-chrome,.overlay-top .nfx-chrome,.clip-info .nfx-chrome,.ep-cname .nfx-chrome{text-shadow:0 1px 0 #BDBDBA,0 2px 0 #9C9C99,0 3px 0 #7C7C79,0 4px 0 #5E5E5C}
+.nfx-script>span{will-change:opacity;animation:nfLum 3.6s ease-in-out infinite;animation-delay:calc(var(--i)*.13s)}
+@keyframes nfLum{0%,40%,100%{opacity:.5}14%{opacity:1}}
 @media (prefers-reduced-motion:reduce){.nfx *,.nfx::after{animation:none!important}}
 
 /* ================= v84 : effets de bannière plus beaux ================= */
@@ -5355,7 +5359,7 @@ async function renderProfile(){
  if(view!=='profile'||(arg||me.id)!==uid)return;
  profilePosts=posts||[];await loadPinned(uid);profilePosts=sortPinned(profilePosts);if(profTabUid!==uid||(profTab==='saved'&&!mine)){profTab='all';profTabUid=uid}if(mine&&profTab==='saved')loadSavedPosts().then(()=>{if(profTab==='saved'&&$('pgrid'))$('pgrid').innerHTML=pgridHTML(true)});
  const c=SPORTS[u.sport]||SPORTS.Autre,s=st||{followers:0,following:0,posts:0};
- const creator=ADMINS.has(uid);
+ const creator=false; // plus de contour doré ni de pseudo doré sur le profil des créateurs
  main.innerHTML=`<div class="gutter ${creator?'creator':''} ${ri&&ri.validated?'cv-on':''}">${creator?'<div class="cr-frame"><i class="cr-glow" aria-hidden="true"></i><i class="cr-ring" aria-hidden="true"></i>':''}<div class="pbanner" style="${u.banner_url?`background:#000 url('${esc(u.banner_url)}') center/cover`:`background:radial-gradient(120% 140% at 15% 0%,${c[0]},${c[1]} 70%)`}">${bfx(u.banner_fx)}<span class="pav ${u.frame&&FX_KEYS.has(u.frame)?'has-fx':''}">${fxAv(uid,78,u.frame||'',11)}</span></div>${creator?'</div>':''}
  <section class="phead">
   <div class="pnums3"><div><b>${fmt(s.posts)}</b><span>posts</span></div><button data-act="ulist" data-u="${uid}" data-k="followers"><b id="st-followers">${fmt(s.followers)}</b><span>followers</span></button><button data-act="ulist" data-u="${uid}" data-k="following"><b>${fmt(s.following)}</b><span>suivi(e)s</span></button></div>
