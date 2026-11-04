@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793800772">
+<meta name="fs-build" content="1793801073">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3460,6 +3460,33 @@ html[data-theme="dark"] .ppx-tabs{background:#0F0F0F}
 .ppx-ind{position:absolute;left:0;top:4px;height:34px;border-radius:9px;background:var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.08);transition:transform .34s cubic-bezier(.3,1.25,.4,1),width .34s cubic-bezier(.3,1.25,.4,1);will-change:transform}
 html[data-theme="dark"] .ppx-ind{background:#262626}
 .ppx-pane{margin-top:10px}
+/* badge unique Shiny : blanc et or, rayons qui tournent, reflet et étincelles */
+.shn-rays{transform-box:view-box;transform-origin:50% 50%;animation:shnRot 9s linear infinite}
+.shn-halo{transform-box:view-box;transform-origin:50% 50%;animation:shnHalo 2.6s ease-in-out infinite}
+.shn-sh{animation:shnSh 3.2s cubic-bezier(.5,0,.3,1) infinite}
+.shn-tw{transform-box:fill-box;transform-origin:center;animation:shnTw 2.4s ease-in-out infinite}
+@keyframes shnRot{to{transform:rotate(360deg)}}
+@keyframes shnHalo{0%,100%{opacity:.55;transform:scale(.92)}50%{opacity:1;transform:scale(1.04)}}
+@keyframes shnSh{0%,45%{transform:translateX(0) skewX(-18deg)}100%{transform:translateX(52px) skewX(-18deg)}}
+@keyframes shnTw{0%,100%{opacity:0;transform:scale(.3) rotate(0)}40%{opacity:1;transform:scale(1) rotate(45deg)}70%{opacity:0;transform:scale(.4) rotate(90deg)}}
+.mbd .shn-rays,.mbd .shn-sh,.mbd .shn-tw,.mbd .shn-halo{animation:none!important}
+@media (prefers-reduced-motion:reduce){.shn-rays,.shn-sh,.shn-tw,.shn-halo{animation:none!important}}
+/* espace créateur : badges à la main */
+.crea-bz{margin:10px 0 4px}
+.crea-bz-h{font-size:11.5px;font-weight:700;color:#a3a29d;margin:12px 0 4px}
+.crea-bzr{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--paper-line,#ECEBE7)}
+.crea-bzr:last-child{border-bottom:0}
+.crea-bzr>.bd-i{--bs:34px;flex:0 0 auto}
+.crea-bzr>span:not(.crea-lv){flex:1;min-width:0;display:flex;flex-direction:column}
+.crea-bzr b{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crea-bzr small{font-size:11px;color:#8e8e8a}
+.crea-lv{display:flex!important;flex-direction:row!important;gap:3px;flex:0 0 auto!important}
+.crea-lv button{display:inline-flex!important;align-items:center;justify-content:center;width:auto!important;flex:0 0 auto!important;min-width:28px;height:26px;padding:0 7px;border-radius:8px;background:var(--bg);color:#8e8e8a;font-size:11.5px;font-weight:700}
+.crea-lv button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.crea-lv button.no[aria-pressed="true"]{background:#E5484D;color:#fff}
+.crea-uh .fx{margin-right:4px}
+.crea-uh>.av,.crea-res>.av,.crea-uh>.fx,.crea-res>.fx{flex:0 0 auto}
+.crea-lv button{background:rgba(127,127,127,.12)}
 .ptabs.four{grid-template-columns:repeat(4,1fr)}
 .ptabs.four .ptab-ind{width:25%}
 .ptabs.four button{font-size:11px;gap:4px;letter-spacing:-.01em;white-space:nowrap}
@@ -3493,7 +3520,7 @@ html[data-theme="dark"] .crea-btn small{color:#d8b45c}
 #crea-box{padding-bottom:8px}
 #crea-box.in{animation:ppxIn .28s cubic-bezier(.2,.9,.3,1)}
 .crea-res{display:flex;align-items:center;gap:10px;width:100%;padding:9px 0;text-align:left;color:var(--ink)}
-.crea-res>span{flex:1;display:flex;flex-direction:column;min-width:0}
+.crea-res>.crea-ut{flex:1;display:flex;flex-direction:column;min-width:0}
 .crea-res b{font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .crea-res small{font-size:12px;color:#8e8e8a}
 .crea-tags{display:flex;gap:4px;font-style:normal}
@@ -3506,7 +3533,7 @@ html[data-theme="dark"] .crea-tags .ct-admin{color:#E8C266}
 .crea-empty{margin:14px 0;text-align:center;font-size:13px;color:#a3a29d}
 .crea-user{padding-top:12px}
 .crea-uh{display:flex;align-items:center;gap:12px;padding-bottom:6px}
-.crea-uh>span{flex:1;display:flex;flex-direction:column;min-width:0}
+.crea-uh>.crea-ut{flex:1;display:flex;flex-direction:column;min-width:0}
 .crea-uh b{font-size:15px;font-weight:800}
 .crea-uh small{font-size:12.5px;color:#8e8e8a}
 .crea-x{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--bg);color:var(--ink)}
@@ -5944,9 +5971,13 @@ let creaSel=null;
 function creaSw(k,l,d,on,attr,dis){return `<label class="pref-row crea-row"><span><b>${l}</b><small>${d}</small></span><input type="checkbox" class="sw" ${attr}="${k}" ${on?'checked':''} ${dis?'disabled':''}><i class="sw-ui" aria-hidden="true"></i></label>`}
 function creaHas(p,k){return k==='plus'?!!p.premium:k==='verifie'?!!p.verified:ADMINS.has(p.id)}
 function creaUserHTML(p){if(!p)return '';const self=p.id===me.id;
- return `<div class="crea-user"><div class="crea-uh">${fxAv(p.id,44,p.frame)}<span><b>${nm(p.id,p.name||p.handle)}</b><small>@${esc(p.handle)}</small></span><button type="button" class="crea-x" data-crea="clear" aria-label="Choisir quelqu’un d’autre"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-  ${CREA_PERMS.map(([k,l,d])=>creaSw(k,l,self&&k==='admin'?'Tu ne peux pas te le retirer toi-même':d,creaHas(p,k),'data-perm',self&&k==='admin')).join('')}</div>`}
-function creaResHTML(list){return list.length?list.map(p=>`<button type="button" class="crea-res" data-crea="pick" data-u="${p.id}">${av(p.id,36)}<span><b>${esc(p.name||p.handle)}</b><small>@${esc(p.handle)}</small></span><i class="crea-tags">${CREA_PERMS.filter(([k])=>creaHas(p,k)).map(([k,l])=>`<em class="ct-${k}">${l==='Freestyle Plus'?'Plus':l==='Compte vérifié'?'Vérifié':l}</em>`).join('')}</i></button>`).join(''):'<p class="crea-empty">Aucun membre trouvé</p>'}
+ return `<div class="crea-user"><div class="crea-uh">${fxAv(p.id,78,p.frame,23)}<span class="crea-ut"><b>${nm(p.id,p.name||p.handle)}</b><small>@${esc(p.handle)}</small></span><button type="button" class="crea-x" data-crea="clear" aria-label="Choisir quelqu’un d’autre"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  ${CREA_PERMS.map(([k,l,d])=>creaSw(k,l,self&&k==='admin'?'Tu ne peux pas te le retirer toi-même':d,creaHas(p,k),'data-perm',self&&k==='admin')).join('')}<div class="crea-bz" id="crea-bz">${loadingHTML()}</div></div>`}
+function creaBzHTML(uid,grants){const m=bdParse(badgeCache[uid]||[]);const row=(k,fam)=>{const g=grants[k],cur=m[k]||0,it=bdItem(k,fam?Math.max(1,cur):1),opts=fam?[['a','Auto'],['1','1'],['2','2'],['3','3'],['0','Non']]:[['a','Auto'],['1','Oui'],['0','Non']],sel=g==null?'a':String(g);
+ return `<div class="crea-bzr">${bdgIcon(it,34)}<span><b>${esc(it.name)}</b><small>${cur?(fam?'Niveau '+cur:'Affiché'):'Pas affiché'}${g!=null?' · réglé à la main':''}</small></span><span class="crea-lv">${opts.map(([v,l])=>`<button type="button" class="${v==='0'?'no':''}" data-bz="${k}" data-v="${v}" aria-pressed="${sel===v}">${l}</button>`).join('')}</span></div>`};
+ return `<div class="crea-bz-h">Badges uniques</div>${BD_SINGLE.map(x=>row(x[0],false)).join('')}<div class="crea-bz-h">Badges à niveaux</div>${BD_FAM.map(x=>row(x[0],true)).join('')}`}
+let creaGrants={};async function creaLoadBz(uid){const box=$('crea-bz');try{const [{data:g},b]=await Promise.all([sb.rpc('fs_admin_badge_grants',{target:uid}),loadBadges(uid)]);creaGrants=g||{};if(creaSel===uid&&$('crea-bz'))$('crea-bz').innerHTML=creaBzHTML(uid,creaGrants)}catch(e){if(box)box.innerHTML='<p class="crea-empty">Badges indisponibles</p>'}}
+function creaResHTML(list){return list.length?list.map(p=>`<button type="button" class="crea-res" data-crea="pick" data-u="${p.id}">${fxAv(p.id,44,p.frame,13)}<span class="crea-ut"><b>${esc(p.name||p.handle)}</b><small>@${esc(p.handle)}</small></span><i class="crea-tags">${CREA_PERMS.filter(([k])=>creaHas(p,k)).map(([k,l])=>`<em class="ct-${k}">${l==='Freestyle Plus'?'Plus':l==='Compte vérifié'?'Vérifié':l}</em>`).join('')}</i></button>`).join(''):'<p class="crea-empty">Aucun membre trouvé</p>'}
 async function creaLoadPlus(){const {data}=await sb.from('profiles').select('id,handle,name,avatar_url,frame,premium,verified,badges,name_style').or('premium.eq.true,verified.eq.true').order('handle').limit(60);(data||[]).forEach(p=>P[p.id]={...(P[p.id]||{}),...p});
  const ids=new Set((data||[]).map(p=>p.id));ADMINS.forEach(id=>{if(!ids.has(id)&&P[id])(data||[]).push(P[id])});return data||[]}
 async function openCreator(){if(!realAdmin())return;creaSel=null;
@@ -5962,8 +5993,9 @@ async function openCreator(){if(!realAdmin())return;creaSel=null;
  creaLoadPlus().then(l=>{base=l;if(!creaSel&&!$('crea-q').value.trim())paintBase()}).catch(()=>{if(res())res().innerHTML='<p class="crea-empty">Chargement impossible</p>'});
  let tm;$('crea-q').addEventListener('input',e=>{const v=e.target.value.trim();clearTimeout(tm);tm=setTimeout(async()=>{creaSel=null;if(!v){paintBase();return}const safe=v.replace(/[%,()*]/g,'');const {data}=await sb.from('profiles').select('id,handle,name,avatar_url,frame,premium,verified,badges,name_style').or(`handle.ilike.%${safe}%,name.ilike.%${safe}%`).limit(20);(data||[]).forEach(p=>P[p.id]={...(P[p.id]||{}),...p});if($('crea-q')&&$('crea-q').value.trim()===v)box.innerHTML=`<div id="crea-res">${creaResHTML(data||[])}</div>`},220)});
  const sheet=layer.querySelector('.crea-sheet');
- sheet.addEventListener('click',e=>{const b=e.target.closest('[data-crea]');if(!b)return;
-  if(b.dataset.crea==='pick'){creaSel=b.dataset.u;box.innerHTML=creaUserHTML(P[creaSel]);box.classList.remove('in');void box.offsetWidth;box.classList.add('in')}
+ sheet.addEventListener('click',async e=>{const z=e.target.closest('[data-bz]');if(z&&creaSel){if(z.getAttribute('aria-pressed')==='true')return;const u=creaSel,k=z.dataset.bz,v=z.dataset.v,lvl=v==='a'?null:+v;z.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===z)));const {data,error}=await sb.rpc('fs_admin_set_badge',{target:u,badge:k,lvl});if(error){dbError(error,'Modification impossible');creaLoadBz(u);return}if(data){if(Array.isArray(data.badges)){badgeCache[u]=data.badges;if(P[u])P[u].badges=data.badges;if(u===me.id)me.badges=data.badges}creaGrants=data.grants||{}}if(creaSel===u&&$('crea-bz'))$('crea-bz').innerHTML=creaBzHTML(u,creaGrants);if(navigator.vibrate)try{navigator.vibrate(6)}catch(_){}return}
+  const b=e.target.closest('[data-crea]');if(!b)return;
+  if(b.dataset.crea==='pick'){creaSel=b.dataset.u;box.innerHTML=creaUserHTML(P[creaSel]);box.classList.remove('in');void box.offsetWidth;box.classList.add('in');creaLoadBz(creaSel)}
   if(b.dataset.crea==='clear'){creaSel=null;$('crea-q').value='';creaLoadPlus().then(l=>{base=l;paintBase()})}});
  sheet.addEventListener('change',async e=>{const t=e.target;
   if(t.dataset.allb){const val=t.checked;t.disabled=true;const {data,error}=await sb.rpc('fs_admin_all_badges',{val});t.disabled=false;if(error){t.checked=!val;return dbError(error,'Modification impossible')}ADMIN_ALLB[me.id]=val;if(Array.isArray(data)){badgeCache[me.id]=data;me.badges=data;P[me.id]&&(P[me.id].badges=data)}toast(val?'Tous les badges affichés':'Seulement tes vrais badges');if(view==='profile')try{render()}catch(_){}return}
@@ -6177,6 +6209,7 @@ const BIC=Object.fromEntries(BD_OLD.map(b=>[b[0],b[4]]));
 const BD_SINGLE=[
  ['fondateur','Créateur de Freestyle','Le compte qui a créé Freestyle','#C9A24A','sceau',1],
  ['plus','Freestyle Plus','Membre de l’offre Freestyle Plus','#7B5CFF','losange',1],
+ ['shiny','Shiny','Badge unique offert par Freestyle','#E3B341','sceau',1],
  ['verifie','Compte vérifié','Pastille bleue','#2F8BFF','sceau',0],
  ['pionnier','Pionnier','Inscrit pendant la première année','#8C6A3E','ecusson',0],
  ['flash','Premier flash','A publié son premier flash','#F5B301','losange',0],
@@ -6227,7 +6260,7 @@ const BD_FAM=[
   ['Connecté',['#D2E3FF','#2563EB','#1E3A8A'],'hexa',['orbit']],
   ['Réseau',['#BDF6FF','#0891B2','#0C1E3D'],'legende',['ring','orbit','stars']]]]
 ];
-const BD_ORDER=['fondateur','plus','verifie','valide','followers','posts','clips','likes','vues','shouts','comments','parrain','suivis','pionnier','flash','genereux','organisateur'];
+const BD_ORDER=['fondateur','plus','shiny','verifie','valide','followers','posts','clips','likes','vues','shouts','comments','parrain','suivis','pionnier','flash','genereux','organisateur'];
 const BD_MAX=BD_SINGLE.length+BD_FAM.length*3;
 const OLD2NEW={premier_post:'posts',posts10:'posts',posts50:'posts',clip:'clips',shout10:'shouts',checke10:'valide',checks:'valide',serie7:'serie',serie30:'serie',populaire:'followers',star:'followers',sociable:'suivis',bavard:'comments',aime:'likes',viral:'vues',ambassadeur:'parrain',recruteur:'parrain'};
 const bdNorm=k=>OLD2NEW[k]||k;
@@ -6304,7 +6337,7 @@ const BD_GLYPH={
  gift:[['M4 11h16v8.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19.5z','m'],['M2.8 7.5h18.4v4H2.8z','l'],['M10.8 7.5h2.4V21h-2.4z','d'],['M12 7.5C10.5 4 7.2 3.4 6.6 5.2 6 7 9 7.5 12 7.5zM12 7.5c1.5-3.5 4.8-4.1 5.4-2.3.6 1.8-2.4 2.3-5.4 2.3z','d']],
  personplus:[['M10 4a3.6 3.6 0 1 1 0 7.2A3.6 3.6 0 0 1 10 4zM3 20.5c.4-4.3 3.1-7 7-7s6.6 2.7 7 7z','m'],['M17.6 6h1.8v2.6H22v1.8h-2.6V13h-1.8v-2.6H15V8.6h2.6z','l']]
 };
-const BD_GMAP={fondateur:'crown',plus:'gem',verifie:'seal',valide:'checkseal',pionnier:'flag',flash:'bolt',genereux:'heart',organisateur:'calendar',followers:'people',posts:'picture',clips:'clap',likes:'thumb',vues:'flame',shouts:'megaphone',comments:'bubble',parrain:'gift',suivis:'personplus'};
+const BD_GMAP={fondateur:'crown',plus:'gem',shiny:'gem',verifie:'seal',valide:'checkseal',pionnier:'flag',flash:'bolt',genereux:'heart',organisateur:'calendar',followers:'people',posts:'picture',clips:'clap',likes:'thumb',vues:'flame',shouts:'megaphone',comments:'bubble',parrain:'gift',suivis:'personplus'};
 let bdGid=0;
 function bdGlyph(name,c,scale){const G=BD_GLYPH[name]||BD_GLYPH.seal,id='bdgc'+(bdGid++),mains=G.filter(x=>x[1]==='m').map(x=>x[0]).join('');
  const body=G.map(([d,k])=>k==='m'?`<path d="${d}" fill="${c.g}"/><path d="${d}" fill="url(#bdg-hl)"/>`:k==='d'?`<path d="${d}" fill="${c.d}"/>`:k==='l'?`<path d="${d}" fill="${c.a}"/>`:k==='w'?`<path d="${d}" fill="#fff" opacity=".92"/>`:k==='ws'?`<path d="${d}" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>`:k==='ws2'?`<path d="${d}" fill="none" stroke="${c.b}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`:k==='laurel'?`<g transform="translate(12 12) scale(.86) translate(-20 -20)">${laurel(20,20,11.5,c.g,c.d,6)}</g>`:'').join('');
@@ -6331,7 +6364,17 @@ function bdTierSVG(it){const t=Math.max(1,it.t),f=it.fam,sp=f[6][t-1];
  if(t>=2)front+=`<path class="bd-tw" d="M32.5 6.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" fill="#fff" stroke="${c.b}" stroke-width=".45" stroke-linejoin="round"/>`;
  if(t>=3)front+=`<path class="bd-tw bd-tw2" d="M7 29l.6 1.5 1.5.6-1.5.6L7 33.2l-.6-1.5-1.5-.6 1.5-.6z" fill="#fff" stroke="${c.b}" stroke-width=".45" stroke-linejoin="round"/>`;
  return `<svg viewBox="0 0 40 40" aria-hidden="true">${back}<g class="${t>=3?'bd-fl':''}">${bdGlyph(BD_GMAP[f[0]],c,sc)}</g>${front}</svg>`}
-function bdSingleSVG(it){const c={a:hmix(it.color,'#ffffff',.45),b:it.color,d:hmix(it.color,'#000000',.32),g:`url(#bdg-g-${it.k})`};
+const SHINY_SVG=(()=>{const R=(n,r1,r2,cx=20,cy=20,rot=0)=>{let d='';for(let i=0;i<n*2;i++){const r=i%2?r2:r1,a=(i*Math.PI/n)+rot;d+=(i?'L':'M')+(cx+r*Math.sin(a)).toFixed(2)+' '+(cy-r*Math.cos(a)).toFixed(2)}return d+'Z'};
+ const tw=(x,y,s,dl)=>`<path class="shn-tw" style="animation-delay:${dl}s" d="M${x} ${y-s}Q${x} ${y} ${x+s} ${y}Q${x} ${y} ${x} ${y+s}Q${x} ${y} ${x-s} ${y}Q${x} ${y} ${x} ${y-s}Z" fill="#fff"/>`;
+ return `<svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="shn-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".45" stop-color="#FFF7DE"/><stop offset=".7" stop-color="#F3D27C"/><stop offset="1" stop-color="#C9922E"/></linearGradient><linearGradient id="shn-r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE7A3"/><stop offset="1" stop-color="#A9761F"/></linearGradient><radialGradient id="shn-h" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFF6D8" stop-opacity=".9"/><stop offset="1" stop-color="#FFF6D8" stop-opacity="0"/></radialGradient><clipPath id="shn-c"><path d="${R(8,14.5,9.6)}"/></clipPath></defs>
+ <circle class="shn-halo" cx="20" cy="20" r="19" fill="url(#shn-h)"/>
+ <g class="shn-rays">${[0,1,2,3,4,5,6,7].map(i=>`<path d="M20 20L${(20+19.5*Math.sin(i*.785+.11)).toFixed(1)} ${(20-19.5*Math.cos(i*.785+.11)).toFixed(1)}L${(20+19.5*Math.sin(i*.785-.11)).toFixed(1)} ${(20-19.5*Math.cos(i*.785-.11)).toFixed(1)}Z" fill="#F3D27C" opacity=".35"/>`).join('')}</g>
+ <path d="${R(8,14.5,9.6)}" fill="url(#shn-g)" stroke="url(#shn-r)" stroke-width="1.3" stroke-linejoin="round"/>
+ <path d="${R(4,8.2,3.4,20,20,0)}" fill="#fff" stroke="#E9B949" stroke-width=".6" stroke-linejoin="round"/>
+ <path d="${R(4,4.6,1.9,20,20,.785)}" fill="#F3D27C" opacity=".7"/>
+ <g clip-path="url(#shn-c)"><rect class="shn-sh" x="-8" y="-4" width="6" height="48" fill="#fff" opacity=".85"/></g>
+ ${tw(33.5,7,2.6,0)}${tw(7,31.5,2,1.1)}${tw(33,32,1.6,2)}${tw(8,8.5,1.5,.6)}</svg>`})();
+function bdSingleSVG(it){if(it.k==='shiny')return SHINY_SVG;const c={a:hmix(it.color,'#ffffff',.45),b:it.color,d:hmix(it.color,'#000000',.32),g:`url(#bdg-g-${it.k})`};
  return `<svg viewBox="0 0 40 40" aria-hidden="true">${bdGlyph(BD_GMAP[it.k],c,1.3)}</svg>`}
 function bdgIcon(it,sz){bdEnsureDefs();if(!it)return '';const dl=((bdSeq++)%7)*.55;
  const svg=it.fam?bdTierSVG(it):bdSingleSVG(it);
