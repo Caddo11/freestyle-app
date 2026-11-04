@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793801164">
+<meta name="fs-build" content="1793801293">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3181,6 +3181,7 @@ html[data-theme="dark"] .bd-c.off .bd-i{background:#1B1B1B;color:#4a4a48}
 .bdg:active .bd-i{transform:scale(.9)}
 .mbd{display:inline-flex;align-items:center;gap:1.5px;margin-left:4px;vertical-align:-3px}
 .mbd em{font-style:normal;font-size:10px;font-weight:800;opacity:.75;margin-left:1px}
+.bd-add{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:rgba(127,127,127,.14);color:#8e8e8a;font-style:normal;vertical-align:middle}
 .bd-none{font-style:normal;font-size:11px;font-weight:700;color:#8e8e8a;padding:2px 6px;border-radius:7px;background:var(--paper)}
 .bd-c{position:relative;border:0;background:none;font:inherit;color:inherit;cursor:default}
 button.bd-c{cursor:pointer;border-radius:14px;padding-top:8px!important;padding-bottom:8px!important;transition:background .2s,opacity .2s}
@@ -6388,7 +6389,7 @@ const badgeCache={};
 function mb(uid){const u=P[uid];if(!u)return '';const got=badgeCache[uid]||u.badges||[];const l=badgesShown(uid,got);if(!l.length)return '';return `<span class="mbd">${l.slice(0,3).map(b=>bdgIcon(b,16)).join('')}${l.length>3?`<em>+${l.length-3}</em>`:''}</span>`}
 async function loadBadges(uid){try{const {data,error}=await sb.rpc('fs_badges',{pid:uid});if(error||!Array.isArray(data))return badgeCache[uid]||[];badgeCache[uid]=data;return badgeCache[uid]}catch(e){return badgeCache[uid]||[]}}
 function drawBadges(el,got){
- const uid=el.dataset.u,list=badgesShown(uid,got);if(!list.length){if(me&&uid===me.id&&got.length){el.innerHTML='<em class="bd-none">Badges</em>';el.hidden=false}else el.hidden=true;return}
+ const uid=el.dataset.u,list=badgesShown(uid,got);if(!list.length){if(me&&uid===me.id){el.innerHTML='<em class="bd-add" title="Mes badges"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></em>';el.setAttribute('aria-label','Mes badges');el.hidden=false}else el.hidden=true;return}
  el.innerHTML=list.slice(0,10).map(b=>bdgIcon(b,22)).join('')+(list.length>10?`<em>+${list.length-10}</em>`:'');el.hidden=false;
 }
 async function paintBadges(uid){
