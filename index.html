@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793794132">
+<meta name="fs-build" content="1793794217">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3917,6 +3917,8 @@ html[data-theme="dark"] .bz-quick button{background:#1A1A1A}
 @keyframes bfBoltA{0%,18%{opacity:0;transform:none}20%{opacity:1}22%{opacity:.2}24%{opacity:.95}32%{opacity:0;transform:none}33%,68%{opacity:0;transform:translateX(120%) scaleX(-1)}70%{opacity:1;transform:translateX(120%) scaleX(-1)}72%{opacity:.3;transform:translateX(120%) scaleX(-1)}78%,100%{opacity:0;transform:translateX(120%) scaleX(-1)}}
 @keyframes bfBoltB{0%,44%{opacity:0;transform:none}46%{opacity:1}48%{opacity:.25}50%{opacity:.9}58%,100%{opacity:0;transform:none}}
 @keyframes bfFlash{0%,19%,23%,27%,69%,73%,100%{background-color:transparent}20%,24%{background-color:rgba(190,220,255,.16)}70%{background-color:rgba(190,220,255,.12)}}
+.bz-row .bz-t>b{display:flex;align-items:center;gap:6px;min-width:0}
+.bz-row .bz-t>b .bz-cnt{margin-left:0;flex:0 0 auto;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -6086,7 +6088,7 @@ const BD_FAM=[
   ['Caméra',['#FFD6B0','#F97316','#9A3412'],'rond',[]],
   ['Réal',['#FFC9C9','#EF4444','#7F1D1D'],'losange',['orbit']],
   ['Cinéaste',['#5A5A63','#1F1F23','#050506'],'hexa',['rays','laurel','stars'],{s:'#E3B341'}]]],
- ['valide','Validé par la communauté','check reçu','checks reçus',[10,50,100],'checke10',[
+ ['valide','Validé par la communauté','check reçu','checks reçus',[10,100,500],'checke10',[
   ['Reconnu',['#C8F7D6','#22C55E','#14532D'],'rond',[]],
   ['Respecté',['#B7F0DA','#059669','#064E3B'],'ecusson',['laurel']],
   ['Validé',['#F0FFF7','#34D399','#065F46'],'sceau',['rays','crown','gems']]]],
@@ -6122,7 +6124,7 @@ const bdNorm=k=>OLD2NEW[k]||k;
 function bdParse(got){const m={};(got||[]).forEach(x=>{let [k,t]=String(x).split(':');t=t?Math.max(1,Math.min(3,+t||1)):1;k=bdNorm(k);m[k]=Math.max(m[k]||0,t)});return m}
 const fmtN=n=>Number(n).toLocaleString('fr-FR');
 const famUnit=(f,n)=>n>1?f[3]:f[2];
-const BD_HOW={followers:'Gagne des followers sur ton profil.',posts:'Publie des posts.',clips:'Publie des clips.',valide:'Reçois des checks d’autres membres (100 pour être validé par la communauté).',likes:'Reçois des j’aime sur tes posts.',vues:'Fais grimper les vues d’un de tes posts.',shouts:'Écris des shouts.',comments:'Commente les posts des autres.',parrain:'Invite des potes sur Freestyle.',suivis:'Suis d’autres sportifs.'};
+const BD_HOW={followers:'Gagne des followers sur ton profil.',posts:'Publie des posts.',clips:'Publie des clips.',valide:'Reçois des checks d’autres membres.',likes:'Reçois des j’aime sur tes posts.',vues:'Fais grimper les vues d’un de tes posts.',shouts:'Écris des shouts.',comments:'Commente les posts des autres.',parrain:'Invite des potes sur Freestyle.',suivis:'Suis d’autres sportifs.'};
 function bdItem(k,t){const sg=BD_SINGLE.find(x=>x[0]===k);
  if(sg)return {k,name:sg[1],desc:sg[2],color:sg[3],shape:sg[4],rare:!!sg[5],icon:BIC[k]||BIC.star,t:t?1:0};
  const f=BD_FAM.find(x=>x[0]===k);if(!f)return null;const th=f[4],sp=f[6][Math.max(1,t)-1];
