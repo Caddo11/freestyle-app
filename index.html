@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793804899">
+<meta name="fs-build" content="1793805275">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -4300,7 +4300,8 @@ let ADMINS=new Set();
 // mode test du créateur : couper Freestyle Plus ou ses pouvoirs sur ce téléphone pour voir l'app comme un membre
 let SIM={};try{SIM=JSON.parse(localStorage.getItem('fs-sim')||'{}')||{}}catch(_){SIM={}}
 const saveSim=()=>{try{localStorage.setItem('fs-sim',JSON.stringify(SIM))}catch(_){}};
-const realAdmin=()=>!!(me&&ADMINS.has(me.id));const isAdmin=()=>realAdmin()&&!SIM.noadmin;const vb=uid=>{const p=P[uid];if(!p)return '';const m=bdParse(badgeCache[uid]||p.badges||[]);return ((m.fondateur||uid===FOUNDER_ID)?creatorSVG(1):'')+(p.verified||m.verifie?I.verifiedBlue:'')};
+const realAdmin=()=>!!(me&&ADMINS.has(me.id));const isAdmin=()=>realAdmin()&&!SIM.noadmin;const vb=uid=>{const p=P[uid];if(!p)return '';const m=bdParse(badgeCache[uid]||p.badges||[]);return ((m.fondateur||uid===FOUNDER_ID)?VB_CREA:'')+(p.verified||m.verifie?I.verifiedBlue:'')};
+const VB_CREA='<svg class="vbadge vb-crea" width="15" height="15" viewBox="0 0 24 24" aria-label="Créateur de Freestyle" role="img"><path d="M12 1.6l2.7 2 3.3-.3 1 3.2 2.8 1.9-1.1 3.2 1.1 3.2-2.8 1.9-1 3.2-3.3-.3-2.7 2-2.7-2-3.3.3-1-3.2-2.8-1.9 1.1-3.2-1.1-3.2 2.8-1.9 1-3.2 3.3.3z" fill="url(#vbGold)"/><path d="M7.4 15.4L6.8 9.3l3.1 2.6L12 7.9l2.1 4 3.1-2.6-.6 6.1z" fill="#fff" stroke="#fff" stroke-width=".9" stroke-linejoin="round"/></svg>';
 let ADMIN_ALLB={};async function loadAdmins(){try{let {data,error}=await sb.from('admins').select('user_id,all_badges');if(error)({data}=await sb.from('admins').select('user_id'));ADMINS=new Set((data||[]).map(r=>r.user_id));ADMIN_ALLB={};(data||[]).forEach(r=>ADMIN_ALLB[r.user_id]=r.all_badges!==false)}catch(e){}}
 let notifs=[],unreadNotifs=0,likedStories=new Set(),myStoryLikes={},soundOn=false;
 
