@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793792708">
+<meta name="fs-build" content="1793792876">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3760,6 +3760,10 @@ html[data-theme="dark"] .pp-plus{background:#161616!important}
 .pp-plus::before{content:"";position:absolute;left:50%;top:50%;z-index:-2;width:200%;aspect-ratio:1;translate:-50% -50%;background:conic-gradient(from 0deg,rgba(139,108,255,.05) 0%,rgba(139,108,255,.9) 18%,rgba(255,79,216,.75) 30%,rgba(91,63,214,.1) 45%,rgba(139,108,255,.05) 55%,rgba(79,195,255,.7) 72%,rgba(139,108,255,.85) 84%,rgba(139,108,255,.05) 100%);animation:fxRot 7s linear infinite;will-change:transform}
 .pp-plus::after{content:"";position:absolute;inset:1.5px;z-index:-1;border-radius:calc(16px - 1.5px);background:var(--paper)}
 html[data-theme="dark"] .pp-plus::after{background:#161616}
+
+/* ================= v87 : badges objets ================= */
+.bd-i{filter:drop-shadow(0 1.5px 2px rgba(0,0,0,.28))}
+.bd-sh{opacity:.5}
 </style>
 </head>
 <body>
@@ -6010,12 +6014,48 @@ function bdOrn(kind,cx,cy,R,c){
   case 'stars':return `<path class="bd-tw" d="M33 7l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" fill="#fff"/><path class="bd-tw bd-tw2" d="M6.5 30l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5z" fill="#fff"/>`;
  }return ''}
 const ORN_BACK=new Set(['rays','flames','wings','ribbon','laurel','ring']);
-function bdTierSVG(it){const t=Math.max(1,it.t),f=it.fam,sp=f[6][t-1],sh=sp[2],op=sp[4]||{},sc=.86,orns=sp[3],cy=orns.includes('crown')?21.4:20,R=16*sc;
+function bdTierSVGOld(it){const t=Math.max(1,it.t),f=it.fam,sp=f[6][t-1],sh=sp[2],op=sp[4]||{},sc=.86,orns=sp[3],cy=orns.includes('crown')?21.4:20,R=16*sc;
  const c={a:sp[1][0],b:sp[1][1],d:sp[1][2],s:op.s||hmix(sp[1][2],'#000000',.35),g:`url(#bdg-f-${f[0]}-${t})`};
  const back=orns.filter(o=>ORN_BACK.has(o)).map(o=>bdOrn(o,20,cy,R,c)).join(''),front=orns.filter(o=>!ORN_BACK.has(o)).map(o=>bdOrn(o,20,cy,R,c)).join('');
  return `<svg viewBox="0 0 40 40" aria-hidden="true">${back}<g transform="translate(20 ${P2(cy)}) scale(${sc}) translate(-16 -16)">${bdShapeSVG(BD_SHAPE[sh],sh,c.g,c.s,it.icon,'translate(8.6 9) scale(.615)')}</g>${front}</svg>`}
+
+// ================= BADGES : objets illustrés (style « vrais badges ») =================
+const BD_GLYPH={
+ crown:[['M2.5 8.5l5 3.8L12 4.5l4.5 7.8 5-3.8-2 10.5H4.5z','m'],['M4.6 17h14.8l-.5 2.6H5.1z','d'],['M12 3.2a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2zM2.6 6.9a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8zM21.4 6.9a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8z','l']],
+ gem:[['M7 3h10l4.5 6L12 21.5 2.5 9z','m'],['M7 3h10l4.5 6h-19z','l'],['M8.5 9L12 21.5 15.5 9z','d'],['M8 4.2h3l-1.6 3.8H5.6z','w']],
+ seal:[['M12 1.8l2.4 1.7 2.9-.3 1.2 2.7 2.7 1.2-.3 2.9 1.7 2.4-1.7 2.4.3 2.9-2.7 1.2-1.2 2.7-2.9-.3L12 22.2l-2.4-1.7-2.9.3-1.2-2.7-2.7-1.2.3-2.9L1.4 12l1.7-2.4-.3-2.9 2.7-1.2 1.2-2.7 2.9.3z','m'],['M7.6 12.3l3 3 5.8-6.1','ws']],
+ laurel:[['L','laurel'],['M8.2 12.3l2.7 2.7 5-5.3','ws2']],
+ flag:[['M5 3h2.2v18.5H5z','d'],['M7.2 4h12l-2.8 4.3 2.8 4.3h-12z','m'],['M7.2 4h12l-1 1.6H7.2z','w']],
+ bolt:[['M13.5 2L4.5 13.5h6L9 22l10-12.5h-6.2z','m'],['M13.5 2l-5 6.4h3.1z','l']],
+ heart:[['M12 21s-8.5-5.3-8.5-11.4A4.6 4.6 0 0 1 12 6.5a4.6 4.6 0 0 1 8.5 3.1C20.5 15.7 12 21 12 21z','m'],['M7.6 7.2a2.8 2.8 0 0 0-2.5 2.6c.9-.9 2-1.3 3.2-1.2z','w']],
+ calendar:[['M3.5 6.5h17v13a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z','m'],['M3.5 6.5A1.5 1.5 0 0 1 5 5h14a1.5 1.5 0 0 1 1.5 1.5V10h-17z','d'],['M7.4 2.8h1.8v4.2H7.4zM14.8 2.8h1.8v4.2h-1.8z','w'],['M7 13h2.4v2.4H7zM10.8 13h2.4v2.4h-2.4zM14.6 13H17v2.4h-2.4zM7 16.8h2.4v2.4H7zM10.8 16.8h2.4v2.4h-2.4z','d']],
+ people:[['M15.5 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6zM10.5 19c.4-3.6 2.4-5.8 5-5.8s4.6 2.2 5 5.8z','d'],['M9 6a3.4 3.4 0 1 1 0 6.8A3.4 3.4 0 0 1 9 6zM2.6 20.5c.4-4.1 2.9-6.6 6.4-6.6s6 2.5 6.4 6.6z','m']],
+ picture:[['M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5z','m'],['M5.6 18.2l4.4-6 3 3.6 2-2.4 3.4 4.8z','d'],['M15.6 6.8a1.7 1.7 0 1 1 0 3.4 1.7 1.7 0 0 1 0-3.4z','w']],
+ clap:[['M3 9.5h18v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5z','m'],['M2.8 5.2l15.6-2.7.7 4L3.5 9.2z','d'],['M5.6 4.7l3.2 3.6 2.4-.4L8 4.3zM11 3.8l3.2 3.6 2.4-.4-3.2-3.6z','w'],['M10 12.3v5.4l4.6-2.7z','w']],
+ checkseal:[['M5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5v-13A2.5 2.5 0 0 1 5.5 3z','m'],['M7.4 12.4l3.1 3.1 6.1-6.4','ws']],
+ thumb:[['M7 10.5v10H4a1.5 1.5 0 0 1-1.5-1.5v-7A1.5 1.5 0 0 1 4 10.5z','d'],['M8.5 10.3l3.9-6.6a1.9 1.9 0 0 1 3.4 1.5l-.9 3.9h4.6a2 2 0 0 1 2 2.4l-1.4 7a2.5 2.5 0 0 1-2.4 2H8.5z','m']],
+ flame:[['M12 2.5c.6 3.6 5.8 5.4 5.8 11a5.8 5.8 0 0 1-11.6 0c0-2.8 1.4-4.4 2.6-5.5.2 1.8 1 3 2.2 3.6-.3-3.8.4-6.6 1-9.1z','m'],['M12 12c.3 1.7 2.6 2.7 2.6 5.2a2.6 2.6 0 0 1-5.2 0c0-1.7.9-2.6 1.6-3.3.1.8.5 1.2.9 1.4-.1-1.4.1-2.5.1-3.3z','l']],
+ megaphone:[['M3.5 9.5h4l9-5v15l-9-5h-4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z','m'],['M16.5 4.5c1.3 1.4 2 4.2 2 7.5s-.7 6.1-2 7.5z','d'],['M6 14.5l1.6 5.2h2.3l-1-5.2z','d'],['M20 9.2c.8.8 1.2 1.7 1.2 2.8s-.4 2-1.2 2.8','ws']],
+ bubble:[['M12 3.5c5 0 9 3.3 9 7.6s-4 7.6-9 7.6c-1 0-2-.1-2.9-.4L4.5 20.5l1.3-3.9C4 15.2 3 13.3 3 11.1 3 6.8 7 3.5 12 3.5z','m'],['M7.8 9.8a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6zM12 9.8a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6zM16.2 9.8a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6z','w']],
+ gift:[['M4 11h16v8.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19.5z','m'],['M2.8 7.5h18.4v4H2.8z','l'],['M10.8 7.5h2.4V21h-2.4z','d'],['M12 7.5C10.5 4 7.2 3.4 6.6 5.2 6 7 9 7.5 12 7.5zM12 7.5c1.5-3.5 4.8-4.1 5.4-2.3.6 1.8-2.4 2.3-5.4 2.3z','d']],
+ personplus:[['M10 4a3.6 3.6 0 1 1 0 7.2A3.6 3.6 0 0 1 10 4zM3 20.5c.4-4.3 3.1-7 7-7s6.6 2.7 7 7z','m'],['M17.6 6h1.8v2.6H22v1.8h-2.6V13h-1.8v-2.6H15V8.6h2.6z','l']]
+};
+const BD_GMAP={fondateur:'crown',plus:'gem',verifie:'seal',valide:'laurel',pionnier:'flag',flash:'bolt',genereux:'heart',organisateur:'calendar',followers:'people',posts:'picture',clips:'clap',checks:'checkseal',likes:'thumb',vues:'flame',shouts:'megaphone',comments:'bubble',parrain:'gift',suivis:'personplus'};
+let bdGid=0;
+function bdGlyph(name,c,scale){const G=BD_GLYPH[name]||BD_GLYPH.seal,id='bdgc'+(bdGid++),mains=G.filter(x=>x[1]==='m').map(x=>x[0]).join('');
+ const body=G.map(([d,k])=>k==='m'?`<path d="${d}" fill="${c.g}"/><path d="${d}" fill="url(#bdg-hl)"/>`:k==='d'?`<path d="${d}" fill="${c.d}"/>`:k==='l'?`<path d="${d}" fill="${c.a}"/>`:k==='w'?`<path d="${d}" fill="#fff" opacity=".92"/>`:k==='ws'?`<path d="${d}" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>`:k==='ws2'?`<path d="${d}" fill="none" stroke="${c.b}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`:k==='laurel'?`<g transform="translate(12 12) scale(.86) translate(-20 -20)">${laurel(20,20,11.5,c.g,c.d,6)}</g>`:'').join('');
+ return `<g transform="translate(20 20) scale(${scale}) translate(-12 -12)">${mains?`<clipPath id="${id}"><path d="${mains}"/></clipPath>`:''}${body}${mains?`<g clip-path="url(#${id})"><rect class="bd-sh" x="-10" y="-4" width="5" height="34" fill="#fff"/></g>`:''}</g>`}
+function bdTierSVG(it){const t=Math.max(1,it.t),f=it.fam,sp=f[6][t-1];
+ const c={a:sp[1][0],b:sp[1][1],d:sp[1][2],g:`url(#bdg-f-${f[0]}-${t})`},sc=[0,1.22,1.24,1.08][t];
+ let back='',front='';
+ if(t>=3){back+=`<circle cx="20" cy="20" r="18" fill="${c.b}" opacity=".16"/>`+laurel(20,21,15.2,c.g,c.d,5)}
+ if(t>=2)front+=`<path class="bd-tw" d="M32.5 6.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" fill="#fff"/>`;
+ if(t>=3)front+=`<path class="bd-tw bd-tw2" d="M7 29l.6 1.5 1.5.6-1.5.6L7 33.2l-.6-1.5-1.5-.6 1.5-.6z" fill="#fff"/>`;
+ return `<svg viewBox="0 0 40 40" aria-hidden="true">${back}${bdGlyph(BD_GMAP[f[0]],c,sc)}${front}</svg>`}
+function bdSingleSVG(it){const c={a:hmix(it.color,'#ffffff',.45),b:it.color,d:hmix(it.color,'#000000',.32),g:`url(#bdg-g-${it.k})`};
+ return `<svg viewBox="0 0 40 40" aria-hidden="true">${it.rare?`<circle cx="20" cy="20" r="18" fill="${it.color}" opacity=".12"/>`:''}${bdGlyph(BD_GMAP[it.k],c,1.3)}</svg>`}
 function bdgIcon(it,sz){bdEnsureDefs();if(!it)return '';const dl=((bdSeq++)%7)*.55;
- const svg=it.fam?bdTierSVG(it):`<svg viewBox="-7.25 -7.25 46.5 46.5" aria-hidden="true" style="overflow:visible">${bdShapeSVG(BD_SHAPE[it.shape],it.shape,`url(#bdg-g-${it.k})`,hmix(it.color,'#000000',.5),it.icon,'translate(8.6 9) scale(.615)')}</svg>`;
+ const svg=it.fam?bdTierSVG(it):bdSingleSVG(it);
  return `<i class="bd-i ${it.fam?'bd-l'+Math.max(1,it.t):''} ${it.rare?'rare':''}" style="--bd:${it.color};--dl:${dl}s;${sz?`--bs:${sz}px`:''}" title="${esc(it.name)}${it.fam&&it.t?' · '+esc(it.level):''}">${svg}</i>`}
 const bdEarnedItems=got=>{const m=bdParse(got);return BD_ORDER.filter(k=>m[k]).map(k=>bdItem(k,m[k]))};
 const badgesShown=(uid,got)=>{const u=P[uid]||{},m=bdParse(got);
