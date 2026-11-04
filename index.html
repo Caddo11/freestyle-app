@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793793882">
+<meta name="fs-build" content="1793794058">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3908,6 +3908,15 @@ html[data-theme="dark"] .bz-quick button{background:#1A1A1A}
 @keyframes fxFlick{0%{opacity:1}50%{opacity:.35}}
 /* Katana et Pieds : taille de contour normale */
 
+
+/* ================= v95 : effet de bannière Foudre ================= */
+.bfx-foudre::before,.bfx-foudre::after{top:0;bottom:0;width:34%;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 100' preserveAspectRatio='none'%3E%3Cdefs%3E%3CradialGradient id='g' cx='.5' cy='.35' r='.6'%3E%3Cstop offset='0' stop-color='%23cfe6ff' stop-opacity='.45'/%3E%3Cstop offset='1' stop-color='%23cfe6ff' stop-opacity='0'/%3E%3C/radialGradient%3E%3Cfilter id='b'%3E%3CfeGaussianBlur stdDeviation='1.6'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='60' height='100' fill='url%28%23g%29'/%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M30.0 0.0L33.4 9.1L36.7 19.8L36.3 26.0L41.9 35.2L40.3 45.6L42.0 51.9L48.6 58.6L52.0 65.6L50.8 71.7L48.5 79.0L49.8 87.9L47.8 94.2L43.4 100.0M41.9 35.2L48.3 41.7L43.1 46.8L38.4 52.5M48.6 58.6L41.8 64.2L37.6 73.1L33.9 82.0' stroke='%238EC5FF' stroke-width='4' opacity='.7' filter='url%28%23b%29'/%3E%3Cpath d='M30.0 0.0L33.4 9.1L36.7 19.8L36.3 26.0L41.9 35.2L40.3 45.6L42.0 51.9L48.6 58.6L52.0 65.6L50.8 71.7L48.5 79.0L49.8 87.9L47.8 94.2L43.4 100.0' stroke='%23EAF5FF' stroke-width='1.4'/%3E%3Cpath d='M41.9 35.2L48.3 41.7L43.1 46.8L38.4 52.5M48.6 58.6L41.8 64.2L37.6 73.1L33.9 82.0' stroke='%23EAF5FF' stroke-width='.8'/%3E%3C/g%3E%3C/svg%3E") center/100% 100% no-repeat;opacity:0;will-change:opacity,transform}
+.bfx-foudre::before{left:12%;animation:bfBoltA 4.2s linear infinite}
+.bfx-foudre::after{left:58%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 100' preserveAspectRatio='none'%3E%3Cdefs%3E%3CradialGradient id='g' cx='.5' cy='.35' r='.6'%3E%3Cstop offset='0' stop-color='%23cfe6ff' stop-opacity='.45'/%3E%3Cstop offset='1' stop-color='%23cfe6ff' stop-opacity='0'/%3E%3C/radialGradient%3E%3Cfilter id='b'%3E%3CfeGaussianBlur stdDeviation='1.6'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='60' height='100' fill='url%28%23g%29'/%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M30.0 0.0L34.3 8.6L38.0 16.1L32.6 25.4L36.6 32.1L35.4 41.5L34.4 49.2L37.8 59.6L41.8 67.0L35.0 77.9L28.8 86.3L32.3 93.6L34.0 100.0M32.6 25.4L38.8 32.0L44.4 39.8L47.9 47.0M36.6 32.1L32.3 37.6L28.1 42.9L33.6 50.3M37.8 59.6L42.3 67.7L46.2 75.0L41.1 81.4M41.8 67.0L37.8 73.2L42.1 79.5L46.4 84.7' stroke='%238EC5FF' stroke-width='4' opacity='.7' filter='url%28%23b%29'/%3E%3Cpath d='M30.0 0.0L34.3 8.6L38.0 16.1L32.6 25.4L36.6 32.1L35.4 41.5L34.4 49.2L37.8 59.6L41.8 67.0L35.0 77.9L28.8 86.3L32.3 93.6L34.0 100.0' stroke='%23EAF5FF' stroke-width='1.4'/%3E%3Cpath d='M32.6 25.4L38.8 32.0L44.4 39.8L47.9 47.0M36.6 32.1L32.3 37.6L28.1 42.9L33.6 50.3M37.8 59.6L42.3 67.7L46.2 75.0L41.1 81.4M41.8 67.0L37.8 73.2L42.1 79.5L46.4 84.7' stroke='%23EAF5FF' stroke-width='.8'/%3E%3C/g%3E%3C/svg%3E");animation:bfBoltB 5.6s linear infinite}
+.bfx-foudre{animation:bfFlash 4.2s linear infinite}
+@keyframes bfBoltA{0%,18%{opacity:0;transform:none}20%{opacity:1}22%{opacity:.2}24%{opacity:.95}32%{opacity:0;transform:none}33%,68%{opacity:0;transform:translateX(120%) scaleX(-1)}70%{opacity:1;transform:translateX(120%) scaleX(-1)}72%{opacity:.3;transform:translateX(120%) scaleX(-1)}78%,100%{opacity:0;transform:translateX(120%) scaleX(-1)}}
+@keyframes bfBoltB{0%,44%{opacity:0;transform:none}46%{opacity:1}48%{opacity:.25}50%{opacity:.9}58%,100%{opacity:0;transform:none}}
+@keyframes bfFlash{0%,19%,23%,27%,69%,73%,100%{background-color:transparent}20%,24%{background-color:rgba(190,220,255,.16)}70%{background-color:rgba(190,220,255,.12)}}
 </style>
 </head>
 <body>
@@ -6057,7 +6066,6 @@ const BD_SINGLE=[
  ['fondateur','Créateur de Freestyle','Le compte qui a créé Freestyle','#C9A24A','sceau',1],
  ['plus','Freestyle Plus','Membre de l’offre Freestyle Plus','#7B5CFF','losange',1],
  ['verifie','Compte vérifié','Pastille bleue','#2F8BFF','sceau',0],
- ['valide','Validé par la communauté','100 checks de membres différents','#22A55C','ecusson',1],
  ['pionnier','Pionnier','Inscrit pendant la première année','#8C6A3E','ecusson',0],
  ['flash','Premier flash','A publié son premier flash','#F5B301','losange',0],
  ['genereux','Généreux','A donné ses 5 checks','#10B981','rond',0],
@@ -6078,10 +6086,10 @@ const BD_FAM=[
   ['Caméra',['#FFD6B0','#F97316','#9A3412'],'rond',[]],
   ['Réal',['#FFC9C9','#EF4444','#7F1D1D'],'losange',['orbit']],
   ['Cinéaste',['#5A5A63','#1F1F23','#050506'],'hexa',['rays','laurel','stars'],{s:'#E3B341'}]]],
- ['checks','Checks','check reçu','checks reçus',[10,100,1000],'checke10',[
+ ['valide','Validé par la communauté','check reçu','checks reçus',[10,50,100],'checke10',[
   ['Reconnu',['#C8F7D6','#22C55E','#14532D'],'rond',[]],
   ['Respecté',['#B7F0DA','#059669','#064E3B'],'ecusson',['laurel']],
-  ['Intouchable',['#F0FFF7','#34D399','#065F46'],'sceau',['rays','crown','gems']]]],
+  ['Validé',['#F0FFF7','#34D399','#065F46'],'sceau',['rays','crown','gems']]]],
  ['likes','J’aime','j’aime reçu','j’aime reçus',[100,10000,1000000],'aime',[
   ['Apprécié',['#FFD1DA','#FB7185','#9F1239'],'rond',[]],
   ['Adoré',['#FFC2CC','#E11D48','#881337'],'sceau',['wings']],
@@ -6107,14 +6115,14 @@ const BD_FAM=[
   ['Connecté',['#D2E3FF','#2563EB','#1E3A8A'],'hexa',['orbit']],
   ['Réseau',['#BDF6FF','#0891B2','#0C1E3D'],'legende',['ring','orbit','stars']]]]
 ];
-const BD_ORDER=['fondateur','plus','verifie','valide','followers','posts','clips','checks','likes','vues','shouts','comments','parrain','suivis','pionnier','flash','genereux','organisateur'];
+const BD_ORDER=['fondateur','plus','verifie','valide','followers','posts','clips','likes','vues','shouts','comments','parrain','suivis','pionnier','flash','genereux','organisateur'];
 const BD_MAX=BD_SINGLE.length+BD_FAM.length*3;
-const OLD2NEW={premier_post:'posts',posts10:'posts',posts50:'posts',clip:'clips',shout10:'shouts',checke10:'checks',serie7:'serie',serie30:'serie',populaire:'followers',star:'followers',sociable:'suivis',bavard:'comments',aime:'likes',viral:'vues',ambassadeur:'parrain',recruteur:'parrain'};
+const OLD2NEW={premier_post:'posts',posts10:'posts',posts50:'posts',clip:'clips',shout10:'shouts',checke10:'valide',checks:'valide',serie7:'serie',serie30:'serie',populaire:'followers',star:'followers',sociable:'suivis',bavard:'comments',aime:'likes',viral:'vues',ambassadeur:'parrain',recruteur:'parrain'};
 const bdNorm=k=>OLD2NEW[k]||k;
 function bdParse(got){const m={};(got||[]).forEach(x=>{let [k,t]=String(x).split(':');t=t?Math.max(1,Math.min(3,+t||1)):1;k=bdNorm(k);m[k]=Math.max(m[k]||0,t)});return m}
 const fmtN=n=>Number(n).toLocaleString('fr-FR');
 const famUnit=(f,n)=>n>1?f[3]:f[2];
-const BD_HOW={followers:'Gagne des followers sur ton profil.',posts:'Publie des posts.',clips:'Publie des clips.',checks:'Reçois des checks d’autres membres.',likes:'Reçois des j’aime sur tes posts.',vues:'Fais grimper les vues d’un de tes posts.',shouts:'Écris des shouts.',comments:'Commente les posts des autres.',parrain:'Invite des potes sur Freestyle.',suivis:'Suis d’autres sportifs.'};
+const BD_HOW={followers:'Gagne des followers sur ton profil.',posts:'Publie des posts.',clips:'Publie des clips.',valide:'Reçois des checks d’autres membres (100 pour être validé par la communauté).',likes:'Reçois des j’aime sur tes posts.',vues:'Fais grimper les vues d’un de tes posts.',shouts:'Écris des shouts.',comments:'Commente les posts des autres.',parrain:'Invite des potes sur Freestyle.',suivis:'Suis d’autres sportifs.'};
 function bdItem(k,t){const sg=BD_SINGLE.find(x=>x[0]===k);
  if(sg)return {k,name:sg[1],desc:sg[2],color:sg[3],shape:sg[4],rare:!!sg[5],icon:BIC[k]||BIC.star,t:t?1:0};
  const f=BD_FAM.find(x=>x[0]===k);if(!f)return null;const th=f[4],sp=f[6][Math.max(1,t)-1];
@@ -6184,7 +6192,7 @@ const BD_GLYPH={
  gift:[['M4 11h16v8.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19.5z','m'],['M2.8 7.5h18.4v4H2.8z','l'],['M10.8 7.5h2.4V21h-2.4z','d'],['M12 7.5C10.5 4 7.2 3.4 6.6 5.2 6 7 9 7.5 12 7.5zM12 7.5c1.5-3.5 4.8-4.1 5.4-2.3.6 1.8-2.4 2.3-5.4 2.3z','d']],
  personplus:[['M10 4a3.6 3.6 0 1 1 0 7.2A3.6 3.6 0 0 1 10 4zM3 20.5c.4-4.3 3.1-7 7-7s6.6 2.7 7 7z','m'],['M17.6 6h1.8v2.6H22v1.8h-2.6V13h-1.8v-2.6H15V8.6h2.6z','l']]
 };
-const BD_GMAP={fondateur:'crown',plus:'gem',verifie:'seal',valide:'laurel',pionnier:'flag',flash:'bolt',genereux:'heart',organisateur:'calendar',followers:'people',posts:'picture',clips:'clap',checks:'checkseal',likes:'thumb',vues:'flame',shouts:'megaphone',comments:'bubble',parrain:'gift',suivis:'personplus'};
+const BD_GMAP={fondateur:'crown',plus:'gem',verifie:'seal',valide:'checkseal',pionnier:'flag',flash:'bolt',genereux:'heart',organisateur:'calendar',followers:'people',posts:'picture',clips:'clap',likes:'thumb',vues:'flame',shouts:'megaphone',comments:'bubble',parrain:'gift',suivis:'personplus'};
 let bdGid=0;
 function bdGlyph(name,c,scale){const G=BD_GLYPH[name]||BD_GLYPH.seal,id='bdgc'+(bdGid++),mains=G.filter(x=>x[1]==='m').map(x=>x[0]).join('');
  const body=G.map(([d,k])=>k==='m'?`<path d="${d}" fill="${c.g}"/><path d="${d}" fill="url(#bdg-hl)"/>`:k==='d'?`<path d="${d}" fill="${c.d}"/>`:k==='l'?`<path d="${d}" fill="${c.a}"/>`:k==='w'?`<path d="${d}" fill="#fff" opacity=".92"/>`:k==='ws'?`<path d="${d}" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>`:k==='ws2'?`<path d="${d}" fill="none" stroke="${c.b}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`:k==='laurel'?`<g transform="translate(12 12) scale(.86) translate(-20 -20)">${laurel(20,20,11.5,c.g,c.d,6)}</g>`:'').join('');
@@ -6196,7 +6204,7 @@ function bdFx3(k,c){const st=c.b;
   case 'followers':{const w='M12.5 19.5C8 15 4 15.5 1.6 17.2C4.4 17.6 5.4 18.6 6 19.6C3.6 19.6 2.4 20.6 1.8 22C4.6 21.4 6.4 21.8 7.6 22.6C6 23.4 5.2 24.6 5 26C8 24.6 10.6 23.6 12.8 23.4Z';return [`<g class="bd-wl"><path d="${w}" fill="${c.g}" stroke="${c.d}" stroke-width=".5" stroke-linejoin="round"/></g><g class="bd-wr"><path d="${w}" transform="translate(40 0) scale(-1 1)" fill="${c.g}" stroke="${c.d}" stroke-width=".5" stroke-linejoin="round"/></g>`,BD_STAR(33,6.5,1.8,st)]}
   case 'posts':return [`<g class="bd-spin"><circle cx="20" cy="20" r="17.2" fill="none" stroke="${c.b}" stroke-width=".9" stroke-dasharray="2.4 3" stroke-linecap="round" opacity=".8"/></g>`,`<g class="bd-orb">${BD_STAR(20,2.6,1.8,st)}<circle cx="20" cy="37.4" r="1.1" fill="${c.a}"/></g>`];
   case 'clips':return [`<g class="bd-spot">${[0,1,2,3,4,5].map(i=>`<path d="M20 20L${(20+19*Math.sin(i*1.047-.12)).toFixed(1)} ${(20-19*Math.cos(i*1.047-.12)).toFixed(1)}L${(20+19*Math.sin(i*1.047+.12)).toFixed(1)} ${(20-19*Math.cos(i*1.047+.12)).toFixed(1)}Z" fill="#FFE59A" opacity=".28"/>`).join('')}</g>`,BD_STAR(33,7,1.6,'#C9A24A')];
-  case 'checks':return [`<g class="bd-lau">${laurel(20,21,15.2,c.g,c.d,5)}</g>`,`<g class="bd-orb">${BD_STAR(20,1.8,1.7,st)}</g>`];
+  case 'valide':return [`<g class="bd-lau">${laurel(20,21,15.2,c.g,c.d,5)}</g>`,`<g class="bd-orb">${BD_STAR(20,1.8,1.7,st)}</g>`];
   case 'likes':return ['',`${[0,1,2].map(i=>`<g class="bd-rise" style="animation-delay:${i*.9}s">${BD_HEART([9,30,21][i],32,[1.2,1,.8][i],i===1?c.a:c.b)}</g>`).join('')}`];
   case 'vues':return [`<g class="bd-flk" style="transform-origin:20px 26px">${[-60,-30,0,30,60].map((d,i)=>{const a=d*Math.PI/180,o=.2,h=i%2?17:19.5,b=11,pt=(g,r)=>`${(20+r*Math.sin(g)).toFixed(1)} ${(21-r*Math.cos(g)).toFixed(1)}`;return `<path d="M${pt(a-o,b)}Q${pt(a-.1,15)} ${pt(a,h)}Q${pt(a+.1,15)} ${pt(a+o,b)}Z" fill="url(#bdg-fire)"/>`}).join('')}</g>`,''];
   case 'shouts':return [`${[0,1].map(i=>`<g class="bd-wave" style="animation-delay:${i*.8}s"><path d="M33 12.5c2.4 2.2 2.4 12.8 0 15" fill="none" stroke="${c.b}" stroke-width="1.4" stroke-linecap="round"/><path d="M7 12.5c-2.4 2.2-2.4 12.8 0 15" fill="none" stroke="${c.b}" stroke-width="1.4" stroke-linecap="round"/></g>`).join('')}`,''];
@@ -6270,7 +6278,7 @@ async function openBadges(uid){
  const ri=respectCache[uid]||await loadRespect(uid),nChk=ri?ri.count||0:null;
  const close=`<button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`;
  const fams=BD_FAM.map(f=>f[0]),sing=BD_ORDER.filter(k=>!fams.includes(k));
- const col=`<div class="bz-sec"><div class="bz-h"><b>Évolutifs</b><span>3 niveaux · touche pour voir l’évolution</span></div>${[...fams.filter(k=>m[k]),...fams.filter(k=>!m[k])].map(k=>bzEvoRow(k,m[k]||0,k==='checks'?nChk:null)).join('')}</div>
+ const col=`<div class="bz-sec"><div class="bz-h"><b>Évolutifs</b><span>3 niveaux · touche pour voir l’évolution</span></div>${[...fams.filter(k=>m[k]),...fams.filter(k=>!m[k])].map(k=>bzEvoRow(k,m[k]||0,k==='valide'?nChk:null)).join('')}</div>
   <div class="bz-sec"><div class="bz-h"><b>Spéciaux</b><span>Un seul niveau</span></div>${[...sing.filter(k=>m[k]),...sing.filter(k=>!m[k])].map(k=>bzSingleRow(k,!!m[k])).join('')}</div>`;
  const sum=`<div class="bz-sum"><b>${pts}</b><span><small>sur ${BD_MAX} niveaux débloqués</small><i class="bz-bar"><i style="width:${Math.round(pts/BD_MAX*100)}%"></i></i></span></div>`;
  let ord=badgesShown(uid,got).map(x=>x.k);
@@ -6309,7 +6317,7 @@ function fxWrap(a,s,fr,r){if(!fr||!FX_KEYS.has(fr))return a;const fw=Math.max(1.
  return `<span class="fx fx-${fr}" style="--fw:${fw}px;--r:${r}px">${a}<i class="fx-g"></i><i class="fx-r"></i><i class="fx-s"></i><i class="fx-o"></i><i class="fx-d"></i></span>`}
 function fxAv(uid,s,fr,r){if(fr===undefined)fr=(P[uid]&&P[uid].frame)||'';return fxWrap(av(uid,s),s,fr,r)}
 const BANNERS=[['','Ma photo'],['nuit','Nuit'],['sunset','Sunset'],['lave','Lave'],['menthe','Menthe'],['topo','Topo'],['beton','Béton'],['grille','Grille'],['scan','Scanlines'],['aurore','Aurore'],['carbone','Carbone'],['chrome','Chrome'],['braise','Braise'],['ocean','Océan'],['damier','Damier']];
-const BANNER_FX=[['','Aucun'],['contour','Contour'],['reflet','Reflet'],['scan','Scanner'],['particules','Particules'],['aurore','Aurore'],['bokeh','Bokeh'],['grain','Film'],['pluie','Pluie']];
+const BANNER_FX=[['','Aucun'],['reflet','Reflet'],['particules','Particules'],['grain','Film'],['pluie','Pluie'],['foudre','Foudre']];
 const NAME_FX=[['','Classique'],['neon','Néon'],['degrade','Chrome'],['chrome','Relief'],['or','Brillant'],['vague','Contour'],['script','Lumière']];
 const NFX_KEYS=new Set(NAME_FX.map(f=>f[0]).filter(Boolean));
 function nameFx(t,k){t=String(t||'');if(!k||!NFX_KEYS.has(k))return esc(t);
