@@ -6542,7 +6542,7 @@ async function openBadges(uid){
  const close=`<button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`;
  const fams=BD_FAM.map(f=>f[0]),sing=BD_ORDER.filter(k=>!fams.includes(k));
  const col=`<div class="bz-sec"><div class="bz-h"><b>Évolutifs</b><span>3 niveaux · touche pour voir l’évolution</span></div>${[...fams.filter(k=>m[k]),...fams.filter(k=>!m[k])].map(k=>bzEvoRow(k,m[k]||0,k==='valide'?nChk:null)).join('')}</div>
-  <div class="bz-sec"><div class="bz-h"><b>Spéciaux</b><span>Un seul niveau</span></div>${[...sing.filter(k=>m[k]),...sing.filter(k=>!m[k]&&!BD_RANKS.includes(k))].map(k=>bzSingleRow(k,!!m[k])).join('')}</div>`;
+  <div class="bz-sec"><div class="bz-h"><b>Spéciaux</b><span>Un seul niveau</span></div>${[...sing.filter(k=>m[k]),...sing.filter(k=>!m[k])].map(k=>bzSingleRow(k,!!m[k])).join('')}</div>`;
  const sum=`<div class="bz-sum"><b>${pts}</b><span><small>sur ${BD_MAX} niveaux débloqués</small><i class="bz-bar"><i style="width:${Math.round(pts/BD_MAX*100)}%"></i></i></span></div>`;
  let ord=badgesShown(uid,got).map(x=>x.k);
  const profPane=()=>{const rest=BD_ORDER.filter(k=>m[k]&&!ord.includes(k)&&!BD_NOBAR.has(k));
