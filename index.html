@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793794217">
+<meta name="fs-build" content="1793794411">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -941,6 +941,8 @@ nav.tabs button:not([aria-current="page"]) .nav-av{box-shadow:0 0 0 1.35px #D5D4
 /* polices : tout en Manrope */
 :root{--display:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--ui:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--pixel:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif}
 body,button,input,textarea,select{font-family:var(--body)}
+/* pas de ligatures (le « fl » de flash collait) : mêmes lettres partout */
+*,*::before,*::after{font-variant-ligatures:no-common-ligatures no-discretionary-ligatures;font-feature-settings:"liga" 0,"clig" 0}
 .tile .t-n{font-size:11px;font-weight:600}
 .cb-by{font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:5px}
 .opt{font-size:12px;font-weight:500}
@@ -3728,7 +3730,7 @@ html[data-theme="dark"] .ep2-row{border-bottom-color:rgba(255,255,255,.05)}
 .ep2-head~.epp-card,.ep .epp-card{margin-top:2px}
 .pp-plus{position:relative;background:linear-gradient(var(--paper),var(--paper)) padding-box,linear-gradient(135deg,rgba(139,108,255,.55),rgba(91,63,214,.15) 40%,rgba(255,79,216,.35)) border-box!important;border:1.5px solid transparent!important}
 html[data-theme="dark"] .pp-plus{background:linear-gradient(#161616,#161616) padding-box,linear-gradient(135deg,rgba(139,108,255,.6),rgba(91,63,214,.12) 40%,rgba(255,79,216,.35)) border-box!important}
-.pp-r1 .fp-t{display:inline-flex;align-items:center;gap:7px;font-size:17px}
+.pp-r1 .fp-t{display:inline-flex;align-items:center;gap:2px;font-size:17px}
 .pp-r1 .fp-t .bd-i{flex:0 0 auto}
 .pp-hero2>small{line-height:1.35}
 .ep-save{position:sticky;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:5;box-shadow:0 10px 26px rgba(0,0,0,.18)}
