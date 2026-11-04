@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793799955">
+<meta name="fs-build" content="1793800367">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3189,7 +3189,7 @@ button.bd-c:active{background:var(--paper)}
 .bd-c:not(.off) .bd-i{animation:bdPop .5s cubic-bezier(.3,1.5,.5,1) both}
 .bd-c:not(.off) .bd-i.rare{animation:bdPop .5s cubic-bezier(.3,1.5,.5,1) both,bdGlow 2.6s ease-in-out .5s infinite}
 @keyframes bdPop{from{transform:scale(.5);opacity:0}}
-.bd-c.off .bd-i{filter:grayscale(1) brightness(1.35) contrast(.8);opacity:.38}
+.bd-c.off .bd-i{filter:grayscale(1) brightness(1.2) contrast(.85);opacity:.5}
 .bd-c.off .bd-sh{display:none}
 .bd-c.hid .bd-i{opacity:.4;filter:grayscale(.6)}
 .bd-tg{display:inline-block;margin-top:5px;font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:6px;background:rgba(34,165,92,.14);color:#1E9A55}
@@ -3305,7 +3305,7 @@ html[data-theme="dark"] .bz-steps i{background:#2A2A2A}
 .bz-item.open .bz-chev{transform:rotate(180deg)}
 .bz-st{font-style:normal;width:26px;height:26px;display:grid;place-items:center;border-radius:8px;flex:0 0 auto;color:#22A55C;background:rgba(34,165,92,.12)}
 .bz-item.off .bz-st{color:#a3a29d;background:var(--paper)}
-.bz-item.off .bz-row>.bd-i{filter:grayscale(1) brightness(1.3);opacity:.35}
+.bz-item.off .bz-row>.bd-i{filter:grayscale(1) brightness(1.15);opacity:.5}
 .bz-item.off .bz-t b{color:#8e8e8a}
 .bz-evo{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.3,1,.5,1)}
 .bz-item.open .bz-evo{grid-template-rows:1fr}
@@ -3316,8 +3316,7 @@ html[data-theme="dark"] .bz-steps i{background:#2A2A2A}
 .bz-stage small{font-size:11px;color:#8e8e8a}
 .bz-stage em{font-style:normal;font-size:10.5px;font-weight:800;color:#22A55C;display:flex;align-items:center;height:16px}
 .bz-stage:not(.got) em{color:#a3a29d}
-.bz-stage:not(.got) .bd-i{filter:grayscale(1) brightness(1.25);opacity:.35}
-.bz-stage:not(.got) .bd-i *{animation:none!important}
+.bz-stage:not(.got) .bd-i{filter:grayscale(1) brightness(1.15);opacity:.5}
 .bz-stage.cur .bd-i{transform:scale(1.08)}
 .bz-arrow{width:14px;height:56px;flex:0 0 auto;background:no-repeat center/10px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3a29d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l6 6-6 6'/%3E%3C/svg%3E")}
 .bz-next{margin:4px 0 0;padding:0 10px 12px;font-size:12px;color:#8e8e8a;text-align:center}
@@ -3461,6 +3460,11 @@ html[data-theme="dark"] .ppx-tabs{background:#0F0F0F}
 .ppx-ind{position:absolute;left:0;top:4px;height:34px;border-radius:9px;background:var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.08);transition:transform .34s cubic-bezier(.3,1.25,.4,1),width .34s cubic-bezier(.3,1.25,.4,1);will-change:transform}
 html[data-theme="dark"] .ppx-ind{background:#262626}
 .ppx-pane{margin-top:10px}
+.n-av.n-bdg{display:grid;place-items:center;width:40px;height:40px}
+.st-th.st-sh{background:var(--raise)!important;display:flex;flex-direction:column;padding:7px 7px 6px;box-shadow:inset 0 0 0 1px rgba(127,127,127,.18)}
+.st-sh .st-q{font-style:normal;font-family:Georgia,serif;font-size:22px;line-height:.7;height:12px;color:#8B6CFF}
+.st-sh .st-sht{font-size:8.5px;line-height:1.3;font-weight:600;color:var(--ink);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+html[data-theme="dark"] .st-th.st-sh{background:#1C1C1C!important}
 /* espace créateur */
 .crea-btn{display:flex;align-items:center;gap:12px;width:100%;margin-top:8px;padding:10px 14px;border-radius:12px;background:linear-gradient(135deg,rgba(242,181,48,.14),rgba(242,181,48,.05));box-shadow:inset 0 0 0 1px rgba(214,154,32,.35);color:var(--ink);text-align:left}
 .crea-btn .crea-ic{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:rgba(242,181,48,.18)}
@@ -3921,7 +3925,6 @@ html[data-theme="dark"] .bz-quick button{background:#1A1A1A}
 .bd-fl{transform-box:view-box;transform-origin:50% 50%;animation:bdFl 3s ease-in-out infinite}
 @keyframes bdFl{0%,100%{transform:translateY(.6px)}50%{transform:translateY(-.9px) scale(1.02)}}
 .mbd .bd-lau,.mbd .bd-orb,.mbd .bd-fl{animation:none!important}
-.bz-stage:not(.got) .bd-lau,.bz-stage:not(.got) .bd-orb,.bz-stage:not(.got) .bd-fl{animation:none!important}
 
 /* ================= v94 : badges niveau 3 tous différents ================= */
 .bd-wl,.bd-wr{transform-box:view-box;animation:bdFlap 1.8s ease-in-out infinite}
@@ -3941,7 +3944,6 @@ html[data-theme="dark"] .bz-quick button{background:#1A1A1A}
 @keyframes bdFall{0%{transform:translateY(0) rotate(0);opacity:0}15%{opacity:1}100%{transform:translateY(34px) rotate(260deg);opacity:0}}
 .mbd .bd-wl,.mbd .bd-wr,.mbd .bd-spin,.mbd .bd-orb2,.mbd .bd-spot,.mbd .bd-rise,.mbd .bd-wave,.mbd .bd-pulse,.mbd .bd-fall{animation:none!important}
 .mbd .bd-rise,.mbd .bd-wave,.mbd .bd-pulse,.mbd .bd-fall{display:none}
-.bz-stage:not(.got) svg *{animation:none!important}
 
 /* ================= v94 : cadres retouchés ================= */
 /* Spider : la toile apparaît puis disparaît sur la photo */
@@ -4161,7 +4163,7 @@ async function dbError(error,fallback){
  if(m.includes('COMPTE_SUSPENDU')){await punish('muted');return}
  if(m.includes('NOM_14_JOURS')){warnBox('Nom bloqué 14 jours','Tu as déjà changé ton nom récemment. Tu pourras le modifier à nouveau 14 jours après le dernier changement.',false);return}
  if(m.includes('duplicate key')&&m.includes('handle')){toast('Ce nom d’utilisateur est déjà pris');return}
- if(m.includes('SHOUT_TROP')){toast('Doucement : 10 shouts par heure maximum');return}
+ if(m.includes('SHOUT_TROP')){toast('Doucement : 10 messages par heure maximum');return}
  if(m.includes('ANNONCES_EN_ATTENTE')){toast('Tu as déjà une demande en attente : patiente qu’elle soit validée');return}
  if(m.includes('PSEUDO_INVALIDE')){toast('Pseudo refusé : pas d’émoji, seulement lettres, chiffres, espaces, . - _');return}
  if(m.includes('profiles_handle_check')){toast('Nom d’utilisateur refusé : pas d’émoji ni de symbole');return}
@@ -4600,8 +4602,8 @@ async function loadConvs(){
 }
 async function loadNotifs(){const {data}=await sb.from('notifications').select('*').order('created_at',{ascending:false}).limit(80);notifs=data||[];unreadNotifs=notifs.filter(n=>!n.read_at).length;await loadProfiles(notifs.map(n=>n.actor_id))}
 const notifText=n=>({reaction:'a réagi « '+(n.text||'')+' » à ton post',story_like:'a aimé ton flash',like:'a aimé ton post',comment:'a commenté : '+(n.text||''),reply:'a répondu à ton commentaire : '+(n.text||''),comment_like:'a aimé ton commentaire'+(n.text?' : '+n.text:''),message:'t’a envoyé un message : '+(n.text||''),follow:'s’est abonné à toi',announcement:'a publié une annonce : '+(n.text||''),partner_request:'veut être ton partenaire d’entraînement',partner_accept:'a accepté d’être ton partenaire d’entraînement',respect:'t’a validé',ann_request:'demande à publier une annonce : '+(n.text||''),ann_accept:'a accepté ton annonce : '+(n.text||'')+' · visible 7 jours',ann_refuse:'n’a pas retenu ton annonce : '+(n.text||''),referral:'a rejoint Freestyle grâce à toi'})[n.type]||'';
-const NOTIF_IC={like:'heartSm',story_like:'heartSm',comment_like:'heartSm',reaction:'reactSm',comment:'cmtSm',reply:'cmtSm',message:'dmSm',follow:'personSm',announcement:'infoSm',partner_request:'personSm',partner_accept:'personSm',respect:'respectSm',ann_request:'infoSm',ann_accept:'infoSm',ann_refuse:'infoSm',referral:'personSm'};
-function notifRow(n){return `<div class="conv notif ${n.read_at?'':'unread-n'}"><span class="n-av">${av(n.actor_id,40)}<i class="n-ic n-${esc(n.type)}">${I[NOTIF_IC[n.type]]||''}</i></span><button class="meta" data-act="notif-open" data-id="${n.id}" style="text-align:left"><b>${esc(prof(n.actor_id).handle)}${vb(n.actor_id)}</b><span class="n-txt">${esc(notifText(n))} · ${ago(n.created_at)}</span></button>${n.type==='follow'&&!following.has(n.actor_id)?`<button class="mini" data-act="follow-list" data-u="${n.actor_id}">Suivre</button>`:''}</div>`}
+const NOTIF_IC={like:'heartSm',story_like:'heartSm',comment_like:'heartSm',reaction:'reactSm',comment:'cmtSm',reply:'cmtSm',message:'dmSm',follow:'personSm',announcement:'infoSm',partner_request:'personSm',partner_accept:'personSm',respect:'respectSm',ann_request:'infoSm',ann_accept:'infoSm',ann_refuse:'infoSm',referral:'personSm',badge:'respectSm'};
+function notifRow(n){if(n.type==='badge'){const [k,lab]=String(n.text||'').split('|'),[bk,bl]=k.split(':'),it=bdItem(bk,+bl||1);return `<div class="conv notif ${n.read_at?'':'unread-n'}"><span class="n-av n-bdg">${it?bdgIcon(it,40):''}</span><button class="meta" data-act="notif-open" data-id="${n.id}" style="text-align:left"><b>Nouveau badge</b><span class="n-txt">${esc(lab||'')} · ${ago(n.created_at)}</span></button></div>`}return `<div class="conv notif ${n.read_at?'':'unread-n'}"><span class="n-av">${av(n.actor_id,40)}<i class="n-ic n-${esc(n.type)}">${I[NOTIF_IC[n.type]]||''}</i></span><button class="meta" data-act="notif-open" data-id="${n.id}" style="text-align:left"><b>${esc(prof(n.actor_id).handle)}${vb(n.actor_id)}</b><span class="n-txt">${esc(notifText(n))} · ${ago(n.created_at)}</span></button>${n.type==='follow'&&!following.has(n.actor_id)?`<button class="mini" data-act="follow-list" data-u="${n.actor_id}">Suivre</button>`:''}</div>`}
 async function openNotifs(){
  const used=new Set(),secs=[['Aujourd’hui',n=>Date.now()-new Date(n.created_at)<864e5],['Cette semaine',n=>Date.now()-new Date(n.created_at)<6048e5],['Plus tôt',()=>true]];
  const html=secs.map(([t,f])=>{const l=notifs.filter(n=>!used.has(n.id)&&f(n));l.forEach(n=>used.add(n.id));return l.length?`<div class="label">${t}</div>`+l.map(notifRow).join(''):''}).join('');
@@ -4653,7 +4655,7 @@ async function renderHome(){
  topEl.innerHTML=`<div class="hb" role="toolbar" aria-label="Fil">
   <button class="hb-cat" data-act="feed-pick" aria-haspopup="true" aria-label="Catégorie : ${esc(sportFilter||'Tous les sports')}"><span>${esc(sportFilter||'Tous')}</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
   <span class="hb-sp"></span>
-  <button class="hb-b" data-act="shout-new" aria-label="Écrire un shout">${SHOUT_IC}</button>
+  <button class="hb-b" data-act="shout-new" aria-label="Écrire un message">${SHOUT_IC}</button>
   <button class="hb-b" data-act="plus-menu" aria-label="Publier un post ou un clip">${I.plus}</button>
   <button class="hb-b" id="top-msg" data-act="go-messages" aria-label="Messages">${I.dm}${unreadCount||unreadInfo()?'<i class="isl-new"></i>':''}</button>
   <button class="hb-b" data-act="notifs" aria-label="Pings">${I.bell}${unreadNotifs?'<i class="isl-new"></i>':''}</button>
@@ -4676,20 +4678,20 @@ function shoutCardHTML(p){
    <p class="sh-txt">${esc(p.caption||'')}</p>
    <span class="stamp">${I.bigheart}</span>
   </div>
-  <div class="bar-actions ps-bar"><button class="respect ${p.liked?'on':''}" data-act="like" data-id="${p.id}" aria-label="J’aime">${I.psHeart}<span>${fmt(p.like_count)}</span></button><button class="round" data-act="comments" data-id="${p.id}" aria-label="Commentaires">${I.psComment}</button><button class="round" data-act="share-post" data-id="${p.id}" aria-label="Partager le shout">${I.psShare}</button><span class="sp"></span><button class="round save-btn ${savedSet.has(p.id)?'on':''}" data-act="save" data-id="${p.id}" aria-pressed="${savedSet.has(p.id)}" aria-label="${savedSet.has(p.id)?'Retirer des enregistrements':'Enregistrer'}">${I.psSave}</button></div>
+  <div class="bar-actions ps-bar"><button class="respect ${p.liked?'on':''}" data-act="like" data-id="${p.id}" aria-label="J’aime">${I.psHeart}<span>${fmt(p.like_count)}</span></button><button class="round" data-act="comments" data-id="${p.id}" aria-label="Commentaires">${I.psComment}</button><button class="round" data-act="share-post" data-id="${p.id}" aria-label="Partager le message">${I.psShare}</button><span class="sp"></span><button class="round save-btn ${savedSet.has(p.id)?'on':''}" data-act="save" data-id="${p.id}" aria-pressed="${savedSet.has(p.id)}" aria-label="${savedSet.has(p.id)?'Retirer des enregistrements':'Enregistrer'}">${I.psSave}</button></div>
   <span class="views-l">${I.eyeV}${fmt(p.view_count||0)} vue${(p.view_count||0)>1?'s':''}</span>
   ${nc?`<button class="linkish" data-act="comments" data-id="${p.id}">${cmtLabel(nc)}</button>`:''}
   ${mine?`<button class="linkish st-link" data-act="post-stats" data-id="${p.id}">Voir les statistiques</button>`:''}
-  <form class="inline-cmt" data-id="${p.id}"><input placeholder="Répondre…" maxlength="2000" aria-label="Répondre au shout"><button type="submit">Envoyer</button></form>
+  <form class="inline-cmt" data-id="${p.id}"><input placeholder="Répondre…" maxlength="2000" aria-label="Répondre au message"><button type="submit">Envoyer</button></form>
  </article>`;
 }
 function openShoutForm(){
  let sport=me&&me.sport&&SPORT_LIST.includes(me.sport)?me.sport:SPORT_LIST[0];
- layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet sh-sheet" role="dialog" aria-label="Nouveau shout"><div class="stw-top"><b>Shout</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+ layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet sh-sheet" role="dialog" aria-label="Nouveau message"><div class="stw-top"><b>Nouveau message</b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <form class="gutter sh-form" id="shf" novalidate>
-   <div class="sh-me">${av(me.id,36)}<textarea id="sh-t" maxlength="280" rows="4" placeholder="Quoi de neuf à l’entraînement ?" aria-label="Texte du shout"></textarea></div>
+   <div class="sh-me">${av(me.id,36)}<textarea id="sh-t" maxlength="280" rows="4" placeholder="Quoi de neuf à l’entraînement ?" aria-label="Texte du message"></textarea></div>
    <div class="sh-sports" role="group" aria-label="Sport">${SPORT_LIST.map(sp=>`<button type="button" data-sp="${esc(sp)}" aria-pressed="${sp===sport}">${esc(sp)}</button>`).join('')}</div>
-   <div class="sh-foot"><span class="sh-n" id="sh-n">280</span><button class="sh-go" type="submit" id="sh-go" disabled>Shout</button></div>
+   <div class="sh-foot"><span class="sh-n" id="sh-n">280</span><button class="sh-go" type="submit" id="sh-go" disabled>Publier</button></div>
   </form></div></div>`;
  const t=$('sh-t'),n=$('sh-n'),go=$('sh-go');setTimeout(()=>t.focus(),280);
  t.addEventListener('input',()=>{const left=280-t.value.length;n.textContent=left;n.classList.toggle('low',left<=20);go.disabled=!t.value.trim()});
@@ -4700,8 +4702,8 @@ function openShoutForm(){
   if(!(await guard(txt,{noLinks:true})))return;
   go.disabled=true;go.textContent='Envoi…';
   const {error}=await sb.from('posts').insert({user_id:me.id,kind:'shout',sport,caption:txt,media:[],stickers:[]});
-  if(error){go.disabled=false;go.textContent='Shout';return dbError(error,'Shout impossible')}
-  closeLayer();toast('Shout publié');await loadFeed();if(view==='home')renderHome();else{hist=[];nav('home')}main.scrollTop=0;
+  if(error){go.disabled=false;go.textContent='Publier';return dbError(error,'Message impossible')}
+  closeLayer();toast('Message publié');await loadFeed();if(view==='home')renderHome();else{hist=[];nav('home')}main.scrollTop=0;
  });
 }
 function cardHTML(p){
@@ -5488,7 +5490,7 @@ function epPersoHTML(){const ok=canPerso();
  return `<button type="button" class="ep2-bdg" data-act="badges" data-u="${me.id}"><span class="ep2-bl">Badges</span><span class="ep2-bv" id="ep-bd">${epBadgesHTML()}</span><svg class="ep2-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
   <section class="epp-card pp-plus ${ok?'':'locked'}" id="ep-plus">
    <div class="pp-hero2"><div class="pp-r1"><b class="fp-t">Freestyle Plus${bdgIcon(bdItem('plus',1),22)}</b>${ok?'<em class="pp-on">Activé</em>':`<a class="pp-get" href="${SHOP_URL}" target="_blank" rel="noopener">Obtenir</a>`}</div><small>Cadres animés, effets de pseudo et de bannière, couleurs de l’app</small></div>
-   <div class="ppx-stage" id="ppx-stage">${ppxStage()}</div>${ok?'':`<a class="ppx-lock" id="ppx-lock" href="${SHOP_URL}" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Aperçu · réservé à Freestyle Plus</a>`}
+   <div class="ppx-stage" id="ppx-stage">${ppxStage()}</div>
    <div class="ppx-tabs" role="tablist">${EP_TABS.map(([k,l])=>`<button type="button" role="tab" data-eptab="${k}" aria-selected="${k===epTab}">${l}</button>`).join('')}<i class="ppx-ind"></i></div>
    <div class="ppx-pane" id="ppx-pane">${ppxPane()}</div>
    ${ok?'':`<a class="pp-cta" href="${SHOP_URL}" target="_blank" rel="noopener">Obtenir Freestyle Plus</a><p class="pp-note">Essaie tout ce que tu veux : rien ne sera enregistré sans Freestyle Plus.</p>`}
@@ -5705,6 +5707,7 @@ document.addEventListener('click',async e=>{
   case 'notifs':openNotifs();break;
   case 'notif-prefs':openNotifPrefs();break;
   case 'notif-open':{const nn=notifs.find(x=>x.id===id);if(!nn)break;layer.innerHTML='';hist.push([view,arg]);
+   if(nn.type==='badge'){hist.pop();openBadges(me.id);break}
    if(nn.type==='message')nav('chat',nn.actor_id);
    else if(['announcement','ann_request','ann_accept','ann_refuse'].includes(nn.type)){annLoaded=false;msgTab='info';nav('messages');loadAnnouncements().then(()=>{if(view==='messages'&&msgTab==='info')renderInfos()})}
    else if(nn.post_id)openPostById(nn.post_id,['comment','reply','comment_like'].includes(nn.type));
@@ -5839,14 +5842,14 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 
 // ================= STATISTIQUES =================
 const pct=(a,b)=>b?Math.round(a/b*100):0;
-function statThumb(p){const m=(p.media||[])[0];return m?(m.type==='video'?`<video src="${esc(m.url)}" muted playsinline preload="metadata"></video>`:`<img src="${esc(m.url)}" alt="">`):''}
+function statThumb(p){if(p.kind==='shout')return `<i class="st-q">“</i><span class="st-sht">${esc(String(p.text||p.caption||'').slice(0,90))}</span>`;const m=(p.media||[])[0];return m?(m.type==='video'?`<video src="${esc(m.url)}" muted playsinline preload="metadata"></video>`:`<img src="${esc(m.url)}" alt="">`):''}
 async function openPostStats(id){
  const p=findPost(id);
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet stats-sheet" role="dialog" aria-label="Statistiques"><div class="sheet-head">Statistiques</div><div class="sheet-list gutter" id="pst">${loadingHTML()}</div></div></div>`;
  const {data:s,error}=await sb.rpc('fs_post_stats',{pid:id});const box=$('pst');if(!box)return;
  if(error||!s){box.innerHTML='<div class="empty">Statistiques indisponibles.</div>';return}
  const inter=s.likes+s.comments+s.shares+s.reactions,fol=pct(s.reach_followers,s.reach);
- box.innerHTML=`<div class="st-head">${p?`<span class="st-th">${statThumb(p)}</span>`:''}<span><b>${p&&p.kind==='clip'?'Clip':'Post'}</b><small>Publié le ${new Date(s.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}</small></span></div>
+ box.innerHTML=`<div class="st-head">${p?`<span class="st-th ${p.kind==='shout'?'st-sh':''}">${statThumb(p)}</span>`:''}<span><b>${p&&p.kind==='clip'?'Clip':p&&p.kind==='shout'?'Message':'Post'}</b><small>Publié le ${new Date(s.created_at).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}</small></span></div>
   <div class="st-icons"><span>${I.heartSm}<b>${fmt(s.likes)}</b></span><span>${I.cmtSm}<b>${fmt(s.comments)}</b></span><span>${I.shareSm}<b>${fmt(s.shares)}</b></span><span>${I.reactSm}<b>${fmt(s.reactions)}</b></span></div>
   <div class="st-sec"><h4>Vues</h4><div class="st-big"><b>${fmt(s.views)}</b><span>vue${s.views>1?'s':''}</span></div>
    <div class="st-split"><i style="width:${fol}%"></i></div><div class="st-leg"><span><i class="a"></i>Abonnés ${fol} %</span><span><i class="b"></i>Non-abonnés ${s.reach?100-fol:0} %</span></div>
@@ -6143,7 +6146,7 @@ const BD_OLD=[
  ['posts10','10 posts','A publié 10 posts','#0EA57A',BG('<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>')],
  ['posts50','50 posts','A publié 50 posts','#E5484D',BG('<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-3 2-4 2-7 1.5 1 2.5 2.5 3 4 .5-2.5 0-5 0-7z"/>')],
  ['clip','Premier clip','A publié son premier clip','#F08C2E',BG('<path d="M8 5.5v13l10-6.5z"/>')],
- ['shout10','Grande gueule','A écrit 10 shouts','#A855F7',BG('<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>')],
+ ['shout10','Grande gueule','A écrit 10 messages','#A855F7',BG('<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>')],
  ['flash','Premier flash','A publié son premier flash','#F5B301',BG('<path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/>')],
  ['checke10','Respecté','A reçu 10 validations','#1E9A55',BG('<path d="M3 12.5l4 4L15 8.5"/><path d="M10 16.5l1 1L21 7.5"/>')],
  ['genereux','Généreux','A donné ses 5 validations','#10B981',BG('<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>')],
@@ -6199,7 +6202,7 @@ const BD_FAM=[
   ['Remarqué',['#FFE7A3','#F59E0B','#92400E'],'rond',[]],
   ['Viral',['#FFD0AE','#EA580C','#7C2D12'],'losange',['flames']],
   ['Phénomène',['#FFF3B0','#F97316','#B91C1C'],'legende',['rays','flames','stars']]]],
- ['shouts','Shouts','shout','shouts',[10,100,1000],'shout10',[
+ ['shouts','Messages','message publié','messages publiés',[10,100,1000],'shout10',[
   ['Voix',['#EBD5FF','#A855F7','#581C87'],'rond',[]],
   ['Porte-voix',['#FAD1FF','#C026D3','#701A75'],'losange',['ring']],
   ['Tonnerre',['#C7F9FF','#8B5CF6','#1E1B4B'],'etoile',['rays','orbit','stars']]]],
@@ -6223,7 +6226,7 @@ const bdNorm=k=>OLD2NEW[k]||k;
 function bdParse(got){const m={};(got||[]).forEach(x=>{let [k,t]=String(x).split(':');t=t?Math.max(1,Math.min(3,+t||1)):1;k=bdNorm(k);m[k]=Math.max(m[k]||0,t)});return m}
 const fmtN=n=>Number(n).toLocaleString('fr-FR');
 const famUnit=(f,n)=>n>1?f[3]:f[2];
-const BD_HOW={followers:'Gagne des followers sur ton profil.',posts:'Publie des posts.',clips:'Publie des clips.',valide:'Reçois des validations d’autres membres.',likes:'Reçois des j’aime sur tes posts.',vues:'Fais grimper les vues d’un de tes posts.',shouts:'Écris des shouts.',comments:'Commente les posts des autres.',parrain:'Invite des potes sur Freestyle.',suivis:'Suis d’autres sportifs.'};
+const BD_HOW={followers:'Gagne des followers sur ton profil.',posts:'Publie des posts.',clips:'Publie des clips.',valide:'Reçois des validations d’autres membres.',likes:'Reçois des j’aime sur tes posts.',vues:'Fais grimper les vues d’un de tes posts.',shouts:'Écris des messages.',comments:'Commente les posts des autres.',parrain:'Invite des potes sur Freestyle.',suivis:'Suis d’autres sportifs.'};
 function bdItem(k,t){const sg=BD_SINGLE.find(x=>x[0]===k);
  if(sg)return {k,name:sg[1],desc:sg[2],color:sg[3],shape:sg[4],rare:!!sg[5],icon:BIC[k]||BIC.star,t:t?1:0};
  const f=BD_FAM.find(x=>x[0]===k);if(!f)return null;const th=f[4],sp=f[6][Math.max(1,t)-1];
@@ -6373,7 +6376,7 @@ function bzEvoRow(k,t,cnt){const f=BD_FAM.find(x=>x[0]===k),it=bdItem(k,t),th=f[
  return `<div class="bz-item ${t?'':'off'}"><button type="button" class="bz-row" data-evo="${k}" aria-expanded="false">${bdgIcon(it,44)}<span class="bz-t"><b>${esc(f[1])}${cn}</b><small>${t?`${esc(it.level)} · ${t<3?`objectif ${fmtN(th[t])} ${famUnit(f,th[t])}`:'niveau max'}`:`Obtenir ${fmtN(th[0])} ${famUnit(f,th[0])}`}</small></span><span class="bz-steps">${f[6].map((sp,i)=>`<i class="${i<t?'on':''}" style="--c:${sp[1][1]}"></i>`).join('')}</span>${CHEV_IC}</button>
  <div class="bz-evo"><div class="bz-evo-in"><p class="bz-how">${esc(BD_HOW[k]||'')}${cnt!=null?`<br><span class="bz-have">Actuellement : <b>${fmtN(cnt)} ${famUnit(f,cnt)}</b></span>`:''}</p><div class="bz-stages">${f[6].map((sp,i)=>`${i?'<span class="bz-arrow" aria-hidden="true"></span>':''}<div class="bz-stage ${i<t?'got':''} ${i===t-1?'cur':''}">${bdgIcon(bdItem(k,i+1),56)}<b>${esc(sp[0])}</b><small>${fmtN(th[i])}</small><em>${i<t?'Obtenu':LOCK_IC}</em></div>`).join('')}</div>
  <p class="bz-next">${t<3?`Prochain niveau : obtenir <b>${fmtN(th[t])} ${famUnit(f,th[t])}</b>`:'Niveau maximum atteint'}</p></div></div></div>`}
-function bzSingleRow(k,on){const it=bdItem(k,on?1:0);return `<div class="bz-item ${on?'':'off'}"><div class="bz-row">${bdgIcon(it,44)}<span class="bz-t"><b>${esc(it.name)}</b><small>${esc(it.desc)}</small></span><em class="bz-st">${on?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>':LOCK_IC}</em></div></div>`}
+function bzSingleRow(k,on){const it=bdItem(k,1);return `<div class="bz-item ${on?'':'off'}"><div class="bz-row">${bdgIcon(it,44)}<span class="bz-t"><b>${esc(it.name)}</b><small>${esc(it.desc)}</small></span><em class="bz-st">${on?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>':LOCK_IC}</em></div></div>`}
 async function openBadges(uid){
  const got=badgeCache[uid]||await loadBadges(uid),mine=me&&uid===me.id,m=bdParse(got),pts=bdPoints(m);
  const ri=respectCache[uid]||await loadRespect(uid),nChk=ri?ri.count||0:null;

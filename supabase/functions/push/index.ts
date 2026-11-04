@@ -28,6 +28,7 @@ function text(type: string, t: string) {
     partner_accept: "a accepté d’être ton partenaire d’entraînement", respect: "t’a validé",
     ann_request: `demande à publier une annonce : ${t}`, ann_accept: `a accepté ton annonce : ${t}`,
     ann_refuse: `n’a pas retenu ton annonce : ${t}`, referral: "a rejoint Freestyle grâce à toi",
+    badge: `Nouveau badge débloqué : ${t.split("|")[1] || ""}`,
   };
   return m[type] ?? "";
 }
@@ -48,7 +49,7 @@ Deno.serve(async (req) => {
   const { data: subs } = await sb.from("push_subscriptions").select("*").eq("user_id", n.user_id);
   const handle = actor?.handle ? "@" + actor.handle : "Freestyle";
   const payload = JSON.stringify({
-    title: n.type === "announcement" ? "Freestyle · Événement" : handle,
+    title: n.type === "announcement" ? "Freestyle · Événement" : n.type === "badge" ? "Freestyle" : handle,
     body: n.type === "announcement" ? `${handle} : ${text(n.type, n.text || "")}` : text(n.type, n.text || ""),
     tag: n.type === "message" ? "msg-" + n.actor_id : String(n.id),
     url: APP + (n.type === "message" ? "?chat=" + n.actor_id : "?pings=1"),
