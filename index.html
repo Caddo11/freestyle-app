@@ -6037,9 +6037,9 @@ function creaHas(p,k){return k==='plus'?!!p.premium:k==='verifie'?!!p.verified:A
 function creaUserHTML(p){if(!p)return '';const self=p.id===me.id;
  return `<div class="crea-user"><div class="crea-uh">${fxAv(p.id,78,p.frame,23)}<span class="crea-ut"><b>${nm(p.id,p.name||p.handle)}</b><small>@${esc(p.handle)}</small></span><button type="button" class="crea-x" data-crea="clear" aria-label="Choisir quelqu’un d’autre"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   ${CREA_PERMS.map(([k,l,d])=>creaSw(k,l,self&&k==='admin'?'Tu ne peux pas te le retirer toi-même':d,creaHas(p,k),'data-perm',self&&k==='admin')).join('')}<div class="crea-bz" id="crea-bz">${loadingHTML()}</div></div>`}
-function creaBzHTML(uid,grants){const m=bdParse(badgeCache[uid]||[]);const row=(k,fam)=>{if(k==='shiny'&&me.id!==FOUNDER_ID)return '';const g=grants[k],cur=m[k]||0,it=bdItem(k,fam?Math.max(1,cur):1),opts=fam?[['a','Auto'],['1','1'],['2','2'],['3','3'],['0','Non']]:[['a','Auto'],['1','Oui'],['0','Non']],sel=g==null?'a':String(g);
+function creaBzHTML(uid,grants){const m=bdParse(badgeCache[uid]||[]);const row=(k,fam)=>{if((k==='shiny'||BD_RANKS.includes(k))&&me.id!==FOUNDER_ID)return '';const g=grants[k],cur=m[k]||0,it=bdItem(k,fam?Math.max(1,cur):1),opts=fam?[['a','Auto'],['1','1'],['2','2'],['3','3'],['0','Non']]:[['a','Auto'],['1','Oui'],['0','Non']],sel=g==null?'a':String(g);
  return `<div class="crea-bzr">${bdgIcon(it,34)}<span><b>${esc(it.name)}</b><small>${cur?(fam?'Niveau '+cur:'Affiché'):'Pas affiché'}${g!=null?' · réglé à la main':''}</small></span><span class="crea-lv">${opts.map(([v,l])=>`<button type="button" class="${v==='0'?'no':''}" data-bz="${k}" data-v="${v}" aria-pressed="${sel===v}">${l}</button>`).join('')}</span></div>`};
- return `<div class="crea-bz-h">Badges uniques</div>${BD_SINGLE.map(x=>row(x[0],false)).join('')}<div class="crea-bz-h">Badges à niveaux</div>${BD_FAM.map(x=>row(x[0],true)).join('')}`}
+ return `${me.id===FOUNDER_ID?`<div class="crea-bz-h">Rang Discord</div>${BD_RANKS.map(k=>row(k,false)).join('')}`:''}<div class="crea-bz-h">Badges uniques</div>${BD_SINGLE.filter(x=>!BD_RANKS.includes(x[0])).map(x=>row(x[0],false)).join('')}<div class="crea-bz-h">Badges à niveaux</div>${BD_FAM.map(x=>row(x[0],true)).join('')}`}
 let creaGrants={};async function creaLoadBz(uid){const box=$('crea-bz');try{const [{data:g},b]=await Promise.all([sb.rpc('fs_admin_badge_grants',{target:uid}),loadBadges(uid)]);creaGrants=g||{};if(creaSel===uid&&$('crea-bz'))$('crea-bz').innerHTML=creaBzHTML(uid,creaGrants)}catch(e){if(box)box.innerHTML='<p class="crea-empty">Badges indisponibles</p>'}}
 function creaResHTML(list){return list.length?list.map(p=>`<button type="button" class="crea-res" data-crea="pick" data-u="${p.id}">${fxAv(p.id,44,p.frame,13)}<span class="crea-ut"><b>${esc(p.name||p.handle)}</b><small>@${esc(p.handle)}</small></span><i class="crea-tags">${CREA_PERMS.filter(([k])=>creaHas(p,k)).map(([k,l])=>`<em class="ct-${k}">${l==='Freestyle Plus'?'Plus':l==='Compte vérifié'?'Vérifié':l}</em>`).join('')}</i></button>`).join(''):'<p class="crea-empty">Aucun membre trouvé</p>'}
 async function creaLoadPlus(){const {data}=await sb.from('profiles').select('id,handle,name,avatar_url,frame,premium,verified,badges,name_style').or('premium.eq.true,verified.eq.true').order('handle').limit(60);(data||[]).forEach(p=>P[p.id]={...(P[p.id]||{}),...p});
@@ -6279,6 +6279,12 @@ const BD_SINGLE=[
  ['plus','Freestyle Plus','Membre de l’offre Freestyle Plus','#7B5CFF','losange',1],
  ['shiny','Shiny','Badge rare, offert uniquement par le fondateur de Freestyle','#E3B341','sceau',1],
  ['verifie','Compte vérifié','Pastille bleue','#2F8BFF','sceau',0],
+ ['rangs','Rang S','Rang sportif S sur le Discord Freestyle','#FF7A00','ecusson',1],
+ ['ranga','Rang A','Rang sportif A sur le Discord Freestyle','#FFD700','ecusson',1],
+ ['rangb','Rang B','Rang sportif B sur le Discord Freestyle','#26C281','ecusson',0],
+ ['rangc','Rang C','Rang sportif C sur le Discord Freestyle','#00BFFF','ecusson',0],
+ ['rangd','Rang D','Rang sportif D sur le Discord Freestyle','#654CFF','ecusson',0],
+ ['range','Rang E','Rang sportif E sur le Discord Freestyle','#F6C0E8','ecusson',0],
  ['pionnier','Pionnier','Inscrit pendant la première année et actif au moins 20 jours','#8C6A3E','ecusson',0],
  ['flash','Flash','A publié un flash sur 30 jours différents','#F5B301','losange',0],
  ['genereux','Généreux','A donné ses 5 validations et 300 j’aime','#10B981','rond',0],
@@ -6328,8 +6334,9 @@ const BD_FAM=[
   ['Connecté',['#D2E3FF','#2563EB','#1E3A8A'],'hexa',['orbit']],
   ['Réseau',['#BDF6FF','#0891B2','#0C1E3D'],'legende',['ring','orbit','stars']]]]
 ];
-const BD_ORDER=['fondateur','plus','shiny','verifie','valide','followers','posts','clips','likes','vues','shouts','comments','parrain','suivis','pionnier','flash','genereux','organisateur'];
-const BD_MAX=BD_SINGLE.length+BD_FAM.length*3;
+const BD_ORDER=['fondateur','plus','shiny','verifie','rangs','ranga','rangb','rangc','rangd','range','valide','followers','posts','clips','likes','vues','shouts','comments','parrain','suivis','pionnier','flash','genereux','organisateur'];
+const BD_RANKS=['rangs','ranga','rangb','rangc','rangd','range'];
+const BD_MAX=BD_SINGLE.length-BD_RANKS.length+1+BD_FAM.length*3;
 const OLD2NEW={premier_post:'posts',posts10:'posts',posts50:'posts',clip:'clips',shout10:'shouts',checke10:'valide',checks:'valide',serie7:'serie',serie30:'serie',populaire:'followers',star:'followers',sociable:'suivis',bavard:'comments',aime:'likes',viral:'vues',ambassadeur:'parrain',recruteur:'parrain'};
 const bdNorm=k=>OLD2NEW[k]||k;
 function bdParse(got){const m={};(got||[]).forEach(x=>{let [k,t]=String(x).split(':');t=t?Math.max(1,Math.min(3,+t||1)):1;k=bdNorm(k);m[k]=Math.max(m[k]||0,t)});return m}
@@ -6463,7 +6470,17 @@ function creatorSVG(mini){const u='cre'+(shnSeq++);
  <path d="M13.4 16.5L14.2 21.6" stroke="#fff" stroke-opacity=".7" stroke-width=".7" stroke-linecap="round"/>
  <g clip-path="url(#${u}c)"><rect class="shn-sh" x="-8" y="-4" width="6" height="48" fill="#fff" opacity=".55"/></g>
  ${mini?'':shnTw(33.5,7,2.6,0,'#A86F0E')+shnTw(7,32,1.9,1.3,'#A86F0E')}</svg>`}
-function bdSingleSVG(it){if(it.k==='shiny')return shinySVG();if(it.k==='fondateur')return creatorSVG();const c={a:hmix(it.color,'#ffffff',.45),b:it.color,d:hmix(it.color,'#000000',.32),g:`url(#bdg-g-${it.k})`};
+// Rangs du Discord (E à S) : écusson à la couleur du rôle, grosse lettre blanche ; A et S ont des rayons et des étincelles
+function rankSVG(it){const u='rk'+(shnSeq++),L=it.name.slice(-1),c=it.color,hi=hmix(c,'#ffffff',.5),lo=hmix(c,'#000000',.45),top=L==='S'||L==='A',mid=L==='B'||L==='C';
+ const sh='M20 4.2L32.6 8.6V19.2C32.6 27 27.2 32.6 20 35.8C12.8 32.6 7.4 27 7.4 19.2V8.6Z';
+ return `<svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="${u}g" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="${hi}"/><stop offset=".55" stop-color="${c}"/><stop offset="1" stop-color="${lo}"/></linearGradient><clipPath id="${u}c"><path d="${sh}"/></clipPath></defs>
+ ${top?`<g class="shn-rays">${Array.from({length:10},(_,i)=>{const a=i*Math.PI/5;return `<path d="M20 20L${(20+19.6*Math.sin(a+.09)).toFixed(1)} ${(20-19.6*Math.cos(a+.09)).toFixed(1)}L${(20+19.6*Math.sin(a-.09)).toFixed(1)} ${(20-19.6*Math.cos(a-.09)).toFixed(1)}Z" fill="${c}" opacity=".45"/>`}).join('')}</g>`:''}
+ <path d="${sh}" fill="url(#${u}g)" stroke="${lo}" stroke-width="1.4" stroke-linejoin="round"/>
+ ${mid||top?`<path d="M20 7.4L30 10.9V19.2C30 25.4 25.8 29.9 20 32.6C14.2 29.9 10 25.4 10 19.2V10.9Z" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width=".7"/>`:''}
+ <text x="20" y="25.6" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="17" fill="#fff" stroke="${lo}" stroke-width="1.1" paint-order="stroke">${L}</text>
+ <g clip-path="url(#${u}c)"><rect class="shn-sh" x="-8" y="-4" width="5" height="48" fill="#fff" opacity=".5"/></g>
+ ${top?shnTw(33.5,6.5,2.5,0,lo)+shnTw(6.5,31.5,1.8,1.2,lo):''}</svg>`}
+function bdSingleSVG(it){if(BD_RANKS.includes(it.k))return rankSVG(it);if(it.k==='shiny')return shinySVG();if(it.k==='fondateur')return creatorSVG();const c={a:hmix(it.color,'#ffffff',.45),b:it.color,d:hmix(it.color,'#000000',.32),g:`url(#bdg-g-${it.k})`};
  return `<svg viewBox="0 0 40 40" aria-hidden="true">${bdGlyph(BD_GMAP[it.k],c,1.3)}</svg>`}
 function bdgIcon(it,sz){bdEnsureDefs();if(!it)return '';const dl=((bdSeq++)%7)*.55;
  const svg=it.fam?bdTierSVG(it):bdSingleSVG(it);
@@ -6525,7 +6542,7 @@ async function openBadges(uid){
  const close=`<button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`;
  const fams=BD_FAM.map(f=>f[0]),sing=BD_ORDER.filter(k=>!fams.includes(k));
  const col=`<div class="bz-sec"><div class="bz-h"><b>Évolutifs</b><span>3 niveaux · touche pour voir l’évolution</span></div>${[...fams.filter(k=>m[k]),...fams.filter(k=>!m[k])].map(k=>bzEvoRow(k,m[k]||0,k==='valide'?nChk:null)).join('')}</div>
-  <div class="bz-sec"><div class="bz-h"><b>Spéciaux</b><span>Un seul niveau</span></div>${[...sing.filter(k=>m[k]),...sing.filter(k=>!m[k])].map(k=>bzSingleRow(k,!!m[k])).join('')}</div>`;
+  <div class="bz-sec"><div class="bz-h"><b>Spéciaux</b><span>Un seul niveau</span></div>${[...sing.filter(k=>m[k]),...sing.filter(k=>!m[k]&&!BD_RANKS.includes(k))].map(k=>bzSingleRow(k,!!m[k])).join('')}</div>`;
  const sum=`<div class="bz-sum"><b>${pts}</b><span><small>sur ${BD_MAX} niveaux débloqués</small><i class="bz-bar"><i style="width:${Math.round(pts/BD_MAX*100)}%"></i></i></span></div>`;
  let ord=badgesShown(uid,got).map(x=>x.k);
  const profPane=()=>{const rest=BD_ORDER.filter(k=>m[k]&&!ord.includes(k)&&!BD_NOBAR.has(k));
