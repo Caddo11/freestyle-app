@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793793211">
+<meta name="fs-build" content="1793793319">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -939,7 +939,7 @@ nav.tabs button:not([aria-current="page"]) .nav-av{box-shadow:0 0 0 1.35px #D5D4
 .icon-btn svg{transition:transform .3s cubic-bezier(.3,1.4,.5,1)}
 .icon-btn:active svg{transform:scale(.86)}
 /* polices : tout en Manrope */
-:root{--ui:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--pixel:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif}
+:root{--display:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--ui:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--pixel:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif}
 body,button,input,textarea,select{font-family:var(--body)}
 .tile .t-n{font-size:11px;font-weight:600}
 .cb-by{font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:5px}
@@ -3843,6 +3843,13 @@ html[data-theme="dark"] .ep2-row,html[data-theme="dark"] .ep2-row:last-child{bor
 .ep2-row>span{font-size:11.5px!important;font-weight:500!important;letter-spacing:0!important}
 .ep2-row input,.ep2-row select,.ep2-row textarea{font-size:15px!important;font-weight:400!important;padding:1px 0 2px!important}
 .html-x{}
+
+/* ================= v92 : une seule police partout (Manrope) ================= */
+.grad-word{font-weight:800!important;letter-spacing:-.04em;line-height:.9!important;font-size:clamp(40px,12vw,64px)!important}
+.tile .grad-word,.grid .grad-word{font-size:17px!important;letter-spacing:-.02em}
+.av{font-weight:800!important;letter-spacing:-.02em}
+.stk{font-weight:800}
+.switch button{font-weight:800;letter-spacing:.01em}
 </style>
 </head>
 <body>
