@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793794503">
+<meta name="fs-build" content="1793794636">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3462,6 +3462,8 @@ html[data-theme="dark"] .ppx-tabs{background:#0F0F0F}
 .ppx-ind{position:absolute;left:0;top:4px;height:34px;border-radius:9px;background:var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.08);transition:transform .34s cubic-bezier(.3,1.25,.4,1),width .34s cubic-bezier(.3,1.25,.4,1);will-change:transform}
 html[data-theme="dark"] .ppx-ind{background:#262626}
 .ppx-pane{margin-top:10px}
+#pf.ep{overflow-x:clip}
+.ppx-row{overscroll-behavior-x:contain;scroll-behavior:auto}
 .ppx-pane.in .ppx-row{animation:ppxIn .3s cubic-bezier(.2,.9,.3,1)}
 @keyframes ppxIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
 .ppx-row{scroll-snap-type:x proximity;padding:6px 2px 8px!important;gap:12px!important}
@@ -5394,7 +5396,7 @@ function renderEditProfile(){
    if(d.avatarFile)d.avatar_url=await upload(d.avatarFile,'avatar');
    if(d.bannerFile)d.banner_url=await upload(d.bannerFile,'banner');
    const upd={bio:d.bio.trim(),city:(d.city||'').trim(),sport:d.sport,avatar_url:d.avatar_url||null,banner_url:d.banner_url||null};
-   if(canPerso())Object.assign(upd,{frame:d.fr||null,banner_style:null,banner_fx:d.bx||null,bar_color:d.bc==='auto'?null:d.bc,name_style:d.nf||null});if(d.name.trim()!==me.name)upd.name=d.name.trim();
+   if(canPerso())Object.assign(upd,{frame:d.fr||null,banner_style:null,banner_fx:d.bx||null,bar_color:d.bc==='auto'?null:d.bc,name_style:(d.nf&&NFX_KEYS.has(d.nf))?d.nf:null});if(d.name.trim()!==me.name)upd.name=d.name.trim();
    const {data,error}=await sb.from('profiles').update(upd).eq('id',me.id).select().single();
    if(error){removeFiles([d.avatarFile?d.avatar_url:null,d.bannerFile?d.banner_url:null]);d.avatar_url=me.avatar_url;d.banner_url=me.banner_url;$('pfs').disabled=false;$('pfs').textContent='Enregistrer';return dbError(error,'Enregistrement impossible')}
    const oldA=me.avatar_url,oldB=me.banner_url;
@@ -5433,19 +5435,20 @@ function epPersoHTML(){const ok=canPerso();
    <div class="ppx-pane" id="ppx-pane">${ppxPane()}</div>
    ${ok?'':`<a class="pp-cta" href="${SHOP_URL}" target="_blank" rel="noopener">Obtenir Freestyle Plus</a><p class="pp-note">Tu vois tout ce qui sera débloqué avec Freestyle Plus.</p>`}
   </section>`}
+function ppxRowTo(el,smooth){const r=el&&el.closest('.ppx-row');if(!r)return;const x=r.scrollLeft+el.getBoundingClientRect().left-r.getBoundingClientRect().left-(r.clientWidth-el.offsetWidth)/2;r.scrollTo({left:Math.max(0,x),behavior:smooth?'smooth':'auto'})}
 function ppxInd(box){const t=box.querySelector('[data-eptab][aria-selected="true"]'),ind=box.querySelector('.ppx-ind');if(!t||!ind)return;ind.style.width=t.offsetWidth+'px';ind.style.transform=`translateX(${t.offsetLeft}px)`}
 function bindEpPerso(){const box=$('ep-plus');if(!box)return;requestAnimationFrame(()=>ppxInd(box));
  box.addEventListener('click',e=>{
   const tb=e.target.closest('[data-eptab]');
   if(tb){if(tb.dataset.eptab===epTab)return;epTab=tb.dataset.eptab;box.querySelectorAll('[data-eptab]').forEach(x=>x.setAttribute('aria-selected',String(x===tb)));ppxInd(box);
    const pane=$('ppx-pane');pane.innerHTML=ppxPane();pane.classList.remove('in');void pane.offsetWidth;pane.classList.add('in');
-   const sel=pane.querySelector('[aria-pressed="true"]');if(sel)sel.scrollIntoView({block:'nearest',inline:'center'});return}
+   const sel=pane.querySelector('[aria-pressed="true"]');ppxRowTo(sel,false);return}
   const b=e.target.closest('[data-ep]');if(!b||!canPerso())return;const key=b.dataset.ep;if(pDraft[key]===b.dataset.k)return;pDraft[key]=b.dataset.k;
   box.querySelectorAll(`[data-ep="${key}"]`).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
   const sl=$('ppx-sel');if(sl)sl.textContent=epLabel(key,b.dataset.k);
   const st=$('ppx-stage');st.innerHTML=ppxStage();st.classList.remove('swap');void st.offsetWidth;st.classList.add('swap');
   if(key!=='bc'){const cv=$('ep-cover');if(cv)cv.outerHTML=epCover()}
-  b.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'});
+  ppxRowTo(b,true);
   if(navigator.vibrate)try{navigator.vibrate(6)}catch(_){}});
 }
 function keepP(){if(!pDraft||!$('pn'))return;pDraft.name=$('pn').value;pDraft.bio=$('pd').value;if($('pcy'))pDraft.city=$('pcy').value;if($('psp'))pDraft.sport=$('psp').value}
@@ -6320,7 +6323,7 @@ function fxWrap(a,s,fr,r){if(!fr||!FX_KEYS.has(fr))return a;const fw=Math.max(1.
 function fxAv(uid,s,fr,r){if(fr===undefined)fr=(P[uid]&&P[uid].frame)||'';return fxWrap(av(uid,s),s,fr,r)}
 const BANNERS=[['','Ma photo'],['nuit','Nuit'],['sunset','Sunset'],['lave','Lave'],['menthe','Menthe'],['topo','Topo'],['beton','Béton'],['grille','Grille'],['scan','Scanlines'],['aurore','Aurore'],['carbone','Carbone'],['chrome','Chrome'],['braise','Braise'],['ocean','Océan'],['damier','Damier']];
 const BANNER_FX=[['','Aucun'],['reflet','Reflet'],['particules','Particules'],['grain','Film'],['pluie','Pluie'],['foudre','Foudre']];
-const NAME_FX=[['','Classique'],['neon','Néon'],['degrade','Chrome'],['chrome','Relief'],['or','Brillant'],['vague','Contour'],['script','Lumière']];
+const NAME_FX=[['','Classique'],['degrade','Chrome'],['chrome','Relief'],['or','Brillant'],['vague','Contour'],['script','Lumière']];
 const NFX_KEYS=new Set(NAME_FX.map(f=>f[0]).filter(Boolean));
 function nameFx(t,k){t=String(t||'');if(!k||!NFX_KEYS.has(k))return esc(t);
  if(k==='script')return `<span class="nfx nfx-${k}">${[...t].map((c,i)=>`<span style="--i:${i};--d:${((i*7)%11)*.42}">${c===' '?'&nbsp;':esc(c)}</span>`).join('')}</span>`;
