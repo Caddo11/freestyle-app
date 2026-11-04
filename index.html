@@ -4065,6 +4065,20 @@ html[data-theme="dark"] .notif .n-fol.on{background:#262626;color:#fff}
 /* Badges créateur + certifié : un peu plus petits et plus hauts à côté du pseudo */
 .vbadge{width:13.5px!important;height:13.5px!important;vertical-align:0!important;position:relative;top:-4px}
 .ptitle .vbadge,.ptitle .vb-crea{width:15.5px!important;height:15.5px!important;top:-6px}
+/* Rangs Discord : animations */
+.rk-wl{transform-box:fill-box;transform-origin:100% 40%;animation:rkWl 1.6s ease-in-out infinite}
+.rk-wr{transform-box:fill-box;transform-origin:0 40%;animation:rkWr 1.6s ease-in-out infinite}
+@keyframes rkWl{0%,100%{transform:rotate(0)}50%{transform:rotate(-14deg)}}
+@keyframes rkWr{0%,100%{transform:rotate(0)}50%{transform:rotate(14deg)}}
+.rk-fl{animation:rkFl .9s ease-in-out infinite alternate}
+@keyframes rkFl{0%{transform:scale(1,1) skewX(0)}50%{transform:scale(.9,1.12) skewX(4deg)}100%{transform:scale(1.05,.9) skewX(-4deg)}}
+.rk-bob{transform-box:view-box;transform-origin:50% 50%;animation:rkBob 2.8s ease-in-out infinite}
+@keyframes rkBob{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-.6px) scale(1.03)}}
+.rk-cr{transform-box:fill-box;transform-origin:50% 100%;animation:rkCr 2.8s ease-in-out infinite}
+@keyframes rkCr{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-.8px) rotate(-3deg)}}
+.rk-sp{animation:rkSp 2.2s ease-in-out infinite}
+@keyframes rkSp{0%,100%{opacity:0;transform:translateY(1px)}50%{opacity:1;transform:translateY(-1.5px)}}
+@media (prefers-reduced-motion:reduce){.rk-wl,.rk-wr,.rk-fl,.rk-bob,.rk-cr,.rk-sp{animation:none!important}}
 </style>
 </head>
 <body>
@@ -6470,16 +6484,42 @@ function creatorSVG(mini){const u='cre'+(shnSeq++);
  <path d="M13.4 16.5L14.2 21.6" stroke="#fff" stroke-opacity=".7" stroke-width=".7" stroke-linecap="round"/>
  <g clip-path="url(#${u}c)"><rect class="shn-sh" x="-8" y="-4" width="6" height="48" fill="#fff" opacity=".55"/></g>
  ${mini?'':shnTw(33.5,7,2.6,0,'#A86F0E')+shnTw(7,32,1.9,1.3,'#A86F0E')}</svg>`}
-// Rangs du Discord (E à S) : écusson à la couleur du rôle, grosse lettre blanche ; A et S ont des rayons et des étincelles
-function rankSVG(it){const u='rk'+(shnSeq++),L=it.name.slice(-1),c=it.color,hi=hmix(c,'#ffffff',.5),lo=hmix(c,'#000000',.45),top=L==='S'||L==='A',mid=L==='B'||L==='C';
- const sh='M20 4.2L32.6 8.6V19.2C32.6 27 27.2 32.6 20 35.8C12.8 32.6 7.4 27 7.4 19.2V8.6Z';
- return `<svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="${u}g" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="${hi}"/><stop offset=".55" stop-color="${c}"/><stop offset="1" stop-color="${lo}"/></linearGradient><clipPath id="${u}c"><path d="${sh}"/></clipPath></defs>
- ${top?`<g class="shn-rays">${Array.from({length:10},(_,i)=>{const a=i*Math.PI/5;return `<path d="M20 20L${(20+19.6*Math.sin(a+.09)).toFixed(1)} ${(20-19.6*Math.cos(a+.09)).toFixed(1)}L${(20+19.6*Math.sin(a-.09)).toFixed(1)} ${(20-19.6*Math.cos(a-.09)).toFixed(1)}Z" fill="${c}" opacity=".45"/>`}).join('')}</g>`:''}
- <path d="${sh}" fill="url(#${u}g)" stroke="${lo}" stroke-width="1.4" stroke-linejoin="round"/>
- ${mid||top?`<path d="M20 7.4L30 10.9V19.2C30 25.4 25.8 29.9 20 32.6C14.2 29.9 10 25.4 10 19.2V10.9Z" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width=".7"/>`:''}
- <text x="20" y="25.6" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="17" fill="#fff" stroke="${lo}" stroke-width="1.1" paint-order="stroke">${L}</text>
- <g clip-path="url(#${u}c)"><rect class="shn-sh" x="-8" y="-4" width="5" height="48" fill="#fff" opacity=".5"/></g>
- ${top?shnTw(33.5,6.5,2.5,0,lo)+shnTw(6.5,31.5,1.8,1.2,lo):''}</svg>`}
+// Rangs du Discord (E à S) : écusson métal + cœur à la couleur du rôle, lettre sport en italique ; plus le rang est haut, plus c'est riche
+// E : simple · D : étoile · C : ailes qui battent · B : lauriers + lueur · A : couronne + rayons · S : flammes, couronne, double rayons, étincelles
+function rankSVG(it){const u='rk'+(shnSeq++),L=it.name.slice(-1),T='EDCBAS'.indexOf(L),c=it.color,lt=hmix(c,'#ffffff',.55),dk=hmix(c,'#000000',.5),dd=hmix(c,'#000000',.7),gold=T>=4;
+ const sh='M20 6.2L31.4 10.2V19.6C31.4 26.6 26.6 31.6 20 34.6C13.4 31.6 8.6 26.6 8.6 19.6V10.2Z',inr='M20 8.6L29.2 11.9V19.6C29.2 25.4 25.2 29.6 20 32.2C14.8 29.6 10.8 25.4 10.8 19.6V11.9Z';
+ const rim=gold?['#FFF4C2','#E9B533','#8A5A07','#FFE38A']:['#FFFFFF','#C7CDD8','#5F6878','#EEF1F6'];
+ let back='',front='';
+ if(T===5){back+=`<g class="shn-halo"><circle cx="20" cy="20" r="19" fill="url(#${u}h)"/></g>`;
+  back+=`<g class="shn-rays">${Array.from({length:16},(_,i)=>{const a=i*Math.PI/8,w=i%2?.05:.1,r=i%2?16:19.8;return `<path d="M20 20L${(20+r*Math.sin(a+w)).toFixed(1)} ${(20-r*Math.cos(a+w)).toFixed(1)}L${(20+r*Math.sin(a-w)).toFixed(1)} ${(20-r*Math.cos(a-w)).toFixed(1)}Z" fill="${i%2?'#FFD36B':c}" opacity="${i%2?.55:.5}"/>`}).join('')}</g>`;
+  back+=[[-8.5,.9,0],[8.5,.9,.35],[-4.5,1.15,.2],[4.5,1.15,.5],[0,1.3,.1]].map(([dx,s,dl])=>`<g class="rk-fl" style="animation-delay:${dl}s;transform-origin:${20+dx}px 30px"><path d="M${20+dx} ${30}c${-4*s} ${-3*s} ${-3.4*s} ${-9*s} 0 ${-15*s}c${.6*s} ${4*s} ${4.4*s} ${6*s} 0 ${15*s}z" fill="url(#${u}f)"/></g>`).join('')}
+ if(T===4)back+=`<g class="shn-rays">${Array.from({length:12},(_,i)=>{const a=i*Math.PI/6;return `<path d="M20 20L${(20+19*Math.sin(a+.08)).toFixed(1)} ${(20-19*Math.cos(a+.08)).toFixed(1)}L${(20+19*Math.sin(a-.08)).toFixed(1)} ${(20-19*Math.cos(a-.08)).toFixed(1)}Z" fill="${c}" opacity=".45"/>`}).join('')}</g>`;
+ if(T>=3)back+=`<g class="bd-lau">${laurel(20,21.5,15.6,gold?'#F2C14E':lt,gold?'#8A5A07':dk,6)}</g>`;
+ if(T===2){const w='M12.6 15.5C8.5 12.5 4.5 13 2.2 14.8C4.8 15.2 5.8 16.1 6.4 17.1C4 17.1 2.8 18.1 2.3 19.4C5 18.9 6.8 19.3 8 20.1C6.5 20.9 5.8 22 5.6 23.3C8.4 22 10.8 21.1 12.8 20.9Z';
+  back+=`<g class="rk-wl"><path d="${w}" fill="url(#${u}w)" stroke="${dk}" stroke-width=".5" stroke-linejoin="round"/></g><g class="rk-wr"><path d="${w}" transform="translate(40 0) scale(-1 1)" fill="url(#${u}w)" stroke="${dk}" stroke-width=".5" stroke-linejoin="round"/></g>`}
+ if(T>=4)front+=`<g class="rk-cr"><path d="M13.6 7.6L12.8 2.6L16.4 5.2L20 .9L23.6 5.2L27.2 2.6L26.4 7.6Z" fill="url(#${u}r)" stroke="#6E4604" stroke-width=".55" stroke-linejoin="round"/><circle cx="20" cy="4.9" r="1" fill="${T===5?'#FF3B3B':c}" stroke="#fff" stroke-width=".35"/></g>`;
+ if(T===1)front+=`<path d="M20 9.4l.9 1.8 2 .3-1.45 1.4.34 2-1.8-.95-1.8.95.34-2-1.45-1.4 2-.3z" fill="#fff" opacity=".9"/>`;
+ if(T>=3)front+=shnTw(33.8,8,T>=4?2.7:2.1,0,dk)+shnTw(6.2,30.5,T>=4?2:1.6,1.1,dk);
+ if(T===5)front+=shnTw(34.5,29,1.7,.6,dk)+shnTw(5.5,9.5,1.6,1.7,dk)+`<circle class="rk-sp" cx="9" cy="5" r=".8" fill="#FFE38A"/><circle class="rk-sp" style="animation-delay:.9s" cx="31" cy="35" r=".7" fill="#FFE38A"/>`;
+ return `<svg viewBox="0 0 40 40" aria-hidden="true"><defs>
+ <linearGradient id="${u}m" x1="0" y1="0" x2=".4" y2="1"><stop offset="0" stop-color="${rim[0]}"/><stop offset=".45" stop-color="${rim[1]}"/><stop offset=".8" stop-color="${rim[2]}"/><stop offset="1" stop-color="${rim[3]}"/></linearGradient>
+ <radialGradient id="${u}g" cx=".38" cy=".22" r=".95"><stop offset="0" stop-color="${lt}"/><stop offset=".5" stop-color="${c}"/><stop offset="1" stop-color="${dk}"/></radialGradient>
+ <linearGradient id="${u}t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="${hmix(c,'#ffffff',.78)}"/></linearGradient>
+ <linearGradient id="${u}w" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="${lt}"/></linearGradient>
+ <linearGradient id="${u}r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF6CF"/><stop offset=".5" stop-color="#F2C14E"/><stop offset="1" stop-color="#A86F0E"/></linearGradient>
+ <linearGradient id="${u}f" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FF3D00"/><stop offset=".55" stop-color="#FF9A1F"/><stop offset="1" stop-color="#FFE57A"/></linearGradient>
+ <radialGradient id="${u}h"><stop offset="0" stop-color="${c}" stop-opacity=".7"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient>
+ <pattern id="${u}p" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><rect width="1.1" height="3" fill="#fff" opacity=".1"/></pattern>
+ <clipPath id="${u}c"><path d="${inr}"/></clipPath></defs>
+ ${back}<g class="${T>=3?'rk-bob':''}">
+ <path d="${sh}" transform="translate(0 .9)" fill="${dd}" opacity=".45"/>
+ <path d="${sh}" fill="url(#${u}m)" stroke="${gold?'#6E4604':'#3A404B'}" stroke-width=".6" stroke-linejoin="round"/>
+ <path d="${inr}" fill="url(#${u}g)"/><path d="${inr}" fill="url(#${u}p)"/>
+ <path d="M10.8 11.9L20 8.6L29.2 11.9V15.2C24 13.4 16 13.4 10.8 15.6Z" fill="#fff" opacity=".22"/>
+ <g transform="translate(20 0) skewX(-9) translate(-20 0)"><text x="21" y="26.3" text-anchor="middle" font-family="'Arial Black','Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="15.5" fill="${dd}" opacity=".55">${L}</text>
+ <text x="20.3" y="25.5" text-anchor="middle" font-family="'Arial Black','Helvetica Neue',Arial,sans-serif" font-weight="900" font-size="15.5" fill="url(#${u}t)" stroke="${dd}" stroke-width=".8" paint-order="stroke">${L}</text></g>
+ <g clip-path="url(#${u}c)"><rect class="shn-sh" x="-8" y="-4" width="${T>=3?6:4}" height="48" fill="#fff" opacity="${T>=3?.6:.4}"/></g>
+ </g>${front}</svg>`}
 function bdSingleSVG(it){if(BD_RANKS.includes(it.k))return rankSVG(it);if(it.k==='shiny')return shinySVG();if(it.k==='fondateur')return creatorSVG();const c={a:hmix(it.color,'#ffffff',.45),b:it.color,d:hmix(it.color,'#000000',.32),g:`url(#bdg-g-${it.k})`};
  return `<svg viewBox="0 0 40 40" aria-hidden="true">${bdGlyph(BD_GMAP[it.k],c,1.3)}</svg>`}
 function bdgIcon(it,sz){bdEnsureDefs();if(!it)return '';const dl=((bdSeq++)%7)*.55;
