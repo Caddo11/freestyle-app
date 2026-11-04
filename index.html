@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793800565">
+<meta name="fs-build" content="1793800772">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -4242,7 +4242,7 @@ let ADMINS=new Set();
 let SIM={};try{SIM=JSON.parse(localStorage.getItem('fs-sim')||'{}')||{}}catch(_){SIM={}}
 const saveSim=()=>{try{localStorage.setItem('fs-sim',JSON.stringify(SIM))}catch(_){}};
 const realAdmin=()=>!!(me&&ADMINS.has(me.id));const isAdmin=()=>realAdmin()&&!SIM.noadmin;const vb=uid=>(!ADMINS.has(uid)&&P[uid]&&P[uid].verified)?I.verifiedBlue:'';
-async function loadAdmins(){try{const {data}=await sb.from('admins').select('user_id');ADMINS=new Set((data||[]).map(r=>r.user_id))}catch(e){}}
+let ADMIN_ALLB={};async function loadAdmins(){try{let {data,error}=await sb.from('admins').select('user_id,all_badges');if(error)({data}=await sb.from('admins').select('user_id'));ADMINS=new Set((data||[]).map(r=>r.user_id));ADMIN_ALLB={};(data||[]).forEach(r=>ADMIN_ALLB[r.user_id]=r.all_badges!==false)}catch(e){}}
 let notifs=[],unreadNotifs=0,likedStories=new Set(),myStoryLikes={},soundOn=false;
 
 async function loadProfiles(ids){
@@ -5953,7 +5953,7 @@ async function openCreator(){if(!realAdmin())return;creaSel=null;
  layer.innerHTML=`<div class="layer sheet-wrap" data-act="close-sheet"><div class="sheet crea-sheet" role="dialog" aria-label="Espace créateur"><div class="stw-top"><b></b><button type="button" class="stw-x" data-act="close-sheet-btn" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="sheet-list gutter">
   <div class="crea-head"><span class="crea-big">${CREA_IC}</span><div><b>Espace créateur</b><p>Visible uniquement par toi. Donne ou retire les perms à qui tu veux.</p></div></div>
   <h3 class="crea-h">Mon mode test</h3>
-  <div class="crea-card">${creaSw('noplus','Freestyle Plus','Coupe-le pour voir l’app comme un membre sans abonnement',!SIM.noplus,'data-sim')}${creaSw('noadmin','Pouvoirs créateur','Validations illimitées, modération, validation des annonces',!SIM.noadmin,'data-sim')}<p class="crea-note">Le mode test ne change que ce téléphone. Cet espace reste toujours accessible.</p></div>
+  <div class="crea-card">${creaSw('noplus','Freestyle Plus','Coupe-le pour voir l’app comme un membre sans abonnement',!SIM.noplus,'data-sim')}${creaSw('noadmin','Pouvoirs créateur','Validations illimitées, modération, validation des annonces',!SIM.noadmin,'data-sim')}${creaSw('allb','Tous les badges','Coupé : seulement les badges que tu as vraiment gagnés',ADMIN_ALLB[me.id]!==false,'data-allb')}<p class="crea-note">Le mode test ne change que ce téléphone. Cet espace reste toujours accessible.</p></div>
   <h3 class="crea-h">Donner des perms</h3>
   <div class="crea-card"><label class="crea-q"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="crea-q" placeholder="Cherche un pseudo" autocomplete="off" autocapitalize="off" spellcheck="false"></label><div id="crea-box"><div class="crea-sub">Membres avec des perms</div><div id="crea-res">${loadingHTML()}</div></div></div>
  </div></div></div>`;
@@ -5966,6 +5966,7 @@ async function openCreator(){if(!realAdmin())return;creaSel=null;
   if(b.dataset.crea==='pick'){creaSel=b.dataset.u;box.innerHTML=creaUserHTML(P[creaSel]);box.classList.remove('in');void box.offsetWidth;box.classList.add('in')}
   if(b.dataset.crea==='clear'){creaSel=null;$('crea-q').value='';creaLoadPlus().then(l=>{base=l;paintBase()})}});
  sheet.addEventListener('change',async e=>{const t=e.target;
+  if(t.dataset.allb){const val=t.checked;t.disabled=true;const {data,error}=await sb.rpc('fs_admin_all_badges',{val});t.disabled=false;if(error){t.checked=!val;return dbError(error,'Modification impossible')}ADMIN_ALLB[me.id]=val;if(Array.isArray(data)){badgeCache[me.id]=data;me.badges=data;P[me.id]&&(P[me.id].badges=data)}toast(val?'Tous les badges affichés':'Seulement tes vrais badges');if(view==='profile')try{render()}catch(_){}return}
   if(t.dataset.sim){SIM[t.dataset.sim]=!t.checked;saveSim();toast(t.checked?(t.dataset.sim==='noplus'?'Freestyle Plus réactivé':'Pouvoirs créateur réactivés'):(t.dataset.sim==='noplus'?'Mode test : sans Freestyle Plus':'Mode test : sans pouvoirs créateur'));if(view==='profile'||view==='me')try{render()}catch(_){}return}
   if(t.dataset.perm&&creaSel){const k=t.dataset.perm,val=t.checked,u=creaSel;t.disabled=true;
    const {data,error}=await sb.rpc('fs_admin_set_perm',{target:u,perm:k,val});t.disabled=false;
