@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="fs-build" content="1793793319">
+<meta name="fs-build" content="1793793509">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Freestyle</title>
@@ -3850,6 +3850,14 @@ html[data-theme="dark"] .ep2-row,html[data-theme="dark"] .ep2-row:last-child{bor
 .av{font-weight:800!important;letter-spacing:-.02em}
 .stk{font-weight:800}
 .switch button{font-weight:800;letter-spacing:.01em}
+
+.bz-quick{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:-4px 0 14px}
+.bz-quick button{height:36px;border:0;border-radius:10px;background:var(--paper);color:var(--ink);font:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:transform .15s,opacity .2s}
+html[data-theme="dark"] .bz-quick button{background:#1A1A1A}
+.bz-quick button:active{transform:scale(.96)}
+.bz-quick button:disabled{opacity:.35;cursor:default}
+.bdg{flex-wrap:wrap;row-gap:3px}
+.bz-tabs button{color:#8e8e8a!important}.bz-tabs button[aria-selected="true"]{color:var(--ink)!important}
 </style>
 </head>
 <body>
@@ -6152,7 +6160,7 @@ function mb(uid){const u=P[uid];if(!u)return '';const got=badgeCache[uid]||u.bad
 async function loadBadges(uid){try{const {data,error}=await sb.rpc('fs_badges',{pid:uid});if(error||!Array.isArray(data))return badgeCache[uid]||[];badgeCache[uid]=data;return badgeCache[uid]}catch(e){return badgeCache[uid]||[]}}
 function drawBadges(el,got){
  const uid=el.dataset.u,list=badgesShown(uid,got);if(!list.length){if(me&&uid===me.id&&got.length){el.innerHTML='<em class="bd-none">Badges</em>';el.hidden=false}else el.hidden=true;return}
- el.innerHTML=list.slice(0,6).map(b=>bdgIcon(b,22)).join('')+(list.length>6?`<em>+${list.length-6}</em>`:'');el.hidden=false;
+ el.innerHTML=list.slice(0,10).map(b=>bdgIcon(b,22)).join('')+(list.length>10?`<em>+${list.length-10}</em>`:'');el.hidden=false;
 }
 async function paintBadges(uid){
  const el=$('bdg-row');if(!el)return;if(badgeCache[uid])drawBadges(el,badgeCache[uid]);
@@ -6203,7 +6211,8 @@ async function openBadges(uid){
  let ord=badgesShown(uid,got).map(x=>x.k);
  const profPane=()=>{const rest=BD_ORDER.filter(k=>m[k]&&!ord.includes(k));
   return `<div class="bz-prev">${ord.length?`<b>${esc(me.name||me.handle)}</b><span class="mbd">${ord.slice(0,6).map(k=>bdgIcon(bdItem(k,m[k]),22)).join('')}${ord.length>6?`<em>+${ord.length-6}</em>`:''}</span>`:'<span class="bz-empty">Aucun badge affiché</span>'}</div>
-  <div class="bz-h"><b>Affichés</b><span>Maintiens et glisse pour changer l’ordre</span></div>
+  <div class="bz-quick"><button type="button" data-bo="all" ${rest.length?'':'disabled'}>Tout afficher</button><button type="button" data-bo="none" ${ord.length?'':'disabled'}>Tout masquer</button></div>
+  <div class="bz-h"><b>Affichés</b><span>${ord.length?'Maintiens et glisse pour changer l’ordre':'Aucun badge sur ton profil'}</span></div>
   <div class="bo-list">${ord.map((k,i)=>{const it=bdItem(k,m[k]);return `<div class="bo-row" data-k="${k}"><span class="bo-grip" aria-label="Glisser pour déplacer">${GRIP_IC}</span>${bdgIcon(it,32)}<span class="bo-t"><b>${esc(it.fam?it.level:it.name)}</b><small>${i<3?'Profil et fil':'Profil'}</small></span><button type="button" class="bo-b bo-x" data-bo="rm" data-k="${k}" aria-label="Retirer">${X_IC}</button></div>`}).join('')||'<p class="bz-empty bz-pad">Ajoute des badges ci-dessous.</p>'}</div>
   <div class="bz-h"><b>Ajouter</b><span>${rest.length?'Touche pour l’afficher':'Tout est affiché'}</span></div>
   <div class="bz-chips">${rest.map(k=>{const it=bdItem(k,m[k]);return `<button type="button" class="bz-chip" data-bo="add" data-k="${k}">${bdgIcon(it,24)}<span>${esc(it.fam?it.level:it.name)}</span><b>+</b></button>`}).join('')}</div>`};
@@ -6221,7 +6230,9 @@ async function openBadges(uid){
  const rerender=k=>{wrap.innerHTML=profPane();save();if(k){const r=wrap.querySelector(`.bo-row[data-k="${k}"]`);if(r)r.classList.add('bo-flash')}};
  bdDrag(wrap,()=>ord,(k,moved)=>{if(moved)rerender(k);else wrap.querySelectorAll('.bo-row').forEach(r=>{r.classList.remove('dragging');r.style.transform='';r.style.transition=''})});
  wrap.addEventListener('click',e=>{const t=e.target.closest('[data-bo]');if(!t)return;e.stopPropagation();const k=t.dataset.k,i=ord.indexOf(k);
-  if(t.dataset.bo==='rm'&&i>-1){ord.splice(i,1);rerender()}else if(t.dataset.bo==='add'&&i<0){ord.push(k);rerender(k)}
+  if(t.dataset.bo==='all'){ord=[...ord,...BD_ORDER.filter(x=>m[x]&&!ord.includes(x))];rerender()}
+  else if(t.dataset.bo==='none'){ord=[];rerender()}
+  else if(t.dataset.bo==='rm'&&i>-1){ord.splice(i,1);rerender()}else if(t.dataset.bo==='add'&&i<0){ord.push(k);rerender(k)}
   if(navigator.vibrate)try{navigator.vibrate(8)}catch(_){}});
 }
 function epBadgesHTML(){const l=badgesShown(me.id,badgeCache[me.id]||me.badges||[]);return l.length?`<span class="mbd">${l.slice(0,7).map(b=>bdgIcon(b,24)).join('')}${l.length>7?`<em>+${l.length-7}</em>`:''}</span>`:'<span class="pp-sub">Aucun badge affiché</span>'}
