@@ -25,7 +25,7 @@ function text(type: string, t: string) {
     comment: `a commenté : ${t}`, reply: `a répondu à ton commentaire : ${t}`,
     comment_like: "a aimé ton commentaire" + (t ? ` : ${t}` : ""), message: t || "t’a envoyé un message",
     follow: "s’est abonné à toi", announcement: t, partner_request: "veut être ton partenaire d’entraînement",
-    partner_accept: "a accepté d’être ton partenaire d’entraînement", respect: "t’a checké",
+    partner_accept: "a accepté d’être ton partenaire d’entraînement", respect: "t’a validé",
     ann_request: `demande à publier une annonce : ${t}`, ann_accept: `a accepté ton annonce : ${t}`,
     ann_refuse: `n’a pas retenu ton annonce : ${t}`, referral: "a rejoint Freestyle grâce à toi",
   };
